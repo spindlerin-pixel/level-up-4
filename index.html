@@ -2,7 +2,7 @@
 <title>Level Up 4</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap">
 <style>
 /* Layout: eine Spalte wie eine Heftseite – Mathe auf Karopapier, Deutsch auf Linienpapier mit rotem Rand; immer nur eine Aufgabenkarte, oben Fach und Thema wählen */
 :root {
@@ -860,6 +860,189 @@ body.eng .fc-bar i, body.eng .fc-how b { background: var(--eng); } body.deu .fc-
 .stufe-list li { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; border-top: 1.5px solid var(--muted-fill); }
 .stufe-list li:first-child { border-top: 0; }
 </style>
+<style>
+/* ===== Neues Design wie Level Up 5: hell, weich, farbige Lernkacheln (angelehnt an Vokabel-Apps wie cabuu) =====
+   Layout: eine Spalte, kompakte Kopfzeile, Fach als farbige Kachel, Thema über einen Knopf + Auswahlfenster, Aufgabe sofort sichtbar */
+:root {
+  --paper: #F2F5FA;
+  --grid: #E6EBF3;
+  --surface: #FFFFFF;
+  --ink: #1D2440;
+  --ink-soft: #5D6684;
+  --edge: #D3DAE6;
+  --hair: #DFE5EF;
+  --shadow: transparent;
+  --soft-shadow: 0 2px 4px rgba(29, 36, 64, 0.05), 0 8px 24px rgba(29, 36, 64, 0.07);
+  --primary: #0E938D; --primary-dark: #0A6F6A; --primary-fill: #DAF4F1; --on-primary: #FFFFFF; --focus: #0E938D;
+  --c-m: #0E938D;  --c-m-dark: #0A6F6A;  --c-m-fill: #DAF4F1;
+  --c-d: #D6455E;  --c-d-dark: #A8304A;  --c-d-fill: #FDE4E9;
+  --c-mu: #7652DB; --c-mu-dark: #5A3BB5; --c-mu-fill: #ECE6FD;
+  --c-en: #2F7BE0; --c-en-dark: #1F5DB3; --c-en-fill: #E0EDFD;
+  --deu: #C23A53; --deu-fill: #FDE4E9;
+  --mus: #6A45CF; --mus-fill: #ECE6FD;
+  --eng: #2468C4; --eng-fill: #E0EDFD;
+  --good: #1F9A60; --good-fill: #DDF5E8;
+  --bad-fill: #FFE6DB; --tip-fill: #FFF3C4; --muted-fill: #E9EDF4;
+  --font-display: 'Nunito', 'Trebuchet MS', Verdana, sans-serif;
+  --font-body: 'Nunito', 'Andika', 'Trebuchet MS', Verdana, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #12172A; --grid: #1A2136; --surface: #1C2338; --ink: #EEF1FA; --ink-soft: #AEB7CF;
+    --edge: #384262; --hair: #2D3651;
+    --soft-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.3);
+    --primary: #3CCFC6; --primary-dark: #1F938C; --primary-fill: #143C3B; --on-primary: #08201F; --focus: #3CCFC6;
+    --c-m: #3CCFC6;  --c-m-dark: #1F938C;  --c-m-fill: #143C3B;
+    --c-d: #FF8FA3;  --c-d-dark: #C9566C;  --c-d-fill: #47202C;
+    --c-mu: #A98BFF; --c-mu-dark: #7A5CD6; --c-mu-fill: #2C2450;
+    --c-en: #7DB4FF; --c-en-dark: #4A82D4; --c-en-fill: #1B2F50;
+    --deu: #FF9AAE; --deu-fill: #47202C; --mus: #C2A8FF; --mus-fill: #2C2450; --eng: #8CBDFF; --eng-fill: #1B2F50;
+    --good: #6FDCA3; --good-fill: #163A29; --bad-fill: #48291D; --tip-fill: #3F3719; --muted-fill: #283049;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #12172A; --grid: #1A2136; --surface: #1C2338; --ink: #EEF1FA; --ink-soft: #AEB7CF;
+  --edge: #384262; --hair: #2D3651;
+  --soft-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.3);
+  --primary: #3CCFC6; --primary-dark: #1F938C; --primary-fill: #143C3B; --on-primary: #08201F; --focus: #3CCFC6;
+  --c-m: #3CCFC6;  --c-m-dark: #1F938C;  --c-m-fill: #143C3B;
+  --c-d: #FF8FA3;  --c-d-dark: #C9566C;  --c-d-fill: #47202C;
+  --c-mu: #A98BFF; --c-mu-dark: #7A5CD6; --c-mu-fill: #2C2450;
+  --c-en: #7DB4FF; --c-en-dark: #4A82D4; --c-en-fill: #1B2F50;
+  --deu: #FF9AAE; --deu-fill: #47202C; --mus: #C2A8FF; --mus-fill: #2C2450; --eng: #8CBDFF; --eng-fill: #1B2F50;
+  --good: #6FDCA3; --good-fill: #163A29; --bad-fill: #48291D; --tip-fill: #3F3719; --muted-fill: #283049;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body { --on-primary: #0D1224; } }
+:root[data-theme="dark"] body { --on-primary: #0D1224; }
+
+/* Jedes Fach bekommt seine Farbe: Mathe Türkis, Deutsch Rot, Musik Lila, Englisch Blau */
+body.deu { --primary: var(--c-d); --primary-dark: var(--c-d-dark); --primary-fill: var(--c-d-fill); --focus: var(--c-d); }
+body.mus { --primary: var(--c-mu); --primary-dark: var(--c-mu-dark); --primary-fill: var(--c-mu-fill); --focus: var(--c-mu); }
+body.eng { --primary: var(--c-en); --primary-dark: var(--c-en-dark); --primary-fill: var(--c-en-fill); --focus: var(--c-en); }
+
+/* Ruhiger Hintergrund statt Karo- und Linienpapier */
+body, body.deu, body.mus, body.eng, .break { background-color: var(--paper); background-image: none; }
+body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 12px 40px; font-size: 17px; }
+.app { gap: 14px; }
+
+/* Typo */
+.brand h1, .end h2, .hello, .lv-title, .break-top h2 { font-weight: 800; letter-spacing: -0.01em; }
+.question { font-weight: 700; font-size: 1.22rem; line-height: 1.45; }
+.question .expr, .expr, .ptab, .kcard, .input-row input, .affix, .snake, .c-num { font-weight: 800; }
+
+/* Kompakte Kopfzeile */
+.top .owl { width: 40px; height: 44px; }
+.brand h1 { font-size: 1.35rem; }
+.brand p { font-size: 0.85rem; line-height: 1.3; }
+.stars { border: 0; box-shadow: none; background: var(--tip-fill); padding: 6px 12px; font-size: 1.05rem; }
+.hello { font-size: 1.2rem; }
+
+/* Fächer als farbige Kacheln */
+.subjects { gap: 10px; }
+.subj { border: 0; border-radius: 18px; min-height: 56px; background: var(--surface); box-shadow: var(--soft-shadow); font-weight: 800; opacity: 1; transition: transform 0.08s ease; }
+.subj[aria-pressed="false"] { opacity: 1; color: var(--ink-soft); }
+.subj svg { width: 26px; height: 26px; }
+.subj[data-s="m"][aria-pressed="true"] { background: var(--c-m); color: #FFFFFF; box-shadow: 0 4px 0 var(--c-m-dark); }
+.subj[data-s="d"][aria-pressed="true"] { background: var(--c-d); color: #FFFFFF; box-shadow: 0 4px 0 var(--c-d-dark); }
+.subj[data-s="mu"][aria-pressed="true"] { background: var(--c-mu); color: #FFFFFF; box-shadow: 0 4px 0 var(--c-mu-dark); }
+.subj[data-s="en"][aria-pressed="true"] { background: var(--c-en); color: #FFFFFF; box-shadow: 0 4px 0 var(--c-en-dark); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .subj[aria-pressed="true"] { color: #0D1224; } }
+:root[data-theme="dark"] .subj[aria-pressed="true"] { color: #0D1224; }
+.subj[aria-pressed="true"] .ic-m, .subj[aria-pressed="true"] .ic-d, .subj[aria-pressed="true"] .ic-mu, .subj[aria-pressed="true"] .ic-en { fill: rgba(255, 255, 255, 0.95); }
+.subj[aria-pressed="true"] svg path[stroke="#fff"] { stroke: var(--primary-dark); }
+.subj[aria-pressed="true"] svg text { fill: var(--primary-dark); }
+.subj:active { transform: translateY(2px); }
+.ic-m { fill: var(--c-m); } .ic-d { fill: var(--c-d); } .ic-mu { fill: var(--c-mu); } .ic-en { fill: var(--c-en); }
+
+/* Karten und Kästen: weich statt Comic-Rand */
+.card, .fc-face { border: 0; border-radius: 24px; box-shadow: var(--soft-shadow); padding: 20px; }
+.rank, .levels, .name-box, .rate-box { border: 0; box-shadow: var(--soft-shadow); }
+.rank { padding: 8px 14px; border-radius: 18px; }
+.rank svg { width: 32px; height: 32px; }
+.rank-name { font-size: 1rem; font-weight: 800; }
+.rank-bar { border: 0; height: 8px; }
+.break-info { border: 1.5px dashed var(--edge); background: transparent; padding: 8px 12px; font-size: 0.9rem; }
+.break-info.ready { border: 0; background: var(--good-fill); box-shadow: var(--soft-shadow); }
+.tag { border: 0; padding: 7px 12px; font-weight: 800; font-size: 0.85rem; }
+.tag.pro { border: 0; }
+.feedback { border: 0; border-radius: 18px; padding: 14px 16px; }
+.fb-badge, .strat, .peek, .en-sent, .lw-sent, .say-note, .xp-merk, .xp-vis, .xcard, .plate, .bd, .lv-pill, .fc-how li, .fc-cat, .fc-wl, .fc-pile, .tstep, .seq-n, .zw-e, .mn-merk, .etile, .sw { border-color: var(--edge); }
+.lesetext, .flash, .snake { border: 2px solid var(--edge); background-image: none; background-color: var(--paper); }
+.flash { border-style: dashed; }
+.flash.on { border-style: solid; }
+.ptab, .ptab th, .ptab th + th, .ptab td + td, .house th, .house td, .ut, .ut th { border-color: var(--edge); }
+.stair .step { border-color: var(--edge); }
+.timer, .xp-btn { border: 0; box-shadow: var(--soft-shadow); }
+.kcard { border-color: var(--edge); box-shadow: 0 3px 0 var(--edge); }
+.mem { border: 0; box-shadow: 0 3px 0 var(--edge); }
+.segments li { height: 10px; border: 0; }
+.segments li.current { background: var(--primary-fill); box-shadow: inset 0 0 0 2px var(--primary); }
+
+/* Erklär-Fenster */
+.xp-sheet { background-image: none; background-color: var(--paper); border: 0; box-shadow: var(--soft-shadow); }
+.xp-close { border-color: var(--edge); box-shadow: none; }
+
+/* Knöpfe mit fester Kante unten */
+.btn { border: 2px solid var(--edge); border-radius: 16px; box-shadow: 0 4px 0 var(--edge); font-weight: 800; }
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--edge); }
+.btn.primary { border-color: var(--primary); background: var(--primary); color: var(--on-primary); box-shadow: 0 4px 0 var(--primary-dark); }
+.btn.primary:active { box-shadow: 0 1px 0 var(--primary-dark); }
+.btn.tip { border-color: #F2D46B; box-shadow: 0 4px 0 #E0BE45; color: #3D3210; background: #FFE98A; }
+.btn.small { box-shadow: 0 3px 0 var(--edge); }
+.btn.small.primary { box-shadow: 0 3px 0 var(--primary-dark); }
+.opt, .xchip, .rate-btn, .xp-dots button { border: 2px solid var(--edge); box-shadow: 0 3px 0 var(--edge); border-radius: 16px; }
+.opt { font-weight: 600; }
+.opt:not(:disabled):active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+.opt.good { border-color: var(--good); box-shadow: 0 3px 0 var(--good); }
+.opt.bad { border-color: #E0794F; box-shadow: 0 3px 0 #E0794F; }
+.input-row input, .name-row input, .setting select, .setting textarea { border: 2px solid var(--edge); border-radius: 16px; background: var(--paper); }
+.input-row input:focus, .name-row input:focus, .setting select:focus, .setting textarea:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px var(--primary-fill); }
+
+/* Fortschritt: Thema steht schon auf dem Knopf */
+.progress-text #topicLabel { display: none; }
+.progress-text { font-size: 0.9rem; color: var(--ink-soft); }
+.segments { gap: 4px; }
+
+/* Themen-Knopf */
+.topic-btn { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 18px; background: var(--surface); box-shadow: var(--soft-shadow); color: var(--ink); min-height: 60px; }
+.topic-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.tb-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.tb-k { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.tb-v { font-family: var(--font-display); font-weight: 800; font-size: 1.12rem; line-height: 1.2; overflow-wrap: anywhere; }
+.tb-ch { flex-shrink: 0; font-family: var(--font-display); font-weight: 800; font-size: 0.95rem; padding: 9px 14px; border-radius: 12px; background: var(--primary-fill); color: var(--primary-dark); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tb-ch { color: var(--primary); } }
+:root[data-theme="dark"] .tb-ch { color: var(--primary); }
+
+/* Auswahlfenster */
+.sheet { position: fixed; inset: 0; z-index: 30; background: rgba(15, 20, 40, 0.45); display: flex; align-items: flex-end; justify-content: center; }
+.sheet[hidden] { display: none !important; }
+.sheet-panel { width: 100%; max-width: 620px; max-height: 86vh; overflow-y: auto; overscroll-behavior: contain; background: var(--paper); border-radius: 26px 26px 0 0; padding: 0 max(16px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 14px; animation: sheetUp 0.22s ease-out; }
+@keyframes sheetUp { from { transform: translateY(40px); opacity: 0.6; } to { transform: none; opacity: 1; } }
+@media (min-width: 700px) { .sheet { align-items: center; } .sheet-panel { border-radius: 26px; max-height: 82vh; } }
+.sheet-head { position: sticky; top: 0; z-index: 1; background: var(--paper); display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 16px 0 8px; }
+.sheet-head h2 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; text-wrap: balance; }
+.sheet-x { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--surface); box-shadow: var(--soft-shadow); color: var(--ink); font-size: 1.1rem; font-weight: 800; cursor: pointer; }
+.sheet-x:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.sheet .topics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 560px) { .sheet .topics { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.sheet .chip { text-align: left; min-height: 58px; padding: 12px 14px; border-radius: 16px; border: 2px solid var(--edge); background: var(--surface); color: var(--ink); box-shadow: 0 3px 0 var(--edge); font-weight: 700; font-size: 1rem; line-height: 1.2; overflow-wrap: anywhere; }
+.sheet .chip:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+.sheet .chip.pro, .sheet .chip.ka, .sheet .chip.fcchip, body.eng .sheet .chip.fcchip { background: var(--primary-fill); border-style: solid; border-color: var(--primary-fill); box-shadow: 0 3px 0 var(--edge); color: var(--ink); }
+.sheet .chip[aria-pressed="true"], .sheet .chip.pro[aria-pressed="true"], .sheet .chip.ka[aria-pressed="true"], .sheet .chip.fcchip[aria-pressed="true"], body.eng .sheet .chip.fcchip[aria-pressed="true"], body.deu .sheet .chip.fcchip[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: var(--on-primary); box-shadow: 0 3px 0 var(--primary-dark); }
+
+/* Andere Chips (z. B. Karteikarten-Themen) */
+.chip { border: 2px solid var(--edge); font-weight: 700; }
+.chip[aria-pressed="true"] { border-color: var(--primary); background: var(--primary); color: var(--on-primary); box-shadow: 0 3px 0 var(--primary-dark); }
+
+/* Aufgabe nach oben, Rang und Klappkästen nach unten */
+.app > .rank { order: 5; }
+.app > details { order: 6; }
+
+@media (prefers-reduced-motion: reduce) { .sheet-panel { animation: none; } .subj, .btn { transition: none; } }
+
+</style>
 
 <div class="app">
   <header class="top">
@@ -878,7 +1061,7 @@ body.eng .fc-bar i, body.eng .fc-how b { background: var(--eng); } body.deu .fc-
     </svg>
     <div class="brand">
       <h1>Level Up 4</h1>
-      <p>Fit für die Empfehlung · 4. Klasse</p>
+      <p>Lernen &amp; aufsteigen · 4. Klasse</p>
     </div>
     <div class="stars" title="Sterne für richtige Antworten beim ersten Versuch">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path class="star-fill" d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.3l-5.8 3.1 1.1-6.5L2.6 9.3l6.5-.9z"></path></svg>
@@ -917,7 +1100,13 @@ body.eng .fc-bar i, body.eng .fc-how b { background: var(--eng); } body.deu .fc-
     <button type="button" class="subj" data-s="en" id="subjEn" aria-pressed="false">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path class="ic-en" d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-9l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path><text x="12" y="13.6" text-anchor="middle" font-size="8" font-weight="700" fill="#fff" font-family="Fredoka, sans-serif">EN</text></svg>Englisch</button>
   </div>
-  <nav class="topics" id="topics" aria-label="Thema wählen"></nav>
+  <button type="button" class="topic-btn" data-sheet="topicSheet" aria-haspopup="dialog"><span class="tb-txt"><span class="tb-k">Thema</span><span class="tb-v" id="topicBtnLabel">Gemischt</span></span><span class="tb-ch">Ändern</span></button>
+  <div class="sheet" id="topicSheet" hidden>
+    <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="topicSheetTitle">
+      <div class="sheet-head"><h2 id="topicSheetTitle">Was möchtest du üben?</h2><button type="button" class="sheet-x" aria-label="Schließen">✕</button></div>
+      <nav class="topics" id="topics" aria-label="Thema wählen"></nav>
+    </div>
+  </div>
 
   <div class="progress" id="progBox">
     <div class="progress-text"><span id="progLabel">Aufgabe 1 von 10</span><span class="streak" id="streakPill" hidden></span><span id="topicLabel">Gemischt</span></div>
@@ -1004,7 +1193,7 @@ body.eng .fc-bar i, body.eng .fc-how b { background: var(--eng); } body.deu .fc-
         <ul class="rlp">
           <li><b>Größen und Messen:</b> Geld, Zeit (Uhrzeit, Zeitspannen, Zeiteinheiten), Längen und Gewichte umwandeln, Kommaschreibweise.</li>
           <li><b>Zahlen und Operationen:</b> Rechenregeln (Klammer, Punkt vor Strich), Sachaufgaben mit mehreren Schritten.</li>
-          <li><b>Klassenarbeit Zahlen bis 100 000 (Schwerpunkt, nach dem Schnellheft):</b> Stellentafel und Punkte, Bündeln, Zerlegen und Zusammensetzen mit Platzhalter-Null, Zahlwörter, Vergleichen und Ordnen, Fortsetzen, Vorgänger/Nachfolger und Nachbarzahlen, Zahlenrätsel (Hälfte, Doppeltes, um … größer), große glatte Zahlen im Kopf, Zahlenstrahl. „Probearbeit fürs Gymnasium“ nimmt die schwereren Varianten.</li>
+          <li><b>Klassenarbeit Zahlen bis 100 000 (Schwerpunkt, nach dem Schnellheft):</b> Stellentafel und Punkte, Bündeln, Zerlegen und Zusammensetzen mit Platzhalter-Null, Zahlwörter, Vergleichen und Ordnen, Fortsetzen, Vorgänger/Nachfolger und Nachbarzahlen, Zahlenrätsel (Hälfte, Doppeltes, um … größer), große glatte Zahlen im Kopf, Zahlenstrahl. „Profi-Probearbeit“ nimmt die schwereren Varianten.</li>
           <li><b>Zahlen bis 1 Million:</b> Stellenwerte, Zahlwörter, Runden, Zahlenstrahl; schriftliche Addition, Subtraktion, Multiplikation und Division; Überschlag; Kopfrechnen; Teilen mit Rest.</li>
           <li><b>Muster und Strukturen:</b> Rechenpakete als proportionale Zuordnungen (Tabellen), Zahlenfolgen.</li>
           <li><b>Raum und Form:</b> Flächeninhalt und Umfang, Körper (Ecken, Kanten, Flächen), Würfelnetze, Achsensymmetrie.</li>
@@ -1550,7 +1739,7 @@ window.EULE = (function () {
     return genKla();
   }
 
-  /* ---------- Gymnasium-Check (Sachaufgaben) ---------- */
+  /* ---------- Profi-Check (Sachaufgaben) ---------- */
   var SHOP = [{ s: 'Heft', p: 'Hefte', c: [95, 185] }, { s: 'Stift', p: 'Stifte', c: [60, 120] }, { s: 'Saft', p: 'Säfte', c: [80, 150] }, { s: 'Brezel', p: 'Brezeln', c: [70, 110] }, { s: 'Comic', p: 'Comics', c: [250, 450] }];
   function genSach() {
     var k = pick(['shop', 'recipe', 'chain', 'term', 'riddle', 'compare', 'truck', 'train', 'run', 'save']), name = pick(NAMES);
@@ -4580,7 +4769,7 @@ window.EULE = (function () {
     { n: 'Rechenpakete', t: ['pk1', 'pk2'] }, { n: 'Die Uhr', t: ['uhr', 'uhrw', 'zsp', 'zum'] }, { n: 'Längen und Gewichte', t: ['len', 'gew', 'kom', 'cmp'] },
     { n: 'Rechenregeln', t: ['pvs', 'kla', 'rzu', 'kset'] },
     { n: 'Zahlen bis 1 Million', t: ['stw', 'rund', 'zstr', 'folge'] }, { n: 'Schriftlich rechnen', t: ['sadd', 'ssub', 'smul', 'sdiv', 'ueb'] }, { n: 'Kopfrechnen', t: ['kopf', 'rest'] },
-    { n: 'Geometrie', t: ['flu', 'koer', 'netz', 'sym'] }, { n: 'Daten und Zufall', t: ['diag', 'wkt', 'komb'] }, { n: 'Gymnasium-Check', t: ['sach'] },
+    { n: 'Geometrie', t: ['flu', 'koer', 'netz', 'sym'] }, { n: 'Daten und Zufall', t: ['diag', 'wkt', 'komb'] }, { n: 'Profi-Check', t: ['sach'] },
     { n: 'Rechtschreibung', t: ['verl', 'ablt', 'vokal', 'slaut', 'dass', 'gross', 'hoer', 'zus', 'det', 'dik'] },
     { n: 'Groß oder klein', t: ['nomad', 'nomen'] }, { n: 'Wörterbuch & ABC', t: ['abc', 'grundf'] }, { n: 'Lesen', t: ['lese', 'blitz', 'schlange'] },
     { n: 'Adjektive zusammensetzen', t: ['adjb', 'adjs', 'adjw', 'adjf'] },
@@ -4591,7 +4780,7 @@ window.EULE = (function () {
   var TOPICS = {
     m: [
       { id: 'ka', n: 'Klassenarbeit: Zahlen bis 100 000', ka: true, len: 15, t: ['kze', 'kze', 'kze', 'kra', 'kra', 'kra', 'kkr', 'kkr', 'kkr', 'kna', 'kna', 'kst', 'kst', 'kbu', 'kbu', 'kre', 'kre', 'kwo', 'kvg', 'kor', 'kei', 'kzs'] },
-      { id: 'kaprobe', n: 'Probearbeit fürs Gymnasium', ka: true, pro: true, hard: true, len: 20, t: ['kze', 'kze', 'kra', 'kra', 'kra', 'kkr', 'kkr', 'kbu', 'kbu', 'kna', 'kst', 'kre', 'kwo', 'kvg', 'kor', 'kei', 'kzs'] },
+      { id: 'kaprobe', n: 'Profi-Probearbeit', ka: true, pro: true, hard: true, len: 20, t: ['kze', 'kze', 'kra', 'kra', 'kra', 'kkr', 'kkr', 'kbu', 'kbu', 'kna', 'kst', 'kre', 'kwo', 'kvg', 'kor', 'kei', 'kzs'] },
       { id: 'mmix', n: 'Gemischt', t: ['pk1', 'pk2', 'uhr', 'uhrw', 'zsp', 'zum', 'len', 'gew', 'kom', 'cmp', 'pvs', 'kla', 'rzu', 'kset', 'stw', 'rund', 'zstr', 'folge', 'sadd', 'ssub', 'smul', 'sdiv', 'ueb', 'kopf', 'rest', 'flu', 'koer', 'netz', 'sym', 'diag', 'wkt', 'komb', 'kze', 'kra', 'kkr', 'kbu', 'kna'] },
       { id: 'pak', n: 'Rechenpakete', t: ['pk1', 'pk1', 'pk2', 'pk2', 'pk2'] },
       { id: 'uhr', n: 'Die Uhr', t: ['uhr', 'uhrw', 'zsp', 'zsp', 'zum'] },
@@ -4602,7 +4791,7 @@ window.EULE = (function () {
       { id: 'kopf', n: 'Kopfrechnen', t: ['kopf', 'kopf', 'kopf', 'rest', 'ueb'] },
       { id: 'geo', n: 'Geometrie', t: ['flu', 'flu', 'koer', 'netz', 'sym'] },
       { id: 'daten', n: 'Daten & Zufall', t: ['diag', 'diag', 'wkt', 'wkt', 'komb'] },
-      { id: 'mcheck', n: 'Gymnasium-Check', pro: true, t: ['sach', 'sach', 'sach', 'sach', 'pk2', 'zsp', 'kom', 'kset', 'kla', 'sdiv', 'smul', 'flu', 'komb', 'diag', 'rund', 'kra', 'kbu', 'kkr'] }
+      { id: 'mcheck', n: 'Profi-Check', pro: true, t: ['sach', 'sach', 'sach', 'sach', 'pk2', 'zsp', 'kom', 'kset', 'kla', 'sdiv', 'smul', 'flu', 'komb', 'diag', 'rund', 'kra', 'kbu', 'kkr'] }
     ],
     d: [
       { id: 'lwtest', n: 'Lernwörter-Kontrolle (Do)', ka: true, len: 15, t: ['lwhoer', 'lwhoer', 'lwhoer', 'lwhoer', 'lwhoer', 'lwknick', 'lwknick', 'lwknick', 'lwfehl', 'lwfehl', 'lwluecke', 'lwluecke', 'lwgross', 'lwsilb', 'lwsatz', 'lwsatz'] },
@@ -4617,7 +4806,7 @@ window.EULE = (function () {
       { id: 'dik', n: 'Diktat', t: ['dik'], len: 6 },
       { id: 'les', n: 'Lesen', t: [], lesen: 10 },
       { id: 'blz', n: 'Blitzlesen', t: ['blitz', 'blitz', 'schlange'] },
-      { id: 'dcheck', n: 'Gymnasium-Check', pro: true, t: ['det', 'det', 'dass', 'gross', 'nomad', 'nomen', 'abc', 'grundf', 'dik', 'ablt', 'verl', 'adjs', 'adjf'], lesen: 4 }
+      { id: 'dcheck', n: 'Profi-Check', pro: true, t: ['det', 'det', 'dass', 'gross', 'nomad', 'nomen', 'abc', 'grundf', 'dik', 'ablt', 'verl', 'adjs', 'adjf'], lesen: 4 }
     ],
     mu: [
       { id: 'mtest', n: 'Training für den Musiktest', ka: true, len: 15, t: ['mteil', 'mteil', 'mname', 'mname', 'mmerk', 'mmerk', 'mschl', 'mschl', 'mschl', 'msilb', 'msilb', 'mzahl', 'mzahl', 'mzahl', 'mtakt', 'mtakt', 'mhoer'] },
@@ -4969,8 +5158,8 @@ window.EULE = (function () {
     { id: 'musikprofi', n: 'Noten-Profi', d: 'Musiktest-Training: 13 von 15 sofort richtig' }, { id: 'englisch1', n: 'English Start', d: 'Eine Englisch-Runde oder einen Englisch-Stapel geschafft' }, { id: 'englischprofi', n: 'Safari-Profi', d: 'Englischtest-Training: 13 von 15 sofort richtig' }, { id: 'lernwortprofi', n: 'Lernwort-Ass', d: 'Lernwörter-Kontrolle: 13 von 15 sofort richtig' }, { id: 'karten', n: 'Karten-Ass', d: 'Alle Karteikarten beim ersten Mal gewusst' }, { id: 'serie5', n: 'Fünfer-Serie', d: '5 richtig hintereinander' },
     { id: 'serie10', n: 'Zehner-Serie', d: '10 richtig hintereinander' }, { id: 'perfekt', n: 'Fehlerfrei', d: 'Eine Runde ohne Fehler' },
     { id: 'alle', n: 'Entdeckerin', d: 'Jedes Thema einmal geübt' }, { id: 'diktat', n: 'Diktat-Ass', d: 'Diktat-Runde: 5 von 6 sofort richtig' },
-    { id: 'leser', n: 'Lese-Eule', d: '3 Lese-Runden geschafft' }, { id: 'check1', n: 'Check-Start', d: 'Den ersten Gymnasium-Check gemacht' },
-    { id: 'check8', n: 'Gymnasium-reif', d: 'Ein Gymnasium-Check mit 8 von 10' }, { id: 'comeback', n: 'Schwäche besiegt', d: 'Etwas, das nicht saß, sitzt jetzt' },
+    { id: 'leser', n: 'Lese-Eule', d: '3 Lese-Runden geschafft' }, { id: 'check1', n: 'Check-Start', d: 'Den ersten Profi-Check gemacht' },
+    { id: 'check8', n: 'Echter Profi', d: 'Ein Profi-Check mit 8 von 10' }, { id: 'comeback', n: 'Schwäche besiegt', d: 'Etwas, das nicht saß, sitzt jetzt' },
     { id: 'tage3', n: 'Drei Tage am Stück', d: '3 Tage hintereinander geübt' }, { id: 'tage7', n: 'Eine ganze Woche', d: '7 Tage hintereinander geübt' },
     { id: 'sterne50', n: '50 Sterne', d: '50 Sterne gesammelt' }, { id: 'sterne150', n: '150 Sterne', d: '150 Sterne gesammelt' }, { id: 'sterne300', n: '300 Sterne', d: '300 Sterne gesammelt' }
   ];
@@ -5607,6 +5796,46 @@ window.EULE = (function () {
   else newRound(s0.topic);
   render();
 })();
+
+/* Themen-Auswahlfenster (wie in Level Up 5) */
+(function () {
+  var lastBtn = null;
+  function label() {
+    var c = document.querySelector('#topics .chip[aria-pressed="true"]');
+    var out = document.getElementById('topicBtnLabel');
+    if (out && c) out.textContent = c.textContent;
+  }
+  function openSheet(id, btn) {
+    var s = document.getElementById(id); if (!s) return;
+    label(); lastBtn = btn; s.hidden = false; document.body.style.overflow = 'hidden';
+    var cur = s.querySelector('.chip[aria-pressed="true"]') || s.querySelector('.chip');
+    if (cur) { try { cur.focus({ preventScroll: true }); } catch (e) { cur.focus(); } try { cur.scrollIntoView({ block: 'center' }); } catch (e) {} }
+  }
+  function closeSheet(s) {
+    s.hidden = true; document.body.style.overflow = '';
+    if (lastBtn) { try { lastBtn.focus({ preventScroll: true }); } catch (e) {} }
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-sheet]');
+    if (b) { openSheet(b.getAttribute('data-sheet'), b); return; }
+    var s = e.target.closest('.sheet'); if (!s) return;
+    if (e.target === s || e.target.closest('.sheet-x')) { closeSheet(s); return; }
+    if (e.target.closest('.chip')) {
+      setTimeout(function () { closeSheet(s); label(); window.scrollTo(0, 0); }, 0);
+    }
+  }, true);
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var open = document.querySelector('.sheet:not([hidden])');
+    if (open) closeSheet(open);
+  });
+  try {
+    var t = document.getElementById('topics');
+    if (t) new MutationObserver(label).observe(t, { childList: true, subtree: true, attributes: true, attributeFilter: ['aria-pressed'] });
+  } catch (e) {}
+  label();
+})();
+
 </script>
 
 
