@@ -1025,12 +1025,16 @@ body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: m
 .sheet-head h2 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; text-wrap: balance; }
 .sheet-x { flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--surface); box-shadow: var(--soft-shadow); color: var(--ink); font-size: 1.1rem; font-weight: 800; cursor: pointer; }
 .sheet-x:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
-.sheet .topics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-@media (min-width: 560px) { .sheet .topics { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.sheet .chip { text-align: left; min-height: 58px; padding: 12px 14px; border-radius: 16px; border: 2px solid var(--edge); background: var(--surface); color: var(--ink); box-shadow: 0 3px 0 var(--edge); font-weight: 700; font-size: 1rem; line-height: 1.2; overflow-wrap: anywhere; }
-.sheet .chip:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
-.sheet .chip.pro, .sheet .chip.ka, .sheet .chip.fcchip, body.eng .sheet .chip.fcchip { background: var(--primary-fill); border-style: solid; border-color: var(--primary-fill); box-shadow: 0 3px 0 var(--edge); color: var(--ink); }
-.sheet .chip[aria-pressed="true"], .sheet .chip.pro[aria-pressed="true"], .sheet .chip.ka[aria-pressed="true"], .sheet .chip.fcchip[aria-pressed="true"], body.eng .sheet .chip.fcchip[aria-pressed="true"], body.deu .sheet .chip.fcchip[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: var(--on-primary); box-shadow: 0 3px 0 var(--primary-dark); }
+.pick { display: flex; flex-direction: column; gap: 8px; }
+.pick-title { margin: 2px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.pick .topics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+@media (min-width: 560px) { .pick .topics { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.pick .chip { text-align: left; min-height: 50px; padding: 10px 12px; border-radius: 16px; border: 2px solid var(--edge); background: var(--surface); color: var(--ink); box-shadow: 0 3px 0 var(--edge); font-weight: 700; font-size: 0.95rem; line-height: 1.2; overflow-wrap: anywhere; }
+.pick .chip:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+.pick .chip.pro, .pick .chip.ka, .pick .chip.fcchip, body.eng .pick .chip.fcchip { background: var(--primary-fill); border-style: solid; border-color: var(--primary-fill); box-shadow: 0 3px 0 var(--edge); color: var(--ink); }
+.pick .chip[aria-pressed="true"], .pick .chip.pro[aria-pressed="true"], .pick .chip.ka[aria-pressed="true"], .pick .chip.fcchip[aria-pressed="true"], body.eng .pick .chip.fcchip[aria-pressed="true"], body.deu .pick .chip.fcchip[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: var(--on-primary); box-shadow: 0 3px 0 var(--primary-dark); }
+
+.pick .chip[aria-pressed="true"]::before { content: "✓ "; }
 
 /* Andere Chips (z. B. Karteikarten-Themen) */
 .chip { border: 2px solid var(--edge); font-weight: 700; }
@@ -1100,13 +1104,10 @@ body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: m
     <button type="button" class="subj" data-s="en" id="subjEn" aria-pressed="false">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path class="ic-en" d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-9l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path><text x="12" y="13.6" text-anchor="middle" font-size="8" font-weight="700" fill="#fff" font-family="Fredoka, sans-serif">EN</text></svg>Englisch</button>
   </div>
-  <button type="button" class="topic-btn" data-sheet="topicSheet" aria-haspopup="dialog"><span class="tb-txt"><span class="tb-k">Thema</span><span class="tb-v" id="topicBtnLabel">Gemischt</span></span><span class="tb-ch">Ändern</span></button>
-  <div class="sheet" id="topicSheet" hidden>
-    <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="topicSheetTitle">
-      <div class="sheet-head"><h2 id="topicSheetTitle">Was möchtest du üben?</h2><button type="button" class="sheet-x" aria-label="Schließen">✕</button></div>
-      <nav class="topics" id="topics" aria-label="Thema wählen"></nav>
-    </div>
-  </div>
+  <section class="pick" aria-labelledby="pickTitle">
+    <h2 class="pick-title" id="pickTitle">Was möchtest du üben?</h2>
+    <nav class="topics" id="topics" aria-label="Thema wählen"></nav>
+  </section>
 
   <div class="progress" id="progBox">
     <div class="progress-text"><span id="progLabel">Aufgabe 1 von 10</span><span class="streak" id="streakPill" hidden></span><span id="topicLabel">Gemischt</span></div>
@@ -5797,44 +5798,7 @@ window.EULE = (function () {
   render();
 })();
 
-/* Themen-Auswahlfenster (wie in Level Up 5) */
-(function () {
-  var lastBtn = null;
-  function label() {
-    var c = document.querySelector('#topics .chip[aria-pressed="true"]');
-    var out = document.getElementById('topicBtnLabel');
-    if (out && c) out.textContent = c.textContent;
-  }
-  function openSheet(id, btn) {
-    var s = document.getElementById(id); if (!s) return;
-    label(); lastBtn = btn; s.hidden = false; document.body.style.overflow = 'hidden';
-    var cur = s.querySelector('.chip[aria-pressed="true"]') || s.querySelector('.chip');
-    if (cur) { try { cur.focus({ preventScroll: true }); } catch (e) { cur.focus(); } try { cur.scrollIntoView({ block: 'center' }); } catch (e) {} }
-  }
-  function closeSheet(s) {
-    s.hidden = true; document.body.style.overflow = '';
-    if (lastBtn) { try { lastBtn.focus({ preventScroll: true }); } catch (e) {} }
-  }
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-sheet]');
-    if (b) { openSheet(b.getAttribute('data-sheet'), b); return; }
-    var s = e.target.closest('.sheet'); if (!s) return;
-    if (e.target === s || e.target.closest('.sheet-x')) { closeSheet(s); return; }
-    if (e.target.closest('.chip')) {
-      setTimeout(function () { closeSheet(s); label(); window.scrollTo(0, 0); }, 0);
-    }
-  }, true);
-  document.addEventListener('keydown', function (e) {
-    if (e.key !== 'Escape') return;
-    var open = document.querySelector('.sheet:not([hidden])');
-    if (open) closeSheet(open);
-  });
-  try {
-    var t = document.getElementById('topics');
-    if (t) new MutationObserver(label).observe(t, { childList: true, subtree: true, attributes: true, attributeFilter: ['aria-pressed'] });
-  } catch (e) {}
-  label();
-})();
+
 
 </script>
 
