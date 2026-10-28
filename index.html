@@ -1195,6 +1195,9 @@ body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: m
   <details class="levels" id="parents">
     <summary><span class="lv-title">Für Eltern</span><span class="lv-sum">Einstellungen und Lehrplan</span></summary>
     <div class="lv-body">
+      <div class="setting" id="updBox">App aktualisieren: holt die neueste Version. Sterne und Lernstand bleiben erhalten.
+        <div class="actions" style="margin-top:6px"><button type="button" class="btn small" id="updBtn" onclick="this.textContent='Wird geladen …';location.replace(location.pathname+'?v='+Date.now())">↻ App aktualisieren</button></div>
+      </div>
       <label class="setting" for="breakLen">Länge der Memory-Pause
         <select id="breakLen"><option value="5">5 Minuten</option><option value="7">7 Minuten</option><option value="10">10 Minuten</option></select>
       </label>
