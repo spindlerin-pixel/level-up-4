@@ -827,6 +827,19 @@ body.eng .fc-bar i, body.eng .fc-how b { background: var(--eng); } body.deu .fc-
 .fc-say { margin: 6px 0; }
 .sil { font-weight: 700; letter-spacing: 0.02em; }
 .sil .s1 { color: var(--math); } .sil .s2 { color: var(--deu); }
+.oline { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 60px; padding: 8px; border: 2.5px dashed var(--deu); border-radius: 14px; background: var(--deu-fill); }
+.ohint { color: var(--ink-soft); font-size: 0.95rem; padding: 0 6px; }
+.oprev { margin: 10px 0 0; font-size: 1.2rem; line-height: 1.5; font-weight: 600; }
+.opool { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.otile { font-family: var(--font-body); font-size: 1.15rem; line-height: 1.2; min-height: 46px; padding: 8px 12px; border: 2.5px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); box-shadow: 3px 3px 0 var(--shadow); cursor: pointer; touch-action: manipulation; }
+.otile.punct { min-width: 48px; font-weight: 700; font-size: 1.45rem; }
+.otile.in { box-shadow: none; }
+.otile.bad { background: var(--bad-fill); border-color: var(--bad); }
+.otile.good { background: var(--good-fill); border-color: var(--good); }
+.otile:disabled { cursor: default; }
+.orow { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+.freetxt { display: block; width: 100%; box-sizing: border-box; min-height: 150px; font-family: var(--font-body); font-size: 1.15rem; line-height: 1.6; padding: 10px 12px; border: 2.5px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); resize: vertical; }
+.wr-pic { display: block; margin-top: 8px; font-family: var(--font-display); font-size: 1.1rem; color: var(--deu); }
 .lw-sent { display: block; margin: 10px 0 0; padding: 10px 14px; border: 2px solid var(--line); border-radius: 14px; background: var(--deu-fill); font-size: 1.2rem; line-height: 1.6; }
 .lw-big { display: block; margin-top: 10px; font-family: var(--font-body); font-weight: 700; font-size: 2rem; text-align: center; }
 .flash.knick { font-size: clamp(2rem, 10vw, 2.8rem); }
@@ -1215,6 +1228,7 @@ body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: m
           <li><b>Muster und Strukturen:</b> Rechenpakete als proportionale Zuordnungen (Tabellen), Zahlenfolgen.</li>
           <li><b>Raum und Form:</b> Flächeninhalt und Umfang, Körper (Ecken, Kanten, Flächen), Würfelnetze, Achsensymmetrie.</li>
           <li><b>Daten, Häufigkeit und Wahrscheinlichkeit:</b> Säulendiagramme lesen, sicher/möglich/unmöglich, Glücksrad und Würfel, Kombinieren.</li>
+          <li><b>Klassenarbeit „Geschichte schreiben“ (neu, Nov. 2026):</b> Aufbau mit Einleitung (Wer? Wo? Wann?), Hauptteil und kurzem Schluss mit Lösung; Satz-Baukasten (Verb an Stelle 2, zweiteilige Verben, Verb am Ende nach weil/wenn/dass/als mit Komma); wörtliche Rede mit Begleitsatz vorne und hinten; Wörter für „sagen“; Satzanfänge statt „und dann“; „Schreiben wie im Buch“ (Mundart → Schriftsprache, z. B. mir → wir, nix → nichts, größer wie → größer als); Vergangenheitsformen; Höflichkeitsform Sie/Ihnen; Erzähl-Diktat; Karteikarten. In der Schreibwerkstatt schreibt das Kind eigene Sätze. Fini prüft dabei Großschreibung am Satzanfang, Satzzeichen, Satzanfänge, die Zeichen der wörtlichen Rede und typische Mundartwörter, aber nicht die Rechtschreibung jedes Wortes.</li>
           <li><b>Richtig schreiben:</b> Rechtschreibstrategien Verlängern, Ableiten, Merken, Mitsprechen; Groß- und Kleinschreibung; das/dass; Texte kontrollieren; Diktat.</li>
           <li><b>Musik (nach dem Heft, Stand Okt. 2026):</b> Bestandteile der Note (Notenkopf, Notenhals, Fähnchen, Balken), Notenwerte (ganze, halbe, Viertel, Achtel) mit Merkmalen und Schlägen, Rhythmussprache (ta-a-a-a, ta-a, ta, ti-ti), Zählzeiten mit Klammer und „+“, Kästen mit 4 Schlägen füllen, Rhythmen hören. Karteikarten mit Extra-Wissen (Pause, Takt, Notensystem).</li>
           <li><b>Lernwörter (Blatt „Die 100 häufigsten Wörter“ 3, Kontrolle Do 29.10.2026):</b> alle, nehmen, muss, Haare, Kind, ohne, Ende, fällt, spielt, Lehrerin, schnell, ein bisschen, jetzt, hatte, nichts, hier, für – hören und schreiben, Knick-Training, Lückensätze, Silben, Nomen groß, Sätze.</li>
@@ -4769,12 +4783,572 @@ window.EULE = (function () {
     ]);
   var FC_LW = LW.map(function (x, i) { return { id: 'lw' + i, c: 'lw', lang: 'de-DE', say: x.w + '. ' + lwFill(x) + ' ' + x.w + '.', q: 'Welches Lernwort fehlt? Schreib es auf einen Zettel, dann umdrehen und vergleichen.', qv: '<p class="lw-sent">' + lwGap(x) + '</p>' + sayBtn(x.w + '. ' + lwFill(x) + ' ' + x.w + '.', 'de-DE', 'Anhören', 'small'), a: x.w, av: '<p class="xp-en big">' + sil(x.s) + '</p>', x: x.tip }; });
 
+  /* ---------- Deutsch: Geschichte schreiben (Klassenarbeit) – Aufbau, Satzbau, wörtliche Rede, wie im Buch ---------- */
+  function G(o) { o.deu = true; o.p = o.p || {}; return o; }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  /* Satz aus Bausteinen zusammensetzen: kein Leerzeichen vor Satzzeichen und schließendem „““, keins nach „„“ */
+  function gJoin(parts, dot) {
+    var s = '';
+    parts.forEach(function (p, i) {
+      if (i === 0) s = p;
+      else if (/^[.,:!?“]$/.test(p) || /„$/.test(s)) s += p;
+      else s += ' ' + p;
+    });
+    s = s.replace(/^([„]?)([a-zäöü])/, function (m, q, c) { return q + c.toUpperCase(); });
+    if (dot && s && !/[.!?“]$/.test(s)) s += '.';
+    return s;
+  }
+  function gMark(sent, words) { words.forEach(function (w) { sent = sent.replace(new RegExp('(^|[\\s„])(' + w + ')(?=[\\s.,!?“]|$)'), '$1<mark class="ok">$2</mark>'); }); return sent; }
+
+  /* 1) Einleitung, Hauptteil oder Schluss? */
+  var G_TEIL = [
+    ['An einem sonnigen Samstagmorgen fuhren Mia und ihr Bruder Tom mit den Fahrrädern zum Badesee.', 'E'],
+    ['Letzten Winter war Paul mit seiner Familie im Skiurlaub in den Bergen.', 'E'],
+    ['Die Zwillinge Jan und Lars wohnten mit ihren Eltern in einem großen Haus in Freiburg.', 'E'],
+    ['Es war ein stürmischer Herbstabend. Lena saß mit ihrem Hund Bello im Wohnzimmer.', 'E'],
+    ['Plötzlich hörte Lena ein lautes Krachen. Bello bellte wie verrückt. Mit klopfendem Herzen schlich sie zum Fenster.', 'H'],
+    ['Auf einmal rutschte Paul aus und stürzte in den Schnee. „Au, mein Bein!“, rief er.', 'H'],
+    ['Mitten im See merkte Tom, dass seine Luftmatratze immer weicher wurde. „Hilfe, ich verliere Luft!“, schrie er.', 'H'],
+    ['Jan klingelte bei Frau Weber. Niemand öffnete. Da hörten die Jungen ein leises Rufen aus der Wohnung.', 'H'],
+    ['Am Abend lagen alle müde, aber glücklich im Bett. Diesen Tag würde Tom nie vergessen.', 'S'],
+    ['Zum Glück war das Bein nur verstaucht. Seitdem fuhr Paul viel vorsichtiger.', 'S'],
+    ['Von da an trugen Jan und Lars jeden Samstag den Korb für Frau Weber.', 'S'],
+    ['Es war nur ein Ast gewesen. Erleichtert kuschelte sich Lena an Bello.', 'S']
+  ];
+  var G_TEIL_N = { E: 'Einleitung', H: 'Hauptteil', S: 'Schluss' };
+  var G_TEIL_X = {
+    E: 'Die <b>Einleitung</b> verrät: <b>Wer?</b> <b>Wo?</b> <b>Wann?</b> Es ist noch nichts Spannendes passiert.',
+    H: 'Im <b>Hauptteil</b> passiert das Spannende: Plötzlich …, Gefühle, wörtliche Rede. Die Spannung steigt bis zum Höhepunkt.',
+    S: 'Der <b>Schluss</b> ist kurz und bringt die Lösung: Wie ist es ausgegangen? Wie fühlen sich alle?'
+  };
+  function genGteil() {
+    var x = pick(G_TEIL);
+    return G({ type: 'gteil', key: 'gt-' + x[0].slice(0, 30), inp: 'mc', center: true,
+      q: 'Zu welchem Teil der Geschichte gehört dieser Text?<span class="lw-sent">' + x[0] + '</span>',
+      opts: fixedOpts(['Einleitung', 'Hauptteil', 'Schluss'], G_TEIL_N[x[1]]),
+      hint: 'Einleitung: Wer, wo, wann? Hauptteil: Es wird spannend. Schluss: Alles geht gut aus.', ex: G_TEIL_X[x[1]] });
+  }
+
+  /* 2) Die Einleitung: Wer? Wo? Wann? */
+  var G_W = [
+    { t: 'In den Herbstferien besuchte Ben seine Oma auf ihrem Bauernhof.', wer: 'Ben und seine Oma', wo: 'auf dem Bauernhof', wann: 'in den Herbstferien' },
+    { t: 'Am Samstagnachmittag spielten Lea und Finn auf dem Spielplatz Fangen.', wer: 'Lea und Finn', wo: 'auf dem Spielplatz', wann: 'am Samstagnachmittag' },
+    { t: 'Letzten Sommer zelteten die Kinder der Klasse 4b am Waldrand.', wer: 'die Kinder der Klasse 4b', wo: 'am Waldrand', wann: 'letzten Sommer' },
+    { t: 'Gestern Abend saß Sophie mit ihrer Katze Minka auf dem Sofa.', wer: 'Sophie und ihre Katze', wo: 'auf dem Sofa', wann: 'gestern Abend' },
+    { t: 'Am ersten Schultag nach den Ferien stand Max aufgeregt vor dem Schultor.', wer: 'Max', wo: 'vor dem Schultor', wann: 'am ersten Schultag' }
+  ];
+  var G_GUTEIN = [
+    { ok: 'An einem kalten Wintermorgen zogen Ella und ihr Papa den Schlitten zum Rodelberg.', bad: ['Plötzlich krachte der Schlitten gegen einen Baum!', 'Es war einmal irgendwann.', 'Und dann sind wir halt los.'],
+      x: 'Die gute Einleitung verrät <b>wer</b> (Ella und Papa), <b>wann</b> (an einem kalten Wintermorgen) und <b>wo</b> (zum Rodelberg). „Plötzlich krachte …“ ist schon Hauptteil.' },
+    { ok: 'Am Freitag nach der Schule lief Tim mit seinem Hund Rex in den Park.', bad: ['Zum Glück fand Tim seinen Hund wieder.', 'Tim hat einen Hund.', 'Da war ein Hund.'],
+      x: 'Wer? Tim und Rex. Wann? Am Freitag nach der Schule. Wo? Im Park. „Zum Glück fand Tim …“ ist schon der Schluss.' },
+    { ok: 'In den Sommerferien fuhr Lina mit ihren Eltern ans Meer nach Holland.', bad: ['Auf einmal kam eine riesige Welle!', 'Lina mag Eis.', 'Am Ende waren alle froh.'],
+      x: 'Wer? Lina und ihre Eltern. Wann? In den Sommerferien. Wo? Am Meer. Die Welle gehört in den Hauptteil, „Am Ende …“ in den Schluss.' }
+  ];
+  function genGw() {
+    if (Math.random() < 0.5) {
+      var g = pick(G_GUTEIN);
+      return G({ type: 'gw', key: 'gwb-' + g.ok.slice(0, 20), inp: 'mc',
+        q: 'Welcher Satz ist eine gute <b>Einleitung</b>?', opts: opts(g.ok, g.bad),
+        hint: 'Eine gute Einleitung beantwortet: Wer? Wo? Wann? Sie ist noch nicht spannend.', ex: g.x });
+    }
+    var x = pick(G_W), f = pick(['wer', 'wo', 'wann']), lbl = { wer: 'Wer?', wo: 'Wo?', wann: 'Wann?' };
+    var bads = ['wer', 'wo', 'wann'].filter(function (k) { return k !== f; }).map(function (k) { return x[k]; });
+    return G({ type: 'gw', key: 'gw-' + f + x.t.slice(0, 15), inp: 'mc', center: true,
+      q: 'Lies die Einleitung. Was verrät sie: <b>' + lbl[f] + '</b><span class="lw-sent">' + x.t + '</span>', opts: opts(x[f], bads),
+      hint: 'Wer? = Personen. Wo? = Ort. Wann? = Zeit.', ex: 'Wer? <b>' + x.wer + '</b> · Wo? <b>' + x.wo + '</b> · Wann? <b>' + x.wann + '</b>. So soll eine Einleitung sein!' });
+  }
+
+  /* 3) Welcher Schluss passt? */
+  var G_SCHL = [
+    { s: 'Tom verliert mitten im See Luft aus seiner Luftmatratze. Seine Schwester Mia schwimmt schnell zu ihm und zieht ihn ans Ufer.',
+      ok: 'Erschöpft, aber froh saßen beide am Ufer. „Danke, Mia!“, sagte Tom.', bad: ['Am nächsten Tag ging Tom in den Zoo und sah einen Löwen.', 'Und dann sind sie heim und dann haben sie gegessen und dann haben sie geschlafen und dann war der Tag rum.'],
+      x: 'Der Schluss ist <b>kurz</b>, passt zur Geschichte und bringt die <b>Lösung</b>. Der Zoo wäre eine neue Geschichte. Viele „und dann“ machen den Schluss lang und langweilig.' },
+    { s: 'Paul stürzt beim Skifahren und kann nicht mehr aufstehen. Sein Skilehrer holt schnell Hilfe.',
+      ok: 'Zum Glück war das Bein nur verstaucht. Nach einer Woche stand Paul wieder auf den Skiern.', bad: ['Paul mag Pizza am liebsten.', 'Plötzlich kam eine riesige Lawine!'],
+      x: 'Der Schluss erzählt, wie es <b>ausgeht</b>. Pizza passt nicht zur Geschichte. Eine Lawine wäre neue Spannung statt einer Lösung.' },
+    { s: 'Lena hört nachts ein lautes Krachen. Mit klopfendem Herzen schleicht sie mit Bello zum Fenster.',
+      ok: 'Es war nur ein Ast, der gegen die Scheibe schlug. Erleichtert schlief Lena ein.', bad: ['Ende.', 'Da stand ein Drache im Garten. Er spuckte Feuer und brüllte laut.'],
+      x: '„Ende.“ ist zu kurz, da fehlt die Lösung. Der Drache bringt neue Spannung. Der Schluss soll das Rätsel <b>auflösen</b>.' },
+    { s: 'Jan und Lars tragen Frau Weber den Einkaufskorb in den ersten Stock. Lars sagt: „Ich habe eine Idee, wie wir Ihnen auch in Zukunft helfen können.“',
+      ok: '„Wir können jeden Samstag für Sie einkaufen!“, schlug Lars vor. Frau Weber strahlte. Von da an waren die drei gute Freunde.', bad: ['Frau Weber wohnt im ersten Stock.', 'Die Familie ist von München nach Freiburg gezogen.'],
+      x: 'Der Schluss verrät die <b>Idee</b> und wie es ausgeht. Die anderen Sätze wiederholen nur, was schon in der Geschichte stand.' }
+  ];
+  function genGschl() {
+    var x = pick(G_SCHL);
+    return G({ type: 'gschl', key: 'gs-' + x.ok.slice(0, 20), inp: 'mc',
+      q: 'Welcher <b>Schluss</b> passt am besten zu dieser Geschichte?<span class="lw-sent">' + x.s + '</span>', opts: opts(x.ok, x.bad),
+      hint: 'Ein guter Schluss ist kurz, passt zur Geschichte und bringt eine Lösung.', ex: x.x });
+  }
+
+  /* 4) Satzbau-Baukasten: Verb an Stelle 2 */
+  var G_SB = [
+    { ok: ['am Nachmittag|gehen|Jan und Lars|nach Hause', 'Jan und Lars|gehen|am Nachmittag|nach Hause'], v: ['gehen'], s: 'Jan und Lars' },
+    { ok: ['plötzlich|hörte|Lena|ein lautes Krachen', 'Lena|hörte|plötzlich|ein lautes Krachen'], v: ['hörte'], s: 'Lena' },
+    { ok: ['dann|klingelte|Jan|bei Frau Weber', 'Jan|klingelte|dann|bei Frau Weber'], v: ['klingelte'], s: 'Jan' },
+    { ok: ['zum Glück|war|das Bein|nicht gebrochen', 'das Bein|war|zum Glück|nicht gebrochen'], v: ['war'], s: 'das Bein' },
+    { ok: ['mit klopfendem Herzen|schlich|Lena|zum Fenster', 'Lena|schlich|mit klopfendem Herzen|zum Fenster'], v: ['schlich'], s: 'Lena' },
+    { ok: ['nach der Schule|spielten|die Kinder|im Hof', 'die Kinder|spielten|nach der Schule|im Hof'], v: ['spielten'], s: 'die Kinder' },
+    { ok: ['Frau Weber|bietet|den Kindern|ein Glas Orangensaft|an', 'den Kindern|bietet|Frau Weber|ein Glas Orangensaft|an'], v: ['bietet', 'an'], k: 1, s: 'Frau Weber' },
+    { ok: ['auf einmal|rutschte|Paul|im Schnee|aus', 'Paul|rutschte|auf einmal|im Schnee|aus'], v: ['rutschte', 'aus'], k: 1, s: 'Paul' },
+    { ok: ['am Abend|hat|Tom|seinen Freund|angerufen', 'Tom|hat|am Abend|seinen Freund|angerufen'], v: ['hat', 'angerufen'], k: 1, s: 'Tom' },
+    { ok: ['gestern|ist|Mia|mit dem Fahrrad|zum See|gefahren', 'Mia|ist|gestern|mit dem Fahrrad|zum See|gefahren'], v: ['ist', 'gefahren'], k: 1, s: 'Mia' }
+  ];
+  /* 5) weil, wenn, dass, als: Verb ans Ende, Komma davor */
+  var G_NB = [
+    { ok: ['Frau Weber|freut|sich|,|weil|die Jungen|ihr|helfen', 'weil|die Jungen|ihr|helfen|,|freut|sich|Frau Weber', 'Frau Weber|freut|sich|,|weil|ihr|die Jungen|helfen', 'weil|ihr|die Jungen|helfen|,|freut|sich|Frau Weber'], v: ['weil', 'helfen'] },
+    { ok: ['Lena|hatte|Angst|,|weil|es|draußen|krachte', 'weil|es|draußen|krachte|,|hatte|Lena|Angst'], v: ['weil', 'krachte'] },
+    { ok: ['Tom|rief|um Hilfe|,|weil|seine Luftmatratze|Luft|verlor', 'weil|seine Luftmatratze|Luft|verlor|,|rief|Tom|um Hilfe', 'um Hilfe|rief|Tom|,|weil|seine Luftmatratze|Luft|verlor'], v: ['weil', 'verlor'] },
+    { ok: ['Sie|können|uns|anrufen|,|wenn|Sie|Hilfe|brauchen', 'wenn|Sie|Hilfe|brauchen|,|können|Sie|uns|anrufen'], v: ['wenn', 'brauchen'] },
+    { ok: ['Jan|weiß|,|dass|Frau Weber|im ersten Stock|wohnt'], v: ['dass', 'wohnt'] },
+    { ok: ['Paul|fuhr|langsamer|,|als|er|die steile Piste|sah', 'als|er|die steile Piste|sah|,|fuhr|Paul|langsamer'], v: ['als', 'sah'] }
+  ];
+  function gShuf(n, okIdx) {
+    var a = [], i, same = true, tries = 0;
+    for (i = 0; i < n; i++) a.push(i);
+    while (same && tries++ < 20) { a = shuffle(a); same = a.every(function (v, j) { return v === j; }); }
+    return a;
+  }
+  function genOrder(type, x, q, hint, ex) {
+    var tiles = x.ok[0].split('|');
+    return G({ type: type, key: type + '-' + x.ok[0], inp: 'order', tiles: tiles, shuf: gShuf(tiles.length), okList: x.ok, dot: true, q: q, hint: hint, ex: ex });
+  }
+  function genGsb() {
+    var pool = KA_EASY ? G_SB.filter(function (x) { return !x.k; }) : G_SB, x = pick(pool);
+    var right = gJoin(x.ok[0].split('|'), true), alt = x.ok[1] ? gJoin(x.ok[1].split('|'), true) : '';
+    var ex = gMark(right, x.v) + (x.k ? ' Das Verb hat zwei Teile: Teil 1 steht an <b>Stelle 2</b>, Teil 2 ganz am <b>Ende</b>.' : ' Das Verb steht an <b>Stelle 2</b>.') + (alt ? ' Das geht auch: ' + gMark(alt, x.v) : '');
+    var tt = genOrder('gsb', x, 'Satz-Baukasten: Tippe die Bausteine in der richtigen Reihenfolge an. Den Punkt und den großen Anfangsbuchstaben macht Fini.',
+      'Such zuerst das Verb (Tunwort). Es steht an Stelle 2, direkt nach dem ersten Baustein.' + (x.k ? ' Der zweite Teil des Verbs kommt ganz ans Ende.' : ''), ex);
+    var tl = x.ok[0].split('|');
+    tt.rule = { v: tl[1], end: x.k ? tl[tl.length - 1] : null, s: x.s };
+    return tt;
+  }
+  function genGnb() {
+    var x = pick(G_NB);
+    var right = gJoin(x.ok[0].split('|'), true), alt = x.ok[1] ? gJoin(x.ok[1].split('|'), true) : '';
+    var ex = gMark(right, x.v) + ' Nach <b>' + x.v[0] + '</b> rutscht das Verb ganz ans <b>Ende</b>. Davor steht ein <b>Komma</b>.' + (alt ? ' Das geht auch: ' + gMark(alt, x.v) : '');
+    return genOrder('gnb', x, 'Satz-Baukasten mit <b>' + x.v[0] + '</b>: Bau den Satz. Auch das Komma ist ein Baustein!',
+      'Nach weil, wenn, dass und als steht das Verb ganz am Ende. Vor diesen Wörtern steht ein Komma.', ex);
+  }
+
+  /* 6) Welcher Satz ist richtig gebaut? */
+  var G_V2 = [
+    ['Dann gingen die Kinder nach Hause.', ['Dann die Kinder gingen nach Hause.', 'Dann die Kinder nach Hause gingen.'], 'Nach „Dann“ kommt sofort das Verb: Dann <b>gingen</b> die Kinder …'],
+    ['Am Abend las Mia ein Buch.', ['Am Abend Mia las ein Buch.', 'Am Abend Mia ein Buch las.'], 'Am Abend <b>las</b> Mia … Das Verb steht an Stelle 2.'],
+    ['Plötzlich klingelte das Telefon.', ['Plötzlich das Telefon klingelte.', 'Plötzlich das Telefon hat geklingelt.'], 'Plötzlich <b>klingelte</b> das Telefon. Erst das Verb, dann wer.'],
+    ['Heute hat Lars seine Oma besucht.', ['Heute Lars hat seine Oma besucht.', 'Heute hat Lars besucht seine Oma.'], 'Heute <b>hat</b> Lars seine Oma <b>besucht</b>. Teil 1 an Stelle 2, Teil 2 ganz am Ende.'],
+    ['Gestern ist Tom ins Schwimmbad gegangen.', ['Gestern ist Tom gegangen ins Schwimmbad.', 'Gestern Tom ist ins Schwimmbad gegangen.'], 'Gestern <b>ist</b> Tom ins Schwimmbad <b>gegangen</b>. „gegangen“ kommt ans Ende.'],
+    ['Ich freue mich, weil heute Ferien sind.', ['Ich freue mich, weil heute sind Ferien.', 'Ich freue mich weil heute Ferien sind.'], 'Nach <b>weil</b> steht das Verb am Ende: … weil heute Ferien <b>sind</b>. Davor ein Komma.'],
+    ['Frau Weber lächelte, als sie die Jungen sah.', ['Frau Weber lächelte, als sie sah die Jungen.', 'Frau Weber lächelte als sie die Jungen sah.'], 'Nach <b>als</b> steht das Verb am Ende: … als sie die Jungen <b>sah</b>. Davor ein Komma.'],
+    ['Nach dem Essen spielten wir Karten.', ['Nach dem Essen wir spielten Karten.', 'Nach dem Essen haben gespielt wir Karten.'], 'Nach dem Essen <b>spielten</b> wir Karten.'],
+    ['Lena wusste, dass Bello Angst hatte.', ['Lena wusste, dass Bello hatte Angst.', 'Lena wusste dass Bello Angst hatte.'], 'Nach <b>dass</b> steht das Verb am Ende: … dass Bello Angst <b>hatte</b>. Davor ein Komma.']
+  ];
+  function genGv2() {
+    var x = pick(G_V2);
+    return G({ type: 'gv2', key: 'gv-' + x[0], inp: 'mc', q: 'Welcher Satz ist <b>richtig</b> gebaut?', opts: opts(x[0], x[1]),
+      hint: 'Lies jeden Satz laut, wie eine Nachrichtensprecherin. Wo steht das Verb?', ex: x[2] });
+  }
+
+  /* 7) So sagen wir’s – so schreibt man’s im Heft */
+  var G_MUND = [
+    ['Mir sind heut ins Schwimmbad.', 'Wir sind heute ins Schwimmbad gegangen.', ['Mir sind heute ins Schwimmbad gegangen.', 'Wir sind heut ins Schwimmbad.'], 'Im Heft heißt es <b>wir</b> und <b>heute</b>. Und das Verb gehört dazu: gegangen.'],
+    ['Ich hab nix gesehen.', 'Ich habe nichts gesehen.', ['Ich hab nix gesehen.', 'Ich habe nix gesehen.'], '<b>habe</b> statt „hab“, <b>nichts</b> statt „nix“.'],
+    ['Des is dem Lars sein Fahrrad.', 'Das ist das Fahrrad von Lars.', ['Das ist dem Lars sein Fahrrad.', 'Des ist das Fahrrad von Lars.'], '<b>Das ist</b>, und statt „dem Lars sein“ schreibt man <b>das Fahrrad von Lars</b>.'],
+    ['Der Mann, wo da steht, ist nett.', 'Der Mann, der dort steht, ist nett.', ['Der Mann, wo dort steht, ist nett.', 'Der Mann wo da steht ist nett.'], 'Statt „wo“ schreibt man <b>der</b>, <b>die</b> oder <b>das</b>: der Mann, <b>der</b> …, die Frau, <b>die</b> …'],
+    ['Ich tu jetzt Hausaufgaben machen.', 'Ich mache jetzt Hausaufgaben.', ['Ich tue jetzt Hausaufgaben machen.', 'Ich tu jetzt Hausaufgaben.'], 'Das „tun“ fällt weg: Ich <b>mache</b> …'],
+    ['Wir sind als im Wald spielen gegangen.', 'Wir sind oft im Wald spielen gegangen.', ['Wir sind als im Wald spielen gegangen.', 'Mir sind oft im Wald spielen gegangen.'], 'Bei uns sagt man „als“, wenn man „oft“ oder „immer“ meint. Im Heft schreibst du <b>oft</b> oder <b>immer</b>.'],
+    ['Der Tom ist größer wie ich.', 'Tom ist größer als ich.', ['Tom ist größer wie ich.', 'Der Tom ist größer als wie ich.'], 'Bei größer, schneller, lauter … heißt es <b>als</b>. Vor Namen steht im Heft kein „der“ oder „die“.'],
+    ['Ich geh bei die Oma.', 'Ich gehe zu meiner Oma.', ['Ich gehe bei die Oma.', 'Ich geh zu meiner Oma.'], '<b>gehe</b> mit e am Ende, und man geht <b>zu</b> jemandem.'],
+    ['Die Lena hat ebbes gefunden.', 'Lena hat etwas gefunden.', ['Die Lena hat ebbes gefunden.', 'Lena hat was gefunden.'], '<b>etwas</b> statt „ebbes“ oder „was“. Und vor Namen kein „die“.'],
+    ['Des war net schlimm.', 'Das war nicht schlimm.', ['Des war net schlimm.', 'Das war net schlimm.'], '<b>Das</b> statt „des“, <b>nicht</b> statt „net“.'],
+    ['Mir han ganz arg gelacht.', 'Wir haben sehr gelacht.', ['Mir haben ganz arg gelacht.', 'Wir han sehr gelacht.'], '<b>Wir haben</b>, und statt „ganz arg“ passt <b>sehr</b>.']
+  ];
+  function genGmund() {
+    var x = pick(G_MUND);
+    return G({ type: 'gmund', key: 'gm-' + x[0], inp: 'mc',
+      q: 'Beim Sprechen sagen viele bei uns:<span class="lw-sent">„' + x[0] + '“</span>Wie schreibt man das in einer <b>Geschichte</b>, so wie in einem Buch?', opts: opts(x[1], x[2]),
+      hint: 'Stell dir vor, eine Nachrichtensprecherin liest den Satz vor. Welcher klingt so?', ex: x[3] });
+  }
+
+  /* 8) Gute Satzanfänge statt „und dann“ */
+  var G_ANF = [
+    ['Lena lag schon im Bett.', 'hörte sie ein lautes Krachen.', 'Plötzlich', ['Und dann', 'Zum Schluss', 'Am Anfang']],
+    ['Paul stürzte und konnte nicht mehr aufstehen.', 'kam sein Skilehrer schnell angefahren.', 'Zum Glück', ['Und dann', 'Leider', 'Am Anfang']],
+    ['Die Kinder spielten den ganzen Tag am See.', 'fuhren sie müde nach Hause.', 'Am Abend', ['Und dann', 'Plötzlich', 'Am Morgen']],
+    ['Jan klingelte bei Frau Weber.', 'öffnete sie die Tür.', 'Nach einer Weile', ['Und dann', 'Gestern', 'Zum Schluss']],
+    ['Tom paddelte auf seiner Luftmatratze.', 'merkte er, dass sie Luft verlor.', 'Auf einmal', ['Und dann', 'Am Ende', 'Zum Glück']],
+    ['Mia suchte überall nach ihrem Hund.', 'fand sie ihn schlafend unter dem Tisch.', 'Endlich', ['Und dann', 'Am Anfang', 'Gestern']]
+  ];
+  function genGansatz() {
+    var x = pick(G_ANF);
+    return G({ type: 'gansatz', key: 'ga-' + x[2], inp: 'mc', center: true, grid2: true,
+      q: 'Welcher <b>Satzanfang</b> passt am besten?<span class="lw-sent">' + x[0] + ' <span class="gap lwgap">?</span> ' + x[1] + '</span>', opts: opts(x[2], x[3]),
+      hint: '„Und dann“ ist langweilig. Was passt zur Geschichte: Wird es spannend, geht es gut aus oder vergeht Zeit?',
+      ex: '<b>' + x[2] + '</b> ' + x[1] + ' Gute Satzanfänge machen die Geschichte spannend. Danach kommt sofort das Verb!' });
+  }
+
+  /* 9) Wörtliche Rede: Satzzeichen */
+  var G_WR = [
+    { w: 'Lars', v: 'sagt', s: 'Ich habe eine Idee', e: '.' },
+    { w: 'Jan', v: 'fragt', s: 'Dürfen wir Ihnen den Korb tragen', e: '?' },
+    { w: 'Tom', v: 'ruft', s: 'Hilfe, ich verliere Luft', e: '!' },
+    { w: 'Frau Weber', v: 'sagt', s: 'Das ist sehr nett von euch', e: '.' },
+    { w: 'Mia', v: 'flüstert', s: 'Ich habe Angst', e: '.' },
+    { w: 'Paul', v: 'fragt', s: 'Kannst du mir aufhelfen', e: '?' },
+    { w: 'Lena', v: 'ruft', s: 'Bello, komm sofort her', e: '!' },
+    { w: 'Die Lehrerin', w2: 'die Lehrerin', v: 'sagt', s: 'Heute schreiben wir eine Geschichte', e: '.' }
+  ];
+  function wrVorne(x) { return x.w + ' ' + x.v + ': „' + x.s + x.e + '“'; }
+  function wrHinten(x) { return '„' + x.s + (x.e === '.' ? '' : x.e) + '“, ' + x.v + ' ' + (x.w2 || x.w) + '.'; }
+  function genGwr() {
+    var x = pick(G_WR), vorne = Math.random() < 0.5, ok, bad, ex;
+    var who = x.w2 || x.w, e2 = x.e === '.' ? '' : x.e;
+    if (vorne) {
+      ok = wrVorne(x);
+      bad = [x.w + ' ' + x.v + ' „' + x.s + x.e + '“', x.w + ' ' + x.v + ': „' + x.s + '“' + x.e, x.w + ' ' + x.v + ': ' + x.s + x.e + '“'];
+      ex = '<b>' + ok + '</b> Wer spricht, steht vorne. Dann: <b>Doppelpunkt</b>, Anführungszeichen <b>unten</b>, was gesagt wird, <b>' + x.e + '</b> und Anführungszeichen <b>oben</b>.';
+    } else {
+      ok = wrHinten(x);
+      bad = x.e === '.' ? ['„' + x.s + '.“, ' + x.v + ' ' + who + '.', '„' + x.s + '“ ' + x.v + ' ' + who + '.', '„' + x.s + ',“ ' + x.v + ' ' + who + '.']
+        : ['„' + x.s + x.e + '“ ' + x.v + ' ' + who + '.', '„' + x.s + '“, ' + x.v + ' ' + who + x.e, '„' + x.s + '“' + x.e + ' ' + x.v + ' ' + who + '.'];
+      ex = '<b>' + ok + '</b> Wer spricht, steht hinten. ' + (x.e === '.' ? 'Der <b>Punkt</b> der Rede fällt weg.' : 'Das <b>' + x.e + '</b> bleibt in der Rede.') + ' Nach dem Anführungszeichen oben kommt ein <b>Komma</b>.';
+    }
+    return G({ type: 'gwr', key: 'gwr-' + vorne + x.s, inp: 'mc', mono: true,
+      q: 'Wörtliche Rede: Wo sind alle Zeichen <b>richtig</b> gesetzt?', opts: opts(ok, bad),
+      hint: vorne ? 'Wer spricht, steht vorne: Doppelpunkt, dann „unten … oben“.' : 'Wer spricht, steht hinten: Nach „ … “ kommt ein Komma.', ex: ex });
+  }
+  function genGwrb() {
+    var x = pick(G_WR), vorne = Math.random() < 0.5, ok;
+    if (vorne) ok = x.w + ' ' + x.v + '|:|„|' + x.s + '|' + x.e + '|“';
+    else ok = '„|' + x.s + '|' + (x.e === '.' ? '' : x.e + '|') + '“|,|' + x.v + ' ' + (x.w2 || x.w) + '|.';
+    var right = gJoin(ok.split('|'));
+    var t = genOrder('gwrb', { ok: [ok] },
+      'Bau die wörtliche Rede mit allen Zeichen. Wer spricht, steht <b>' + (vorne ? 'vorne' : 'hinten') + '</b>.' + '<span class="wr-pic">' + (vorne ? '<b>Begleitsatz</b> : „ <i>Rede</i> “' : '„ <i>Rede</i> “ , <b>Begleitsatz</b>') + '</span>',
+      vorne ? 'Erst wer spricht, dann der Doppelpunkt. Dann Anführungszeichen unten, die Rede mit ihrem Satzzeichen und Anführungszeichen oben.'
+        : 'Erst Anführungszeichen unten, dann die Rede. ' + (x.e === '.' ? 'Der Punkt der Rede fällt weg. ' : 'Das ' + x.e + ' bleibt. ') + 'Nach dem Anführungszeichen oben kommt ein Komma, dann wer spricht und am Ende ein Punkt.',
+      '<b>' + right + '</b>');
+    t.dot = false; t.key = 'gwrb-' + vorne + x.s;
+    return t;
+  }
+
+  /* 10) Wortfeld „sagen“ */
+  var G_SAG = [
+    ['„Hilfe!“, ___ Tom laut.', 'schrie', ['flüsterte', 'murmelte']],
+    ['„Pssst, das Baby schläft“, ___ Mama leise.', 'flüsterte', ['brüllte', 'jubelte']],
+    ['„Wo ist mein Schuh?“, ___ Lena.', 'fragte', ['antwortete', 'jubelte']],
+    ['„Der Schuh liegt unter dem Bett“, ___ Papa.', 'antwortete', ['fragte', 'schrie']],
+    ['„Juhu, wir haben gewonnen!“, ___ die Kinder.', 'jubelten', ['jammerten', 'flüsterten']],
+    ['„Au, mein Knie tut so weh“, ___ Paul.', 'jammerte', ['jubelte', 'lachte']],
+    ['„Räum sofort dein Zimmer auf!“, ___ Mama.', 'schimpfte', ['flüsterte', 'jubelte']],
+    ['„Das war ein toller Witz“, ___ Mia und hielt sich den Bauch.', 'lachte', ['weinte', 'schimpfte']]
+  ];
+  function genGsagen() {
+    var x = pick(G_SAG);
+    return G({ type: 'gsagen', key: 'gsa-' + x[1], inp: 'mc', center: true,
+      q: 'Immer nur „sagte“ ist langweilig. Welches Wort passt am besten?<span class="lw-sent">' + x[0].replace('___', '<span class="gap lwgap">?</span>') + '</span>', opts: opts(x[1], x[2]),
+      hint: 'Wie spricht die Person: laut, leise, fröhlich, traurig, oder stellt sie eine Frage?', ex: x[0].replace('___', '<b>' + x[1] + '</b>') + ' Das Wort zeigt, <b>wie</b> jemand spricht.' });
+  }
+
+  /* 11) Erzählen in der Vergangenheit */
+  var G_ZEIT = [
+    ['gehen', 'ging', ['gang', 'gehte'], 'Am Morgen ___ Lena zur Schule.'],
+    ['kommen', 'kam', ['kommte', 'kamm'], 'Nach einer Weile ___ der Skilehrer.'],
+    ['laufen', 'lief', ['laufte', 'lif'], 'Bello ___ schnell zur Tür.'],
+    ['rufen', 'rief', ['rufte', 'rif'], 'Tom ___ laut um Hilfe.'],
+    ['sehen', 'sah', ['sehte', 'sa'], 'Plötzlich ___ Mia einen Schatten.'],
+    ['schreien', 'schrie', ['schreite', 'schri'], 'Paul ___ vor Schreck.'],
+    ['fallen', 'fiel', ['fallte', 'fil'], 'Der Korb ___ auf den Boden.'],
+    ['nehmen', 'nahm', ['nehmte', 'nam'], 'Jan ___ den schweren Korb.'],
+    ['finden', 'fand', ['findete', 'fant'], 'Endlich ___ Lena ihren Hund.'],
+    ['sitzen', 'saß', ['sitzte', 'sas'], 'Frau Weber ___ in ihrem Sessel.'],
+    ['stehen', 'stand', ['stehte', 'stant'], 'Max ___ aufgeregt vor dem Schultor.'],
+    ['rennen', 'rannte', ['rennte', 'rante'], 'Lars ___ die Treppe hinauf.'],
+    ['bringen', 'brachte', ['bringte', 'brang'], 'Mia ___ ihrer Oma Blumen.'],
+    ['denken', 'dachte', ['denkte', 'dacht'], 'Lena ___ an ein Gespenst.'],
+    ['trinken', 'trank', ['trinkte', 'trang'], 'Die Jungen ___ ein Glas Orangensaft.']
+  ];
+  function genGzeit() {
+    var x = pick(G_ZEIT);
+    return G({ type: 'gzeit', key: 'gz-' + x[0], inp: 'mc', center: true, grid3: true, mono: true,
+      q: 'Geschichten erzählt man meistens in der <b>Vergangenheit</b>. Welche Form von <b>' + x[0] + '</b> ist richtig?<span class="lw-sent">' + x[3].replace('___', '<span class="gap lwgap">?</span>') + '</span>', opts: opts(x[1], x[2]),
+      hint: 'Sag „Gestern …“ davor und sprich den Satz laut. Welche Form hast du schon in Büchern gelesen?', ex: x[3].replace('___', '<b>' + x[1] + '</b>') + ' ' + x[0] + ' → <b>' + x[1] + '</b>. Bleib in der ganzen Geschichte in der Vergangenheit.' });
+  }
+
+  /* 12) Höflich: Sie, Ihnen, Ihr */
+  var G_SIE = [
+    ['Jan fragt Frau Weber: „Dürfen wir ___ den Korb tragen?“', 'Ihnen', 'ihnen', 1],
+    ['„Brauchen ___ noch etwas, Frau Weber?“, fragt Jan.', 'Sie', 'sie', 1],
+    ['„Frau Weber, haben ___ einen Hund?“, fragt Lars.', 'Sie', 'sie', 1],
+    ['„Ist das ___ Korb, Frau Weber?“, fragt Jan.', 'Ihr', 'ihr', 1],
+    ['Die Jungen sehen Frau Weber. Sie stöhnt, weil ___ den Korb nicht tragen kann.', 'sie', 'Sie', 0],
+    ['Jan und Lars helfen. Frau Weber dankt ___ und lächelt.', 'ihnen', 'Ihnen', 0]
+  ];
+  function genGsie() {
+    var x = pick(G_SIE);
+    return G({ type: 'gsie', key: 'gsi-' + x[0].slice(0, 20), inp: 'mc', center: true, grid2: true, mono: true,
+      q: 'Groß oder klein? Welches Wort passt in die Lücke?<span class="lw-sent">' + x[0].replace('___', '<span class="gap lwgap">?</span>') + '</span>', opts: opts(x[1], [x[2]]),
+      hint: 'Wird hier eine erwachsene Person höflich angesprochen? Dann groß.',
+      ex: x[3] ? 'Hier wird Frau Weber <b>höflich angesprochen</b>. Darum schreibt man <b>' + x[1] + '</b> groß.' : 'Hier wird niemand angesprochen. „' + x[1] + '“ meint ' + (x[1] === 'sie' ? 'die Frau' : 'die Jungen') + '. Darum <b>klein</b>.' });
+  }
+
+  /* 13) Erzähl-Diktat */
+  var G_DIK = ['Plötzlich hörte Lena ein lautes Krachen.', 'Zum Glück war das Bein nicht gebrochen.', 'Die Jungen trugen den schweren Korb die Treppe hinauf.', 'Frau Weber freute sich sehr über die Hilfe.',
+    'Am Abend fuhren alle müde nach Hause.', 'Mit klopfendem Herzen schlich Lena zum Fenster.', 'Endlich fand Mia ihren Hund unter dem Tisch.', 'Nach einer Weile öffnete die alte Frau die Tür.',
+    'Erschrocken rief Tom laut um Hilfe.', 'Die Kinder bedankten sich und gingen nach Hause.', 'Auf einmal rutschte Paul im Schnee aus.', 'Von da an waren die drei gute Freunde.'];
+  function genGdik() {
+    var s = pick(G_DIK);
+    return G({ type: 'gdik', key: 'gd-' + s, inp: 'text', unit: '', ans: s, diktat: true, lang: 'de-DE',
+      q: 'Erzähl-Diktat: Hör dir den Satz an und schreib ihn auf. Achte auf große Anfangsbuchstaben und die Vergangenheit.', hint: 'Der Satz hat ' + s.split(' ').length + ' Wörter. Das erste Wort und Nomen schreibt man groß.' });
+  }
+
+  /* 14) Fini prüft deinen Text (eigene Sätze schreiben) */
+  var G_THEMEN = ['Ein Ausflug in den Zoo', 'Der verlorene Schlüssel', 'Der erste Schnee', 'Ein neues Haustier', 'Die Nachbarin braucht Hilfe', 'Ein Gewitter im Zeltlager', 'Das verschwundene Pausenbrot', 'Ein Tag im Freibad'];
+  var G_FREI = {
+    E: { q: 'Schreibe eine <b>Einleitung</b> mit 2 bis 3 Sätzen. Verrate: <b>Wer? Wo? Wann?</b>', min: 2, max: 4, ph: 'An einem … ging … mit … zum …' },
+    H: { q: 'Schreibe 2 bis 4 spannende Sätze für den <b>Hauptteil</b>. Mindestens ein Satz soll <b>wörtliche Rede</b> haben.', min: 2, max: 5, rede: true, ph: 'Plötzlich … „…!“, rief …' },
+    S: { q: 'Schreibe einen kurzen <b>Schluss</b> mit 1 bis 3 Sätzen. Wie geht die Geschichte gut aus?', min: 1, max: 3, ph: 'Zum Glück … Am Ende …' }
+  };
+  var G_MUNDW = [[/\bnix\b/i, 'nichts'], [/\bebbes\b/i, 'etwas'], [/\bnet\b/i, 'nicht'], [/\bnit\b/i, 'nicht'], [/(^|[.!?„"]\s*)des\b/i, 'das'], [/\bis\b/, 'ist'], [/\bhab\b/i, 'habe'],
+    [/\bgeh\b/i, 'gehe'], [/\bgrad\b/i, 'gerade'], [/\bgell\b/i, '(weglassen)'], [/\bheut\b/i, 'heute'], [/\bhan\b/i, 'haben'], [/\bhammer\b/i, 'haben wir'], [/\bmir\s+(sind|sinn|haben|han|gehen|waren|hatten|spielen|spielten|gingen|fahren|fuhren)\b/i, 'wir'],
+    [/\b(größer|kleiner|schneller|lauter|besser|schöner|älter|jünger)\s+wie\b/i, '… als']];
+  function genGfrei() {
+    var part = pick(['E', 'H', 'S']), th = pick(G_THEMEN), c = G_FREI[part];
+    return G({ type: 'gfrei', key: 'gf-' + part + th, inp: 'free', part: part, min: c.min, max: c.max, rede: !!c.rede, ph: c.ph,
+      q: 'Schreibwerkstatt zum Thema <b>„' + th + '“</b>. ' + c.q, hint: 'Jeder Satz beginnt groß und endet mit . ! oder ?. Wechsle die Satzanfänge ab.',
+      ex: 'Fini prüft Großschreibung am Satzanfang, Satzzeichen, Satzanfänge, die Zeichen bei der wörtlichen Rede und Wörter wie „nix“ oder „hab“. Die Rechtschreibung jedes Wortes prüft Fini nicht: Lies deinen Text dafür noch einmal laut und langsam.' });
+  }
+  function gSaetze(txt) {
+    var s = txt.replace(/\s+/g, ' ').trim(), out = [], cur = '', inQ = false;
+    function push() { if (cur.trim()) out.push(cur.trim()); cur = ''; }
+    for (var i = 0; i < s.length; i++) {
+      var ch = s[i], after = s.slice(i + 1); cur += ch;
+      if (ch === '„') { inQ = true; continue; }
+      if (ch === '“' || ch === '”' || (ch === '"' && inQ)) {
+        inQ = false;
+        if (/[.!?]$/.test(cur.slice(0, -1)) && !/^\s*[,a-zäöüß]/.test(after)) push();
+        continue;
+      }
+      if (ch === '"') { inQ = true; continue; }
+      if (/[.!?]/.test(ch) && !inQ && !/^[.!?“”",]/.test(after)) push();
+    }
+    push();
+    return out;
+  }
+  function gPruefe(t, txt) {
+    var probs = [], ss = gSaetze(txt), s = txt.trim();
+    if (!/[.!?][“"”]?$/.test(s)) probs.push('Am Ende fehlt ein Satzzeichen: <b>.</b> <b>!</b> oder <b>?</b>');
+    ss.forEach(function (x, i) {
+      var f = x.replace(/^[„"“\s]+/, '');
+      if (f && !/^[A-ZÄÖÜ]/.test(f)) probs.push('Satz ' + (i + 1) + ' beginnt klein: „' + esc(f.split(' ')[0]) + '“. Am Satzanfang schreibt man <b>groß</b>.');
+      var nw = x.split(/\s+/).length;
+      if (nw > 22) probs.push('Satz ' + (i + 1) + ' ist sehr lang (' + nw + ' Wörter). Mach lieber zwei Sätze daraus.');
+      if ((x.match(/\bund\b/gi) || []).length >= 3) probs.push('In Satz ' + (i + 1) + ' stehen viele „und“. Setz lieber einen Punkt und fang neu an.');
+    });
+    if (/\bund dann\b/i.test(s)) probs.push('Da steht „und dann“. Probier: Plötzlich, Danach, Zum Glück, Am Abend …');
+    for (var i = 1; i < ss.length; i++) {
+      var a = (ss[i - 1].replace(/^[„"“]+/, '').split(' ')[0] || '').toLowerCase(), b = (ss[i].replace(/^[„"“]+/, '').split(' ')[0] || '').toLowerCase();
+      if (a && a === b && a.length > 1) { probs.push('Zwei Sätze hintereinander beginnen mit „' + esc(ss[i].replace(/^[„"“]+/, '').split(' ')[0]) + '“. Wechsle den Satzanfang ab.'); break; }
+    }
+    G_MUNDW.forEach(function (m) { var r = s.match(m[0]); if (r) probs.push('„' + esc(r[0].replace(/^[,.!?„"\s]+/, '').trim()) + '“ sagt man beim Sprechen. Im Heft: <b>' + m[1] + '</b>.'); });
+    var qOpen = (s.match(/„/g) || []).length, qClose = (s.match(/[“”]/g) || []).length, qStraight = (s.match(/"/g) || []).length;
+    var hasRede = qOpen + qClose + qStraight > 0;
+    if (t.rede && !hasRede) probs.push('Es fehlt noch die <b>wörtliche Rede</b> mit Anführungszeichen, zum Beispiel: Tom rief: „Hilfe!“');
+    if (hasRede) {
+      if (qOpen !== qClose && qStraight === 0) probs.push('Bei den Anführungszeichen fehlt eins: Unten <b>„</b> am Anfang der Rede, oben <b>“</b> am Ende.');
+      if (qStraight % 2 === 1) probs.push('Bei den Anführungszeichen fehlt eins. Jede Rede braucht eins am Anfang und eins am Ende.');
+      if (/[A-Za-zÄÖÜäöüß]\s*[„]/.test(s) || /\b(sagte|sagt|rief|ruft|fragte|fragt|schrie|schreit|flüsterte|flüstert|antwortete|antwortet|jammerte|jubelte|lachte)\s+"/.test(s)) probs.push('Vor der wörtlichen Rede fehlt ein <b>Doppelpunkt</b>: Tom rief<b>:</b> „Hilfe!“');
+      if (/[“”"]\s+(sagte|sagt|rief|ruft|fragte|fragt|schrie|schreit|flüsterte|flüstert|antwortete|antwortet|jammerte|jubelte|lachte|meinte|erklärte)\b/.test(s)) probs.push('Nach der wörtlichen Rede fehlt ein <b>Komma</b>: „Hilfe!“<b>,</b> rief Tom.');
+      if (/\.[“”"]\s*,/.test(s)) probs.push('Steht der Begleitsatz hinten, fällt der <b>Punkt</b> in der Rede weg: „Ich habe eine Idee“, sagte Lars.');
+    }
+    if (ss.length < t.min) probs.push('Schreib mindestens ' + t.min + (t.min === 1 ? ' Satz.' : ' Sätze.'));
+    if (ss.length > t.max) probs.push(t.part === 'S' ? 'Der Schluss soll <b>kurz</b> sein. Höchstens ' + t.max + ' Sätze.' : 'Das sind schon ' + ss.length + ' Sätze. Höchstens ' + t.max + ' reichen hier.');
+    return { probs: probs, n: ss.length };
+  }
+  function gFreiCheck() {
+    var t = state.tasks[state.i], ta = document.getElementById('freeTxt');
+    if (state.resolved || !ta) return;
+    var txt = ta.value; state.input = txt;
+    if (txt.trim().length < 8) { state.feedback = { tone: 'tip', title: 'Schreib zuerst deine Sätze.', text: '' }; renderFeedback(); ta.focus(); return; }
+    var r = gPruefe(t, txt), mine = '<i>' + esc(txt.trim()) + '</i>';
+    if (!r.probs.length) {
+      resolve(state.attempts === 0 ? 'right' : 'second', { tone: 'good', title: pick(PRAISE), text: 'Fini hat nichts gefunden: Satzanfänge, Großbuchstaben und Satzzeichen passen. Lies deinen Text noch einmal laut: Klingt er wie in einem Buch? Zeig ihn gern Mama oder Papa.', steps: [mine] });
+      return;
+    }
+    state.attempts++;
+    if (state.attempts === 1) {
+      state.hintUsed = true;
+      state.feedback = { tone: 'tip', title: 'Fini hat etwas gefunden:', text: 'Verbessere es und tippe nochmal auf „Fini prüft“.', steps: r.probs.slice(0, 4) };
+      saveRound(); renderTask(); var ta2 = document.getElementById('freeTxt'); if (ta2) ta2.focus(); return;
+    }
+    resolve('wrong', { tone: 'bad', title: 'Fast geschafft!', text: 'Darauf achtest du beim nächsten Mal:', steps: r.probs.slice(0, 4).concat([mine]) });
+  }
+
+  /* Satz-Baukasten: Anzeige und Bedienung */
+  function orderHtml(t) {
+    var placed = state.order || [], dis = state.resolved ? ' disabled' : '', err = state.oerr;
+    var h = '<div class="oline" aria-label="Dein Satz">';
+    h += placed.length ? placed.map(function (ti, pos) { return '<button type="button" class="otile in' + (err != null && pos >= err ? ' bad' : '') + (state.resolved && state.ores === 'right' ? ' good' : '') + '" data-act="unt" data-pos="' + pos + '"' + dis + '>' + t.tiles[ti] + '</button>'; }).join('')
+      : '<span class="ohint">Tippe die Bausteine unten an.</span>';
+    h += '</div>';
+    if (placed.length) h += '<p class="oprev">' + gJoin(placed.map(function (i) { return t.tiles[i]; }), t.dot && placed.length === t.tiles.length) + '</p>';
+    if (!state.resolved) {
+      var rest = t.shuf.filter(function (i) { return placed.indexOf(i) < 0; });
+      h += '<div class="opool">' + rest.map(function (i) { return '<button type="button" class="otile' + (/^[.,:!?„“]$/.test(t.tiles[i]) ? ' punct' : '') + '" data-act="put" data-ti="' + i + '">' + t.tiles[i] + '</button>'; }).join('') + '</div>';
+      h += '<div class="actions orow">' + (placed.length === t.tiles.length ? '<button type="button" class="btn primary" data-act="ocheck">Prüfen</button>' : '') +
+        (placed.length ? '<button type="button" class="btn small" data-act="oclr">Alles zurück</button>' : '') + (state.hintUsed ? '' : '<button type="button" class="btn tip small" data-act="otip">Tipp</button>') + '</div>';
+    }
+    return h;
+  }
+  function orderCheck() {
+    var t = state.tasks[state.i]; if (state.resolved) return;
+    var mine = (state.order || []).map(function (i) { return t.tiles[i]; }), best = 0, ok = false;
+    if (t.rule && mine.length === t.tiles.length) {
+      var R = t.rule, L = mine.length - 1;
+      if (mine[1] !== R.v) best = mine[0] === R.v ? 0 : 1;
+      else if (R.end && mine[L] !== R.end) best = mine.indexOf(R.end) >= 0 && mine.indexOf(R.end) < L ? mine.indexOf(R.end) : L;
+      else if (R.s && mine[0] !== R.s && mine[2] !== R.s) best = 2;
+      else ok = true;
+    }
+    if (!t.rule) t.okList.forEach(function (o) {
+      var a = o.split('|'), k = 0;
+      while (k < a.length && a[k] === mine[k]) k++;
+      if (k === a.length && mine.length === a.length) ok = true;
+      best = Math.max(best, k);
+    });
+    if (ok) { state.oerr = null; state.ores = 'right'; resolve(state.attempts === 0 ? 'right' : 'second', { tone: 'good', title: pick(PRAISE), text: t.ex }); return; }
+    state.attempts++;
+    if (state.attempts === 1) {
+      state.oerr = best; state.hintUsed = true;
+      state.feedback = { tone: 'tip', title: 'Fast!', text: (best ? 'Bis zum roten Baustein stimmt alles. ' : 'Schon der erste Baustein passt noch nicht. ') + 'Tippe die roten Bausteine an, dann kommen sie zurück. Tipp: ' + t.hint };
+      saveRound(); renderTask(); return;
+    }
+    state.oerr = best;
+    resolve('wrong', { tone: 'bad', title: 'Das war knifflig!', text: 'So ist es richtig:', steps: [t.ex] });
+  }
+  function freeHtml(t) {
+    var dis = state.resolved ? ' disabled' : '';
+    return '<label class="sr-only" for="freeTxt">Dein Text</label><textarea id="freeTxt" class="freetxt" rows="5" placeholder="' + esc(t.ph) + '" autocapitalize="sentences" spellcheck="false" autocorrect="off"' + dis + '>' + esc(state.input || '') + '</textarea>' +
+      (state.resolved ? '' : '<div class="actions orow"><button type="button" class="btn primary" data-act="fcheck">Fini prüft</button>' + (state.hintUsed ? '' : '<button type="button" class="btn tip small" data-act="ftip">Tipp</button>') + '</div>') +
+      '<p class="dik-note">Anführungszeichen auf dem iPad: Taste " lange gedrückt halten, dann „ oder “ wählen. Die geraden " gehen auch.</p>';
+  }
+
+  GEN.gteil = genGteil; GEN.gw = genGw; GEN.gschl = genGschl; GEN.gsb = genGsb; GEN.gnb = genGnb; GEN.gv2 = genGv2; GEN.gmund = genGmund; GEN.gansatz = genGansatz;
+  GEN.gwr = genGwr; GEN.gwrb = genGwrb; GEN.gsagen = genGsagen; GEN.gzeit = genGzeit; GEN.gsie = genGsie; GEN.gdik = genGdik; GEN.gfrei = genGfrei;
+
+  /* Fini erklärt: Geschichte schreiben */
+  EXPL.gteil = { t: 'Einleitung, Hauptteil, Schluss', m: 'Einleitung: Wer? Wo? Wann? Hauptteil: Spannung steigt bis zum Höhepunkt. Schluss: kurz, mit Lösung.', f: function () { return [
+    { v: '<div class="xstack c">' + chip('Einleitung', 'b') + chip('Hauptteil', 'r', 1) + chip('Schluss', 'g', 2) + '</div>',
+      x: 'Jede Geschichte hat <b>drei Teile</b>. Wie ein Hügel: Am Anfang ist es ruhig, in der Mitte wird es spannend, am Ende ist alles wieder gut.' },
+    { v: '<div class="xstack c">' + xrow([chip('Wer?', 'y'), chip('Wo?', 'y', 1), chip('Wann?', 'y', 2)]) + chip('An einem Samstagmorgen fuhren Mia und Tom zum Badesee.', 'ek wrap', 3) + '</div>',
+      x: 'Die <b>Einleitung</b> ist kurz, 2 bis 3 Sätze. Sie verrät: <b>Wer?</b> (Mia und Tom) <b>Wo?</b> (zum Badesee) <b>Wann?</b> (an einem Samstagmorgen).' },
+    { v: '<div class="xstack c">' + chip('Plötzlich …', 'r') + chip('„Hilfe!“, schrie Tom.', 'r', 1) + chip('Sein Herz klopfte wild.', 'r', 2) + '</div>',
+      x: 'Der <b>Hauptteil</b> ist der längste Teil. Hier passiert das Spannende. Benutze <b>wörtliche Rede</b> und erzähle, was die Personen <b>fühlen</b>. Die Spannung steigt bis zum Höhepunkt.' },
+    { v: '<div class="xstack c">' + chip('Zum Glück …', 'g') + chip('Erleichtert …', 'g', 1) + chip('Von da an …', 'g', 2) + '</div>',
+      x: 'Der <b>Schluss</b> ist kurz. Er passt zur Geschichte und bringt die <b>Lösung</b>. Keine neue Spannung und keine neue Geschichte!' }
+  ]; } };
+  EXPL.gw = Object.assign({}, EXPL.gteil, { alias: true });
+  EXPL.gschl = Object.assign({}, EXPL.gteil, { alias: true });
+  EXPL.gsb = { t: 'Das Verb steht an Stelle 2', m: 'Der erste Baustein kann wechseln. Das Verb bleibt an Stelle 2. Hat es zwei Teile, kommt Teil 2 ans Ende.', f: function () { return [
+    { v: '<div class="xstack c">' + xrow([chip('Lena', 'b'), chip('hörte', 'r', 1), chip('plötzlich', 'y', 2), chip('ein Krachen.', 'b', 3)]) + '</div>',
+      x: 'Ein Satz besteht aus <b>Bausteinen</b>. Das <b>Verb</b> (hörte) steht an <b>Stelle 2</b>.' },
+    { v: '<div class="xstack c">' + xrow([chip('Plötzlich', 'y'), chip('hörte', 'r', 1), chip('Lena', 'b', 2), chip('ein Krachen.', 'b', 3)]) + chip('<s>Plötzlich Lena hörte …</s>', 'plain', 4) + '</div>',
+      x: 'Stellst du „Plötzlich“ nach vorne, rutscht <b>Lena</b> nach hinten. Das <b>Verb bleibt an Stelle 2</b>. „Plötzlich Lena hörte“ ist falsch.' },
+    { v: '<div class="xstack c">' + xrow([chip('Am Abend', 'y'), chip('hat', 'r', 1), chip('Tom', 'b', 2), chip('seinen Freund', 'b', 3), chip('angerufen.', 'r', 4)]) + '</div>',
+      x: 'Manche Verben haben <b>zwei Teile</b>: hat … angerufen, ist … gegangen, bietet … an. Teil 1 steht an Stelle 2, Teil 2 ganz am <b>Ende</b>. Wie eine Klammer!' },
+    { v: '<div class="xstack c">' + chip('Lies den Satz laut wie eine Nachrichtensprecherin.', 'ek wrap') + '</div>',
+      x: 'Trick: Lies jeden Satz <b>laut</b> und ein bisschen feierlich. Klingt er wie in einem Buch? Dann passt die Reihenfolge.' }
+  ]; } };
+  EXPL.gv2 = Object.assign({}, EXPL.gsb, { alias: true });
+  EXPL.gnb = { t: 'Sätze mit weil, wenn, dass, als', m: 'Nach weil, wenn, dass, als rutscht das Verb ganz ans Ende. Davor steht ein Komma.', f: function () { return [
+    { v: '<div class="xstack c">' + xrow([chip('Lena hatte Angst', 'b'), chip(',', 'y', 1), chip('weil', 'y', 1), chip('es draußen', 'b', 2), chip('krachte.', 'r', 3)]) + '</div>',
+      x: 'Nach <b>weil</b> rutscht das Verb ganz ans <b>Ende</b>: … weil es draußen <b>krachte</b>. Vor „weil“ steht ein <b>Komma</b>.' },
+    { v: '<div class="xstack c">' + chip('<s>… weil es krachte draußen.</s>', 'plain') + chip('<s>… weil es hat draußen gekracht.</s>', 'plain', 1) + chip('… weil es draußen krachte.', 'g', 2) + '</div>',
+      x: 'Beim Sprechen sagen viele „weil es hat gekracht“. Im Heft steht das Verb aber <b>hinten</b>.' },
+    { v: '<div class="xstack c">' + xrow([chip('weil', 'y'), chip('wenn', 'y', 1), chip('dass', 'y', 2), chip('als', 'y', 3)]) + '</div>',
+      x: 'Diese Wörter sind <b>Komma-Wörter</b>. Davor kommt ein Komma, und das Verb steht am Ende: …, <b>wenn</b> Sie Hilfe <b>brauchen</b>.' }
+  ]; } };
+  EXPL.gwr = { t: 'Wörtliche Rede', m: 'Vorne: Lars sagt: „Ich habe eine Idee.“ Hinten: „Ich habe eine Idee“, sagt Lars.', f: function () { return [
+    { v: '<div class="xstack c">' + chip('Lars sagt<b>: „</b>Ich habe eine Idee<b>.“</b>', 'ek wrap') + xrow([chip('Doppelpunkt', 'y', 1), chip('unten „', 'b', 2), chip('oben “', 'b', 3)]) + '</div>',
+      x: '<b>Begleitsatz vorne:</b> Wer spricht? Dann <b>Doppelpunkt</b>. Die Rede kommt in Anführungszeichen: am Anfang <b>unten</b>, am Ende <b>oben</b>. Der Punkt steht drinnen.' },
+    { v: '<div class="xstack c">' + chip('<b>„</b>Ich habe eine Idee<b>“,</b> sagt Lars.', 'ek wrap') + xrow([chip('Punkt fällt weg', 'r', 1), chip('Komma', 'y', 2)]) + '</div>',
+      x: '<b>Begleitsatz hinten:</b> Der Punkt der Rede fällt weg. Nach dem Anführungszeichen oben kommt ein <b>Komma</b>, dann wer spricht, und am Ende ein Punkt.' },
+    { v: '<div class="xstack c">' + chip('„Dürfen wir helfen<b>?“,</b> fragt Jan.', 'ek wrap') + chip('„Hilfe<b>!“,</b> ruft Tom.', 'ek wrap', 1) + '</div>',
+      x: '<b>Fragezeichen</b> und <b>Ausrufezeichen</b> bleiben in der Rede stehen. Das Komma kommt trotzdem.' },
+    { v: '<div class="xstack c">' + xrow([chip('rufen', 'g'), chip('flüstern', 'g', 1), chip('fragen', 'g', 2)]) + xrow([chip('antworten', 'g', 3), chip('jammern', 'g', 3), chip('schreien', 'g', 4)]) + '</div>',
+      x: 'Statt immer „sagt“: Such ein Wort, das zeigt, <b>wie</b> jemand spricht.' }
+  ]; } };
+  EXPL.gwrb = Object.assign({}, EXPL.gwr, { alias: true });
+  EXPL.gsagen = Object.assign({}, EXPL.gwr, { alias: true });
+  EXPL.gansatz = { t: 'Gute Satzanfänge', m: 'Statt „Und dann“: Plötzlich, Auf einmal, Danach, Zum Glück, Am Abend, Nach einer Weile, Endlich.', f: function () { return [
+    { v: '<div class="xstack c">' + chip('<s>Und dann … Und dann … Und dann …</s>', 'plain') + '</div>',
+      x: 'Fangen alle Sätze gleich an, wird die Geschichte langweilig. Vor allem „und dann“ solltest du vermeiden.' },
+    { v: '<div class="xstack c">' + xrow([chip('Plötzlich', 'r'), chip('Auf einmal', 'r', 1)]) + xrow([chip('Danach', 'b', 2), chip('Nach einer Weile', 'b', 2), chip('Am Abend', 'b', 3)]) + xrow([chip('Zum Glück', 'g', 4), chip('Endlich', 'g', 4)]) + '</div>',
+      x: '<b>Rot</b> macht es spannend, <b>blau</b> zeigt, dass Zeit vergeht, <b>grün</b> passt zum guten Ende.' },
+    { v: '<div class="xstack c">' + xrow([chip('Plötzlich', 'y'), chip('hörte', 'r', 1), chip('sie …', 'b', 2)]) + '</div>',
+      x: 'Achtung: Nach dem Satzanfang kommt sofort das <b>Verb</b>. Plötzlich <b>hörte</b> sie …, nicht „Plötzlich sie hörte“.' }
+  ]; } };
+  EXPL.gmund = { t: 'Schreiben wie im Buch', m: 'Mundart ist schön, aber im Heft schreibst du so wie in einem Buch: wir, habe, nichts, etwas, nicht, das, als.', f: function () { return [
+    { v: '<div class="xstack c">' + xrow([chip('So sagen wir’s', 'y'), arrow('', 1), chip('So schreibt man’s', 'g', 1)]) + '</div>',
+      x: 'Beim Sprechen sagen wir vieles anders als im Buch. Das ist ganz normal! In der Geschichte schreibst du aber <b>Schriftsprache</b>.' },
+    { v: '<div class="xstack c">' + xrow([chip('mir sind', 'y'), arrow('', 1), chip('wir sind', 'g', 1)]) + xrow([chip('nix · ebbes · net', 'y', 2), arrow('', 2), chip('nichts · etwas · nicht', 'g', 2)]) + xrow([chip('hab · geh · heut', 'y', 3), arrow('', 3), chip('habe · gehe · heute', 'g', 3)]) + '</div>',
+      x: 'Die häufigsten Wörter zum Umtauschen. Beim Sprechen fällt das <b>e am Ende</b> oft weg: Im Heft schreibst du es hin.' },
+    { v: '<div class="xstack c">' + xrow([chip('größer wie', 'y'), arrow('', 1), chip('größer als', 'g', 1)]) + xrow([chip('der Mann, wo …', 'y', 2), arrow('', 2), chip('der Mann, der …', 'g', 2)]) + xrow([chip('ich tu spielen', 'y', 3), arrow('', 3), chip('ich spiele', 'g', 3)]) + '</div>',
+      x: 'Auch diese Sätze baut man im Heft anders. Und vor Namen steht kein „der“ oder „die“: <b>Lena</b> lachte, nicht „die Lena“.' }
+  ]; } };
+  EXPL.gzeit = { t: 'Erzählen in der Vergangenheit', m: 'Bleib in einer Zeitform. Merkformen: ging, kam, lief, rief, sah, fiel, nahm, fand, saß, stand.', f: function () { return [
+    { v: '<div class="xstack c">' + xrow([chip('gehen', 'b'), arrow('gestern', 1), chip('ging', 'g', 1)]) + xrow([chip('rufen', 'b', 2), arrow('gestern', 2), chip('rief', 'g', 2)]) + '</div>',
+      x: 'Geschichten erzählt man meistens in der <b>Vergangenheit</b>. Sag „Gestern …“ davor, dann hörst du die Form.' },
+    { v: '<div class="xstack c">' + chip('<s>gehte · laufte · rufte</s>', 'plain') + chip('ging · lief · rief', 'g', 1) + '</div>',
+      x: 'Viele wichtige Verben verändern sich ganz. Diese Formen musst du dir <b>merken</b>: ging, kam, lief, rief, sah, fiel, nahm, fand, saß, stand.' },
+    { v: '<div class="xstack c">' + chip('<s>Lena ging zum Fenster. Da sieht sie …</s>', 'plain') + chip('Lena ging zum Fenster. Da sah sie …', 'g', 1) + '</div>',
+      x: 'Wichtig: <b>Nicht die Zeit wechseln!</b> Wenn du in der Vergangenheit anfängst, bleibst du dabei.' }
+  ]; } };
+  EXPL.gsie = { t: 'Höflich: Sie, Ihnen, Ihr', m: 'Sprichst du eine erwachsene Person höflich an, schreibst du Sie, Ihnen, Ihr groß.', f: function () { return [
+    { v: '<div class="xstack c">' + chip('„Dürfen wir <b>Ihnen</b> helfen?“', 'g wrap') + chip('Jan spricht Frau Weber an.', 'plain', 1) + '</div>',
+      x: 'Jan spricht Frau Weber <b>höflich</b> an. Dann schreibt man <b>Sie</b>, <b>Ihnen</b> und <b>Ihr</b> groß.' },
+    { v: '<div class="xstack c">' + chip('Frau Weber stöhnt, weil <b>sie</b> den Korb nicht tragen kann.', 'b wrap') + '</div>',
+      x: 'Hier wird niemand angesprochen. „sie“ heißt: die Frau. Dann klein.' }
+  ]; } };
+  EXPL.gfrei = { t: 'Den eigenen Text kontrollieren', m: 'Satzanfang groß, Satzende Punkt, Nomen groß, Verb an Stelle 2, Zeichen der wörtlichen Rede, Wörter wie im Buch.', f: function () { return [
+    { v: '<div class="xstack c">' + chip('1. Satzanfang groß, am Ende . ! ?', 'y wrap') + chip('2. Nomen groß', 'y wrap', 1) + chip('3. Verb an Stelle 2', 'y wrap', 2) + '</div>',
+      x: 'Wenn du fertig bist, liest du deinen Text <b>dreimal</b>. Jedes Mal achtest du auf etwas anderes.' },
+    { v: '<div class="xstack c">' + chip('4. Wörtliche Rede: : „ … “ oder „ … “,', 'y wrap') + chip('5. Wie im Buch? wir, habe, nichts', 'y wrap', 1) + chip('6. Satzanfänge gewechselt?', 'y wrap', 2) + '</div>',
+      x: 'Lies <b>leise flüsternd</b> und fahre mit dem Finger unter jedem Wort entlang. So findest du die meisten Fehler selbst.' },
+    { v: '<div class="xstack c">' + chip('Ich habe Hunger und ich gehe in die Küche und ich esse einen Apfel und dann …', 'plain wrap') + arrow('', 1) + chip('Ich hatte Hunger. Darum ging ich in die Küche.', 'g wrap', 1) + '</div>',
+      x: 'Zu viele „und“? Dann setz lieber einen <b>Punkt</b> und fang einen neuen Satz an.' }
+  ]; } };
+
+  /* Karteikarten: Schreib-Tricks für die Klassenarbeit */
+  var FC_GS = [
+    { id: 'a1', c: 'aufbau', q: 'Aus welchen drei Teilen besteht eine Geschichte?', a: 'Einleitung, Hauptteil, Schluss' },
+    { id: 'a2', c: 'aufbau', q: 'Welche Fragen beantwortet die <b>Einleitung</b>?', a: 'Wer? Wo? Wann?', x: '2 bis 3 Sätze, noch nichts Spannendes.' },
+    { id: 'a3', c: 'aufbau', q: 'Was passiert im <b>Hauptteil</b>?', a: 'Das Spannende: Die Spannung steigt bis zum Höhepunkt.', x: 'Mit wörtlicher Rede und Gefühlen. Der längste Teil.' },
+    { id: 'a4', c: 'aufbau', q: 'Wie soll der <b>Schluss</b> sein?', a: 'Kurz, passend zur Geschichte, mit einer Lösung.', x: 'Keine neue Spannung, keine neue Geschichte.' },
+    { id: 'a5', c: 'aufbau', q: 'In welcher Zeitform erzählt man meistens?', a: 'In der Vergangenheit: ging, rief, sah.', x: 'Und in dieser Zeitform bleiben!' },
+    { id: 'a6', c: 'aufbau', q: 'Was kontrollierst du, wenn du fertig bist?', a: 'Satzanfang groß, Punkt am Ende, Nomen groß, Verb an Stelle 2, Zeichen der wörtlichen Rede, Wörter wie im Buch.' },
+    { id: 's1', c: 'satz', q: 'Wo steht das <b>Verb</b> im Satz?', a: 'An Stelle 2.', x: 'Plötzlich hörte Lena ein Krachen. Nicht: Plötzlich Lena hörte.' },
+    { id: 's2', c: 'satz', q: 'Was passiert nach <b>weil, wenn, dass, als</b>?', a: 'Das Verb rutscht ans Ende. Davor steht ein Komma.', x: 'Lena hatte Angst, weil es draußen krachte.' },
+    { id: 's3', c: 'satz', q: 'Nenne 4 gute Satzanfänge statt „und dann“.', a: 'Plötzlich, Auf einmal, Danach, Zum Glück, Am Abend, Nach einer Weile, Endlich' },
+    { id: 's4', c: 'satz', q: 'Dein Satz hat drei „und“. Was machst du?', a: 'Einen Punkt setzen und einen neuen Satz anfangen.' },
+    { id: 'r1', c: 'rede', q: 'Begleitsatz <b>vorne</b>: Wie setzt du die Zeichen?', a: 'Lars sagt: „Ich habe eine Idee.“', x: 'Doppelpunkt, unten „, Punkt in die Rede, oben “.' },
+    { id: 'r2', c: 'rede', q: 'Begleitsatz <b>hinten</b>: Wie setzt du die Zeichen?', a: '„Ich habe eine Idee“, sagt Lars.', x: 'Der Punkt der Rede fällt weg. Nach “ kommt ein Komma.' },
+    { id: 'r3', c: 'rede', q: 'Frage mit Begleitsatz hinten?', a: '„Dürfen wir helfen?“, fragt Jan.', x: '? und ! bleiben. Das Komma kommt trotzdem.' },
+    { id: 'r4', c: 'rede', q: 'Nenne 5 Wörter für „sagen“.', a: 'rufen, flüstern, fragen, antworten, schreien, jammern, lachen, schimpfen' },
+    { id: 'r5', c: 'rede', q: 'Wann schreibt man <b>Sie</b> und <b>Ihnen</b> groß?', a: 'Wenn man eine erwachsene Person höflich anspricht.', x: '„Dürfen wir Ihnen helfen?“' },
+    { id: 'm1', c: 'buch', q: '„mir sind“ – wie schreibt man das im Heft?', a: 'wir sind' },
+    { id: 'm2', c: 'buch', q: '„nix“, „ebbes“, „net“ – wie schreibt man das im Heft?', a: 'nichts, etwas, nicht' },
+    { id: 'm3', c: 'buch', q: '„Ich hab“, „ich geh“ – wie schreibt man das im Heft?', a: 'Ich habe, ich gehe' },
+    { id: 'm4', c: 'buch', q: '„größer wie ich“ – wie schreibt man das im Heft?', a: 'größer als ich' },
+    { id: 'm5', c: 'buch', q: '„Der Mann, wo da steht“ – wie schreibt man das im Heft?', a: 'Der Mann, der dort steht' },
+    { id: 'm6', c: 'buch', q: 'gehen, rufen, laufen, sehen in der Vergangenheit?', a: 'ging, rief, lief, sah' }
+  ];
+
   /* ---------- Themen ---------- */
   var TYPE_LABEL = {
     pk1: 'Rechenpaket', pk2: 'Rechenpaket knifflig', uhr: 'Uhr ablesen', uhrw: 'Uhrzeit in Worten', zsp: 'Zeitspannen', zum: 'Zeit umrechnen',
     len: 'Längen', gew: 'Gewichte', kom: 'Kommazahlen', cmp: 'Größen vergleichen', pvs: 'Punkt vor Strich', kla: 'Klammern', rzu: 'Was zuerst?', kset: 'Klammer setzen', sach: 'Sachaufgabe',
     verl: 'Verlängern', ablt: 'Ableiten', vokal: 'Mitsprechen', slaut: 's, ss oder ß', dass: 'das oder dass', gross: 'Großschreibung',
-    adjb: 'Adjektive bilden', adjs: 'Bedeutung & Bauplan', adjw: 'Adjektive schreiben', adjf: 'Fugenlaute',
+    adjb: 'Adjektive bilden', gteil: 'Teile der Geschichte', gw: 'Die Einleitung', gschl: 'Der Schluss', gsb: 'Satz-Baukasten', gnb: 'Sätze mit weil & Co.', gv2: 'Richtig gebaut?', gmund: 'Wie im Buch', gansatz: 'Satzanfänge', gwr: 'Wörtliche Rede', gwrb: 'Rede-Baukasten', gsagen: 'Wörter für sagen', gzeit: 'Vergangenheit', gsie: 'Sie oder sie?', gdik: 'Erzähl-Diktat', gfrei: 'Schreibwerkstatt', adjs: 'Bedeutung & Bauplan', adjw: 'Adjektive schreiben', adjf: 'Fugenlaute',
     det: 'Fehlerdetektiv', dik: 'Diktat', lese: 'Lesen', blitz: 'Blitzlesen', schlange: 'Wörterschlange',
     nomad: 'Groß oder klein?', nomen: 'Nomen finden', grundf: 'Grundform', abc: 'ABC ordnen', zus: 'Zusammengesetzte Nomen', hoer: 'Genau hören',
     stw: 'Stellenwerte', rund: 'Runden', zstr: 'Zahlenstrahl', folge: 'Zahlenfolgen', sadd: 'Schriftlich plus', ssub: 'Schriftlich minus', smul: 'Schriftlich mal', sdiv: 'Schriftlich geteilt', ueb: 'Überschlagen',
@@ -4787,6 +5361,7 @@ window.EULE = (function () {
     { n: 'Rechenregeln', t: ['pvs', 'kla', 'rzu', 'kset'] },
     { n: 'Zahlen bis 1 Million', t: ['stw', 'rund', 'zstr', 'folge'] }, { n: 'Schriftlich rechnen', t: ['sadd', 'ssub', 'smul', 'sdiv', 'ueb'] }, { n: 'Kopfrechnen', t: ['kopf', 'rest'] },
     { n: 'Geometrie', t: ['flu', 'koer', 'netz', 'sym'] }, { n: 'Daten und Zufall', t: ['diag', 'wkt', 'komb'] }, { n: 'Profi-Check', t: ['sach'] },
+    { n: 'Geschichte schreiben', t: ['gteil', 'gw', 'gschl', 'gansatz', 'gsb', 'gv2', 'gnb', 'gwr', 'gwrb', 'gsagen', 'gmund', 'gzeit', 'gsie', 'gdik', 'gfrei'] },
     { n: 'Rechtschreibung', t: ['verl', 'ablt', 'vokal', 'slaut', 'dass', 'gross', 'hoer', 'zus', 'det', 'dik'] },
     { n: 'Groß oder klein', t: ['nomad', 'nomen'] }, { n: 'Wörterbuch & ABC', t: ['abc', 'grundf'] }, { n: 'Lesen', t: ['lese', 'blitz', 'schlange'] },
     { n: 'Adjektive zusammensetzen', t: ['adjb', 'adjs', 'adjw', 'adjf'] },
@@ -4811,6 +5386,13 @@ window.EULE = (function () {
       { id: 'mcheck', n: 'Profi-Check', pro: true, t: ['sach', 'sach', 'sach', 'sach', 'pk2', 'zsp', 'kom', 'kset', 'kla', 'sdiv', 'smul', 'flu', 'komb', 'diag', 'rund', 'kra', 'kbu', 'kkr'] }
     ],
     d: [
+      { id: 'gtest', n: 'Klassenarbeit: Geschichte schreiben', ka: true, len: 15, t: ['gteil', 'gteil', 'gw', 'gschl', 'gansatz', 'gsb', 'gsb', 'gsb', 'gv2', 'gv2', 'gnb', 'gnb', 'gwr', 'gwr', 'gwrb', 'gwrb', 'gsagen', 'gmund', 'gmund', 'gzeit', 'gzeit', 'gsie', 'gdik'] },
+      { id: 'gaufbau', n: 'Einleitung, Hauptteil, Schluss', t: ['gteil', 'gteil', 'gw', 'gw', 'gschl', 'gschl', 'gansatz', 'gansatz'] },
+      { id: 'gsatz', n: 'Satz-Baukasten', t: ['gsb', 'gsb', 'gsb', 'gv2', 'gv2', 'gnb', 'gnb'] },
+      { id: 'grede', n: 'Wörtliche Rede', t: ['gwr', 'gwr', 'gwrb', 'gwrb', 'gwrb', 'gsagen', 'gsagen', 'gsie'] },
+      { id: 'gbuch', n: 'Schreiben wie im Buch', t: ['gmund', 'gmund', 'gmund', 'gzeit', 'gzeit', 'gsie', 'gdik', 'gdik'] },
+      { id: 'gwerk', n: 'Schreibwerkstatt', t: ['gfrei'], len: 4 },
+      { id: 'gkarten', n: 'Schreib-Tricks (Karten)', cards: true, deck: 'gs', t: [] },
       { id: 'lwtest', n: 'Lernwörter-Kontrolle (Do)', ka: true, len: 15, t: ['lwhoer', 'lwhoer', 'lwhoer', 'lwhoer', 'lwhoer', 'lwknick', 'lwknick', 'lwknick', 'lwfehl', 'lwfehl', 'lwluecke', 'lwluecke', 'lwgross', 'lwsilb', 'lwsatz', 'lwsatz'] },
       { id: 'lwkarten', n: 'Lernwörter-Karten', cards: true, deck: 'lw', t: [] },
       { id: 'dtrain', n: 'Training nach der Arbeit', ka: true, len: 15, t: ['nomad', 'nomad', 'nomad', 'nomen', 'nomen', 'nomen', 'abc', 'abc', 'abc', 'grundf', 'grundf', 'zus', 'zus', 'hoer', 'hoer', 'hoer', 'dik'] },
@@ -4963,6 +5545,8 @@ window.EULE = (function () {
   var SPEAK_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path class="ic-speak" d="M4 9h4l5-4v14l-5-4H4z"></path><path class="ic-speak" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"></path></svg>';
   var hasTTS = typeof window.speechSynthesis !== 'undefined' && typeof window.SpeechSynthesisUtterance !== 'undefined';
   function visualFor(t) {
+    if (t.inp === 'order') return orderHtml(t);
+    if (t.inp === 'free') return freeHtml(t);
     if (t.diktat) {
       var h = '<div class="dik">';
       if (hasTTS) h += '<button type="button" class="btn" data-act="speak">' + SPEAK_SVG + 'Anhören</button><button type="button" class="btn" data-act="slow">' + SPEAK_SVG + 'Langsam</button>';
@@ -5102,7 +5686,7 @@ window.EULE = (function () {
     el.visual.innerHTML = visualFor(t);
     el.visual.style.order = t.type === 'lese' ? '-1' : '0';
     if (state.bigText) { var lt = document.getElementById('lesetext'); if (lt) lt.classList.add('big'); }
-    el.answerForm.hidden = isMC || (!!t.knick && !state.flashed && !state.resolved);
+    el.answerForm.hidden = isMC || t.inp === 'order' || t.inp === 'free' || (!!t.knick && !state.flashed && !state.resolved);
     var showOpts = isMC && (!t.blitz || state.flashed);
     el.options.className = 'options' + (t.words ? ' words' : '') + (t.grid3 ? ' grid3' : '') + (t.grid2 ? ' grid2' : '');
     if (showOpts) {
@@ -5172,7 +5756,7 @@ window.EULE = (function () {
   var BADGES = [
     { id: 'runde1', n: 'Los geht’s', d: 'Die erste Runde geschafft' }, { id: 'mathe1', n: 'Mathe-Start', d: 'Eine Mathe-Runde geschafft' },
     { id: 'deutsch1', n: 'Deutsch-Start', d: 'Eine Deutsch-Runde geschafft' }, { id: 'musik1', n: 'Musik-Start', d: 'Eine Musik-Runde oder einen Kartenstapel geschafft' },
-    { id: 'musikprofi', n: 'Noten-Profi', d: 'Musiktest-Training: 13 von 15 sofort richtig' }, { id: 'englisch1', n: 'English Start', d: 'Eine Englisch-Runde oder einen Englisch-Stapel geschafft' }, { id: 'englischprofi', n: 'Safari-Profi', d: 'Englischtest-Training: 13 von 15 sofort richtig' }, { id: 'lernwortprofi', n: 'Lernwort-Ass', d: 'Lernwörter-Kontrolle: 13 von 15 sofort richtig' }, { id: 'karten', n: 'Karten-Ass', d: 'Alle Karteikarten beim ersten Mal gewusst' }, { id: 'serie5', n: 'Fünfer-Serie', d: '5 richtig hintereinander' },
+    { id: 'musikprofi', n: 'Noten-Profi', d: 'Musiktest-Training: 13 von 15 sofort richtig' }, { id: 'englisch1', n: 'English Start', d: 'Eine Englisch-Runde oder einen Englisch-Stapel geschafft' }, { id: 'englischprofi', n: 'Safari-Profi', d: 'Englischtest-Training: 13 von 15 sofort richtig' }, { id: 'lernwortprofi', n: 'Lernwort-Ass', d: 'Lernwörter-Kontrolle: 13 von 15 sofort richtig' }, { id: 'schreibprofi', n: 'Schreib-Profi', d: 'Klassenarbeit Geschichte: 13 von 15 sofort richtig' }, { id: 'karten', n: 'Karten-Ass', d: 'Alle Karteikarten beim ersten Mal gewusst' }, { id: 'serie5', n: 'Fünfer-Serie', d: '5 richtig hintereinander' },
     { id: 'serie10', n: 'Zehner-Serie', d: '10 richtig hintereinander' }, { id: 'perfekt', n: 'Fehlerfrei', d: 'Eine Runde ohne Fehler' },
     { id: 'alle', n: 'Entdeckerin', d: 'Jedes Thema einmal geübt' }, { id: 'diktat', n: 'Diktat-Ass', d: 'Diktat-Runde: 5 von 6 sofort richtig' },
     { id: 'leser', n: 'Lese-Eule', d: '3 Lese-Runden geschafft' }, { id: 'check1', n: 'Check-Start', d: 'Den ersten Profi-Check gemacht' },
@@ -5222,6 +5806,7 @@ window.EULE = (function () {
       give('runde1'); give(subj === 'm' ? 'mathe1' : subj === 'd' ? 'deutsch1' : subj === 'en' ? 'englisch1' : 'musik1');
       if (state.topic === 'etest' && right >= 13) give('englischprofi');
       if (state.topic === 'lwtest' && right >= 13) give('lernwortprofi');
+      if (state.topic === 'gtest' && right >= 13) give('schreibprofi');
       if (state.topic === 'mtest' && right >= 13) give('musikprofi');
       p.played[state.topic] = 1;
       if (TOPICS.m.concat(TOPICS.d).every(function (t) { return p.played[t.id]; })) give('alle');
@@ -5422,11 +6007,11 @@ window.EULE = (function () {
   }
   function next() {
     if (state.i >= state.n - 1) { state.done = true; state.endNews = newsHtml(award(null, true), 'li'); saveRound(); render(); if (countRight() >= Math.ceil(state.n * 0.8)) confetti(); el.againBtn.focus({ preventScroll: true }); return; }
-    state.i++; state.attempts = 0; state.hintUsed = false; state.resolved = false; state.feedback = null; state.chosen = []; state.input = ''; state.carry = []; state.parts = {}; state.flashed = false;
+    state.i++; state.attempts = 0; state.hintUsed = false; state.resolved = false; state.feedback = null; state.chosen = []; state.input = ''; state.carry = []; state.parts = {}; state.flashed = false; state.order = []; state.oerr = null; state.ores = null;
     saveRound(); render();
     el.card.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     var t = state.tasks[state.i];
-    if (t.inp !== 'mc') el.answer.focus({ preventScroll: true });
+    if (t.inp !== 'mc' && t.inp !== 'order' && t.inp !== 'free') el.answer.focus({ preventScroll: true });
   }
   function render() {
     renderChrome(); renderPoints(); renderLevels();
@@ -5529,6 +6114,22 @@ window.EULE = (function () {
   el.nextBtn.addEventListener('click', next);
   el.againBtn.addEventListener('click', function () { newRound(state.topic); render(); });
   el.options.addEventListener('click', function (e) { var b = e.target.closest('[data-idx]'); if (b) choose(+b.getAttribute('data-idx')); });
+  /* Geschichte schreiben: Satz-Baukasten und Schreibwerkstatt */
+  el.visual.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-act]'); if (!b || !state) return;
+    var a = b.getAttribute('data-act'), t = state.tasks[state.i];
+    if (!t || state.resolved) return;
+    if (a === 'put') { state.order = (state.order || []).concat([+b.getAttribute('data-ti')]); state.oerr = null; }
+    else if (a === 'unt') { var p = +b.getAttribute('data-pos'); state.order = (state.order || []).filter(function (x, j) { return j !== p; }); state.oerr = null; }
+    else if (a === 'oclr') { state.order = []; state.oerr = null; }
+    else if (a === 'otip') { state.hintUsed = true; state.feedback = { tone: 'tip', title: 'Finis Tipp', text: t.hint }; }
+    else if (a === 'ocheck') { orderCheck(); return; }
+    else if (a === 'fcheck') { gFreiCheck(); return; }
+    else if (a === 'ftip') { state.hintUsed = true; state.input = (document.getElementById('freeTxt') || {}).value || state.input; state.feedback = { tone: 'tip', title: 'Finis Tipp', text: t.hint }; }
+    else return;
+    saveRound(); renderTask();
+  });
+  el.visual.addEventListener('input', function (e) { if (e.target && e.target.id === 'freeTxt') { state.input = e.target.value; saveRound(); } });
   el.visual.addEventListener('click', function (e) {
     var b = e.target.closest('[data-act]'); if (!b) return;
     var a = b.getAttribute('data-act');
@@ -5636,6 +6237,7 @@ window.EULE = (function () {
   var DECKS = {
     mu: { cards: FC, cat: FC_CAT, sfx: '', badge: 'musik1', intro: function (n) { return 'Zum Musiktest: alles aus deinem Heft auf ' + n + ' Karten.'; }, cheer: 'Fini klatscht im Takt!' },
     en: { cards: FC_EN, cat: { tiere: 'Wild animals', farben: 'Colours', zahlen: 'Zahlen 1–10', saetze: 'Sätze' }, sfx: '-en', badge: 'englisch1', intro: function (n) { return 'Zum Englischtest am Freitag: Deutsch lesen, Englisch laut sagen und auf einen Zettel schreiben. ' + n + ' Karten.'; }, cheer: 'Fini sagt: Well done!' },
+    gs: { cards: FC_GS, cat: { aufbau: 'Aufbau', satz: 'Satzbau', rede: 'Wörtliche Rede', buch: 'Wie im Buch' }, sfx: '-gs', badge: 'deutsch1', intro: function (n) { return 'Für die Klassenarbeit „Geschichte schreiben“: Frage lesen, Antwort laut sagen, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini ist stolz auf dich!' },
     lw: { cards: FC_LW, cat: { lw: 'Lernwörter' }, sfx: '-lw', badge: 'deutsch1', intro: function (n) { return 'Zur Lernwörter-Kontrolle am Donnerstag: hören, auf einen Zettel schreiben, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini ist stolz auf dich!' }
   };
   function deckId() { var t = state ? topicById(state.topic) : null; return (t && t.deck) || 'mu'; }
