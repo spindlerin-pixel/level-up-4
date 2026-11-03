@@ -829,6 +829,8 @@ body.eng .fc-bar i, body.eng .fc-how b { background: var(--eng); } body.deu .fc-
 .sil .s1 { color: var(--math); } .sil .s2 { color: var(--deu); }
 .auto-upd { display: flex; gap: 10px; align-items: flex-start; margin-top: 10px; font-weight: 400; line-height: 1.4; cursor: pointer; }
 .auto-upd input { width: 22px; height: 22px; flex: none; margin: 1px 0 0; accent-color: var(--deu); }
+.mp-len { width: min(240px, 80%); height: 14px; margin: 8px auto 0; border: 2px solid var(--line); border-radius: 7px; overflow: hidden; background: var(--surface); }
+.mp-len i { display: block; height: 100%; background: var(--mus); }
 .oline { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 60px; padding: 8px; border: 2.5px dashed var(--deu); border-radius: 14px; background: var(--deu-fill); }
 .ohint { color: var(--ink-soft); font-size: 0.95rem; padding: 0 6px; }
 .oprev { margin: 10px 0 0; font-size: 1.2rem; line-height: 1.5; font-weight: 600; }
@@ -1234,7 +1236,7 @@ body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: m
           <li><b>Daten, Häufigkeit und Wahrscheinlichkeit:</b> Säulendiagramme lesen, sicher/möglich/unmöglich, Glücksrad und Würfel, Kombinieren.</li>
           <li><b>Klassenarbeit „Geschichte schreiben“ (neu, Nov. 2026):</b> Aufbau mit Einleitung (Wer? Wo? Wann?), Hauptteil und kurzem Schluss mit Lösung; Satz-Baukasten (Verb an Stelle 2, zweiteilige Verben, Verb am Ende nach weil/wenn/dass/als mit Komma); wörtliche Rede mit Begleitsatz vorne und hinten; Wörter für „sagen“; Satzanfänge statt „und dann“; „Schreiben wie im Buch“ (Mundart → Schriftsprache, z. B. mir → wir, nix → nichts, größer wie → größer als); Vergangenheitsformen; Höflichkeitsform Sie/Ihnen; Erzähl-Diktat; Karteikarten. In der Schreibwerkstatt schreibt das Kind eigene Sätze. Fini prüft dabei Großschreibung am Satzanfang, Satzzeichen, Satzanfänge, die Zeichen der wörtlichen Rede und typische Mundartwörter, aber nicht die Rechtschreibung jedes Wortes.</li>
           <li><b>Richtig schreiben:</b> Rechtschreibstrategien Verlängern, Ableiten, Merken, Mitsprechen; Groß- und Kleinschreibung; das/dass; Texte kontrollieren; Diktat.</li>
-          <li><b>Musik (nach dem Heft, Stand Okt. 2026):</b> Bestandteile der Note (Notenkopf, Notenhals, Fähnchen, Balken), Notenwerte (ganze, halbe, Viertel, Achtel) mit Merkmalen und Schlägen, Rhythmussprache (ta-a-a-a, ta-a, ta, ti-ti), Zählzeiten mit Klammer und „+“, Kästen mit 4 Schlägen füllen, Rhythmen hören. Karteikarten mit Extra-Wissen (Pause, Takt, Notensystem).</li>
+          <li><b>Musik (nach dem Heft, Stand Okt. 2026):</b> Bestandteile der Note (Notenkopf, Notenhals, Fähnchen, Balken), Notenwerte (ganze, halbe, Viertel, Achtel) mit Merkmalen und Schlägen, Rhythmussprache (ta-a-a-a, ta-a, ta, ti-ti), Zählzeiten mit Klammer und „+“, Kästen mit 4 Schlägen füllen, Rhythmen hören. Pausenzeichen (Heft vom 3.11.2026): ganze, halbe, Viertel- und Achtelpause erkennen, ihre Dauer und die passende Note, ganze Pause hängt / halbe Pause sitzt, Noten und Pausen zusammenzählen. Karteikarten mit Pausen und Extra-Wissen (Takt, Notensystem).</li>
           <li><b>Lernwörter (Blatt „Die 100 häufigsten Wörter“ 3, Kontrolle Do 29.10.2026):</b> alle, nehmen, muss, Haare, Kind, ohne, Ende, fällt, spielt, Lehrerin, schnell, ein bisschen, jetzt, hatte, nichts, hier, für – hören und schreiben, Knick-Training, Lückensätze, Silben, Nomen groß, Sätze.</li>
           <li><b>Englisch (Safari Park, Test Fr 30.10.2026):</b> wild animals (elephant, lion, giraffe, parrot, tiger, snake, hippo, monkey, crocodile, zebra, tortoise), colours (red, blue, green, yellow, orange, purple, pink, brown, black, white, grey, light/dark green, light/dark blue), Zahlen one–ten, „Number … is a …“, a/an, Hören. Deutsch → Englisch zuordnen und schreiben (klein geschrieben).</li>
           <li><b>Lesen:</b> Informationen finden, Schlüsse ziehen, Wortbedeutung klären; Leseflüssigkeit mit Blitzlesen und Wörterschlangen.</li>
@@ -4472,6 +4474,63 @@ window.EULE = (function () {
   ['mname', 'mmerk'].forEach(function (k) { EXPL[k] = Object.assign({}, EXPL.mschl, { alias: true }); });
   EXPL.mtakt = Object.assign({}, EXPL.mzahl, { alias: true });
   EXPL.mhoer = Object.assign({}, EXPL.msilb, { alias: true });
+  /* ---------- Musik: Pausenzeichen (Heft vom 3.11.2026) ---------- */
+  var MP = {
+    w: { n: 'ganze Pause', note: 'ganze Note', b: 4, bs: '4 Schläge', merk: 'dicker Balken, <b>hängt unter</b> der Linie' },
+    h: { n: 'halbe Pause', note: 'halbe Note', b: 2, bs: '2 Schläge', merk: 'dicker Balken, <b>sitzt auf</b> der Linie' },
+    q: { n: 'Viertelpause', note: 'Viertelnote', b: 1, bs: '1 Schlag', merk: 'Zickzack-Zeichen' },
+    e: { n: 'Achtelpause', note: 'Achtelnote', b: 0.5, bs: '½ Schlag', merk: 'wie eine 7 mit einem Punkt oben' }
+  };
+  function restGlyph(kind, x) {
+    if (kind === 'w') return '<line class="mn-stem" x1="' + (x - 6) + '" y1="30" x2="' + (x + 30) + '" y2="30"></line><rect class="mn-fill" x="' + (x + 4) + '" y="30" width="16" height="8"></rect>';
+    if (kind === 'h') return '<line class="mn-stem" x1="' + (x - 6) + '" y1="38" x2="' + (x + 30) + '" y2="38"></line><rect class="mn-fill" x="' + (x + 4) + '" y="30" width="16" height="8"></rect>';
+    if (kind === 'q') return '<path class="mn-fill" transform="translate(' + (x - 22) + ' 0)" d="M30 10 L41 23 C35 28 34 33 42 41 C35 39 29 43 38 54 C26 48 26 38 35 37 L28 29 C34 24 35 20 30 10 Z"></path>';
+    return '<g transform="translate(' + (x - 22) + ' 0)"><circle class="mn-fill" cx="31" cy="25" r="4.4"></circle><path class="mn-stem" style="fill:none;stroke-width:3" d="M31 28 Q37 31 42 22 L33 51"></path></g>';
+  }
+  function restSvg(kind, o) {
+    o = o || {};
+    return '<svg class="mn" viewBox="0 0 48 64" style="max-width:' + (o.px || 90) + 'px;margin-inline:auto" role="img" aria-label="' + MP[kind].n + '">' + restGlyph(kind, 12) + '</svg>';
+  }
+  /* Die grauen Balken aus dem Heft: Wie lang dauert es? */
+  function lenBar(kind) { return '<div class="mp-len"><i style="width:' + (MP[kind].b * 25) + '%"></i></div>'; }
+  function restOpts(ok, bad, px) { return opts(restSvg(ok, { px: px || 60 }), bad.map(function (k) { return restSvg(k, { px: px || 60 }); })); }
+  var MP_HINT = 'Ganze Pause hängt unter der Linie, halbe Pause sitzt auf der Linie. Die Viertelpause ist das Zickzack, die Achtelpause sieht aus wie eine 7 mit Punkt.';
+  function genMpause() {
+    var v = pick(['name', 'name', 'zeig', 'zeig', 'note', 'note', 'dauer', 'dauer', 'satz', 'haengt', 'sum', 'sum']);
+    var all = ['w', 'h', 'q', 'e'], k = pick(all), others = all.filter(function (x) { return x !== k; });
+    if (v === 'name') return M({ type: 'mpause', key: 'mp-n' + k, vis: restSvg(k), q: 'Wie heißt dieses <b>Pausenzeichen</b>?', opts: opts(MP[k].n, others.map(function (x) { return MP[x].n; })), center: true, hint: MP_HINT, ex: 'Das ist die <b>' + MP[k].n + '</b>: ' + MP[k].merk + '. Sie dauert ' + MP[k].bs + '.' });
+    if (v === 'zeig') return M({ type: 'mpause', key: 'mp-z' + k, q: 'Tippe auf die <b>' + MP[k].n + '</b>.', opts: restOpts(k, others), grid2: true, center: true, hint: MP_HINT, ex: 'Die ' + MP[k].n + ': ' + MP[k].merk + '.' });
+    if (v === 'note') {
+      if (Math.random() < 0.5) return M({ type: 'mpause', key: 'mp-a' + k, vis: noteSvg(k, { px: 80 }), q: 'Welche Pause dauert <b>genauso lange</b> wie diese Note?', opts: restOpts(k, others), grid2: true, center: true, hint: 'Zu jeder Note gibt es eine Pause mit dem gleichen Namen: ganze Note → ganze Pause.', ex: 'Die <b>' + MP[k].n + '</b> dauert so lange wie eine <b>' + MP[k].note + '</b>: ' + MP[k].bs + '.' });
+      return M({ type: 'mpause', key: 'mp-b' + k, vis: restSvg(k), q: 'Welche <b>Note</b> dauert genauso lange wie diese Pause?', opts: imgOpts(k, others), grid2: true, center: true, hint: 'Zu jeder Note gibt es eine Pause mit dem gleichen Namen: Viertelpause → Viertelnote.', ex: 'Die ' + MP[k].n + ' dauert so lange wie eine <b>' + MP[k].note + '</b>.' });
+    }
+    if (v === 'dauer') return M({ type: 'mpause', key: 'mp-d' + k, vis: restSvg(k) + lenBar(k), q: 'Wie viele Schläge dauert diese Pause?', opts: fixedOpts(['4 Schläge', '2 Schläge', '1 Schlag', '½ Schlag'], MP[k].bs), grid2: true, center: true, hint: 'Pausen dauern genauso lang wie die Noten: ganz 4, halb 2, Viertel 1, Achtel ½.', ex: 'Die ' + MP[k].n + ' dauert <b>' + MP[k].bs + '</b>, genau wie die ' + MP[k].note + '. In dieser Zeit ist es still.' });
+    if (v === 'satz') return M({ type: 'mpause', key: 'mp-s' + k, q: 'Ergänze den Satz aus deinem Heft:<span class="mn-merk">Die ' + MP[k].n + ' dauert so lange wie eine …</span>', opts: opts(MP[k].note, others.map(function (x) { return MP[x].note; })), grid2: true, center: true, hint: 'Die Pause und die Note haben den gleichen Namen.', ex: 'Die ' + MP[k].n + ' dauert so lange wie eine <b>' + MP[k].note + '</b>.' });
+    if (v === 'haengt') {
+      var g = Math.random() < 0.5 ? 'w' : 'h';
+      return M({ type: 'mpause', key: 'mp-h' + g, vis: restSvg(g, { px: 110 }), q: 'Ganze oder halbe Pause? Schau genau auf die <b>Linie</b>.', opts: fixedOpts(['ganze Pause', 'halbe Pause'], MP[g].n), grid2: true, center: true,
+        hint: 'Die ganze Pause ist schwer und <b>hängt</b> unter der Linie. Die halbe ist leichter und <b>sitzt</b> oben drauf wie ein Hut.',
+        ex: g === 'w' ? 'Der Balken <b>hängt unter</b> der Linie: Das ist die <b>ganze Pause</b> (4 Schläge).' : 'Der Balken <b>sitzt auf</b> der Linie wie ein Hut: Das ist die <b>halbe Pause</b> (2 Schläge).' });
+    }
+    var S = pick([[['n', 'h'], ['r', 'h']], [['n', 'q'], ['r', 'q'], ['n', 'h']], [['r', 'h'], ['n', 'q'], ['r', 'q']], [['n', 'q'], ['r', 'e'], ['n', 'e'], ['r', 'h']], [['r', 'w']], [['n', 'h'], ['r', 'q'], ['n', 'q']], [['r', 'q'], ['r', 'q'], ['n', 'h']]]);
+    var tot = 0, vis = '<div class="mn-eq">';
+    S.forEach(function (it, i) { tot += (it[0] === 'n' ? MK[it[1]].b : MP[it[1]].b); vis += (i ? '<span class="mn-op">+</span>' : '') + (it[0] === 'n' ? noteSvg(it[1], { px: 46 }) : restSvg(it[1], { px: 54 })); });
+    vis += '</div>';
+    var parts = S.map(function (it) { var b = it[0] === 'n' ? MK[it[1]].b : MP[it[1]].b; return b === 0.5 ? '½' : String(b); });
+    var totS = tot % 1 ? Math.floor(tot) + '½' : String(tot);
+    var lo = Math.max(1, Math.floor(tot) - 1), list = [String(lo), String(lo + 1), String(lo + 2), String(lo + 3)];
+    if (list.indexOf(totS) < 0) list[3] = totS;
+    return M({ type: 'mpause', key: 'mp-x' + JSON.stringify(S), vis: vis, q: 'Noten und Pausen zusammen: Wie viele <b>Schläge</b> sind das?', opts: fixedOpts(list, totS), grid2: true, center: true,
+      hint: 'Pausen zählen mit! Sie dauern genauso lang wie die Noten mit dem gleichen Namen.', ex: parts.join(' + ') + ' = <b>' + totS + ' Schläge</b>. Pausen zählt man leise mit.' });
+  }
+  GEN.mpause = genMpause;
+  EXPL.mpause = { t: 'Pausenzeichen', m: 'Zu jeder Note gibt es eine Pause, die genauso lange dauert. Ganze Pause hängt, halbe Pause sitzt.', f: function () { return [
+    { v: '<div class="mn-eq">' + noteSvg('w', { px: 56 }) + '<span class="mn-op">=</span>' + restSvg('w', { px: 64 }) + '</div>' + lenBar('w'), x: 'Eine <b>Pause</b> ist ein Zeichen für <b>Stille</b>. Die <b>ganze Pause</b> dauert so lange wie eine ganze Note: <b>4 Schläge</b>. Der Balken <b>hängt unter</b> der Linie.' },
+    { v: '<div class="mn-eq">' + noteSvg('h', { px: 56 }) + '<span class="mn-op">=</span>' + restSvg('h', { px: 64 }) + '</div>' + lenBar('h'), x: 'Die <b>halbe Pause</b> dauert so lange wie eine halbe Note: <b>2 Schläge</b>. Der Balken <b>sitzt auf</b> der Linie wie ein Hut.' },
+    { v: '<div class="mn-eq">' + noteSvg('q', { px: 56 }) + '<span class="mn-op">=</span>' + restSvg('q', { px: 64 }) + '</div>' + lenBar('q'), x: 'Die <b>Viertelpause</b> ist das Zickzack-Zeichen. Sie dauert so lange wie eine Viertelnote: <b>1 Schlag</b>.' },
+    { v: '<div class="mn-eq">' + noteSvg('e', { px: 56 }) + '<span class="mn-op">=</span>' + restSvg('e', { px: 64 }) + '</div>' + lenBar('e'), x: 'Die <b>Achtelpause</b> sieht aus wie eine <b>7 mit einem Punkt</b>. Sie dauert so lange wie eine Achtelnote: <b>½ Schlag</b>.' },
+    { v: '<div class="xstack c">' + chip('Ganze Pause: schwer, sie <b>hängt</b>', 'y wrap') + chip('Halbe Pause: leicht, sie <b>sitzt</b> wie ein Hut', 'y wrap', 1) + '</div>', x: 'Merktrick für die zwei Balken, die man leicht verwechselt: Die <b>ganze</b> Pause ist doppelt so lang, also schwerer. Darum <b>hängt</b> sie unter der Linie.' }
+  ]; } };
 
 
 
@@ -5357,7 +5416,7 @@ window.EULE = (function () {
     nomad: 'Groß oder klein?', nomen: 'Nomen finden', grundf: 'Grundform', abc: 'ABC ordnen', zus: 'Zusammengesetzte Nomen', hoer: 'Genau hören',
     stw: 'Stellenwerte', rund: 'Runden', zstr: 'Zahlenstrahl', folge: 'Zahlenfolgen', sadd: 'Schriftlich plus', ssub: 'Schriftlich minus', smul: 'Schriftlich mal', sdiv: 'Schriftlich geteilt', ueb: 'Überschlagen',
     kst: 'Stellentafel', kbu: 'Bündeln', kze: 'Zerlegen & Zusammensetzen', kwo: 'Zahlwörter', kvg: 'Größer, kleiner, gleich', kor: 'Ordnen', kre: 'Zahlen fortsetzen', kna: 'Nachbarzahlen', kra: 'Zahlenrätsel', kkr: 'Große Zahlen im Kopf', kei: 'Zahl suchen', kzs: 'Zahlenstrahl fein',
-    kopf: 'Kopfrechnen', rest: 'Teilen mit Rest', mteil: 'Teile der Note', mname: 'Notennamen', mmerk: 'Merkmale', mschl: 'Schläge', msilb: 'Rhythmussprache', mzahl: 'Zählzeiten', mtakt: 'Kästen füllen', mhoer: 'Hör-Rätsel', ebild: 'Tiere erkennen', ede: 'Deutsch → Englisch', een: 'Englisch → Deutsch', eschr: 'Tiere schreiben', ebuch: 'Richtig geschrieben?', esatz: 'Read and choose', ehoer: 'Listen!', efarb: 'Farben erkennen', efde: 'Farben übersetzen', efschr: 'Farben schreiben', emal: 'Read and colour', lwhoer: 'Lernwort-Diktat', lwknick: 'Knick-Training', lwfehl: 'Richtig geschrieben?', lwluecke: 'Lückensätze', lwgross: 'Nomen groß', lwsilb: 'Silben', lwsatz: 'Lernwort-Sätze', flu: 'Fläche und Umfang', koer: 'Körper', netz: 'Würfelnetze', sym: 'Symmetrie', diag: 'Diagramme', wkt: 'Wahrscheinlichkeit', komb: 'Kombinieren'
+    kopf: 'Kopfrechnen', rest: 'Teilen mit Rest', mteil: 'Teile der Note', mname: 'Notennamen', mmerk: 'Merkmale', mschl: 'Schläge', msilb: 'Rhythmussprache', mzahl: 'Zählzeiten', mtakt: 'Kästen füllen', mhoer: 'Hör-Rätsel', mpause: 'Pausenzeichen', ebild: 'Tiere erkennen', ede: 'Deutsch → Englisch', een: 'Englisch → Deutsch', eschr: 'Tiere schreiben', ebuch: 'Richtig geschrieben?', esatz: 'Read and choose', ehoer: 'Listen!', efarb: 'Farben erkennen', efde: 'Farben übersetzen', efschr: 'Farben schreiben', emal: 'Read and colour', lwhoer: 'Lernwort-Diktat', lwknick: 'Knick-Training', lwfehl: 'Richtig geschrieben?', lwluecke: 'Lückensätze', lwgross: 'Nomen groß', lwsilb: 'Silben', lwsatz: 'Lernwort-Sätze', flu: 'Fläche und Umfang', koer: 'Körper', netz: 'Würfelnetze', sym: 'Symmetrie', diag: 'Diagramme', wkt: 'Wahrscheinlichkeit', komb: 'Kombinieren'
   };
   var GROUPS = [
     { n: 'Klassenarbeit: Zahlen bis 100 000', t: ['kst', 'kbu', 'kze', 'kwo', 'kvg', 'kor', 'kre', 'kna', 'kra', 'kkr', 'kei', 'kzs'] },
@@ -5371,7 +5430,7 @@ window.EULE = (function () {
     { n: 'Adjektive zusammensetzen', t: ['adjb', 'adjs', 'adjw', 'adjf'] },
     { n: 'Lernwörter (Kontrolle Do 29.10.)', t: ['lwhoer', 'lwknick', 'lwfehl', 'lwluecke', 'lwgross', 'lwsilb', 'lwsatz'] },
     { n: 'Englisch: Safari Park & Colours', t: ['ebild', 'ede', 'een', 'eschr', 'ebuch', 'esatz', 'ehoer', 'efarb', 'efde', 'efschr', 'emal'] },
-    { n: 'Musik: Noten', t: ['mteil', 'mname', 'mmerk', 'mschl', 'msilb', 'mzahl', 'mtakt', 'mhoer'] }
+    { n: 'Musik: Noten', t: ['mteil', 'mname', 'mmerk', 'mschl', 'mpause', 'msilb', 'mzahl', 'mtakt', 'mhoer'] }
   ];
   var TOPICS = {
     m: [
@@ -5412,9 +5471,10 @@ window.EULE = (function () {
       { id: 'dcheck', n: 'Profi-Check', pro: true, t: ['det', 'det', 'dass', 'gross', 'nomad', 'nomen', 'abc', 'grundf', 'dik', 'ablt', 'verl', 'adjs', 'adjf'], lesen: 4 }
     ],
     mu: [
-      { id: 'mtest', n: 'Training für den Musiktest', ka: true, len: 15, t: ['mteil', 'mteil', 'mname', 'mname', 'mmerk', 'mmerk', 'mschl', 'mschl', 'mschl', 'msilb', 'msilb', 'mzahl', 'mzahl', 'mzahl', 'mtakt', 'mtakt', 'mhoer'] },
+      { id: 'mtest', n: 'Training für den Musiktest', ka: true, len: 15, t: ['mteil', 'mteil', 'mname', 'mname', 'mmerk', 'mmerk', 'mschl', 'mschl', 'mschl', 'msilb', 'msilb', 'mzahl', 'mzahl', 'mzahl', 'mtakt', 'mtakt', 'mhoer', 'mpause', 'mpause', 'mpause', 'mpause'] },
       { id: 'mkarten', n: 'Karteikarten-Check', cards: true, deck: 'mu', t: [] },
-      { id: 'mumix', n: 'Gemischt', t: ['mteil', 'mname', 'mmerk', 'mschl', 'msilb', 'mzahl', 'mtakt', 'mhoer'] },
+      { id: 'mumix', n: 'Gemischt', t: ['mteil', 'mname', 'mmerk', 'mschl', 'msilb', 'mzahl', 'mtakt', 'mhoer', 'mpause', 'mpause'] },
+      { id: 'mupause', n: 'Pausenzeichen', t: ['mpause'] },
       { id: 'muteil', n: 'Teile der Note', t: ['mteil', 'mteil', 'mteil', 'mmerk'] },
       { id: 'muwert', n: 'Notenwerte & Schläge', t: ['mname', 'mname', 'mmerk', 'mschl', 'mschl', 'mschl'] },
       { id: 'musilb', n: 'Rhythmussprache', t: ['msilb'] },
@@ -6174,7 +6234,7 @@ window.EULE = (function () {
 
 
   /* ---------- Musik: Karteikarten-Check (antippen = umdrehen, rechts wischen = gewusst, links = nochmal) ---------- */
-  var FC_CAT = { teile: 'Teile der Note', werte: 'Notenwerte', schlag: 'Schläge & Rechnen', sprache: 'Rhythmussprache', zaehl: 'Zählen', extra: 'Extra-Wissen' };
+  var FC_CAT = { teile: 'Teile der Note', werte: 'Notenwerte', pause: 'Pausen', schlag: 'Schläge & Rechnen', sprache: 'Rhythmussprache', zaehl: 'Zählen', extra: 'Extra-Wissen' };
   function nv(k, o) { return noteSvg(k, Object.assign({ px: 96 }, o || {})); }
   function bv(seq, o) { return barSvg(seq, Object.assign({ px: 260 }, o || {})); }
   var FC = [
@@ -6233,7 +6293,13 @@ window.EULE = (function () {
     { id: 'z10', c: 'zaehl', q: 'Zähle diesen Kasten!', qv: bv(['e2', 'q', 'h']), seq: ['e2', 'q', 'h'], a: '1 +  2  3 (4)', av: bv(['e2', 'q', 'h'], { count: true }) },
     { id: 'z11', c: 'zaehl', q: 'Zähle diesen Kasten!', qv: bv(['h', 'h']), seq: ['h', 'h'], a: '1 (2)  3 (4)', av: bv(['h', 'h'], { count: true }) },
     { id: 'z12', c: 'zaehl', q: 'Wie viele Schläge gehören in einen Kasten auf deinem Notenwerte-Blatt?', a: '4 Schläge' },
-    { id: 'x1', c: 'extra', q: 'Was ist eine Pause in der Musik?', a: 'Ein Zeichen für Stille. Zu jeder Note gibt es eine Pause, die genauso lang dauert.', x: 'Extra-Wissen: steht nicht im Heft, kann aber drankommen.' },
+    { id: 'p0', c: 'pause', q: 'Was ist eine Pause in der Musik?', a: 'Ein Zeichen für Stille. Zu jeder Note gibt es eine Pause, die genauso lange dauert.' },
+    { id: 'p1', c: 'pause', q: 'Wie heißt dieses Pausenzeichen und wie lange dauert es?', qv: restSvg('w'), a: 'Die ganze Pause: 4 Schläge', x: 'Sie dauert so lange wie eine ganze Note. Der Balken hängt unter der Linie.' },
+    { id: 'p2', c: 'pause', q: 'Wie heißt dieses Pausenzeichen und wie lange dauert es?', qv: restSvg('h'), a: 'Die halbe Pause: 2 Schläge', x: 'Sie dauert so lange wie eine halbe Note. Der Balken sitzt auf der Linie wie ein Hut.' },
+    { id: 'p3', c: 'pause', q: 'Wie heißt dieses Pausenzeichen und wie lange dauert es?', qv: restSvg('q'), a: 'Die Viertelpause: 1 Schlag', x: 'Sie dauert so lange wie eine Viertelnote.' },
+    { id: 'p4', c: 'pause', q: 'Wie heißt dieses Pausenzeichen und wie lange dauert es?', qv: restSvg('e'), a: 'Die Achtelpause: ½ Schlag', x: 'Sie dauert so lange wie eine Achtelnote.' },
+    { id: 'p5', c: 'pause', q: 'Wie sieht die Pause aus, die so lange dauert wie diese Note?', qv: nv('q'), a: 'Die Viertelpause', av: restSvg('q') },
+    { id: 'p6', c: 'pause', q: 'Ganze Pause und halbe Pause sehen fast gleich aus. Wie unterscheidest du sie?', a: 'Die ganze Pause hängt unter der Linie, die halbe Pause sitzt auf der Linie.', av: '<div class="mn-eq">' + restSvg('w', { px: 70 }) + restSvg('h', { px: 70 }) + '</div>' },
     { id: 'x2', c: 'extra', q: 'Was ist ein Takt?', a: 'Ein Stück Musik mit gleich vielen Schlägen, oft 4. Die Kästen in deinem Heft sind wie Takte.', x: 'Extra-Wissen: steht nicht im Heft.' },
     { id: 'x3', c: 'extra', q: 'Wie viele Linien hat das Notensystem?', a: '5 Linien', av: '<svg class="mn" viewBox="0 0 220 60" style="max-width:240px" role="img" aria-label="Fünf Notenlinien"><line class="mn-stem" x1="4" y1="8" x2="216" y2="8"></line><line class="mn-stem" x1="4" y1="19" x2="216" y2="19"></line><line class="mn-stem" x1="4" y1="30" x2="216" y2="30"></line><line class="mn-stem" x1="4" y1="41" x2="216" y2="41"></line><line class="mn-stem" x1="4" y1="52" x2="216" y2="52"></line></svg>', x: 'Extra-Wissen: steht nicht im Heft.' }
   ];
