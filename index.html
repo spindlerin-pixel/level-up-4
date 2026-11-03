@@ -827,6 +827,8 @@ body.eng .fc-bar i, body.eng .fc-how b { background: var(--eng); } body.deu .fc-
 .fc-say { margin: 6px 0; }
 .sil { font-weight: 700; letter-spacing: 0.02em; }
 .sil .s1 { color: var(--math); } .sil .s2 { color: var(--deu); }
+.auto-upd { display: flex; gap: 10px; align-items: flex-start; margin-top: 10px; font-weight: 400; line-height: 1.4; cursor: pointer; }
+.auto-upd input { width: 22px; height: 22px; flex: none; margin: 1px 0 0; accent-color: var(--deu); }
 .oline { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 60px; padding: 8px; border: 2.5px dashed var(--deu); border-radius: 14px; background: var(--deu-fill); }
 .ohint { color: var(--ink-soft); font-size: 0.95rem; padding: 0 6px; }
 .oprev { margin: 10px 0 0; font-size: 1.2rem; line-height: 1.5; font-weight: 600; }
@@ -1210,6 +1212,8 @@ body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: m
     <div class="lv-body">
       <div class="setting" id="updBox">App aktualisieren: holt die neueste Version. Sterne und Lernstand bleiben erhalten.
         <div class="actions" style="margin-top:6px"><button type="button" class="btn small" id="updBtn" onclick="this.textContent='Wird geladen …';location.replace(location.pathname+'?v='+Date.now())">↻ App aktualisieren</button></div>
+        <label class="auto-upd" for="autoUpd"><input type="checkbox" id="autoUpd" checked> Automatisch aktualisieren: Beim Öffnen der App schaut sie nach einer neuen Version und lädt sie von selbst.</label>
+        <p class="lv-legend" id="autoUpdInfo" style="margin:4px 0 0"></p>
       </div>
       <label class="setting" for="breakLen">Länge der Memory-Pause
         <select id="breakLen"><option value="5">5 Minuten</option><option value="7">7 Minuten</option><option value="10">10 Minuten</option></select>
@@ -6434,4 +6438,48 @@ window.EULE = (function () {
 </script>
 
 
+<script>
+/* Automatisch aktualisieren: prüft beim Öffnen und beim Zurückkehren in die App, ob es eine neue Version gibt.
+   Sterne, Lernstand und die angefangene Runde liegen im Gerätespeicher und bleiben beim Neuladen erhalten. */
+(function () {
+  var KEY = 'eule-auto-update', HKEY = 'eule-app-version', TKEY = 'eule-app-check';
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function on() { return get(KEY) !== '0'; }
+  function hash(s) { var x = 5381; for (var i = 0; i < s.length; i++) x = ((x << 5) + x + s.charCodeAt(i)) | 0; return String(x >>> 0); }
+  function info() {
+    var el = document.getElementById('autoUpdInfo'); if (!el) return;
+    var t = +get(TKEY);
+    el.textContent = !on() ? 'Aus. Neue Versionen holst du mit dem Knopf oben.' : t ? 'Zuletzt nachgeschaut: ' + new Date(t).toLocaleString('de-DE', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' Uhr' : 'An.';
+  }
+  var busy = false, last = 0;
+  function check(force) {
+    if (!on() || busy || location.protocol === 'file:' || !window.fetch) return;
+    if (!force && Date.now() - last < 60000) return;
+    busy = true; last = Date.now();
+    fetch(location.pathname + '?check=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : null; }).then(function (txt) {
+      busy = false; if (!txt || txt.indexOf('Level Up') < 0) return;
+      var h = hash(txt), known = get(HKEY);
+      set(TKEY, String(Date.now())); info();
+      var fresh = /[?&]v=\d+/.test(location.search);
+      if (!known || fresh) { set(HKEY, h); return; }
+      if (known !== h) {
+        var ae = document.activeElement;
+        if (ae && (ae.tagName === 'TEXTAREA' || ae.tagName === 'INPUT') && ae.value) return; /* nicht mitten im Schreiben neu laden */
+        set(HKEY, h);
+        location.replace(location.pathname + '?v=' + Date.now());
+      }
+    }).catch(function () { busy = false; });
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    var cb = document.getElementById('autoUpd');
+    if (cb) { cb.checked = on(); cb.addEventListener('change', function () { set(KEY, cb.checked ? '1' : '0'); info(); if (cb.checked) check(true); }); }
+    var box = document.getElementById('parents'); if (box) box.addEventListener('toggle', info);
+    info();
+  });
+  window.addEventListener('load', function () { check(true); });
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') check(false); });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) check(true); });
+})();
+</script>
 </body></html>
