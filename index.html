@@ -1,5 +1,10 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Level Up 4</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=1">
+<link rel="icon" type="image/png" href="favicon.png?v=1">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Level Up 4">
+<meta name="theme-color" content="#3A1690">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap">
@@ -905,6 +910,7 @@ body:not(.on-home) #homeView, body:not(.on-home) .hello-row { display: none !imp
 .ka b { display: block; }
 .ka.d { --kc: rgba(255,143,163,0.85); --kt: #FFB8C5; }
 .ka.mu { --kc: rgba(169,139,255,0.85); --kt: #C9B8FF; }
+.ka-grid > .ka:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .ka.m { --kc: rgba(60,207,198,0.85); --kt: #8EEDE6; }
 .ka.en { --kc: rgba(125,180,255,0.85); --kt: #B5D3FF; }
 .hsubs { display: flex; flex-direction: column; gap: 14px; }
@@ -6564,6 +6570,7 @@ window.EULE = (function () {
     mu: { n: 'Musik', go: 'Musik üben' }, en: { n: 'Englisch', go: 'Englisch üben' }
   };
   var ARBEITEN = [
+    { s: 'm', n: 'Mathe', what: 'Klassenarbeit Mathe', topic: 'mmix' },
     { s: 'd', n: 'Deutsch', what: 'Klassenarbeit Geschichte schreiben', topic: 'gtest' },
     { s: 'mu', n: 'Musik', what: 'Musiktest: Noten und Pausen', topic: 'mtest' }
   ];

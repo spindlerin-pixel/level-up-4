@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#120B33"/>
+      <stop offset="0.55" stop-color="#3A1690"/>
+      <stop offset="0.80" stop-color="#9B2FC9"/>
+      <stop offset="0.80" stop-color="#1A0B3E"/>
+      <stop offset="1" stop-color="#0E0726"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.52" r="0.5">
+      <stop offset="0" stop-color="#5CC7CF" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#5CC7CF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="four" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A6FFF6"/>
+      <stop offset="0.5" stop-color="#4FE3D6"/>
+      <stop offset="1" stop-color="#1BA9C4"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFE97A"/>
+      <stop offset="1" stop-color="#FFB627"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <clipPath id="floor"><rect x="0" y="410" width="512" height="102"/></clipPath>
+  </defs>
+
+  <rect width="512" height="512" fill="url(#sky)"/>
+  <!-- Horizont-Leuchten -->
+  <ellipse cx="256" cy="410" rx="300" ry="34" fill="#FF5FD2" opacity="0.55" filter="url(#glow)"/>
+  <!-- Neon-Gitterboden -->
+  <g clip-path="url(#floor)" stroke="#FF4FD8" stroke-width="3" opacity="0.9">
+    <line x1="0" y1="410" x2="512" y2="410"/>
+    <line x1="0" y1="424" x2="512" y2="424"/>
+    <line x1="0" y1="444" x2="512" y2="444"/>
+    <line x1="0" y1="472" x2="512" y2="472"/>
+    <line x1="0" y1="510" x2="512" y2="510"/>
+    <line x1="256" y1="410" x2="256" y2="512"/>
+    <line x1="226" y1="410" x2="150" y2="512"/><line x1="286" y1="410" x2="362" y2="512"/>
+    <line x1="196" y1="410" x2="44" y2="512"/><line x1="316" y1="410" x2="468" y2="512"/>
+    <line x1="166" y1="410" x2="-62" y2="512"/><line x1="346" y1="410" x2="574" y2="512"/>
+    <line x1="136" y1="410" x2="-168" y2="512"/><line x1="376" y1="410" x2="680" y2="512"/>
+  </g>
+
+  <!-- Sterne -->
+  <g fill="#FFFFFF">
+    <path d="M78 96 l7 17 17 7 -17 7 -7 17 -7 -17 -17 -7 17 -7z"/>
+    <path d="M430 150 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5z"/>
+    <path d="M412 62 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" opacity="0.8"/>
+  </g>
+  <circle cx="120" cy="230" r="4" fill="#FF8FD8"/>
+  <circle cx="446" cy="300" r="5" fill="#7FF5EC"/>
+  <circle cx="60" cy="330" r="3" fill="#FFE97A"/>
+
+  <circle cx="256" cy="290" r="200" fill="url(#halo)"/>
+
+  <!-- Die 4: Leuchten, Umriss, Füllung -->
+  <path d="M258 170 L336 170 L336 318 L372 318 L372 378 L336 378 L336 428 L268 428 L268 378 L140 378 L140 322 Z M268 254 L268 318 L212 318 Z"
+        fill-rule="evenodd" fill="#4FE3D6" filter="url(#glow)" opacity="0.9"/>
+  <path d="M258 170 L336 170 L336 318 L372 318 L372 378 L336 378 L336 428 L268 428 L268 378 L140 378 L140 322 Z M268 254 L268 318 L212 318 Z"
+        fill-rule="evenodd" fill="url(#four)" stroke="#120B33" stroke-width="12" stroke-linejoin="round"/>
+  <!-- Glanzkante -->
+  <path d="M262 182 L324 182 L324 214" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
+
+  <!-- Level-up-Pfeil -->
+  <path d="M256 30 L340 114 L294 114 L294 146 L218 146 L218 114 L172 114 Z" fill="#FFB627" filter="url(#soft)" opacity="0.7"/>
+  <path d="M256 30 L340 114 L294 114 L294 146 L218 146 L218 114 L172 114 Z" fill="url(#gold)" stroke="#120B33" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M256 50 L306 100" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity="0.7"/>
+</svg>
