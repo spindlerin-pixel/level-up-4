@@ -1143,6 +1143,112 @@ body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: m
 
 @media (prefers-reduced-motion: reduce) { .sheet-panel { animation: none; } .subj, .btn { transition: none; } }
 
+
+/* ===== Fach-Übersicht ===== */
+#fachView, #fachBack { display: none; }
+body.on-fach #fachView { display: flex; }
+body.on-fach #fachBack { display: inline-flex; }
+body.on-fach .subjects, body.on-fach .pick, body.on-fach .progress, body.on-fach #card, body.on-fach #fcView, body.on-fach #bildView, body.on-fach .break-info, body.on-fach #homeBack, body.on-fach #homeView, body.on-fach .hello-row { display: none !important; }
+body.on-home #bildView { display: none !important; }
+.fach { flex-direction: column; gap: 18px; }
+.fach-head { display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 24px; background: var(--sf); }
+.fach-head svg { width: 52px; height: 52px; flex-shrink: 0; }
+.fach-head h2 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; line-height: 1.05; }
+.fach-head p { margin: 4px 0 0; color: var(--ink-soft); }
+.fach-head.m { --sf: var(--c-m-fill); } .fach-head.d { --sf: var(--c-d-fill); } .fach-head.mu { --sf: var(--c-mu-fill); } .fach-head.en { --sf: var(--c-en-fill); }
+.fach-resume { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-radius: 18px; background: var(--primary); color: #fff; box-shadow: 0 4px 0 var(--primary-dark); }
+.fach-resume b { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; }
+.fach-resume i { font-style: normal; font-size: 2rem; line-height: 1; }
+.fach-group h3 { margin: 0 0 8px; font-family: var(--font-display); font-weight: 800; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.fach-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.ftile { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; gap: 5px; min-width: 0; padding: 12px 13px; border-radius: 18px; background: var(--surface); box-shadow: var(--soft-shadow); border: 2px solid transparent; color: var(--ink); }
+.ftile:active { transform: translateY(2px); }
+.ftile:focus-visible, .fach-resume:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.ftile.ka { border-color: var(--primary); }
+.ftile.wide { grid-column: 1 / -1; }
+.ftile.bild { background: linear-gradient(135deg, var(--primary-fill), var(--surface) 70%); border-color: var(--primary); }
+.ftile-kind { align-self: flex-start; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: var(--primary); color: #fff; }
+.ftile-name { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; line-height: 1.15; }
+.ftile-desc { font-size: 0.86rem; line-height: 1.3; color: var(--ink-soft); flex: 1; }
+.ftile-st { display: flex; flex-direction: column; gap: 4px; font-size: 0.8rem; font-weight: 700; color: var(--ink-soft); }
+.ftile-st.good { color: var(--good); } .ftile-st.new { color: var(--primary); }
+.ftile-bar { display: block; height: 6px; border-radius: 3px; background: var(--muted-fill); overflow: hidden; }
+.ftile-bar i { display: block; height: 100%; background: var(--good); border-radius: 3px; }
+@media (max-width: 340px) { .fach-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ===== Schreib-Reise ===== */
+.bildv { display: flex; flex-direction: column; gap: 12px; }
+.bild-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.bild-head h2 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; }
+.bild-head p { margin: 2px 0 0; color: var(--ink-soft); font-size: 0.92rem; }
+.bild-dots { display: flex; gap: 5px; }
+.bild-dots i { font-style: normal; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 0.85rem; background: var(--muted-fill); color: var(--ink-soft); }
+.bild-dots i.cur { background: var(--primary); color: #fff; }
+.bild-dots i.done { background: var(--good); color: #fff; }
+.bild-card { gap: 12px; }
+.bild-steps { display: flex; flex-wrap: wrap; gap: 6px; }
+.bild-steps span { font-size: 0.78rem; font-weight: 700; padding: 4px 9px; border-radius: 999px; background: var(--muted-fill); color: var(--ink-soft); }
+.bild-steps span.cur { background: var(--primary); color: #fff; }
+.bild-steps span.done { background: var(--good-fill); color: var(--good); }
+.bild-role { margin: 0; font-size: 0.95rem; color: var(--ink-soft); }
+.bild-role b { color: var(--ink); font-family: var(--font-display); font-size: 1.05rem; }
+.bild-q { margin: 0; font-size: 1.08rem; line-height: 1.4; font-weight: 600; }
+.bild-small { margin: 0; font-size: 0.92rem; line-height: 1.4; color: var(--ink-soft); }
+.bild-svg { width: 100%; height: auto; border-radius: 16px; display: block; border: 2px solid var(--line); background: #BFE6FF; }
+.hs-dot { cursor: pointer; }
+.hs-dot .hs-ring { fill: #FFD54A; stroke: #22253A; stroke-width: 2; animation: hsPulse 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.hs-dot text { font: 800 12px/1 sans-serif; text-anchor: middle; fill: #22253A; pointer-events: none; }
+@keyframes hsPulse { 50% { transform: scale(1.25); } }
+@media (prefers-reduced-motion: reduce) { .hs-dot .hs-ring { animation: none; } }
+.hs-label rect { fill: #FFFFFF; stroke: #22253A; stroke-width: 1.5; }
+.hs-label text { font: 700 11.5px/1 Nunito, sans-serif; text-anchor: middle; fill: #22253A; }
+.ws { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; border-radius: 16px; background: var(--tip-fill); }
+.ws-title { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 0.95rem; }
+.ws-title span { font-weight: 600; color: var(--ink-soft); font-size: 0.85rem; }
+.ws-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.ws-lab { width: 100%; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-soft); }
+.ws-w { font: 700 1.05rem/1.2 'Andika', var(--font-display), sans-serif; padding: 6px 10px; border-radius: 10px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.ws-w.n { border-color: var(--c-d); box-shadow: inset 0 -3px 0 var(--c-d); }
+.ws-w.v { border-color: var(--c-m); } .ws-w.a { border-color: var(--c-mu); } .ws-w.i { border-style: dashed; }
+.bild-tip { padding: 10px 12px; border-radius: 14px; background: var(--primary-fill); font-size: 0.95rem; line-height: 1.4; }
+.frame { margin: 0; font: 700 1.25rem/1.7 'Andika', var(--font-display), sans-serif; }
+.gap { display: inline-block; min-width: 54px; padding: 0 8px; border-radius: 10px; border-bottom: 3px dashed var(--line); text-align: center; color: var(--ink-soft); }
+.gap.cur { background: var(--mark); color: #22253A; border-bottom-color: #22253A; }
+.gap.ok { background: var(--good-fill); color: var(--ink); border-bottom: 3px solid var(--good); }
+.bild-opts .opt { font-family: 'Andika', var(--font-display), sans-serif; }
+.built { margin: 0; font: 700 1.1rem/1.6 'Andika', sans-serif; }
+.built .ok { color: var(--good); } .built .todo { color: var(--ink-soft); }
+.chunk-n { margin: 0; font-size: 0.85rem; font-weight: 800; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; }
+.chunk-show { padding: 18px 14px; border-radius: 16px; background: var(--surface); border: 2.5px solid var(--primary); text-align: center; font: 700 1.6rem/1.35 'Andika', var(--font-display), sans-serif; letter-spacing: 0.02em; }
+.chunk-show.covered { font-size: 1.05rem; color: var(--ink-soft); border-style: dashed; background: var(--muted-fill); }
+.chunk-show mark { background: var(--mark); color: inherit; border-radius: 6px; padding: 0 3px; }
+.chunk-form { display: flex; flex-direction: column; gap: 10px; }
+.bild-in, .bild-free { font: 600 1.35rem/1.4 'Andika', var(--font-display), sans-serif; padding: 12px 14px; border: 2.5px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); width: 100%; box-sizing: border-box; }
+.bild-free { font-size: 1.2rem; resize: vertical; }
+.bild-in:focus, .bild-free:focus { outline: 3px solid var(--focus); outline-offset: 1px; }
+.marked { margin: 0; font: 700 1.2rem/1.8 'Andika', sans-serif; }
+.marked .w { padding: 1px 4px; border-radius: 6px; }
+.marked .w.ok { background: var(--good-fill); }
+.marked .w.no { background: var(--bad-fill); border-bottom: 3px solid var(--bad); }
+.marked .w.miss { color: var(--bad); }
+.starts { display: flex; flex-wrap: wrap; gap: 6px; }
+.selfcheck { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; border-radius: 16px; background: var(--muted-fill); }
+.selfcheck label { display: flex; gap: 8px; align-items: flex-start; font-size: 0.98rem; line-height: 1.35; cursor: pointer; }
+.selfcheck input { width: 22px; height: 22px; flex-shrink: 0; accent-color: var(--good); margin: 0; }
+.btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+.story-bit { font: 600 1.1rem/1.5 'Andika', sans-serif; }
+.story-title { margin: 4px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; text-align: center; }
+.story-sec { margin: 6px 0 0; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); }
+.story-pic { display: grid; grid-template-columns: 110px 1fr; gap: 10px; align-items: start; }
+.story-pic .bild-svg { border-width: 1.5px; border-radius: 10px; }
+.story-pic p { margin: 0; font: 600 1.08rem/1.5 'Andika', sans-serif; }
+.story-check { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.bildv .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.bildv .btn svg { width: 22px; height: 22px; flex-shrink: 0; }
+.bild-opts { display: flex; flex-direction: column; gap: 8px; }
+.bild-opts .opt { text-align: left; }
+.bild-opts .opt.no { background: var(--bad-fill); border-color: var(--bad); }
+.story-check li { color: var(--ink-soft); } .story-check li.ok { color: var(--good); font-weight: 700; }
 </style>
 
 <div class="app">
@@ -1202,6 +1308,9 @@ body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: m
       <p class="week-legend">Jeder Punkt ist ein Fach, in dem du an dem Tag geübt hast: Mathe, Deutsch, Musik, Englisch.</p>
     </section>
   </section>
+
+  <button type="button" class="home-back" id="fachBack"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Zur Startseite</button>
+  <section class="fach" id="fachView" aria-label="Kapitel im Fach"></section>
 
   <button type="button" class="home-back" id="homeBack"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Zur Startseite</button>
 
@@ -1277,6 +1386,7 @@ body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: m
   </main>
 
   <section class="fc" id="fcView" hidden aria-label="Karteikarten-Check"></section>
+  <section class="bildv" id="bildView" hidden aria-label="Schreib-Reise"></section>
 
   <details class="levels" id="xpBookBox">
     <summary><span class="lv-title">Fini erklärt</span><span class="lv-sum">Bilder zu Mathe, Deutsch, Musik und Englisch</span></summary>
@@ -5541,6 +5651,7 @@ window.EULE = (function () {
     ],
     d: [
       { id: 'gtest', n: 'Klassenarbeit: Geschichte schreiben', ka: true, len: 15, t: ['gteil', 'gteil', 'gw', 'gschl', 'gansatz', 'gsb', 'gsb', 'gsb', 'gv2', 'gv2', 'gnb', 'gnb', 'gwr', 'gwr', 'gwrb', 'gwrb', 'gsagen', 'gmund', 'gmund', 'gzeit', 'gzeit', 'gsie', 'gdik'] },
+      { id: 'bild', n: 'Schreib-Reise: Bildergeschichte', bild: true, t: [] },
       { id: 'gaufbau', n: 'Einleitung, Hauptteil, Schluss', t: ['gteil', 'gteil', 'gw', 'gw', 'gschl', 'gschl', 'gansatz', 'gansatz'] },
       { id: 'gsatz', n: 'Satz-Baukasten', t: ['gsb', 'gsb', 'gsb', 'gv2', 'gv2', 'gnb', 'gnb'] },
       { id: 'grede', n: 'Wörtliche Rede', t: ['gwr', 'gwr', 'gwrb', 'gwrb', 'gwrb', 'gsagen', 'gsagen', 'gsie'] },
@@ -5610,7 +5721,7 @@ window.EULE = (function () {
   /* ---------- Runde bauen ---------- */
   function buildRound(topicId) {
     var tp = topicById(topicId), st = loadStats(), n = tp.len || 10, tasks = [], keys = {};
-    if (tp.cards) return [];
+    if (tp.cards || tp.bild) return [];
     var LVL = window.EULE ? EULE.lv(topicId) : 2;
     KA_EASY = LVL === 1;
     if (!tp.pro && !tp.lesen) { if (LVL === 1) n = Math.max(5, Math.round(n * 0.8)); else if (LVL === 3) n += 2; }
@@ -6170,9 +6281,11 @@ window.EULE = (function () {
   }
   function render() {
     renderChrome(); renderPoints(); renderLevels();
-    var cards = !!topicById(state.topic).cards;
-    el.card.hidden = cards; el.progBox.hidden = cards; el.fcView.hidden = !cards;
-    if (cards) renderFc();
+    var cards = !!topicById(state.topic).cards, bild = !!topicById(state.topic).bild;
+    el.card.hidden = cards || bild; el.progBox.hidden = cards || bild; el.fcView.hidden = !cards;
+    document.getElementById('bildView').hidden = !bild;
+    if (bild) renderBild();
+    else if (cards) renderFc();
     else { el.taskView.hidden = state.done; el.endView.hidden = !state.done; if (state.done) renderEnd(); else renderTask(); }
     updateXpBtn(); renderXpBook();
   }
@@ -6657,6 +6770,489 @@ window.EULE = (function () {
   (function () { var hr = document.querySelector('.hello-row'), eb = document.querySelector('#homeView .eyebrow'); if (hr && eb) eb.after(hr); })();
   var parentsBox = document.getElementById('parents'); if (parentsBox) parentsBox.addEventListener('toggle', renderKaDates);
   renderKaDates();
+
+  /* ---------- Fach-Übersicht: erst alle Kapitel sehen, dann üben ---------- */
+  var FACH_GROUPS = {
+    m: [['Für die Klassenarbeit', ['ka', 'kaprobe', 'mcheck']], ['Themen', ['pak', 'uhr', 'gro', 'reg', 'zahl', 'schr', 'kopf', 'geo', 'daten']], ['Alles durcheinander', ['mmix']]],
+    d: [['Für die Klassenarbeit', ['gtest', 'lwtest', 'dtrain']], ['Schreiben', ['bild', 'gaufbau', 'gsatz', 'grede', 'gbuch', 'gwerk', 'gkarten']],
+        ['Rechtschreibung', ['rs', 'gk', 'wb', 'adj', 'det', 'dik', 'lwkarten']], ['Lesen', ['les', 'blz']], ['Alles durcheinander', ['dmix', 'dcheck']]],
+    mu: [['Für den Musiktest', ['mtest', 'mkarten']], ['Themen', ['mupause', 'muteil', 'muwert', 'musilb', 'muzahl', 'muhoer']], ['Alles durcheinander', ['mumix']]],
+    en: [['Für den Englischtest', ['etest', 'ekarten']], ['Themen', ['etiere', 'efarben', 'eschreib', 'elesen']]]
+  };
+  var FACH_DESC = {
+    ka: 'Zahlen bis 100 000: Stellenwerte, Runden, Zahlenstrahl', kaprobe: 'Wie eine echte Arbeit, mit 20 Aufgaben', mcheck: 'Knifflige Aufgaben zum Knobeln',
+    pak: 'Plus, minus, mal und geteilt', uhr: 'Uhrzeit, Zeitspannen, Zeiteinheiten', gro: 'Umwandeln: km, m, cm, kg, g', reg: 'Punkt vor Strich, Klammern',
+    zahl: 'Stellenwerte, Runden, Zahlenstrahl', schr: 'Schriftlich rechnen mit allen vier Rechenarten', kopf: 'Schnell im Kopf rechnen', geo: 'Flächen, Körper, Netze, Spiegeln',
+    daten: 'Diagramme lesen, Zufall, Kombinieren', mmix: 'Von jedem Thema etwas',
+    gtest: 'Training für „Geschichte schreiben“', lwtest: 'Die Lernwörter der Woche', dtrain: 'Groß und klein, ABC, Lernwörter wiederholen',
+    bild: 'Bilder entdecken, Sätze bauen, richtig schreiben. Jeden Tag ein Bild, am Ende steht deine Geschichte.',
+    gaufbau: 'Wie eine Geschichte aufgebaut ist', gsatz: 'Sätze mit weil, als und dass bauen', grede: 'Wer sagt was? Mit Redezeichen', gbuch: 'Spannend erzählen in der Vergangenheit',
+    gwerk: 'Eigene Sätze schreiben', gkarten: 'Karteikarten mit Schreib-Tricks', lwkarten: 'Lernwörter als Karteikarten',
+    rs: 'Verlängern, Ableiten, ie, ß und mehr', gk: 'Nomen erkennen und groß schreiben', wb: 'Nachschlagen und Grundform finden', adj: 'Neue Wörter zusammenbauen',
+    det: 'Versteckte Fehler finden', dik: 'Hören und richtig schreiben', les: 'Texte lesen und verstehen', blz: 'Wörter blitzschnell erkennen', dmix: 'Von jedem Thema etwas', dcheck: 'Knifflige Aufgaben',
+    mtest: 'Alles für den Musiktest', mkarten: 'Fragen zum Umdrehen', mupause: 'Pausen erkennen', muteil: 'Notenkopf, Hals, Fähnchen', muwert: 'Ganze, Halbe, Viertel, Achtel',
+    musilb: 'ta, ti-ti, ta-a', muzahl: 'Schläge zählen und Takte füllen', muhoer: 'Rhythmen hören und erkennen', mumix: 'Von jedem Thema etwas',
+    etest: 'Alles für den Englischtest', ekarten: 'Fragen zum Umdrehen', etiere: 'Wild animals auf Englisch', efarben: 'Colours auf Englisch', eschreib: 'Englische Wörter richtig schreiben', elesen: 'Lesen und zuhören'
+  };
+  function fachGroups(s) {
+    var seen = {}, groups = (FACH_GROUPS[s] || []).map(function (g) {
+      return [g[0], g[1].filter(function (id) { var ok = TOPICS[s].some(function (t) { return t.id === id; }); if (ok) seen[id] = 1; return ok; })];
+    }).filter(function (g) { return g[1].length; });
+    var rest = TOPICS[s].filter(function (t) { return !seen[t.id]; }).map(function (t) { return t.id; });
+    if (rest.length) groups.push(['Weitere Kapitel', rest]);
+    return groups;
+  }
+  function tileStatus(tp, st) {
+    if (tp.bild) { var b = bildLoad(); return b.finished ? { txt: 'Geschichte fertig', cls: 'good', pct: 100 } : { txt: 'Bild ' + Math.min(b.pic + 1, BILD_PICS().length) + ' von ' + BILD_PICS().length, cls: '', pct: Math.round(b.pic / BILD_PICS().length * 100) }; }
+    if (tp.cards) return { txt: 'Karteikarten', cls: '', pct: -1 };
+    var types = uniq(tp.t), sure = 0, played = 0;
+    types.forEach(function (t) { var l = levelOf(st[t]); if (l === 'good') sure++; if (l !== 'new') played++; });
+    if (!played) return { txt: 'Neu', cls: 'new', pct: 0 };
+    return { txt: sure === types.length ? 'Alles sicher' : sure + ' von ' + types.length + ' sicher', cls: sure === types.length ? 'good' : '', pct: Math.round(sure / types.length * 100) };
+  }
+  function renderFach(s) {
+    var v = document.getElementById('fachView'); if (!v) return;
+    var st = loadStats(), cur = state && subjOf(state.topic) === s && !state.done && state.i > 0 && !topicById(state.topic).cards && !topicById(state.topic).bild ? state : null;
+    var h = '<div class="fach-head ' + s + '">' + iconFor(s) + '<div><h2>' + HOME[s].n + '</h2><p>Such dir aus, was du üben möchtest.</p></div></div>';
+    if (cur) h += '<button type="button" class="fach-resume" data-fach-topic="' + cur.topic + '"><span><b>Weitermachen</b>' + topicById(cur.topic).n + ' · Aufgabe ' + (cur.i + 1) + ' von ' + cur.n + '</span><i aria-hidden="true">›</i></button>';
+    fachGroups(s).forEach(function (g) {
+      h += '<section class="fach-group"><h3>' + g[0] + '</h3><div class="fach-grid">' + g[1].map(function (id) {
+        var tp = topicById(id), ss = tileStatus(tp, st), kind = tp.bild ? 'Neu: Schreib-Reise' : tp.ka ? (tp.pro ? 'Probe' : 'Klassenarbeit') : tp.cards ? 'Karten' : tp.pro ? 'Profi' : '';
+        return '<button type="button" class="ftile' + (tp.ka ? ' ka' : '') + (tp.bild ? ' wide bild' : '') + '" data-fach-topic="' + id + '">' + (kind ? '<span class="ftile-kind">' + kind + '</span>' : '') +
+          '<span class="ftile-name">' + tp.n + '</span><span class="ftile-desc">' + (FACH_DESC[id] || '') + '</span>' +
+          '<span class="ftile-st ' + ss.cls + '">' + (ss.pct >= 0 ? '<span class="ftile-bar"><i style="width:' + ss.pct + '%"></i></span>' : '') + '<span>' + ss.txt + '</span></span></button>';
+      }).join('') + '</div></section>';
+    });
+    v.innerHTML = h;
+  }
+  function showFach(s) {
+    document.body.classList.remove('on-home', 'deu', 'mus', 'eng');
+    document.body.classList.add('on-fach');
+    document.body.classList.toggle('deu', s === 'd'); document.body.classList.toggle('mus', s === 'mu'); document.body.classList.toggle('eng', s === 'en');
+    document.body.setAttribute('data-fach', s);
+    renderFach(s); window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+  var _showHome = showHome;
+  showHome = function (on) {
+    document.body.classList.remove('on-fach');
+    _showHome(on);
+    var hb = document.getElementById('homeBack'), sj = state ? subjOf(state.topic) : 'm';
+    if (hb && !on) hb.lastChild.textContent = 'Alle ' + HOME[sj].n + '-Kapitel';
+  };
+  document.getElementById('fachView').addEventListener('click', function (e) {
+    var t = e.target.closest('[data-fach-topic]'); if (t) { openTopic(t.getAttribute('data-fach-topic')); return; }
+    if (e.target.closest('[data-fach-home]')) showHome(true);
+  });
+  document.getElementById('fachBack').addEventListener('click', function () { showHome(true); });
+  document.getElementById('homeView').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-home-subj]'); if (!b) return;
+    e.stopImmediatePropagation(); showFach(b.getAttribute('data-home-subj'));
+  }, true);
+  (function () { var hb = document.getElementById('homeBack'), nb = hb.cloneNode(true); hb.parentNode.replaceChild(nb, hb); nb.addEventListener('click', function () { showFach(subjOf(state.topic)); }); })();
+
+  /* ---------- Schreib-Reise: Bildergeschichte Schritt für Schritt ---------- */
+  var BK = 'eule-bildreise';
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+  /* Zeichnungen */
+  function kid(x, base, o) {
+    o = o || {};
+    var skin = o.skin || '#F2C7A5', shirt = o.shirt || '#E5484D', hair = o.hair || '#6B3E26', sc = o.scale || 1, s = '';
+    s += '<g transform="translate(' + x + ',' + base + ') scale(' + sc + ')">';
+    s += '<path d="M-4 -20 L-6 0 M4 -20 L6 0" stroke="#2F3550" stroke-width="5" stroke-linecap="round"/>';
+    var la = o.armL === 'up' ? 'M-8 -40 L-19 -60' : o.armL === 'out' ? 'M-8 -40 L-22 -36' : 'M-8 -40 L-14 -24';
+    var ra = o.armR === 'up' ? 'M8 -40 L19 -60' : o.armR === 'out' ? 'M8 -40 L22 -36' : 'M8 -40 L14 -24';
+    s += '<path d="' + la + ' ' + ra + '" stroke="' + skin + '" stroke-width="5" stroke-linecap="round"/>';
+    s += '<rect x="-10" y="-46" width="20" height="28" rx="7" fill="' + shirt + '"/>';
+    if (o.beard) s += '<rect x="-10" y="-22" width="20" height="6" rx="2" fill="#4A5578"/>';
+    s += '<circle cx="0" cy="-58" r="11" fill="' + skin + '"/>';
+    if (o.style === 'pony') s += '<path d="M-11 -59 Q -11 -72 0 -71 Q 11 -72 11 -59 Q 6 -66 -11 -59 Z" fill="' + hair + '"/><circle cx="12" cy="-66" r="5" fill="' + hair + '"/>';
+    else if (o.style === 'cap') s += '<path d="M-12 -60 Q -11 -73 0 -72 Q 11 -73 12 -60 Z" fill="#2E7D4F"/><rect x="-2" y="-62" width="18" height="4" rx="2" fill="#2E7D4F"/>';
+    else s += '<path d="M-11 -58 Q -12 -72 0 -71 Q 12 -72 11 -58 Q 4 -65 -11 -58 Z" fill="' + hair + '"/>';
+    if (o.beard) s += '<path d="M-9 -54 Q 0 -42 9 -54 Q 0 -50 -9 -54 Z" fill="#E8E8E8"/>';
+    s += '<circle cx="-4" cy="-59" r="1.6" fill="#22253A"/><circle cx="4" cy="-59" r="1.6" fill="#22253A"/>';
+    if (o.mood === 'sad') s += '<path d="M-4 -51 Q 0 -55 4 -51" stroke="#22253A" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M-5 -56 l-1 3" stroke="#5AA9E6" stroke-width="1.6"/>';
+    else if (o.mood === 'shock') s += '<ellipse cx="0" cy="-52" rx="2.2" ry="3" fill="#22253A"/>';
+    else s += '<path d="M-4 -53 Q 0 -49 4 -53" stroke="#22253A" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
+    s += '<circle cx="-7" cy="-54" r="2" fill="#F59BA8" opacity="0.7"/><circle cx="7" cy="-54" r="2" fill="#F59BA8" opacity="0.7"/>';
+    return s + '</g>';
+  }
+  function kite(x, y, rot) {
+    return '<g transform="translate(' + x + ',' + y + ') rotate(' + (rot || 0) + ')"><path d="M0 -20 L14 0 L0 26 L-14 0 Z" fill="#FFC23C" stroke="#22253A" stroke-width="1.5"/><path d="M0 -20 L0 26 M-14 0 L14 0" stroke="#22253A" stroke-width="1.2"/><path d="M0 -20 L14 0 L0 0 Z" fill="#E5484D"/><path d="M0 0 L-14 0 L0 26 Z" fill="#3A8DDE"/>' +
+      '<path d="M0 26 q -6 8 0 14 q 6 8 0 14" stroke="#22253A" stroke-width="1.2" fill="none"/><path d="M-4 34 l4 2 l4 -2 l-4 -2z M-4 46 l4 2 l4 -2 l-4 -2z" fill="#E5484D"/></g>';
+  }
+  function tree(x, base, big) {
+    var k = big ? 1 : 0.55;
+    return '<g transform="translate(' + x + ',' + base + ') scale(' + k + ')"><rect x="-10" y="-80" width="20" height="80" rx="4" fill="#8A5A3B"/><path d="M0 -60 L-26 -86 M2 -70 L24 -96" stroke="#8A5A3B" stroke-width="7" stroke-linecap="round"/>' +
+      '<circle cx="-30" cy="-110" r="32" fill="#3E9B57"/><circle cx="28" cy="-112" r="34" fill="#4BAE63"/><circle cx="0" cy="-140" r="36" fill="#55BC6C"/><circle cx="-6" cy="-100" r="26" fill="#3E9B57"/></g>';
+  }
+  function sky(top) { return '<rect width="320" height="210" fill="' + (top || '#BFE6FF') + '"/><path d="M0 150 Q 90 128 180 142 T 320 136 L 320 210 L 0 210 Z" fill="#8FD07A"/><path d="M0 170 Q 120 156 320 166 L 320 210 L 0 210 Z" fill="#7BC266"/>'; }
+  function sun(x, y) { return '<g><circle cx="' + x + '" cy="' + y + '" r="16" fill="#FFD54A"/><g stroke="#FFD54A" stroke-width="3" stroke-linecap="round">' + [0, 45, 90, 135, 180, 225, 270, 315].map(function (a) { var r = a * Math.PI / 180; return '<line x1="' + (x + Math.cos(r) * 21) + '" y1="' + (y + Math.sin(r) * 21) + '" x2="' + (x + Math.cos(r) * 28) + '" y2="' + (y + Math.sin(r) * 28) + '"/>'; }).join('') + '</g></g>'; }
+  function cloud(x, y, k) { return '<g transform="translate(' + x + ',' + y + ') scale(' + (k || 1) + ')" fill="#FFFFFF" opacity="0.95"><circle cx="0" cy="0" r="10"/><circle cx="12" cy="-5" r="13"/><circle cx="26" cy="0" r="10"/><rect x="0" y="0" width="26" height="10"/></g>'; }
+  function wind(x, y, n) { var s = '<g stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.9">'; for (var i = 0; i < (n || 3); i++) s += '<path d="M' + x + ' ' + (y + i * 12) + ' q 18 -8 36 0 t 30 -4"/>'; return s + '</g>'; }
+  function ladder(x1, y1, x2, y2) {
+    var s = '<g stroke="#B07A3A" stroke-width="4" stroke-linecap="round"><line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/><line x1="' + (x1 + 16) + '" y1="' + y1 + '" x2="' + (x2 + 16) + '" y2="' + y2 + '"/>';
+    for (var i = 1; i < 7; i++) { var t = i / 7, ax = x1 + (x2 - x1) * t, ay = y1 + (y2 - y1) * t; s += '<line x1="' + ax + '" y1="' + ay + '" x2="' + (ax + 16) + '" y2="' + ay + '" stroke-width="3"/>'; }
+    return s + '</g>';
+  }
+  var MIA = { shirt: '#E5484D', hair: '#7A4A2A', style: 'pony' }, BEN = { shirt: '#3A8DDE', hair: '#2F2A28', style: 'short', skin: '#D9A27E' };
+  function mix(a, b) { var o = {}; Object.keys(a).forEach(function (k) { o[k] = a[k]; }); Object.keys(b).forEach(function (k) { o[k] = b[k]; }); return o; }
+
+  var BILD_STORIES = [{
+    id: 'drachen',
+    titles: ['Der Drachen im Baum', 'Rettung mit der Leiter', 'Ein windiger Nachmittag'],
+    pics: [
+      {
+        role: 'Einleitung', ask: 'Wer? Wann? Wo? Was passiert?',
+        svg: function () { return sky() + sun(40, 38) + cloud(110, 40, 1) + cloud(250, 120, 0.8) + wind(150, 70, 3) + tree(292, 160, false) + '<path d="M118 100 Q 170 70 228 50" stroke="#22253A" stroke-width="1.2" fill="none"/>' + kite(232, 44, 12) + kid(110, 178, mix(MIA, { armR: 'up', mood: 'happy' })) + kid(150, 182, mix(BEN, { armL: 'up', armR: 'up', mood: 'happy' })); },
+        hs: [{ w: 'Mia', x: 110, y: 140 }, { w: 'Ben', x: 152, y: 144 }, { w: 'der Drachen', x: 232, y: 46 }, { w: 'die Wiese', x: 60, y: 180 }, { w: 'die Sonne', x: 40, y: 38 }, { w: 'der Wind', x: 182, y: 78 }],
+        verbs: ['ließen steigen', 'rannten', 'lachten', 'hielten fest'], adj: ['bunt', 'windig', 'hoch', 'fröhlich'],
+        frame: ['', [['An einem windigen Nachmittag', 1], ['Mitten in der Nacht', 0, 'Schau aufs Bild: Die Sonne scheint. Es ist hell.'], ['An einem verschneiten Morgen', 0, 'Schau aufs Bild: Es liegt kein Schnee, die Wiese ist grün.']],
+          ' ließen Mia und Ben ihren ', [['bunten Drachen', 1], ['roten Ball', 0, 'Was fliegt am Himmel? Ein Ball fliegt nicht so hoch.'], ['kleinen Hund', 0, 'Einen Hund lässt man nicht steigen.']],
+          ' auf der ', [['Wiese', 1], ['Straße', 0, 'Schau genau: Wo stehen die Kinder? Da ist keine Straße.'], ['Brücke', 0, 'Auf dem Bild gibt es keine Brücke.']], ' steigen.'],
+        chunks: ['An einem windigen Nachmittag', 'ließen Mia und Ben', 'ihren bunten Drachen', 'auf der Wiese steigen.'],
+        free: { q: 'Erzähl weiter: Wie war das Wetter? Was machte der Drachen?', starts: ['Der Wind', 'Der Drachen', 'Die Sonne'], ideas: ['wehte kräftig', 'flog hoch hinauf', 'tanzte am Himmel', 'schien hell'], ex: 'Der Drachen flog hoch über die Wiese.' }
+      },
+      {
+        role: 'Hauptteil', ask: 'Was ist das Problem?',
+        svg: function () { return sky('#C9DDF0') + cloud(60, 40, 1.1) + cloud(150, 28, 0.9) + wind(20, 80, 4) + tree(250, 178, true) + kite(244, 62, -35) + '<path d="M244 84 Q 210 120 168 118" stroke="#22253A" stroke-width="1.2" fill="none"/>' + kid(120, 182, mix(MIA, { mood: 'sad' })) + kid(162, 184, mix(BEN, { armR: 'up', mood: 'shock' })); },
+        hs: [{ w: 'der Baum', x: 270, y: 150 }, { w: 'der Ast', x: 226, y: 92 }, { w: 'der Drachen', x: 244, y: 60 }, { w: 'die Schnur', x: 200, y: 112 }, { w: 'die Kinder', x: 140, y: 140 }, { w: 'der Windstoß', x: 50, y: 92 }],
+        verbs: ['blieb hängen', 'erschrak', 'rief', 'weinte'], adj: ['traurig', 'erschrocken', 'plötzlich', 'stark'],
+        frame: ['', [['Plötzlich', 1], ['Langsam', 0, 'Ein Windstoß kommt ganz schnell. „Plötzlich“ macht die Geschichte spannend.'], ['Gemütlich', 0, 'Passt das? Für die Kinder ist es ein Schreck.']],
+          ' kam ein starker Windstoß und der Drachen blieb im ', [['Baum', 1], ['Teich', 0, 'Schau aufs Bild: Wo hängt der Drachen? Da ist kein Wasser.'], ['Haus', 0, 'Auf dem Bild gibt es kein Haus.']], ' hängen.'],
+        chunks: ['Plötzlich kam', 'ein starker Windstoß', 'und der Drachen', 'blieb im Baum hängen.'],
+        free: { q: 'Wie fühlten sich Mia und Ben? Was riefen sie? Du kannst auch wörtliche Rede schreiben: Ben rief: „Oh nein!“', starts: ['Mia', 'Ben rief:', 'Die Kinder'], ideas: ['war sehr traurig', 'erschrak', 'Oh nein, unser Drachen!', 'Was machen wir jetzt?'], ex: 'Mia war sehr traurig.', speech: true }
+      },
+      {
+        role: 'Hauptteil', ask: 'Wie wird das Problem gelöst?',
+        svg: function () { return sky() + sun(36, 34) + cloud(100, 36, 0.9) + tree(250, 178, true) + kite(244, 62, -35) + ladder(212, 182, 230, 98) + kid(222, 150, { shirt: '#2E7D4F', style: 'cap', beard: true, armR: 'up', scale: 1.05 }) + kid(96, 184, mix(MIA, { armL: 'out', mood: 'happy' })) + kid(136, 186, mix(BEN, { armL: 'up', mood: 'happy' })); },
+        hs: [{ w: 'Herr Berg', x: 226, y: 104 }, { w: 'die Leiter', x: 214, y: 166 }, { w: 'der Baum', x: 286, y: 156 }, { w: 'der Drachen', x: 244, y: 60 }, { w: 'die Kinder', x: 116, y: 144 }],
+        verbs: ['kam vorbei', 'stellte auf', 'kletterte hinauf', 'holte herunter', 'half'], adj: ['vorsichtig', 'hilfsbereit', 'lang', 'mutig'],
+        frame: ['Zum Glück kam ', [['Herr Berg', 1], ['ein Löwe', 0, 'Schau genau: Wer steht auf der Leiter? Ein Löwe ist nicht auf dem Bild.'], ['der Bus', 0, 'Ein Bus kann nicht auf einen Baum klettern.']],
+          ' mit einer langen ', [['Leiter', 1], ['Nudel', 0, 'Mit einer Nudel kommt man nicht auf den Baum.'], ['Schlange', 0, 'Schau aufs Bild: Was lehnt am Baum?']], ' vorbei.'],
+        chunks: ['Zum Glück kam', 'Herr Berg', 'mit einer langen Leiter', 'vorbei.'],
+        free: { q: 'Was machte Herr Berg? Schreib, wie er den Drachen rettet.', starts: ['Vorsichtig', 'Er', 'Herr Berg'], ideas: ['stellte die Leiter an den Baum', 'kletterte hinauf', 'holte den Drachen herunter'], ex: 'Vorsichtig kletterte er auf die Leiter.' }
+      },
+      {
+        role: 'Schluss', ask: 'Wie geht es aus?',
+        svg: function () { return sky() + sun(286, 36) + cloud(40, 34, 0.9) + cloud(150, 44, 0.7) + tree(300, 178, false) + ladder(250, 186, 262, 118) + kid(232, 186, { shirt: '#2E7D4F', style: 'cap', beard: true, armL: 'out', scale: 1.1 }) + kite(128, 104, 0) + kid(104, 186, mix(MIA, { armR: 'up', mood: 'happy' })) + kid(152, 188, mix(BEN, { armL: 'up', mood: 'happy' })) + '<path d="M70 92 c -4 -6 4 -10 6 -4 c 2 -6 10 -2 6 4 l -6 7 z M186 82 c -4 -6 4 -10 6 -4 c 2 -6 10 -2 6 4 l -6 7 z" fill="#F0607A"/>'; },
+        hs: [{ w: 'der Drachen', x: 128, y: 104 }, { w: 'die Kinder', x: 128, y: 150 }, { w: 'Herr Berg', x: 232, y: 140 }, { w: 'die Freude', x: 76, y: 90 }],
+        verbs: ['bedankten sich', 'freuten sich', 'spielten', 'winkten'], adj: ['froh', 'glücklich', 'dankbar', 'erleichtert'],
+        frame: ['Am Ende ', [['bedankten', 1], ['ärgerten', 0, 'Schau in die Gesichter: Die Kinder lachen. Sie ärgern sich nicht.'], ['versteckten', 0, 'Niemand versteckt sich auf dem Bild.']],
+          ' sich Mia und Ben ', [['fröhlich', 1], ['wütend', 0, 'Sehen die Kinder wütend aus? Schau auf den Mund.'], ['traurig', 0, 'Der Drachen ist gerettet. Sind sie da traurig?']], ' bei Herrn Berg.'],
+        chunks: ['Am Ende bedankten sich', 'Mia und Ben fröhlich', 'bei Herrn Berg.'],
+        free: { q: 'Schreib einen Schluss-Satz: Was lernen Mia und Ben daraus? Oder was machen sie jetzt?', starts: ['Seitdem', 'Von nun an', 'Mia und Ben'], ideas: ['ließen sie den Drachen', 'weit weg von den Bäumen', 'steigen', 'waren sehr glücklich'], ex: 'Seitdem ließen sie den Drachen weit weg von den Bäumen steigen.' }
+      }
+    ]
+  }];
+  function BILD_PICS() { return BILD_STORIES[bildLoad().story % BILD_STORIES.length].pics; }
+
+  /* Wörter für den Rechtschreib-Check */
+  var BILD_COMMON = ('der die das den dem des ein eine einen einem einer und oder aber dann denn da als weil dass wenn ob sie er es wir ich du ihr ihre ihren ihrem ihr sein seine seinen seinem sich ihn ihm uns mit auf in im an am von vom zu zum zur bei beim nach über unter vor hinter neben aus hoch hinauf herunter hinunter runter wieder sehr ganz noch nur nicht kein keine keinen schon auch so wie was wer wo warum jetzt nun da dort hier oben unten weit weg ' +
+    'plötzlich endlich schnell langsam laut leise vorsichtig traurig fröhlich froh glücklich wütend ängstlich erschrocken müde stolz dankbar erleichtert mutig hilfsbereit stark lang lange langen langer bunt bunten bunter windig windigen hell kräftig gemeinsam zusammen alle allen viel viele kaputt neu ' +
+    'war waren hatte hatten kam kamen ging gingen lief liefen rief riefen sah sahen sagte sagten fragte fragten lachte lachten weinte weinten flog flogen hing hingen holte holten kletterte kletterten stellte stellten half halfen bedankte bedankten freute freuten spielte spielten rannte rannten blieb blieben wehte schien ließ ließen hielt hielten fiel fielen zog zogen erschrak erschraken staunte staunten wollte wollten konnte konnten musste mussten tanzte tanzten steigen fliegen hängen winkte winkten jubelte jubelten machte machten ' +
+    'ist sind hat haben kann können will wollen machen geht gehen oh nein ja juhu hurra danke bitte unser unseren unsere mein meine unseren nichts ' +
+    'Mia Ben Herr Herrn Berg Drachen Drache Wind Windstoß Baum Bäume Bäumen Baumes Ast Äste Leiter Wiese Sonne Himmel Wolke Wolken Schnur Kinder Kind Nachbar Nachmittag Tag Morgen Abend Ende Glück Freude Angst Hilfe Garten Hund Freund Freunde Wetter Spaß Schreck Mama Papa Opa Oma Leute Hand Händen seitdem').split(/\s+/);
+  var BILD_DIALECT = { isch: 'ich', net: 'nicht', nit: 'nicht', nix: 'nichts', is: 'ist', uff: 'auf', mer: 'wir', hän: 'haben', des: 'das', ned: 'nicht', ebbes: 'etwas', hawwe: 'haben' };
+  function bildDict() {
+    var d = {};
+    function add(w) { if (!w) return; var k = w.toLowerCase(); if (!d[k]) d[k] = []; if (d[k].indexOf(w) < 0) d[k].push(w); }
+    var NOUN = {};
+    BILD_COMMON.forEach(function (w) { if (/^[A-ZÄÖÜ]/.test(w)) NOUN[w] = 1; add(w); });
+    BILD_STORIES.forEach(function (st) { st.pics.forEach(function (p) { p.hs.forEach(function (h) { h.w.split(/\s+/).forEach(function (w) { if (/^[A-ZÄÖÜ]/.test(w)) NOUN[w] = 1; add(w); }); }); }); });
+    function addSent(x) { (x.match(/[A-Za-zÄÖÜäöüß]+/g) || []).forEach(function (w, i) { add(i === 0 && !NOUN[w] ? w.toLowerCase() : w); }); }
+    BILD_STORIES.forEach(function (st) { st.titles.forEach(addSent); st.pics.forEach(function (p) { p.verbs.concat(p.adj, p.free.ideas, p.free.starts, [p.free.ex]).forEach(addSent); p.chunks.forEach(function (c, i) { if (i === 0) addSent(c); else (c.match(/[A-Za-zÄÖÜäöüß]+/g) || []).forEach(add); }); }); });
+    return d;
+  }
+  var BDICT = null;
+  function lev(a, b) {
+    var m = a.length, n = b.length, d = [], i, j;
+    for (i = 0; i <= m; i++) { d[i] = [i]; } for (j = 0; j <= n; j++) d[0][j] = j;
+    for (i = 1; i <= m; i++) for (j = 1; j <= n; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    return d[m][n];
+  }
+  /* Welche Rechtschreib-Strategie hilft bei diesem Fehler? */
+  function bildHint(typed, target, atStart) {
+    var t = target, w = typed, tl = t.toLowerCase(), wl = w.toLowerCase();
+    if (wl === tl) {
+      if (/^[A-ZÄÖÜ]/.test(t) && !atStart) return { k: 'Groß', h: 'Großschreibung: Kannst du „der, die, das“ davorsetzen, oder ist es ein Name? Dann schreibst du es groß.' };
+      if (/^[A-ZÄÖÜ]/.test(t)) return { k: 'Groß', h: 'Am Satzanfang schreibst du immer groß.' };
+      return { k: 'klein', h: 'Klein schreiben: Das ist kein Nomen. Nur Nomen, Namen und der Satzanfang werden groß geschrieben.' };
+    }
+    function single(s) { return s.replace(/([bdfglmnprst])\1/g, '$1').replace(/ck/g, 'k').replace(/tz/g, 'z'); }
+    if (single(tl) === single(wl) && /([bdfglmnprst])\1|ck|tz/.test(tl)) return { k: 'kurz', h: 'Kurzer Laut: Schwing das Wort in Silben (Son-ne, Lei-ter). Hörst du nach einem kurzen Laut nur einen Mitlaut? Dann wird er verdoppelt, bei k und z schreibst du ck und tz.' };
+    if (tl.indexOf('ie') >= 0 && tl.replace(/ie/g, 'i') === wl.replace(/ie/g, 'i')) return { k: 'ie', h: 'Langes i: Hörst du ein langes i? Dann schreibst du fast immer ie.' };
+    if (tl.replace(/ß/g, 'ss') === wl.replace(/ß/g, 'ss') || tl.replace(/ß/g, 's') === wl || tl.replace(/ss/g, 's') === wl) return { k: 'ß', h: 'ß oder ss: Nach einem langen Laut schreibst du ß (ließen, groß). Nach einem kurzen Laut ss (musste).' };
+    if (tl.replace(/([aeiouäöü])h/g, '$1') === wl.replace(/([aeiouäöü])h/g, '$1')) return { k: 'Merk', h: 'Merkwort mit h: Das h hört man nicht. Schau dir das Wort genau an, schließ die Augen und buchstabiere es.' };
+    var ends = { d: 't', g: 'k', b: 'p' }, lt = tl.slice(-1), lw = wl.slice(-1);
+    if (ends[lt] === lw && tl.slice(0, -1) === wl.slice(0, -1)) return { k: 'verl', h: 'Verlängern: Mach das Wort länger (Wind → Winde, Berg → Berge). Dann hörst du, ob d, g oder b am Ende steht.' };
+    if (tl.replace(/ä/g, 'e').replace(/äu/g, 'eu') === wl.replace(/äu/g, 'eu') || tl.replace(/ä/g, 'e') === wl) return { k: 'abl', h: 'Ableiten: Gibt es ein verwandtes Wort mit a? (Bäume kommt von Baum.) Dann schreibst du ä oder äu.' };
+    if (Math.abs(t.length - w.length) === 1) return { k: 'fehlt', h: (w.length < t.length ? 'Ein Buchstabe fehlt.' : 'Ein Buchstabe ist zu viel.') + ' Sprich das Wort ganz deutlich wie ein Roboter, Silbe für Silbe, und schreib jeden Laut mit.' };
+    return { k: 'genau', h: 'Sprich das Wort ganz deutlich in Silben und vergleich Buchstabe für Buchstabe mit dem Wortspeicher.' };
+  }
+  function toks(s) { return (s.match(/[A-Za-zÄÖÜäöüß]+|[.,!?:;„“"”«»']/g) || []); }
+  function isWord(x) { return /^[A-Za-zÄÖÜäöüß]+$/.test(x); }
+  /* Vergleicht geschriebene Wortgruppe mit der Vorlage, Wort für Wort */
+  function compareChunk(typed, target, chunkIdx) {
+    var a = toks(target), b = toks(typed), m = a.length, n = b.length, D = [], P = [], i, j;
+    function sub(x, y) { if (x === y) return 0; if (x.toLowerCase() === y.toLowerCase()) return 0.4; if (isWord(x) && isWord(y) && lev(x.toLowerCase(), y.toLowerCase()) <= Math.max(1, Math.floor(x.length / 3))) return 0.7; return 2.5; }
+    for (i = 0; i <= m; i++) { D[i] = []; P[i] = []; for (j = 0; j <= n; j++) { if (!i && !j) { D[0][0] = 0; continue; } var best = 1e9, pp = null;
+      if (i && D[i - 1][j] + 1 < best) { best = D[i - 1][j] + 1; pp = 'del'; }
+      if (j && D[i][j - 1] + 1 < best) { best = D[i][j - 1] + 1; pp = 'ins'; }
+      if (i && j && D[i - 1][j - 1] + sub(a[i - 1], b[j - 1]) < best) { best = D[i - 1][j - 1] + sub(a[i - 1], b[j - 1]); pp = 'sub'; }
+      D[i][j] = best; P[i][j] = pp; } }
+    var out = []; i = m; j = n;
+    while (i > 0 || j > 0) {
+      var p = P[i][j];
+      if (p === 'sub') { out.unshift({ t: a[i - 1], w: b[j - 1], ok: a[i - 1] === b[j - 1] }); i--; j--; }
+      else if (p === 'del') { out.unshift({ t: a[i - 1], w: null, ok: false }); i--; }
+      else { out.unshift({ t: null, w: b[j - 1], ok: false }); j--; }
+    }
+    out.forEach(function (o, k) {
+      if (o.ok) return;
+      var start = chunkIdx === 0 && k === 0;
+      if (o.t && o.w && isWord(o.t) && isWord(o.w)) o.hint = bildHint(o.w, o.t, start);
+      else if (o.t && !o.w) o.hint = { k: 'fehlt', h: isWord(o.t) ? 'Hier fehlt ein Wort. Lies die Wortgruppe noch einmal leise mit.' : 'Hier fehlt ein Satzzeichen (' + o.t + '). Am Satzende steht ein Punkt.' };
+      else if (!o.t && o.w) o.hint = { k: 'zuviel', h: 'Dieses Wort oder Zeichen gehört nicht in die Wortgruppe.' };
+      else o.hint = { k: 'genau', h: 'Schau genau hin und vergleich mit der Vorlage.' };
+    });
+    return { all: out.every(function (o) { return o.ok; }), parts: out };
+  }
+  /* Prüft einen frei geschriebenen Satz: Anfang, Ende, bekannte Wörter */
+  function checkFree(text, pic) {
+    BDICT = BDICT || bildDict();
+    var issues = [], tk = toks(text), words = tk.filter(isWord), marks = [];
+    if (words.length < 3) issues.push({ h: 'Schreib einen ganzen Satz mit mindestens drei Wörtern.' });
+    var firstLetter = (text.trim().match(/[A-Za-zÄÖÜäöüß„"]/) || [''])[0];
+    if (firstLetter && /[a-zäöüß]/.test(firstLetter)) issues.push({ h: 'Satzanfang: Das erste Wort schreibst du groß.' });
+    if (!/[.!?]["“”]?\s*$/.test(text.trim())) issues.push({ h: 'Satzende: Am Ende steht ein Punkt (oder ! oder ?).' });
+    var q = (text.match(/[„“"”]/g) || []).length; if (q % 2) issues.push({ h: 'Redezeichen: Wörtliche Rede steht zwischen Redezeichen, unten am Anfang „ und oben am Ende “.' });
+    var sentStart = true;
+    tk.forEach(function (x, idx) {
+      if (!isWord(x)) { if (/[.!?:„"“]/.test(x)) sentStart = true; return; }
+      var lw = x.toLowerCase(), cand = BDICT[lw], st = sentStart; sentStart = false;
+      if (BILD_DIALECT.hasOwnProperty(lw) && !(cand && lw !== 'is' && lw !== 'des')) { var rep = BILD_DIALECT[lw]; if (rep) { marks.push(idx); issues.push({ w: x, h: '„' + x + '“ sagt man vielleicht so. Geschrieben heißt es: „' + rep + '“.' }); } return; }
+      if (cand) {
+        if (cand.indexOf(x) >= 0) return;
+        if (st && cand.some(function (c) { return c.toLowerCase() === lw && /^[a-zäöüß]/.test(c); }) && /^[A-ZÄÖÜ]/.test(x)) return;
+        var right = cand[0];
+        marks.push(idx); issues.push({ w: x, h: bildHint(x, st ? right.charAt(0).toUpperCase() + right.slice(1) : right, st).h });
+        return;
+      }
+      if (lw.length < 4) return;
+      var best = null, bd = 9, lim = lw.length >= 7 ? 2 : 1;
+      Object.keys(BDICT).forEach(function (k) { if (Math.abs(k.length - lw.length) > lim) return; var d0 = lev(lw, k); if (d0 < bd) { bd = d0; best = k; } });
+      if (best && bd <= lim) { marks.push(idx); var tgt = BDICT[best][0]; issues.push({ w: x, h: bildHint(x, st ? tgt.charAt(0).toUpperCase() + tgt.slice(1) : tgt, st).h, sol: tgt }); }
+    });
+    return { issues: issues, marks: marks, tk: tk };
+  }
+
+  /* Zustand */
+  function bildLoad() { var b = store(BK) || {}; b.story = b.story || 0; b.pic = b.pic || 0; b.step = b.step || 0; b.found = b.found || {}; b.fill = b.fill || {}; b.sent = b.sent || {}; b.chunk = b.chunk || 0; b.cs = b.cs || 'look'; b.tries = b.tries || 0; b.draft = b.draft || ''; return b; }
+  function bildSave(b) { store(BK, b); }
+  var bildUi = { msg: null, res: null, checks: {}, freeRes: null, freeTries: 0 };
+  function bildStars(n) {
+    var p = loadPts(), before = rankIdx(p.total), dn = dayNum();
+    if (p.lastDay !== dn) { p.dayStreak = p.lastDay === dn - 1 ? p.dayStreak + 1 : 1; p.lastDay = dn; }
+    p.total += n; store(K.pts, p);
+    try { var d = store(HK.days) || {}; d[dn] = d[dn] || {}; d[dn].d = (d[dn].d || 0) + 1; store(HK.days, d); } catch (e) {}
+    renderPoints();
+    return rankIdx(p.total) > before ? RANKS[rankIdx(p.total)].n : null;
+  }
+  var BILD_STEPS = ['Entdecken', 'Satz bauen', 'Merken & schreiben', 'Selbst erzählen'];
+  function picSvg(pic, b, pi, interactive) {
+    var found = b.found[pi] || [], s = '<svg viewBox="0 0 320 210" class="bild-svg" role="img" aria-label="Bild ' + (pi + 1) + '">' + pic.svg();
+    if (interactive) pic.hs.forEach(function (h, k) {
+      var on = found.indexOf(k) >= 0;
+      if (on) { var wdt = h.w.length * 6.6 + 14, x = Math.max(4, Math.min(316 - wdt, h.x - wdt / 2)), y = Math.max(4, h.y - 30); s += '<g class="hs-label"><rect x="' + x + '" y="' + y + '" width="' + wdt + '" height="20" rx="10"/><text x="' + (x + wdt / 2) + '" y="' + (y + 14) + '">' + esc(h.w) + '</text></g>'; }
+      else s += '<g class="hs-dot" data-hs="' + k + '" role="button" aria-label="Etwas im Bild entdecken"><circle cx="' + h.x + '" cy="' + h.y + '" r="22" fill="transparent"/><circle class="hs-ring" cx="' + h.x + '" cy="' + h.y + '" r="9"/><text x="' + h.x + '" y="' + (h.y + 4) + '">?</text></g>';
+    });
+    return s + '</svg>';
+  }
+  function wsHtml(pic, b, pi, all) {
+    var found = b.found[pi] || [], nouns = pic.hs.filter(function (h, k) { return all || found.indexOf(k) >= 0; }).map(function (h) { return h.w; });
+    var h = '<div class="ws"><p class="ws-title">Wortspeicher</p><div class="ws-row"><span class="ws-lab">Nomen</span>' + nouns.map(function (w) { return '<button type="button" class="ws-w n" data-say="' + esc(w) + '">' + esc(w) + '</button>'; }).join('') + '</div>';
+    if (all) h += '<div class="ws-row"><span class="ws-lab">Tun-Wörter</span>' + pic.verbs.map(function (w) { return '<button type="button" class="ws-w v" data-say="' + esc(w) + '">' + esc(w) + '</button>'; }).join('') + '</div>' +
+      '<div class="ws-row"><span class="ws-lab">Wie-Wörter</span>' + pic.adj.map(function (w) { return '<button type="button" class="ws-w a" data-say="' + esc(w) + '">' + esc(w) + '</button>'; }).join('') + '</div>';
+    return h + '</div>';
+  }
+  function targetSentence(pic) { return pic.chunks.join(' '); }
+  function bildHead(b, pics) {
+    var dots = pics.map(function (p, k) { return '<i class="' + (k < b.pic || b.finished ? 'done' : k === b.pic ? 'cur' : '') + '">' + (k + 1) + '</i>'; }).join('') + '<i class="' + (b.finished ? 'done' : b.pic >= pics.length ? 'cur' : '') + '">★</i>';
+    return '<div class="bild-head"><div><h2>Schreib-Reise</h2><p>Bildergeschichte: ' + esc(BILD_STORIES[b.story % BILD_STORIES.length].titles[0]) + '</p></div><div class="bild-dots" aria-label="Fortschritt">' + dots + '</div></div>';
+  }
+  function renderBild() {
+    var v = document.getElementById('bildView'); if (!v) return;
+    var b = bildLoad(), pics = BILD_PICS(), h = bildHead(b, pics);
+    if (b.finished || b.pic >= pics.length) { v.innerHTML = h + bildFinal(b, pics); return; }
+    var pi = b.pic, pic = pics[pi];
+    h += '<div class="card bild-card"><div class="bild-steps">' + BILD_STEPS.map(function (s, k) { return '<span class="' + (k < b.step ? 'done' : k === b.step ? 'cur' : '') + '">' + (k + 1) + ' ' + s + '</span>'; }).join('') + '</div>';
+    h += '<p class="bild-role"><b>Bild ' + (pi + 1) + ' · ' + pic.role + '</b> ' + pic.ask + '</p>';
+    if (b.step === 0) {
+      var found = b.found[pi] || [], left = pic.hs.length - found.length;
+      h += '<p class="bild-q">' + (left ? 'Schau dir das Bild genau an. Tippe auf die Fragezeichen: Was ist das? Noch <b>' + left + '</b> zu entdecken.' : 'Alles entdeckt! Hör dir die Wörter an und lies sie mit.') + '</p>';
+      h += picSvg(pic, b, pi, true) + wsHtml(pic, b, pi, !left);
+      if (!left) h += '<div class="bild-tip">Fini-Tipp: Die Nomen mit dem roten Strich schreibst du groß. Tippe ein Wort an, dann liest Fini es vor.</div><div class="actions"><button type="button" class="btn primary" data-b="next">Weiter: Satz bauen</button></div>';
+    } else if (b.step === 1) {
+      h += picSvg(pic, b, pi, false);
+      var fr = pic.frame, gap = 0, cur = -1, sent = '';
+      fr.forEach(function (part) {
+        if (typeof part === 'string') { sent += esc(part); return; }
+        var f = b.fill[pi + '-' + gap];
+        if (f !== undefined) sent += '<span class="gap ok">' + esc(part[f][0]) + '</span>';
+        else { if (cur < 0) cur = gap; sent += '<span class="gap' + (cur === gap ? ' cur' : '') + '">' + (cur === gap ? '?' : '…') + '</span>'; }
+        gap++;
+      });
+      h += '<p class="bild-q">Bau den Satz. Er muss zum Bild passen.</p><p class="frame">' + sent + '</p>';
+      if (cur >= 0) {
+        var gi = 0, opts = null; fr.forEach(function (part) { if (typeof part !== 'string') { if (gi === cur) opts = part; gi++; } });
+        var order = (bildUi.order && bildUi.order.k === pi + '-' + cur) ? bildUi.order.o : (bildUi.order = { k: pi + '-' + cur, o: shuffle(opts.map(function (o, k) { return k; })) }).o;
+        h += '<div class="opts bild-opts">' + order.map(function (k) { return '<button type="button" class="opt' + (bildUi.wrong === k ? ' no' : '') + '" data-gap="' + cur + '" data-o="' + k + '">' + esc(opts[k][0]) + '</button>'; }).join('') + '</div>';
+        if (bildUi.msg) h += '<div class="feedback tryagain"><p class="fb-title">Schau noch mal hin</p><p>' + esc(bildUi.msg) + '</p></div>';
+      } else {
+        h += '<div class="feedback good"><p class="fb-title">Der Satz passt zum Bild!</p><p>Hör ihn dir an und lies leise mit. Gleich schreibst du ihn selbst.</p></div>' +
+          '<div class="actions">' + (hasTTS ? '<button type="button" class="btn" data-say="' + esc(targetSentence(pic)) + '">' + SPEAK_SVG + 'Anhören</button>' : '') + '<button type="button" class="btn primary" data-b="next">Weiter: Merken & schreiben</button></div>';
+      }
+    } else if (b.step === 2) {
+      var ch = pic.chunks, ci = b.chunk;
+      h += '<p class="bild-q">Schreib den Satz in kleinen Wortgruppen: <b>ansehen, merken, zudecken, schreiben, vergleichen.</b></p>';
+      h += '<p class="built">' + ch.map(function (c, k) { return k < ci ? '<span class="ok">' + esc(c) + '</span>' : '<span class="todo">' + (k === ci ? '▢▢▢' : '…') + '</span>'; }).join(' ') + '</p>';
+      if (ci < ch.length) {
+        var c = ch[ci];
+        h += '<p class="chunk-n">Wortgruppe ' + (ci + 1) + ' von ' + ch.length + '</p>';
+        if (b.cs === 'look') {
+          h += '<div class="chunk-show">' + esc(c) + '</div><p class="bild-small">Lies die Wortgruppe zweimal. Sprich sie leise in Silben mit. Schau auf schwierige Stellen: groß oder klein? Doppelte Buchstaben?</p>' +
+            '<div class="actions">' + (hasTTS ? '<button type="button" class="btn" data-say="' + esc(c) + '">' + SPEAK_SVG + 'Anhören</button>' : '') + '<button type="button" class="btn primary" data-b="cover">Gemerkt: zudecken</button></div>';
+        } else if (b.cs === 'show') {
+          h += '<div class="chunk-show reveal">' + bildUi.res.parts.filter(function (o) { return o.t; }).map(function (o) { return o.ok ? esc(o.t) : '<mark>' + esc(o.t) + '</mark>'; }).join(' ').replace(/ ([.,!?])/g, '$1') + '</div>' +
+            '<p class="bild-small">So ist es richtig. Die markierten Stellen sind knifflig. Schreib die Wortgruppe jetzt genau ab.</p>' + chunkInput(b) ;
+        } else {
+          h += '<div class="chunk-show covered">✂ zugedeckt – jetzt schreiben!</div>' + chunkInput(b);
+        }
+        if (bildUi.res && b.cs !== 'show') h += chunkFeedback(bildUi.res);
+      } else {
+        h += '<div class="feedback good"><p class="fb-title">Super, der ganze Satz steht!</p><p>' + esc(targetSentence(pic)) + '</p></div><div class="actions"><button type="button" class="btn primary" data-b="next">Weiter: Selbst erzählen</button></div>';
+      }
+    } else if (b.step === 3) {
+      var f = pic.free;
+      h += picSvg(pic, b, pi, false) + '<p class="bild-q">' + esc(f.q) + '</p>' + wsHtml(pic, b, pi, true);
+      h += '<div class="ws ideas"><p class="ws-title">Ideen-Kiste <span>(so schreibt man die Wörter)</span></p><div class="ws-row">' + f.ideas.map(function (w) { return '<button type="button" class="ws-w i" data-say="' + esc(w) + '">' + esc(w) + '</button>'; }).join('') + '</div></div>';
+      h += '<p class="bild-small">So kannst du anfangen:</p><div class="starts">' + f.starts.map(function (s) { return '<button type="button" class="chip" data-start="' + esc(s) + '">' + esc(s) + ' …</button>'; }).join('') + '</div>';
+      h += '<textarea id="bildFree" class="bild-free" rows="3" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="Schreib deinen Satz hier.">' + esc(b.draft) + '</textarea>';
+      h += '<div class="selfcheck"><p class="ws-title">Erst selbst prüfen, dann Fini</p>' + [['a', 'Mein Satz beginnt mit einem großen Buchstaben.'], ['n', 'Nomen und Namen habe ich groß geschrieben.'], ['p', 'Am Ende steht ein Punkt (oder ! ?).']].map(function (x) {
+        return '<label><input type="checkbox" data-sc="' + x[0] + '"' + (bildUi.checks[x[0]] ? ' checked' : '') + '> ' + x[1] + '</label>'; }).join('') + '</div>';
+      var allTicked = bildUi.checks.a && bildUi.checks.n && bildUi.checks.p;
+      h += '<div class="actions">' + (hasTTS ? '<button type="button" class="btn" data-b="readmine">' + SPEAK_SVG + 'Meinen Satz vorlesen</button>' : '') + '<button type="button" class="btn primary" data-b="checkfree"' + (allTicked ? '' : ' disabled') + '>Fini prüft</button></div>';
+      if (!allTicked) h += '<p class="bild-small">Hak die drei Punkte ab, wenn du sie geprüft hast.</p>';
+      if (bildUi.freeRes) h += freeFeedback(bildUi.freeRes);
+    } else {
+      h += picSvg(pic, b, pi, false) + '<div class="feedback good"><p class="fb-title">Bild ' + (pi + 1) + ' geschafft!</p><p>Diese Sätze kommen in deine Geschichte:</p><p class="story-bit">' + esc((b.sent[pi] || []).join(' ')) + '</p></div>' +
+        (bildUi.news ? '<div class="fb-badge">' + badgeSvg(true) + '<span>' + bildUi.news + '</span></div>' : '') +
+        '<p class="bild-small">' + (pi + 1 < pics.length ? 'Kleine Schritte machen dich stark: Ein Bild pro Tag reicht. Morgen geht es mit Bild ' + (pi + 2) + ' weiter. Du darfst aber auch gleich weitermachen.' : 'Alle Bilder sind geschafft! Jetzt fehlt nur noch die Überschrift.') + '</p>' +
+        '<div class="actions"><button type="button" class="btn" data-b="tofach">Für heute fertig</button><button type="button" class="btn primary" data-b="nextpic">' + (pi + 1 < pics.length ? 'Weiter mit Bild ' + (pi + 2) : 'Zur Überschrift') + '</button></div>';
+    }
+    h += '</div>';
+    v.innerHTML = h;
+  }
+  function chunkInput(b) {
+    return '<form class="chunk-form" data-b="chunkform" autocomplete="off"><input type="text" id="bildChunk" class="bild-in" spellcheck="false" autocapitalize="off" autocorrect="off" value="' + esc(bildUi.typed || '') + '" placeholder="Hier schreiben" aria-label="Wortgruppe schreiben">' +
+      '<div class="actions">' + (b.cs === 'write' && b.tries > 0 ? '<button type="button" class="btn tip" data-b="peek">Kurz spicken</button>' : '') + '<button type="submit" class="btn primary">Vergleichen</button></div></form>';
+  }
+  function chunkFeedback(res) {
+    var html = '<p class="marked">' + res.parts.map(function (o) { if (o.ok) return '<span class="w ok">' + esc(o.t) + '</span>'; if (!o.w) return '<span class="w miss">▢</span>'; return '<span class="w no">' + esc(o.w) + '</span>'; }).join(' ') + '</p>';
+    var hints = []; res.parts.forEach(function (o) { if (!o.ok && o.hint && hints.indexOf(o.hint.h) < 0) hints.push(o.hint.h); });
+    return '<div class="feedback tryagain"><p class="fb-title">Fast! Die orangen Stellen stimmen noch nicht.</p>' + hints.slice(0, 3).map(function (x) { return '<p>' + esc(x) + '</p>'; }).join('') + '<p>Verbessere sie oben im Feld und vergleiche noch einmal.</p></div>' + html;
+  }
+  function freeFeedback(r) {
+    if (!r.issues.length) return '';
+    var html = '<p class="marked">' + r.tk.map(function (x, i) { return isWord(x) ? '<span class="w ' + (r.marks.indexOf(i) >= 0 ? 'no' : 'ok') + '">' + esc(x) + '</span>' : esc(x); }).join(' ').replace(/ ([.,!?:“])/g, '$1').replace(/„ /g, '„') + '</p>';
+    return '<div class="feedback tryagain"><p class="fb-title">Fini hat ' + (r.issues.length === 1 ? 'eine Stelle' : r.issues.length + ' Stellen') + ' gefunden</p>' + r.issues.slice(0, 4).map(function (x) { return '<p>' + (x.w ? '<b>' + esc(x.w) + ':</b> ' : '') + esc(x.h) + (x.sol && bildUi.freeTries >= 2 ? ' Richtig: <b>' + esc(x.sol) + '</b>' : '') + '</p>'; }).join('') + '</div>' + html;
+  }
+  function bildFinal(b, pics) {
+    var st = BILD_STORIES[b.story % BILD_STORIES.length];
+    if (!b.title) {
+      return '<div class="card bild-card"><p class="bild-role"><b>Fast fertig!</b> Jede Geschichte braucht eine Überschrift.</p><p class="bild-q">Wähle eine Überschrift oder schreib eine eigene. Sie verrät, worum es geht, aber nicht das Ende.</p>' +
+        '<div class="opts">' + st.titles.map(function (t) { return '<button type="button" class="opt" data-title="' + esc(t) + '">' + esc(t) + '</button>'; }).join('') + '</div>' +
+        '<form class="chunk-form" data-b="titleform"><input type="text" id="bildTitle" class="bild-in" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="Eigene Überschrift"><div class="actions"><button type="submit" class="btn primary">Übernehmen</button></div></form>' +
+        (bildUi.msg ? '<div class="feedback tryagain"><p>' + esc(bildUi.msg) + '</p></div>' : '') + '</div>';
+    }
+    var all = [], parts = { Einleitung: [], Hauptteil: [], Schluss: [] };
+    pics.forEach(function (p, k) { var s = b.sent[k] || []; all = all.concat(s); parts[p.role].push('<div class="story-pic">' + picSvg(p, b, k, false) + '<p>' + esc(s.join(' ')) + '</p></div>'); });
+    var starts = all.map(function (s) { return (s.match(/[A-Za-zÄÖÜäöüß]+/) || [''])[0].toLowerCase(); }), diff = starts.filter(function (x, i) { return starts.indexOf(x) === i; }).length;
+    var feel = /traurig|froh|fröhlich|glücklich|erschr|wütend|angst|stolz|dankbar|erleichtert|freu/i.test(all.join(' ')), speech = /[„"“]/.test(all.join(' '));
+    var checks = [['Überschrift', true], ['Einleitung, Hauptteil und Schluss', true], ['Verschiedene Satzanfänge (' + diff + ' von ' + all.length + ')', diff >= all.length - 2], ['Gefühle beschrieben', feel], ['Wörtliche Rede', speech]];
+    return '<div class="card bild-card story"><p class="bild-role"><b>Deine fertige Geschichte</b></p><h3 class="story-title">' + esc(b.title) + '</h3>' +
+      ['Einleitung', 'Hauptteil', 'Schluss'].map(function (r) { return '<p class="story-sec">' + r + '</p>' + parts[r].join(''); }).join('') +
+      '<div class="selfcheck"><p class="ws-title">Fini-Check für deine Geschichte</p><ul class="story-check">' + checks.map(function (c) { return '<li class="' + (c[1] ? 'ok' : '') + '">' + (c[1] ? '✓ ' : '○ ') + esc(c[0]) + '</li>'; }).join('') + '</ul></div>' +
+      '<div class="actions">' + (hasTTS ? '<button type="button" class="btn" data-say="' + esc(b.title + '. ' + all.join(' ')) + '">' + SPEAK_SVG + 'Vorlesen</button>' : '') + '<button type="button" class="btn" data-b="copy">Text kopieren</button><button type="button" class="btn primary" data-b="again">Neu schreiben</button></div>' +
+      '<p class="bild-small">Tipp für Eltern: Lass die Geschichte zum Schluss mit der Hand ins Heft abschreiben. Das übt die Wörter noch einmal.</p></div>';
+  }
+  function bildNextStep() { var b = bildLoad(); b.step++; b.chunk = 0; b.cs = 'look'; b.tries = 0; bildUi = { msg: null, res: null, checks: {}, freeRes: null, freeTries: 0 }; bildSave(b); renderBild(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  var bildView = document.getElementById('bildView');
+  bildView.addEventListener('click', function (e) {
+    var sy = e.target.closest('[data-say]'); if (sy && hasTTS) { TTS.say(sy.getAttribute('data-say'), 'de-DE', 0.85); }
+    var b = bildLoad(), pics = BILD_PICS(), pi = b.pic, pic = pics[pi];
+    var hs = e.target.closest('[data-hs]');
+    if (hs) { var k = +hs.getAttribute('data-hs'), f = b.found[pi] || []; if (f.indexOf(k) < 0) f.push(k); b.found[pi] = f; bildSave(b); if (hasTTS) TTS.say(pic.hs[k].w, 'de-DE', 0.85); if (f.length === pic.hs.length) bildStars(1); renderBild(); return; }
+    var g = e.target.closest('[data-gap]');
+    if (g) {
+      var gap = +g.getAttribute('data-gap'), o = +g.getAttribute('data-o'), gi = 0, opts = null;
+      pic.frame.forEach(function (part) { if (typeof part !== 'string') { if (gi === gap) opts = part; gi++; } });
+      if (opts[o][1]) { b.fill[pi + '-' + gap] = o; bildSave(b); if (!bildUi.wrong && bildUi.wrong !== 0) bildStars(1); bildUi.msg = null; bildUi.wrong = null; }
+      else { bildUi.msg = opts[o][2]; bildUi.wrong = o; }
+      renderBild(); return;
+    }
+    var st0 = e.target.closest('[data-start]');
+    if (st0) { var ta = document.getElementById('bildFree'); b.draft = st0.getAttribute('data-start') + ' '; bildSave(b); ta.value = b.draft; ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); return; }
+    var tt = e.target.closest('[data-title]');
+    if (tt) { b.title = tt.getAttribute('data-title'); finishStory(b); return; }
+    var act = e.target.closest('[data-b]'); if (!act || act.tagName === 'FORM') return;
+    var a = act.getAttribute('data-b');
+    if (a === 'next') bildNextStep();
+    else if (a === 'cover') { b.cs = 'write'; bildSave(b); bildUi.typed = ''; bildUi.res = null; renderBild(); var i = document.getElementById('bildChunk'); if (i) i.focus(); }
+    else if (a === 'peek') { var box = bildView.querySelector('.chunk-show'); if (box) { box.classList.remove('covered'); box.textContent = pic.chunks[b.chunk]; b.peeked = 1; bildSave(b); setTimeout(function () { box.classList.add('covered'); box.textContent = '✂ zugedeckt – jetzt schreiben!'; }, 3000); } }
+    else if (a === 'readmine') { var t0 = document.getElementById('bildFree').value.trim(); if (t0) TTS.say(t0, 'de-DE', 0.8); }
+    else if (a === 'checkfree') {
+      var txt = document.getElementById('bildFree').value.trim(); b.draft = txt; bildSave(b);
+      var r = checkFree(txt, pic); bildUi.freeTries++;
+      if (!r.issues.length) { b.sent[pi] = [targetSentence(pic), txt.replace(/\s+/g, ' ')]; b.step = 4; b.draft = ''; bildSave(b); var rk = bildStars(bildUi.freeTries === 1 ? 2 : 1); try { confetti(); } catch (e2) {} bildUi = { news: rk ? 'Aufgestiegen! Du bist jetzt ' + rk + '.' : null, checks: {} }; markPlayed(); renderBild(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+      else { bildUi.freeRes = r; renderBild(); var fb = bildView.querySelector('.feedback'); if (fb) fb.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    }
+    else if (a === 'nextpic') { b.pic++; b.step = 0; b.chunk = 0; b.cs = 'look'; b.tries = 0; bildSave(b); bildUi = { checks: {} }; renderBild(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    else if (a === 'tofach') showFach('d');
+    else if (a === 'copy') { var txt2 = b.title + '\n\n' + pics.map(function (p, k) { return (b.sent[k] || []).join(' '); }).join('\n'); try { navigator.clipboard.writeText(txt2); act.textContent = 'Kopiert!'; } catch (e3) {} }
+    else if (a === 'again') { if (confirm('Die Geschichte noch einmal neu schreiben? Die fertige Geschichte wird dabei gelöscht.')) { bildSave({ story: (b.story + 1) }); bildUi = { checks: {} }; renderBild(); } }
+  });
+  bildView.addEventListener('change', function (e) { var c = e.target.closest('[data-sc]'); if (!c) return; bildUi.checks[c.getAttribute('data-sc')] = c.checked; var txt = document.getElementById('bildFree'); if (txt) { var b = bildLoad(); b.draft = txt.value; bildSave(b); } renderBild(); });
+  bildView.addEventListener('input', function (e) { if (e.target.id === 'bildFree') { var b = bildLoad(); b.draft = e.target.value; bildSave(b); } if (e.target.id === 'bildChunk') bildUi.typed = e.target.value; });
+  bildView.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var b = bildLoad(), pic = BILD_PICS()[b.pic], fm = e.target.getAttribute('data-b');
+    if (fm === 'titleform') {
+      var t = document.getElementById('bildTitle').value.trim().replace(/\s+/g, ' ');
+      if (t.split(' ').length < 2) { bildUi.msg = 'Schreib mindestens zwei Wörter.'; renderBild(); return; }
+      if (/^[a-zäöü]/.test(t)) { bildUi.msg = 'Die Überschrift beginnt mit einem großen Buchstaben.'; renderBild(); return; }
+      var r = checkFree(t + '.', pic || BILD_PICS()[0]); var sp = r.issues.filter(function (x) { return x.w; });
+      if (sp.length) { bildUi.msg = sp[0].w + ': ' + sp[0].h; renderBild(); return; }
+      b.title = t; finishStory(b); return;
+    }
+    var typed = (document.getElementById('bildChunk').value || '').trim(), c = pic.chunks[b.chunk];
+    if (!typed) return;
+    var res = compareChunk(typed, c, b.chunk);
+    if (res.all) {
+      bildStars(b.tries === 0 && !b.peeked ? 2 : 1);
+      b.chunk++; b.cs = 'look'; b.tries = 0; b.peeked = 0; bildSave(b); bildUi.res = null; bildUi.typed = ''; renderBild();
+      if (b.chunk >= pic.chunks.length) try { confetti(); } catch (e4) {}
+      return;
+    }
+    b.tries++; bildUi.res = res; bildUi.typed = typed;
+    if (b.tries >= 2 && b.cs !== 'show') { b.cs = 'show'; bildUi.typed = ''; }
+    bildSave(b); renderBild();
+    var inp = document.getElementById('bildChunk'); if (inp) { inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length); }
+  });
+  function finishStory(b) { b.finished = true; bildSave(b); bildStars(3); try { confetti(); } catch (e) {} bildUi = { checks: {} }; renderBild(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  function markPlayed() { try { var p = loadPts(); p.played.bild = 1; if (!p.badges.deutsch1) p.badges.deutsch1 = dayNum(); store(K.pts, p); } catch (e) {} }
+
 
   /* ---------- Start ---------- */
   var s0 = settings();
