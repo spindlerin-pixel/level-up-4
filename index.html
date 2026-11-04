@@ -878,6 +878,68 @@ body.eng .fc-bar i, body.eng .fc-how b { background: var(--eng); } body.deu .fc-
 .stufe-list li:first-child { border-top: 0; }
 </style>
 <style>
+
+/* ===== Startseite wie Level Up 5 ===== */
+body.on-home .subjects, body.on-home .pick, body.on-home .progress, body.on-home #card, body.on-home #fcView, body.on-home .break-info, body.on-home #homeBack { display: none !important; }
+body:not(.on-home) #homeView, body:not(.on-home) .hello-row { display: none !important; }
+.home { display: flex; flex-direction: column; gap: 16px; }
+.eyebrow { margin: 0 0 -10px; font-family: var(--font-display); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+.lu-brand { color: var(--primary); font-weight: 800; letter-spacing: 0.08em; }
+.hello-row .hello { font-size: 2rem; line-height: 1.05; }
+.home-back { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 14px 8px 8px; border: 0; border-radius: 999px; background: var(--surface); box-shadow: var(--soft-shadow); color: var(--ink); font-family: var(--font-display); font-weight: 700; font-size: 1rem; cursor: pointer; }
+.home-back svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.home-back:focus-visible, .hsub:focus-visible, .ka:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.ka-wrap { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 24px; color: #EEF1FA;
+  background: radial-gradient(120% 140% at 0% 0%, #3B2A7A 0%, rgba(59,42,122,0) 55%), radial-gradient(120% 140% at 100% 100%, #0F5552 0%, rgba(15,85,82,0) 55%), #121833;
+  box-shadow: 0 10px 28px rgba(18,24,51,0.35); }
+.ka-wrap::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.35;
+  background-image: linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px); background-size: 18px 18px; }
+.ka-wrap > * { position: relative; }
+.ka-head { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; letter-spacing: 0.1em; text-transform: uppercase; color: #FFFFFF; }
+.ka-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.ka { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 12px 14px; border-radius: 18px; background: rgba(255,255,255,0.06); color: #EEF1FA; border: 1.5px solid var(--kc); box-shadow: 0 0 18px color-mix(in srgb, var(--kc) 30%, transparent) inset; }
+.ka-subj { font-family: var(--font-display); font-weight: 800; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--kt); }
+.ka-num { font-family: var(--font-display); font-weight: 800; font-size: 3.4rem; line-height: 0.95; color: #FFFFFF; text-shadow: 0 0 14px var(--kc), 0 0 2px #fff; font-variant-numeric: tabular-nums; }
+.ka-num.small { font-size: 2.2rem; }
+.ka p { margin: 0; font-size: 0.9rem; line-height: 1.35; }
+.ka b { display: block; }
+.ka.d { --kc: rgba(255,143,163,0.85); --kt: #FFB8C5; }
+.ka.mu { --kc: rgba(169,139,255,0.85); --kt: #C9B8FF; }
+.ka.m { --kc: rgba(60,207,198,0.85); --kt: #8EEDE6; }
+.ka.en { --kc: rgba(125,180,255,0.85); --kt: #B5D3FF; }
+.hsubs { display: flex; flex-direction: column; gap: 14px; }
+.hsub { all: unset; box-sizing: border-box; cursor: pointer; display: flex; flex-direction: column; gap: 12px; padding: 0 0 14px; border-radius: 24px; background: var(--surface); box-shadow: var(--soft-shadow); color: var(--ink); overflow: hidden; }
+.hsub:active { transform: translateY(2px); }
+.hsub-top { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--sf); }
+.hsub-top svg { width: 46px; height: 46px; flex-shrink: 0; }
+.hsub-name { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.45rem; line-height: 1.05; }
+.hsub-what { display: block; margin-top: 3px; font-size: 0.92rem; line-height: 1.3; color: var(--ink-soft); }
+.hsub .goalbar, .hsub-status, .hsub-go { margin-inline: 16px; }
+.goalbar { display: block; position: relative; height: 12px; border-radius: 6px; background: var(--muted-fill); overflow: hidden; }
+.goalbar i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--sc); border-radius: 6px; transition: width 0.4s ease; }
+.goalbar.done i { background: var(--good); }
+.hsub-status { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+.hsub-status b { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; }
+.hsub-status span { color: var(--ink-soft); text-align: right; }
+.hsub-go { display: block; text-align: center; font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; padding: 12px; border-radius: 14px; background: var(--sc); color: #FFFFFF; box-shadow: 0 4px 0 var(--sd); }
+.hsub.m { --sc: var(--c-m); --sd: var(--c-m-dark); --sf: var(--c-m-fill); }
+.hsub.d { --sc: var(--c-d); --sd: var(--c-d-dark); --sf: var(--c-d-fill); }
+.hsub.mu { --sc: var(--c-mu); --sd: var(--c-mu-dark); --sf: var(--c-mu-fill); }
+.hsub.en { --sc: var(--c-en); --sd: var(--c-en-dark); --sf: var(--c-en-fill); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hsub-go { color: #10172A; } }
+:root[data-theme="dark"] .hsub-go { color: #10172A; }
+.week { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: 20px; background: var(--surface); box-shadow: var(--soft-shadow); }
+.week h2 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; }
+.week-row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.wd { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px 2px; border-radius: 12px; font-size: 0.82rem; color: var(--ink-soft); }
+.wd.today { background: var(--primary-fill); color: var(--ink); font-weight: 800; }
+.wd-dots { display: grid; grid-template-columns: repeat(2, 9px); gap: 3px; }
+.wd-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--muted-fill); }
+.wd-dots i.m { background: var(--c-m); } .wd-dots i.d { background: var(--c-d); } .wd-dots i.mu { background: var(--c-mu); } .wd-dots i.en { background: var(--c-en); }
+.week-legend { margin: 0; font-size: 0.85rem; color: var(--ink-soft); }
+.ka-date { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0; border-top: 1.5px solid var(--muted-fill); }
+.ka-date input { font: inherit; padding: 6px 8px; border: 2px solid var(--edge, var(--line)); border-radius: 10px; background: var(--surface); color: var(--ink); }
+@media (max-width: 360px) { .ka-grid { grid-template-columns: minmax(0, 1fr); } }
 /* ===== Neues Design wie Level Up 5: hell, weich, farbige Lernkacheln (angelehnt an Vokabel-Apps wie cabuu) =====
    Layout: eine Spalte, kompakte Kopfzeile, Fach als farbige Kachel, Thema über einen Knopf + Auswahlfenster, Aufgabe sofort sichtbar */
 :root {
@@ -1118,6 +1180,25 @@ body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: m
     </div>
   </div>
 
+  <section class="home" id="homeView" aria-label="Startseite">
+    <p class="eyebrow"><span class="lu-brand">Level Up 4</span> · <span id="homeDate">Heute</span></p>
+
+    <section class="ka-wrap" aria-label="Countdown Klassenarbeiten">
+      <h2 class="ka-head">⏳ Countdown Klassenarbeiten</h2>
+      <div class="ka-grid" id="kaGrid"></div>
+    </section>
+
+    <section class="hsubs" id="homeSubs" aria-label="Fächer"></section>
+
+    <section class="week" aria-label="Deine Lern-Woche">
+      <h2 id="weekTitle">Deine Lern-Woche</h2>
+      <div class="week-row" id="weekRow"></div>
+      <p class="week-legend">Jeder Punkt ist ein Fach, in dem du an dem Tag geübt hast: Mathe, Deutsch, Musik, Englisch.</p>
+    </section>
+  </section>
+
+  <button type="button" class="home-back" id="homeBack"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Zur Startseite</button>
+
   <div class="break-info" id="breakInfo">
     <p id="breakText">Pause mit Memory nach 2 Runden</p>
     <button type="button" class="btn small primary" id="breakStart" hidden>Pause starten</button>
@@ -1216,6 +1297,10 @@ body { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: m
         <div class="actions" style="margin-top:6px"><button type="button" class="btn small" id="updBtn" onclick="this.textContent='Wird geladen …';location.replace(location.pathname+'?v='+Date.now())">↻ App aktualisieren</button></div>
         <label class="auto-upd" for="autoUpd"><input type="checkbox" id="autoUpd" checked> Automatisch aktualisieren: Beim Öffnen der App schaut sie nach einer neuen Version und lädt sie von selbst.</label>
         <p class="lv-legend" id="autoUpdInfo" style="margin:4px 0 0"></p>
+      </div>
+      <div class="setting" id="kaDates"><b>Termine der Klassenarbeiten</b>
+        <p class="lv-legend" style="margin:0">Dann zählt der Countdown auf der Startseite die Tage. Leer lassen, wenn noch kein Termin feststeht.</p>
+        <div id="kaDateList"></div>
       </div>
       <label class="setting" for="breakLen">Länge der Memory-Pause
         <select id="breakLen"><option value="5">5 Minuten</option><option value="7">7 Minuten</option><option value="10">10 Minuten</option></select>
@@ -6473,6 +6558,99 @@ window.EULE = (function () {
     else fcStart(a);
   });
 
+  /* ---------- Startseite wie Level Up 5 ---------- */
+  var HOME = {
+    m: { n: 'Mathe', go: 'Mathe üben' }, d: { n: 'Deutsch', go: 'Deutsch üben' },
+    mu: { n: 'Musik', go: 'Musik üben' }, en: { n: 'Englisch', go: 'Englisch üben' }
+  };
+  var ARBEITEN = [
+    { s: 'd', n: 'Deutsch', what: 'Klassenarbeit Geschichte schreiben', topic: 'gtest' },
+    { s: 'mu', n: 'Musik', what: 'Musiktest: Noten und Pausen', topic: 'mtest' }
+  ];
+  var HK = { days: 'eule-tage', dates: 'eule-arbeiten', home: 'eule-ansicht' };
+  var DAY_GOAL = 15;
+  function dayCounts(dn) { var d = store(HK.days) || {}; return d[dn] || {}; }
+  var _resolve = resolve;
+  resolve = function (result, feedback) {
+    try {
+      var d = store(HK.days) || {}, dn = dayNum(), s = subjOf(state.topic);
+      d[dn] = d[dn] || {}; d[dn][s] = (d[dn][s] || 0) + 1;
+      Object.keys(d).forEach(function (k) { if (+k < dn - 30) delete d[k]; });
+      store(HK.days, d);
+    } catch (e) {}
+    return _resolve(result, feedback);
+  };
+  function iconFor(s) { var b = document.querySelector('.subjects [data-s="' + s + '"] svg'); return b ? b.outerHTML : ''; }
+  function subjTypes(s) { var o = {}; TOPICS[s].forEach(function (t) { (t.t || []).forEach(function (x) { o[x] = 1; }); }); return Object.keys(o); }
+  function arbeitDates() { return store(HK.dates) || {}; }
+  function fmtDay(iso) { var d = new Date(iso + 'T12:00:00'); return d.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' }); }
+  function daysUntil(iso) { var t = new Date(); t.setHours(12, 0, 0, 0); var d = new Date(iso + 'T12:00:00'); return Math.round((d - t) / 86400000); }
+  function renderHome() {
+    var now = new Date(), dn = dayNum(), today = dayCounts(dn), st = loadStats();
+    document.getElementById('homeDate').textContent = now.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
+    var dates = arbeitDates();
+    document.getElementById('kaGrid').innerHTML = ARBEITEN.map(function (a) {
+      var iso = dates[a.s], num = '?', txt, small = false;
+      if (!iso) txt = '<b>' + a.what + '</b>Termin bei „Für Eltern“ eintragen, dann zählt Fini die Tage.';
+      else {
+        var n = daysUntil(iso);
+        if (n > 1) { num = n; txt = '<b>Tage bis zum ' + (a.s === 'mu' ? 'Musiktest' : a.n + '-Test') + '</b>am ' + fmtDay(iso) + '. ' + a.what + '.'; }
+        else if (n === 1) { num = '1'; txt = '<b>Tag – morgen ist es so weit!</b>' + a.what + '. Heute noch einmal üben.'; }
+        else if (n === 0) { num = 'Heute'; small = true; txt = '<b>Viel Glück!</b>Du hast gut geübt.'; }
+        else { num = '✓'; txt = '<b>Vorbei.</b>Weiter üben hilft für die nächste Arbeit.'; }
+      }
+      return '<button type="button" class="ka ' + a.s + '" data-home-topic="' + a.topic + '"><span class="ka-subj">' + a.n + '</span><span class="ka-num' + (small ? ' small' : '') + '">' + num + '</span><p>' + txt + '</p></button>';
+    }).join('');
+    document.getElementById('homeSubs').innerHTML = ['m', 'd', 'mu', 'en'].map(function (s) {
+      var c = today[s] || 0, types = subjTypes(s), sure = types.filter(function (t) { return levelOf(st[t]) === 'good'; }).length;
+      var pct = Math.min(100, Math.round(c / DAY_GOAL * 100));
+      return '<button type="button" class="hsub ' + s + '" data-home-subj="' + s + '"><span class="hsub-top">' + iconFor(s) + '<span><span class="hsub-name">' + HOME[s].n + '</span><span class="hsub-what">' + TOPICS[s][0].n + '</span></span></span>' +
+        '<span class="goalbar' + (c >= DAY_GOAL ? ' done' : '') + '"><i style="width:' + pct + '%"></i></span>' +
+        '<span class="hsub-status"><b>' + c + ' von ' + DAY_GOAL + ' Aufgaben heute</b><span>' + sure + ' von ' + types.length + ' Themen sicher</span></span>' +
+        '<span class="hsub-go">' + HOME[s].go + '</span></button>';
+    }).join('');
+    var row = '', names = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'], streak = 0, all = store(HK.days) || {};
+    for (var i = 6; i >= 0; i--) {
+      var k = dn - i, dc = all[k] || {}, dd = new Date(now.getTime() - i * 86400000);
+      row += '<div class="wd' + (i === 0 ? ' today' : '') + '"><span>' + names[dd.getDay()] + '</span><span class="wd-dots">' + ['m', 'd', 'mu', 'en'].map(function (s) { return '<i class="' + (dc[s] ? s : '') + '"></i>'; }).join('') + '</span></div>';
+    }
+    for (var j = 0; j < 60; j++) { var e = all[dn - j]; if (e && Object.keys(e).length) streak++; else if (j > 0) break; }
+    document.getElementById('weekRow').innerHTML = row;
+    document.getElementById('weekTitle').textContent = streak > 1 ? streak + ' Tage am Stück geübt!' : 'Deine Lern-Woche';
+  }
+  function renderKaDates() {
+    var box = document.getElementById('kaDateList'); if (!box) return;
+    var dates = arbeitDates();
+    box.innerHTML = ARBEITEN.map(function (a) { return '<label class="ka-date"><span>' + a.what + '</span><input type="date" data-ka-date="' + a.s + '" value="' + (dates[a.s] || '') + '"></label>'; }).join('');
+  }
+  document.getElementById('kaDateList').addEventListener('change', function (e) {
+    var i = e.target.closest('[data-ka-date]'); if (!i) return;
+    var d = arbeitDates(); if (i.value) d[i.getAttribute('data-ka-date')] = i.value; else delete d[i.getAttribute('data-ka-date')];
+    store(HK.dates, d); renderHome();
+  });
+  function showHome(on) {
+    document.body.classList.toggle('on-home', on);
+    store(HK.home, on ? 'home' : 'ueben');
+    if (on) { document.body.classList.remove('deu', 'mus', 'eng'); renderHome(); }
+    else render();
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+  function openTopic(topicId) {
+    if (state.topic !== topicId || state.done) { var s = settings(); s.topic = topicId; saveSettings(s); newRound(topicId); }
+    showHome(false);
+  }
+  document.getElementById('homeView').addEventListener('click', function (e) {
+    var t = e.target.closest('[data-home-topic]'); if (t) { openTopic(t.getAttribute('data-home-topic')); return; }
+    var b = e.target.closest('[data-home-subj]'); if (!b) return;
+    var s = b.getAttribute('data-home-subj');
+    if (subjOf(state.topic) === s && !state.done && state.i > 0) showHome(false);
+    else openTopic(TOPICS[s][0].id);
+  });
+  document.getElementById('homeBack').addEventListener('click', function () { showHome(true); });
+  (function () { var hr = document.querySelector('.hello-row'), eb = document.querySelector('#homeView .eyebrow'); if (hr && eb) eb.after(hr); })();
+  var parentsBox = document.getElementById('parents'); if (parentsBox) parentsBox.addEventListener('toggle', renderKaDates);
+  renderKaDates();
+
   /* ---------- Start ---------- */
   var s0 = settings();
   if (!s0.ka100) { s0.ka100 = 1; s0.topic = 'ka'; saveSettings(s0); store(K.round, null); }
@@ -6484,6 +6662,7 @@ window.EULE = (function () {
   if (saved && saved.tasks && saved.tasks.length && saved.tasks.every(function (t) { return TYPE_LABEL[t.type]; })) { state = saved; state.chosen = state.chosen || []; if (state.tasks[state.i] && state.tasks[state.i].blitz && !state.resolved) state.flashed = false; }
   else newRound(s0.topic);
   render();
+  showHome(true);
 })();
 
 
