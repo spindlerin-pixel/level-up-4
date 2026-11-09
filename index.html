@@ -1249,6 +1249,127 @@ body.on-home #bildView { display: none !important; }
 .bild-opts .opt { text-align: left; }
 .bild-opts .opt.no { background: var(--bad-fill); border-color: var(--bad); }
 .story-check li { color: var(--ink-soft); } .story-check li.ok { color: var(--good); font-weight: 700; }
+
+/* ===== Geschichten schreiben (15-Minuten-Schreibzeit) ===== */
+:root {
+  --r-g: #1F9A60; --r-g-fill: #DDF5E8; --r-o: #E07B1A; --r-o-fill: #FFEBD6; --r-b: #2F7BE0; --r-b-fill: #E0EDFD;
+  --sg-wer: #2F7BE0; --sg-tut: #D6455E; --sg-wann: #1F9A60; --sg-wo: #E07B1A; --sg-wie: #7652DB; --sg-warum: #C2569B; --sg-was: #0E938D;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --r-g: #6FDCA3; --r-g-fill: #163A29; --r-o: #FFB067; --r-o-fill: #47301A; --r-b: #7DB4FF; --r-b-fill: #1B2F50;
+    --sg-wer: #7DB4FF; --sg-tut: #FF8FA3; --sg-wann: #6FDCA3; --sg-wo: #FFB067; --sg-wie: #B79DFF; --sg-warum: #F29BD0; --sg-was: #3CCFC6;
+  }
+}
+:root[data-theme="dark"] {
+  --r-g: #6FDCA3; --r-g-fill: #163A29; --r-o: #FFB067; --r-o-fill: #47301A; --r-b: #7DB4FF; --r-b-fill: #1B2F50;
+  --sg-wer: #7DB4FF; --sg-tut: #FF8FA3; --sg-wann: #6FDCA3; --sg-wo: #FFB067; --sg-wie: #B79DFF; --sg-warum: #F29BD0; --sg-was: #3CCFC6;
+}
+body.on-home #routView, body.on-fach #routView { display: none !important; }
+.routv { display: flex; flex-direction: column; gap: 12px; }
+.r-head h2 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; }
+.r-head p { margin: 2px 0 0; color: var(--ink-soft); font-size: 0.92rem; }
+.r-berg { width: 100%; height: auto; display: block; background: var(--surface); border-radius: 20px; box-shadow: var(--soft-shadow); padding: 6px 4px 2px; box-sizing: border-box; }
+.r-st { cursor: pointer; }
+.r-st:focus { outline: none; } .r-st:focus-visible circle:last-of-type { stroke-width: 5; }
+.r-st-d { font: 800 11.5px/1 Nunito, sans-serif; text-anchor: middle; fill: var(--ink); pointer-events: none; }
+.r-st-d.ok { fill: #FFFFFF; font-size: 15px; }
+.r-st-n { font: 700 11px/1 Nunito, sans-serif; fill: var(--ink-soft); pointer-events: none; }
+.r-st.on .r-st-n { fill: var(--ink); font-weight: 800; }
+.r-pulse { animation: rPulse 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes rPulse { 50% { transform: scale(1.12); opacity: 0.5; } }
+@media (prefers-reduced-motion: reduce) { .r-pulse { animation: none; } }
+.r-today { margin: 0; padding: 10px 14px; border-radius: 16px; border-left: 6px solid var(--rc); background: var(--rf); font-size: 0.98rem; line-height: 1.4; }
+.r-today b { display: block; font-family: var(--font-display); font-size: 1.1rem; }
+.r-g { --rc: var(--r-g); --rf: var(--r-g-fill); } .r-o { --rc: var(--r-o); --rf: var(--r-o-fill); } .r-b { --rc: var(--r-b); --rf: var(--r-b-fill); }
+.r-card { gap: 12px; }
+.r-role { margin: 0; font-size: 0.95rem; color: var(--ink-soft); }
+.r-role b { color: var(--ink); font-family: var(--font-display); font-size: 1.05rem; margin-right: 4px; }
+.r-q { margin: 0; font-size: 1.08rem; line-height: 1.45; font-weight: 600; }
+.r-small { margin: 0; font-size: 0.92rem; line-height: 1.4; color: var(--ink-soft); }
+.r-big { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; color: var(--r-g); }
+.r-plan { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.r-plan li { display: grid; grid-template-columns: 32px 1fr auto; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 14px; background: var(--muted-fill); }
+.r-plan i { font-style: normal; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: #FFFFFF; background: var(--r-b); }
+.r-plan li:nth-child(1) i { background: var(--r-g); } .r-plan li:nth-child(2) i { background: var(--r-o); }
+.r-plan span { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.3; }
+.r-plan b { display: block; color: var(--ink); font-family: var(--font-display); font-size: 1.02rem; }
+.r-plan em { font-style: normal; font-weight: 800; font-size: 0.85rem; color: var(--ink-soft); white-space: nowrap; }
+.r-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 5px; }
+.r-steps span { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 0.72rem; font-weight: 700; text-align: center; color: var(--ink-soft); line-height: 1.15; }
+.r-steps i { font-style: normal; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 0.85rem; background: var(--muted-fill); }
+.r-steps span.cur { color: var(--ink); } .r-steps span.cur i { background: var(--primary); color: #FFFFFF; }
+.r-steps span.done i { background: var(--good); color: #FFFFFF; }
+/* Dialekt-Detektiv */
+.rd-sent { margin: 0; padding: 14px; border-radius: 16px; background: var(--paper); border: 2px dashed var(--edge); font: 700 1.3rem/2.1 'Andika', var(--font-display), sans-serif; }
+.rd-w { all: unset; cursor: pointer; padding: 2px 5px; border-radius: 8px; border-bottom: 2px dotted var(--edge); }
+.rd-w:focus-visible { outline: 3px solid var(--focus); }
+.rd-w.found { background: var(--r-o-fill); border-bottom: 3px solid var(--r-o); }
+.rd-w.sel { background: var(--r-o); color: #FFFFFF; }
+.rd-w.fixed { background: var(--r-g-fill); border-bottom: 3px solid var(--r-g); cursor: default; }
+.rd-p { margin-left: -4px; }
+.rd-pick { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border-radius: 16px; background: var(--r-o-fill); }
+.rd-pick p { margin: 0; font-weight: 700; }
+.rd-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.rd-opts .opt { flex: 1 1 120px; text-align: center; font-family: 'Andika', var(--font-display), sans-serif; font-size: 1.2rem; }
+.rd-final { margin: 4px 0 0; font: 700 1.2rem/1.5 'Andika', sans-serif; }
+/* Satz-Umbau */
+.sg-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; padding: 12px 10px; border-radius: 16px; background: var(--paper); }
+.sg { all: unset; box-sizing: border-box; cursor: pointer; position: relative; display: flex; flex-direction: column; gap: 2px; min-width: 64px; padding: 6px 10px 8px; border-radius: 12px; border: 2.5px solid var(--sgc); background: color-mix(in srgb, var(--sgc) 16%, var(--surface)); box-shadow: 0 3px 0 var(--sgc); transition: transform 0.12s ease; }
+.sg small { font-size: 0.7rem; font-weight: 800; color: var(--sgc); text-transform: uppercase; letter-spacing: 0.03em; }
+.sg span { font: 700 1.2rem/1.2 'Andika', var(--font-display), sans-serif; color: var(--ink); }
+.sg em { position: absolute; top: -10px; right: -6px; font-style: normal; font-size: 0.62rem; font-weight: 800; padding: 2px 6px; border-radius: 999px; background: var(--ink); color: var(--surface); }
+.sg.pick { transform: translateY(-6px) rotate(-2deg); box-shadow: 0 8px 0 var(--sgc); outline: 3px solid var(--sgc); outline-offset: 2px; }
+.sg:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.sg[disabled] { cursor: default; }
+.sg-dot { font: 800 1.6rem/1 'Andika', sans-serif; }
+.sg-row.solved { background: var(--good-fill); }
+.sg-wer { --sgc: var(--sg-wer); } .sg-tut { --sgc: var(--sg-tut); } .sg-wann { --sgc: var(--sg-wann); } .sg-wo { --sgc: var(--sg-wo); }
+.sg-wie { --sgc: var(--sg-wie); } .sg-warum { --sgc: var(--sg-warum); } .sg-was { --sgc: var(--sg-was); }
+.sg-tag { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 2px solid var(--sgc); background: color-mix(in srgb, var(--sgc) 16%, var(--surface)); font-size: 0.85em; font-weight: 800; white-space: nowrap; }
+.sg-legend { display: flex; flex-wrap: wrap; gap: 5px; font-size: 0.8rem; }
+.r-before { font-family: 'Andika', sans-serif; color: var(--ink); }
+/* Schreibauftrag */
+.r-rz { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.r-rzc { all: unset; box-sizing: border-box; cursor: pointer; text-align: center; padding: 14px 6px; border-radius: 16px; background: var(--rf); border: 2.5px solid var(--rc); font: 800 clamp(0.95rem, 4.4vw, 1.2rem)/1.2 'Andika', var(--font-display), sans-serif; color: var(--ink); hyphens: manual; -webkit-hyphens: manual; overflow: hidden; }
+.r-rzc small { display: block; font: 800 0.66rem/1 Nunito, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; color: var(--rc); margin-bottom: 6px; }
+.r-start { font: 700 1rem/1.2 'Andika', sans-serif; padding: 6px 10px; border-radius: 10px; background: var(--surface); border: 2px dashed var(--edge); }
+.r-help { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; border-radius: 16px; background: var(--rf); border-left: 5px solid var(--rc); }
+.r-help .ws-w { border-color: var(--rc); }
+.r-rede { margin: 0; font: 700 1.15rem/1.5 'Andika', sans-serif; }
+.r-rede b { color: var(--r-o); font-size: 1.3em; }
+.r-plan3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.r-plan3 div { padding: 8px; border-radius: 14px; background: var(--rf); border-top: 5px solid var(--rc); font-size: 0.85rem; line-height: 1.3; }
+.r-plan3 b { display: block; font-family: var(--font-display); font-size: 0.95rem; }
+.r-heft { color: var(--ink); font-weight: 700; }
+.r-clock { position: relative; width: 170px; height: 170px; margin: 4px auto; }
+.r-clock svg { width: 100%; height: 100%; display: block; }
+.r-ring-bg { fill: var(--surface); stroke: var(--muted-fill); stroke-width: 12; }
+.r-ring { fill: none; stroke: var(--r-g); stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset 0.25s linear; }
+.r-ring.low { stroke: var(--r-o); }
+.r-time { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.r-time b { font: 800 2.4rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.r-time span { font-size: 0.85rem; color: var(--ink-soft); font-weight: 700; }
+/* Ampel */
+.amp-key { display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.82rem; font-weight: 700; color: var(--ink-soft); }
+.amp-key span::before { content: ''; display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; }
+.a-g::before { background: #1F9A60; } .a-y::before { background: #F2B418; } .a-r::before { background: #D6455E; }
+.amp { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.amp li { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 14px; background: var(--muted-fill); border-left: 6px solid transparent; }
+.amp li.v-g { border-left-color: #1F9A60; background: var(--good-fill); } .amp li.v-y { border-left-color: #F2B418; } .amp li.v-r { border-left-color: #D6455E; background: var(--bad-fill); }
+.amp p { margin: 0; font-size: 0.98rem; line-height: 1.35; }
+.amp-b { display: flex; flex-direction: column; gap: 4px; padding: 5px; border-radius: 12px; background: #23243A; }
+.ab { all: unset; box-sizing: border-box; cursor: pointer; width: 26px; height: 26px; border-radius: 50%; opacity: 0.3; }
+.ab:focus-visible { outline: 3px solid #FFFFFF; }
+.ab-g { background: #2FCB7F; } .ab-y { background: #FFC93C; } .ab-r { background: #FF5A6E; }
+.ab[aria-pressed="true"] { opacity: 1; box-shadow: 0 0 10px 2px currentColor; }
+.ab-g[aria-pressed="true"] { color: #2FCB7F; } .ab-y[aria-pressed="true"] { color: #FFC93C; } .ab-r[aria-pressed="true"] { color: #FF5A6E; }
+.r-sum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.r-sum span { text-align: center; padding: 10px 4px; border-radius: 14px; background: var(--muted-fill); font-size: 0.8rem; color: var(--ink-soft); font-weight: 700; }
+.r-sum b { display: block; font: 800 1.5rem/1.1 var(--font-display); color: var(--ink); }
+.routv .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.routv .btn svg { width: 22px; height: 22px; flex-shrink: 0; }
+.ftile.rout { background: linear-gradient(120deg, var(--r-g-fill), var(--r-o-fill) 55%, var(--r-b-fill)); border-color: var(--r-o); }
 </style>
 
 <div class="app">
@@ -1387,6 +1508,7 @@ body.on-home #bildView { display: none !important; }
 
   <section class="fc" id="fcView" hidden aria-label="Karteikarten-Check"></section>
   <section class="bildv" id="bildView" hidden aria-label="Schreib-Reise"></section>
+  <section class="routv" id="routView" hidden aria-label="Geschichten schreiben"></section>
 
   <details class="levels" id="xpBookBox">
     <summary><span class="lv-title">Fini erklärt</span><span class="lv-sum">Bilder zu Mathe, Deutsch, Musik und Englisch</span></summary>
@@ -5651,6 +5773,7 @@ window.EULE = (function () {
     ],
     d: [
       { id: 'gtest', n: 'Klassenarbeit: Geschichte schreiben', ka: true, len: 15, t: ['gteil', 'gteil', 'gw', 'gschl', 'gansatz', 'gsb', 'gsb', 'gsb', 'gv2', 'gv2', 'gnb', 'gnb', 'gwr', 'gwr', 'gwrb', 'gwrb', 'gsagen', 'gmund', 'gmund', 'gzeit', 'gzeit', 'gsie', 'gdik'] },
+      { id: 'groutine', n: 'Geschichten schreiben', routine: true, t: [] },
       { id: 'bild', n: 'Schreib-Reise: Bildergeschichte', bild: true, t: [] },
       { id: 'gaufbau', n: 'Einleitung, Hauptteil, Schluss', t: ['gteil', 'gteil', 'gw', 'gw', 'gschl', 'gschl', 'gansatz', 'gansatz'] },
       { id: 'gsatz', n: 'Satz-Baukasten', t: ['gsb', 'gsb', 'gsb', 'gv2', 'gv2', 'gnb', 'gnb'] },
@@ -5721,7 +5844,7 @@ window.EULE = (function () {
   /* ---------- Runde bauen ---------- */
   function buildRound(topicId) {
     var tp = topicById(topicId), st = loadStats(), n = tp.len || 10, tasks = [], keys = {};
-    if (tp.cards || tp.bild) return [];
+    if (tp.cards || tp.bild || tp.routine) return [];
     var LVL = window.EULE ? EULE.lv(topicId) : 2;
     KA_EASY = LVL === 1;
     if (!tp.pro && !tp.lesen) { if (LVL === 1) n = Math.max(5, Math.round(n * 0.8)); else if (LVL === 3) n += 2; }
@@ -6281,10 +6404,12 @@ window.EULE = (function () {
   }
   function render() {
     renderChrome(); renderPoints(); renderLevels();
-    var cards = !!topicById(state.topic).cards, bild = !!topicById(state.topic).bild;
-    el.card.hidden = cards || bild; el.progBox.hidden = cards || bild; el.fcView.hidden = !cards;
+    var cards = !!topicById(state.topic).cards, bild = !!topicById(state.topic).bild, rout = !!topicById(state.topic).routine;
+    el.card.hidden = cards || bild || rout; el.progBox.hidden = cards || bild || rout; el.fcView.hidden = !cards;
     document.getElementById('bildView').hidden = !bild;
-    if (bild) renderBild();
+    document.getElementById('routView').hidden = !rout;
+    if (rout) renderRout();
+    else if (bild) renderBild();
     else if (cards) renderFc();
     else { el.taskView.hidden = state.done; el.endView.hidden = !state.done; if (state.done) renderEnd(); else renderTask(); }
     updateXpBtn(); renderXpBook();
@@ -6774,7 +6899,7 @@ window.EULE = (function () {
   /* ---------- Fach-Übersicht: erst alle Kapitel sehen, dann üben ---------- */
   var FACH_GROUPS = {
     m: [['Für die Klassenarbeit', ['ka', 'kaprobe', 'mcheck']], ['Themen', ['pak', 'uhr', 'gro', 'reg', 'zahl', 'schr', 'kopf', 'geo', 'daten']], ['Alles durcheinander', ['mmix']]],
-    d: [['Für die Klassenarbeit', ['gtest', 'lwtest', 'dtrain']], ['Schreiben', ['bild', 'gaufbau', 'gsatz', 'grede', 'gbuch', 'gwerk', 'gkarten']],
+    d: [['Für die Klassenarbeit', ['gtest', 'lwtest', 'dtrain']], ['Schreiben', ['groutine', 'bild', 'gaufbau', 'gsatz', 'grede', 'gbuch', 'gwerk', 'gkarten']],
         ['Rechtschreibung', ['rs', 'gk', 'wb', 'adj', 'det', 'dik', 'lwkarten']], ['Lesen', ['les', 'blz']], ['Alles durcheinander', ['dmix', 'dcheck']]],
     mu: [['Für den Musiktest', ['mtest', 'mkarten']], ['Themen', ['mupause', 'muteil', 'muwert', 'musilb', 'muzahl', 'muhoer']], ['Alles durcheinander', ['mumix']]],
     en: [['Für den Englischtest', ['etest', 'ekarten']], ['Themen', ['etiere', 'efarben', 'eschreib', 'elesen']]]
@@ -6785,6 +6910,7 @@ window.EULE = (function () {
     zahl: 'Stellenwerte, Runden, Zahlenstrahl', schr: 'Schriftlich rechnen mit allen vier Rechenarten', kopf: 'Schnell im Kopf rechnen', geo: 'Flächen, Körper, Netze, Spiegeln',
     daten: 'Diagramme lesen, Zufall, Kombinieren', mmix: 'Von jedem Thema etwas',
     gtest: 'Training für „Geschichte schreiben“', lwtest: 'Die Lernwörter der Woche', dtrain: 'Groß und klein, ABC, Lernwörter wiederholen',
+    groutine: '15 Minuten am Tag: Dialekt-Detektiv, Satz-Umbau, Schreibauftrag fürs Heft und Ampel-Check. Jeden Tag eine Etappe auf dem Geschichtenberg.',
     bild: 'Bilder entdecken, Sätze bauen, richtig schreiben. Jeden Tag ein Bild, am Ende steht deine Geschichte.',
     gaufbau: 'Wie eine Geschichte aufgebaut ist', gsatz: 'Sätze mit weil, als und dass bauen', grede: 'Wer sagt was? Mit Redezeichen', gbuch: 'Spannend erzählen in der Vergangenheit',
     gwerk: 'Eigene Sätze schreiben', gkarten: 'Karteikarten mit Schreib-Tricks', lwkarten: 'Lernwörter als Karteikarten',
@@ -6804,6 +6930,7 @@ window.EULE = (function () {
   }
   function tileStatus(tp, st) {
     if (tp.bild) { var b = bildLoad(); return b.finished ? { txt: 'Geschichte fertig', cls: 'good', pct: 100 } : { txt: 'Bild ' + Math.min(b.pic + 1, BILD_PICS().length) + ' von ' + BILD_PICS().length, cls: '', pct: Math.round(b.pic / BILD_PICS().length * 100) }; }
+    if (tp.routine) { var wd = Object.keys(rWeekDone()).length; return wd >= 5 ? { txt: 'Woche geschafft', cls: 'good', pct: 100 } : { txt: wd + ' von 5 Etappen diese Woche', cls: wd ? '' : 'new', pct: wd * 20 }; }
     if (tp.cards) return { txt: 'Karteikarten', cls: '', pct: -1 };
     var types = uniq(tp.t), sure = 0, played = 0;
     types.forEach(function (t) { var l = levelOf(st[t]); if (l === 'good') sure++; if (l !== 'new') played++; });
@@ -6812,13 +6939,13 @@ window.EULE = (function () {
   }
   function renderFach(s) {
     var v = document.getElementById('fachView'); if (!v) return;
-    var st = loadStats(), cur = state && subjOf(state.topic) === s && !state.done && state.i > 0 && !topicById(state.topic).cards && !topicById(state.topic).bild ? state : null;
+    var st = loadStats(), cur = state && subjOf(state.topic) === s && !state.done && state.i > 0 && !topicById(state.topic).cards && !topicById(state.topic).bild && !topicById(state.topic).routine ? state : null;
     var h = '<div class="fach-head ' + s + '">' + iconFor(s) + '<div><h2>' + HOME[s].n + '</h2><p>Such dir aus, was du üben möchtest.</p></div></div>';
     if (cur) h += '<button type="button" class="fach-resume" data-fach-topic="' + cur.topic + '"><span><b>Weitermachen</b>' + topicById(cur.topic).n + ' · Aufgabe ' + (cur.i + 1) + ' von ' + cur.n + '</span><i aria-hidden="true">›</i></button>';
     fachGroups(s).forEach(function (g) {
       h += '<section class="fach-group"><h3>' + g[0] + '</h3><div class="fach-grid">' + g[1].map(function (id) {
-        var tp = topicById(id), ss = tileStatus(tp, st), kind = tp.bild ? 'Neu: Schreib-Reise' : tp.ka ? (tp.pro ? 'Probe' : 'Klassenarbeit') : tp.cards ? 'Karten' : tp.pro ? 'Profi' : '';
-        return '<button type="button" class="ftile' + (tp.ka ? ' ka' : '') + (tp.bild ? ' wide bild' : '') + '" data-fach-topic="' + id + '">' + (kind ? '<span class="ftile-kind">' + kind + '</span>' : '') +
+        var tp = topicById(id), ss = tileStatus(tp, st), kind = tp.routine ? 'Neu: 15 Minuten am Tag' : tp.bild ? 'Schreib-Reise' : tp.ka ? (tp.pro ? 'Probe' : 'Klassenarbeit') : tp.cards ? 'Karten' : tp.pro ? 'Profi' : '';
+        return '<button type="button" class="ftile' + (tp.ka ? ' ka' : '') + (tp.bild ? ' wide bild' : '') + (tp.routine ? ' wide rout' : '') + '" data-fach-topic="' + id + '">' + (kind ? '<span class="ftile-kind">' + kind + '</span>' : '') +
           '<span class="ftile-name">' + tp.n + '</span><span class="ftile-desc">' + (FACH_DESC[id] || '') + '</span>' +
           '<span class="ftile-st ' + ss.cls + '">' + (ss.pct >= 0 ? '<span class="ftile-bar"><i style="width:' + ss.pct + '%"></i></span>' : '') + '<span>' + ss.txt + '</span></span></button>';
       }).join('') + '</div></section>';
@@ -7252,6 +7379,413 @@ window.EULE = (function () {
   });
   function finishStory(b) { b.finished = true; bildSave(b); bildStars(3); try { confetti(); } catch (e) {} bildUi = { checks: {} }; renderBild(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
   function markPlayed() { try { var p = loadPts(); p.played.bild = 1; if (!p.badges.deutsch1) p.badges.deutsch1 = dayNum(); store(K.pts, p); } catch (e) {} }
+
+
+  /* ---------- Geschichten schreiben: tägliche 15-Minuten-Schreibzeit ---------- */
+  var RK = 'eule-schreibzeit';
+  var R_THEMES = [
+    { key: 'e', day: 'Mo', name: 'Einleitung', col: 'g', goal: 'Wer? Wo? Wann? Die Einleitung stellt alles vor.' },
+    { key: 'h', day: 'Di', name: 'Hauptteil & Spannung', col: 'o', goal: 'Jetzt passiert etwas! Mach es spannend.' },
+    { key: 'r', day: 'Mi', name: 'Wörtliche Rede', col: 'o', goal: 'Lass deine Figuren sprechen – mit Redezeichen.' },
+    { key: 's', day: 'Do', name: 'Schluss', col: 'b', goal: 'Wie geht es aus? Wie fühlen sich alle am Ende?' },
+    { key: 'f', day: 'Fr', name: 'Ganze Mini-Geschichte', col: 'b', goal: 'Einleitung, Hauptteil und Schluss – alles zusammen.' }
+  ];
+  var R_STATIONS = [{ n: 'Dialekt-Detektiv', min: 2 }, { n: 'Satz-Umbau', min: 3 }, { n: 'Schreibauftrag', min: 7 }, { n: 'Ampel-Check', min: 3 }];
+
+  /* Dialekt-Detektiv: [gesprochen, Heft-Deutsch, [falsche Wahl], Tipp] */
+  var R_DIA = [
+    [['Mir', 'Wir', ['Mier'], '„Mir“ sagt man nur beim Sprechen. Im Heft steht „wir“.'], ' ', ['sin', 'sind', ['sint'], 'Das Wort heißt „sind“ – mit d am Ende.'], ' gestern ', ['uff', 'auf', ['auff'], 'Im Heft heißt es „auf“.'], ' den Spielplatz gegangen.'],
+    ['Ich ', ['hab', 'habe', ['hape'], 'Im Heft fehlt kein Buchstabe: „ich habe“.'], ' im Keller ', ['nix', 'nichts', ['nichz'], '„nix“ ist gesprochen. Im Heft: „nichts“ mit chts.'], ' gesehen.'],
+    ['Der Hund ist ', ['größer wie', 'größer als', ['größer wie als'], 'Beim Vergleichen mit „größer“ oder „kleiner“ benutzt man „als“.'], ' die Katze.'],
+    ['Das ist der Junge, ', ['wo', 'der', ['was'], 'Bei Personen heißt es „der“ oder „die“, nicht „wo“.'], ' neben mir wohnt.'],
+    [['Isch', 'Ich', ['Ish'], 'Im Heft schreibt man „Ich“ mit ch.'], ' ', ['geh', 'gehe', ['gehn'], 'Am Ende fehlt ein e: „ich gehe“.'], ' heute ', ['net', 'nicht', ['nich'], '„net“ ist gesprochen. Im Heft: „nicht“.'], ' raus.'],
+    ['Kannst du mir ', ['ebbes', 'etwas', ['etwass'], '„ebbes“ sagt man nur. Im Heft: „etwas“.'], ' zu trinken geben?'],
+    [['Gugg', 'Schau', ['Guck mal'], 'Im Heft passt „Schau“ besser als „Gugg“.'], ' mal, da ', ['hot', 'hat', ['had'], 'Im Heft heißt es „hat“ – mit a und t.'], ' jemand ', ['ebbes', 'etwas', ['ewas'], 'Im Heft: „etwas“.'], ' verloren!'],
+    ['Mein Opa ', ['hot', 'hat', ['hatt'], 'Im Heft: „hat“ mit einem t.'], ' im Garten ', ['Grumbeere', 'Kartoffeln', ['Grumbeeren'], '„Grumbeere“ ist ein Mundart-Wort. Im Heft: „Kartoffeln“.'], ' geerntet.'],
+    [['Dem Tim sein', 'Tims', ['Dem Tims'], 'Im Heft sagt man kurz: „Tims Fahrrad“ oder „das Fahrrad von Tim“.'], ' Fahrrad ist rot.'],
+    ['Das Wasser ist ', ['arg', 'sehr', ['ark'], '„arg“ sagt man beim Sprechen. Im Heft: „sehr“.'], ' kalt.'],
+    ['Am Abend ', ['hen', 'haben', ['habn'], 'Im Heft schreibt man das ganze Wort: „haben“.'], ' wir Pizza gegessen.'],
+    [['Kumm', 'Komm', ['Kom'], 'Im Heft: „Komm“ mit o und zwei m.'], ' schnell, ', ['mir', 'wir', ['wier'], 'Im Heft: „wir“.'], ' ', ['müsse', 'müssen', ['müßen'], 'Am Ende fehlt das n: „müssen“.'], ' los!'],
+    ['Ich ', ['hab', 'habe', ['habbe'], 'Im Heft: „habe“ mit einem b.'], ' das ', ['Mäd', 'Mädchen', ['Mätchen'], 'Im Heft: „Mädchen“ mit d.'], ' gefragt.'],
+    ['Plötzlich ', ['is', 'ist', ['isst'], '„ist“ hat ein t am Ende.'], ' der Ball ins Wasser ', ['gefalle', 'gefallen', ['gefalln'], 'Am Ende fehlt das n: „gefallen“.'], '.'],
+    ['Der Bauer hat ', ['zwää', 'zwei', ['zwai'], 'Die Zahl schreibt man mit ei: „zwei“.'], ' ', ['Gäul', 'Pferde', ['Gäule'], '„Gaul“ ist gesprochen. Im Heft: „Pferde“.'], '.'],
+    ['Wir ', ['hen', 'haben', ['hamm'], 'Im Heft: „haben“.'], ' ', ['allegebott', 'immer wieder', ['alle Gebot'], '„allegebott“ ist Mundart. Im Heft: „immer wieder“.'], ' gelacht.'],
+    ['Der Lehrer ', ['hot gesacht', 'sagte', ['hat gesagt gehabt'], 'In Geschichten schreibt man in der Vergangenheit: „sagte“.'], ', dass wir leise sein sollen.'],
+    ['Dann ', ['simmer', 'sind wir', ['simma'], '„simmer“ sind zwei Wörter: „sind wir“.'], ' nach Hause ', ['gerennt', 'gerannt', ['gerent'], 'Von „rennen“ heißt es „gerannt“ – mit a.'], '.'],
+    ['Das Eis ist lecker, ', ['gell', 'nicht wahr', ['gelle'], '„gell“ sagt man beim Sprechen. Im Heft: „nicht wahr“.'], '?'],
+    ['Mein Papa ', ['schafft', 'arbeitet', ['schaft'], '„schaffe“ heißt im Heft „arbeiten“.'], ' heute lange.'],
+    [['Die Lena', 'Lena', ['Der Lena'], 'Vor Namen steht im Heft kein „die“ oder „der“.'], ' ', ['tut gern malen', 'malt gern', ['tut malen'], 'Ohne „tun“ klingt es wie im Buch: „malt gern“.'], '.'],
+    ['Die Katze klettert ', ['nuff', 'hinauf', ['nauf'], 'Im Heft: „hinauf“.'], ' und ', ['guckt', 'schaut', ['gugt'], 'Im Heft passt „schaut“ oder „sieht“.'], ' herunter.'],
+    ['Wir ', ['han', 'haben', ['hann'], 'Im Heft: „haben“.'], ' den Schlüssel ', ['net', 'nicht', ['nichd'], 'Im Heft: „nicht“.'], ' gefunden.'],
+    ['Er ', ['is', 'ist', ['iss'], '„ist“ mit t am Ende.'], ' ', ['ganz arg', 'sehr', ['ganz ark'], 'Im Heft passt „sehr“.'], ' schnell gelaufen.']
+  ];
+
+  /* Satz-Umbau: Satzglied-Karten [Text mitten im Satz, Frage] */
+  var R_SG = {
+    wer: { q: 'Wer?', c: 'wer' }, tut: { q: 'Was tut?', c: 'tut' }, wann: { q: 'Wann?', c: 'wann' }, wo: { q: 'Wo?', c: 'wo' },
+    wie: { q: 'Wie?', c: 'wie' }, warum: { q: 'Warum?', c: 'warum' }, was: { q: 'Wen/Was?', c: 'was' }
+  };
+  var R_SATZ = [
+    { th: 'e', go: 'wann', c: [['ich', 'wer'], ['ging', 'tut'], ['am Samstag', 'wann'], ['in den Zoo', 'wo']] },
+    { th: 'e', go: 'wo', c: [['wir', 'wer'], ['spielten', 'tut'], ['nach der Schule', 'wann'], ['im Garten', 'wo']] },
+    { th: 'e', go: 'wann', c: [['Oma', 'wer'], ['backte', 'tut'], ['am Sonntag', 'wann'], ['einen Kuchen', 'was']] },
+    { th: 'e', go: 'wo', c: [['die Katze', 'wer'], ['schlief', 'tut'], ['den ganzen Tag', 'wann'], ['auf dem Dach', 'wo']] },
+    { th: 'h', go: 'wann', c: [['der Hund', 'wer'], ['bellte', 'tut'], ['plötzlich', 'wann'], ['ganz laut', 'wie']] },
+    { th: 'h', go: 'wann', c: [['Tom', 'wer'], ['hörte', 'tut'], ['mitten in der Nacht', 'wann'], ['ein Geräusch', 'was']] },
+    { th: 'h', go: 'warum', c: [['Ben', 'wer'], ['schrie', 'tut'], ['vor Schreck', 'warum'], ['ganz laut', 'wie']] },
+    { th: 'h', go: 'wie', c: [['das Mädchen', 'wer'], ['öffnete', 'tut'], ['vorsichtig', 'wie'], ['die Tür', 'was']] },
+    { th: 'r', go: 'wie', c: [['Mia', 'wer'], ['flüsterte', 'tut'], ['ganz leise', 'wie'], ['ein Geheimnis', 'was']] },
+    { th: 'r', go: 'warum', c: [['der Junge', 'wer'], ['rief', 'tut'], ['vor Freude', 'warum'], ['laut', 'wie']] },
+    { th: 'r', go: 'wann', c: [['die Lehrerin', 'wer'], ['fragte', 'tut'], ['nach der Pause', 'wann'], ['die Kinder', 'was']] },
+    { th: 's', go: 'wann', c: [['ich', 'wer'], ['war', 'tut'], ['am Ende', 'wann'], ['sehr stolz', 'wie']] },
+    { th: 's', go: 'wann', c: [['wir', 'wer'], ['aßen', 'tut'], ['zum Schluss', 'wann'], ['ein großes Eis', 'was']] },
+    { th: 's', go: 'warum', c: [['Lina', 'wer'], ['lachte', 'tut'], ['vor Erleichterung', 'warum'], ['laut', 'wie']] },
+    { th: 'f', go: 'wo', c: [['die Kinder', 'wer'], ['suchten', 'tut'], ['im Wald', 'wo'], ['den Schatz', 'was']] },
+    { th: 'f', go: 'wie', c: [['der Ball', 'wer'], ['flog', 'tut'], ['mit einem Knall', 'wie'], ['ins Fenster', 'wo']] },
+    { th: 'f', go: 'wo', c: [['mein Bruder', 'wer'], ['fand', 'tut'], ['im Keller', 'wo'], ['eine alte Kiste', 'was']] }
+  ];
+
+  /* Schreibauftrag des Tages: pic = Bild, rz = Reizwörter */
+  var R_TASKS = {
+    e: [
+      { pic: 'park', t: 'Ein Tag im Park', q: 'Schreib die Einleitung zu diesem Bild. Verrate: Wer? Wo? Wann? Was haben die Kinder vor?', w: ['der Park', 'der Drachen', 'der Wind', 'am Samstag', 'sonnig', 'fröhlich'], st: ['An einem sonnigen Samstag', 'Mia und Ben', 'Schon am Morgen'], n: '3 bis 4 Sätze' },
+      { pic: 'zelt', t: 'Die Nacht im Zelt', q: 'Zwei Kinder dürfen im Garten zelten. Schreib die Einleitung: Wer? Wo? Wann? Worauf freuen sie sich?', w: ['das Zelt', 'die Taschenlampe', 'der Schlafsack', 'am Abend', 'die Sterne', 'aufgeregt'], st: ['Letzten Freitag', 'Endlich durften', 'Als es dunkel wurde'], n: '3 bis 4 Sätze' },
+      { rz: ['Ferien', 'Bauern\u00ADhof', 'Kälb\u00ADchen'], t: 'Ferien auf dem Bauernhof', q: 'Schreib eine Einleitung mit diesen Reizwörtern. Stell die Hauptfigur vor und sag, wo und wann die Geschichte spielt.', w: ['in den Sommerferien', 'die Großeltern', 'der Stall', 'neugierig'], st: ['In den Sommerferien', 'Jedes Jahr', 'Lina freute sich'], n: '3 bis 4 Sätze' }
+    ],
+    h: [
+      { pic: 'baum', t: 'Der Drachen im Baum', q: 'Der Drachen hängt im Baum fest! Was passiert jetzt? Schreib einen spannenden Hauptteil.', w: ['der Ast', 'die Leiter', 'wackeln', 'reißen', 'hoch oben', 'ängstlich'], st: ['Plötzlich', 'Auf einmal', 'Gerade als'], n: '4 bis 5 Sätze' },
+      { pic: 'zelt', t: 'Ein Geräusch in der Nacht', q: 'Mitten in der Nacht hören die Kinder vor dem Zelt ein Knacken. Schreib, wie es spannend wird.', w: ['das Knacken', 'der Schatten', 'flüstern', 'zittern', 'die Taschenlampe', 'leise'], st: ['Mitten in der Nacht', 'Mit klopfendem Herzen', 'Im selben Moment'], n: '4 bis 5 Sätze' },
+      { rz: ['Schlüs\u00ADsel', 'Ge\u00ADwitter', 'Keller'], t: 'Im Keller', q: 'Schreib einen spannenden Hauptteil mit diesen Reizwörtern. Mach es Schritt für Schritt spannender.', w: ['dunkel', 'die Treppe', 'der Blitz', 'quietschen', 'vorsichtig'], st: ['Plötzlich', 'Vorsichtig', 'Auf einmal'], n: '4 bis 5 Sätze' }
+    ],
+    r: [
+      { pic: 'streit', t: 'Wer holt den Drachen?', q: 'Mia und Ben überlegen, wie sie den Drachen aus dem Baum holen. Schreib ihr Gespräch mit mindestens 3 Sätzen wörtlicher Rede.', w: ['die Leiter', 'der Ast', 'zu hoch', 'Angst', 'Hilfe'], st: ['Mia rief:', 'Ben fragte:', '„Hast du eine Idee?“'], n: '3 Redesätze' },
+      { rz: ['Hund', 'Nach\u00ADbarin', 'Garten\u00ADzaun'], t: 'Am Gartenzaun', q: 'Ein Kind trifft die Nachbarin am Gartenzaun. Ihr Hund ist weggelaufen. Schreib das Gespräch mit wörtlicher Rede.', w: ['weggelaufen', 'suchen', 'traurig', 'helfen', 'bellen'], st: ['Die Nachbarin seufzte:', 'Ich fragte:', '„Wo hast du ihn zuletzt gesehen?“'], n: '3 Redesätze' },
+      { rz: ['Tele\u00ADfon', 'Oma', 'Über\u00ADraschung'], t: 'Ein Anruf bei Oma', q: 'Ein Kind ruft seine Oma an und erzählt von einer Überraschung. Schreib das Telefongespräch.', w: ['das Telefon', 'erzählen', 'staunen', 'sich freuen', 'die Überraschung'], st: ['Oma fragte neugierig:', '„Rate mal“, sagte ich,', 'Ich rief:'], n: '3 Redesätze' }
+    ],
+    s: [
+      { pic: 'gerettet', t: 'Der Drachen ist gerettet', q: 'Der Drachen ist wieder unten! Schreib den Schluss: Wie geht es aus? Wie fühlen sich die Kinder?', w: ['erleichtert', 'stolz', 'nach Hause', 'zusammen', 'glücklich'], st: ['Am Ende', 'Zum Schluss', 'Erleichtert'], n: '2 bis 3 Sätze' },
+      { pic: 'zelt', t: 'Nur der Nachbarshund', q: 'Das Knacken vor dem Zelt war nur der Nachbarshund. Schreib den Schluss der Zelt-Geschichte.', w: ['lachen', 'erleichtert', 'einschlafen', 'kuscheln', 'müde'], st: ['Da mussten wir lachen', 'Endlich', 'Am nächsten Morgen'], n: '2 bis 3 Sätze' },
+      { rz: ['Igel', 'Tier\u00ADarzt', 'Freude'], t: 'Der kleine Igel', q: 'Zwei Kinder haben einen verletzten Igel gefunden. Schreib den Schluss: Wie geht es mit dem Igel weiter?', w: ['gesund', 'der Tierarzt', 'freilassen', 'dankbar', 'froh'], st: ['Nach ein paar Tagen', 'Zum Glück', 'Am Ende'], n: '2 bis 3 Sätze' }
+    ],
+    f: [
+      { rz: ['Fahr\u00ADrad', 'Pfütze', 'Freundin'], t: 'Mini-Geschichte', q: 'Schreib eine ganze Mini-Geschichte mit diesen Reizwörtern: Einleitung, Hauptteil und Schluss. Denk an eine Überschrift.', w: ['der Schulweg', 'spritzen', 'nass', 'plötzlich', 'lachen'], st: ['Eines Morgens', 'Plötzlich', 'Am Ende'], n: '6 bis 8 Sätze' },
+      { rz: ['Geburts\u00ADtag', 'Kuchen', 'Miss\u00ADgeschick'], t: 'Mini-Geschichte', q: 'Schreib eine ganze Mini-Geschichte mit diesen Reizwörtern: Einleitung, Hauptteil und Schluss. Denk an eine Überschrift.', w: ['die Gäste', 'fallen lassen', 'erschrocken', 'die Idee', 'feiern'], st: ['Am Samstag', 'Auf einmal', 'Zum Schluss'], n: '6 bis 8 Sätze' },
+      { rz: ['Schnee\u00ADmann', 'Karotte', 'Hund'], t: 'Mini-Geschichte', q: 'Schreib eine ganze Mini-Geschichte mit diesen Reizwörtern: Einleitung, Hauptteil und Schluss. Denk an eine Überschrift.', w: ['der Schnee', 'bauen', 'schnappen', 'rennen', 'lachen'], st: ['Im Winter', 'Gerade als', 'Am Ende'], n: '6 bis 8 Sätze' }
+    ]
+  };
+  var R_HELP = {
+    e: { t: 'Eine gute Einleitung verrät', l: ['Wer?', 'Wo?', 'Wann?', 'Was ist geplant?'] },
+    h: { t: 'Spannungs-Wörter', l: ['plötzlich', 'auf einmal', 'mit klopfendem Herzen', 'gerade als', 'im selben Moment', 'vorsichtig'] },
+    r: { t: 'Wörter für „sagen“', l: ['rufen', 'flüstern', 'fragen', 'antworten', 'jammern', 'lachen', 'schimpfen'] },
+    s: { t: 'Gefühls-Wörter für den Schluss', l: ['erleichtert', 'stolz', 'glücklich', 'froh', 'dankbar', 'müde'] },
+    f: { t: 'Der Geschichtenberg', l: ['Einleitung: Wer, wo, wann?', 'Hauptteil: Was passiert? Spannung!', 'Schluss: Wie geht es aus?'] }
+  };
+  var R_AMP_BASE = [
+    'Jeder Satz beginnt groß und endet mit einem Punkt (oder ! ?).',
+    'Ich habe wie im Buch geschrieben, nicht wie ich spreche (nichts statt nix, wir statt mir).',
+    'Ich habe in der Vergangenheit geschrieben (ging, sagte, war).'
+  ];
+  var R_AMP = {
+    e: ['Meine Einleitung verrät: Wer? Wo? Wann?', 'Meine Satzanfänge sind verschieden (nicht immer „Dann“).'],
+    h: ['Ich habe Spannungs-Wörter benutzt (plötzlich, auf einmal …).', 'Man merkt, wie sich die Figur fühlt.'],
+    r: ['Ich habe Redezeichen gesetzt: unten „ und oben “.', 'Nach dem Begleitsatz vorne steht ein Doppelpunkt.', 'Ich habe verschiedene Wörter für „sagen“ benutzt.'],
+    s: ['Mein Schluss sagt, wie es ausgeht.', 'Ich habe geschrieben, wie sich die Figuren am Ende fühlen.'],
+    f: ['Meine Geschichte hat Einleitung, Hauptteil und Schluss.', 'Die Überschrift macht neugierig, verrät aber nicht das Ende.', 'Ich habe mindestens einen Satz wörtliche Rede.']
+  };
+
+  /* Bilder für den Schreibauftrag */
+  function rStars(n) { var s = ''; for (var i = 0; i < n; i++) s += '<circle cx="' + (20 + (i * 53) % 290) + '" cy="' + (12 + (i * 37) % 70) + '" r="' + (i % 3 ? 1.4 : 2) + '" fill="#FFFFFF"/>'; return s; }
+  function rBubble(x, y, flip) { return '<g transform="translate(' + x + ',' + y + ')"><rect x="-26" y="-18" width="52" height="30" rx="12" fill="#FFFFFF" stroke="#22253A" stroke-width="1.5"/><path d="M' + (flip ? '8' : '-8') + ' 12 l' + (flip ? '6' : '-6') + ' 10 l' + (flip ? '-2' : '2') + ' -10" fill="#FFFFFF" stroke="#22253A" stroke-width="1.5" stroke-linejoin="round"/><text x="0" y="3" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="15" fill="#22253A">…?</text></g>'; }
+  var R_PICS = {
+    park: function () { return sky() + sun(270, 38) + cloud(40, 40) + cloud(170, 28, 0.8) + tree(285, 172, false) + wind(30, 80, 2) + '<path d="M102 124 Q 130 90 170 66" stroke="#22253A" stroke-width="1.2" fill="none"/>' + kite(176, 52, 18) + kid(95, 186, mix(MIA, { armL: 'up', armR: 'out' })) + kid(150, 186, mix(BEN, { armR: 'up' })); },
+    baum: function () { return sky() + cloud(30, 34) + wind(20, 60, 3) + tree(220, 176, true) + kite(214, 62, -25) + kid(90, 188, mix(MIA, { mood: 'sad', armR: 'up' })) + kid(140, 188, mix(BEN, { mood: 'shock' })); },
+    streit: function () { return sky() + cloud(130, 26, 0.8) + tree(255, 176, true) + kite(250, 62, -25) + kid(85, 188, mix(MIA, { armR: 'out' })) + kid(150, 188, mix(BEN, { armL: 'out' })) + rBubble(66, 88, false) + rBubble(170, 88, true); },
+    gerettet: function () { return sky() + sun(46, 40) + tree(230, 176, true) + ladder(190, 176, 206, 70) + kid(120, 188, mix(MIA, { armL: 'up', armR: 'up' })) + kite(112, 52, -8) + kid(165, 188, mix(BEN, { armR: 'up' })); },
+    zelt: function () {
+      return '<rect width="320" height="210" fill="#1E2A55"/>' + rStars(18) + '<circle cx="262" cy="42" r="18" fill="#FFF1B8"/><circle cx="270" cy="36" r="16" fill="#1E2A55"/>' +
+        '<path d="M0 160 Q 160 140 320 158 L 320 210 L 0 210 Z" fill="#2E5B3A"/>' + tree(40, 168, false) +
+        '<path d="M120 176 L 175 98 L 230 176 Z" fill="#E8892A" stroke="#22253A" stroke-width="2" stroke-linejoin="round"/><path d="M175 98 L 162 176 L 188 176 Z" fill="#7A3E10"/>' +
+        '<path d="M196 150 L 300 118 L 300 168 Z" fill="#FFF1B8" opacity="0.35"/><rect x="186" y="146" width="14" height="8" rx="2" fill="#3A8DDE" stroke="#22253A" stroke-width="1"/>';
+    }
+  };
+
+  /* Speicher */
+  function rPad(n) { return (n < 10 ? '0' : '') + n; }
+  function rKey(d) { d = d || new Date(); return d.getFullYear() + '-' + rPad(d.getMonth() + 1) + '-' + rPad(d.getDate()); }
+  function rLoad() { var r = store(RK) || {}; r.days = r.days || {}; return r; }
+  function rSave(r) { var keys = Object.keys(r.days).sort(); while (keys.length > 40) delete r.days[keys.shift()]; store(RK, r); }
+  function rWeekDone() {
+    var r = rLoad(), now = new Date(), dow = (now.getDay() + 6) % 7, done = {};
+    for (var i = 0; i <= 6; i++) { var d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dow + i), rec = r.days[rKey(d)]; if (rec && rec.fin) Object.keys(rec.fin).forEach(function (k) { done[k] = 1; }); }
+    return done;
+  }
+  function rDefaultTheme() {
+    var wd = new Date().getDay();
+    if (wd >= 1 && wd <= 5) return R_THEMES[wd - 1].key;
+    var done = rWeekDone(); for (var i = 0; i < R_THEMES.length; i++) if (!done[R_THEMES[i].key]) return R_THEMES[i].key;
+    return 'f';
+  }
+  function rNewDay(th, fin) { return { th: th, st: -1, di: 0, dfound: {}, dfix: {}, dwrong: 0, su: 0, ord: null, sok: false, stry: 0, amp: {}, fin: fin || {} }; }
+  function rDay() { var r = rLoad(), k = rKey(); if (!r.days[k]) { r.days[k] = rNewDay(rDefaultTheme()); rSave(r); } return r.days[k]; }
+  function rPut(d) { var r = rLoad(); r.days[rKey()] = d; rSave(r); }
+  function rTheme(k) { for (var i = 0; i < R_THEMES.length; i++) if (R_THEMES[i].key === k) return R_THEMES[i]; return R_THEMES[0]; }
+  function rHash(s) { var h = 7; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 100003; return h; }
+  var rUi = { spot: null, msg: null, tone: null, pick: null };
+
+  /* Auswahl für heute */
+  function rDiaItems() { var dn = dayNum(), out = []; for (var k = 0; k < 3; k++) out.push(R_DIA[(dn * 3 + k) % R_DIA.length]); return out; }
+  function rSatzItems(th) { var pool = R_SATZ.filter(function (s) { return s.th === th; }), dn = dayNum(); return [pool[dn % pool.length], pool[(dn + 1) % pool.length]]; }
+  function rTask(th) { var l = R_TASKS[th]; return l[Math.floor(dayNum() / 7) % l.length]; }
+  function rSpots(it) { return it.filter(function (p) { return typeof p !== 'string'; }); }
+  function rFixed(it) { return it.map(function (p) { return typeof p === 'string' ? p : p[1]; }).join(''); }
+  function rSatzText(s, ord) { var t = ord.map(function (i) { return s.c[i][0]; }).join(' '); return t.charAt(0).toUpperCase() + t.slice(1) + '.'; }
+
+  /* Geschichtenberg */
+  function rMountain(cur, d) {
+    var done = rWeekDone(), pos = [[46, 132], [110, 88], [170, 44], [230, 88], [294, 132]];
+    var lab = [[8, 168, 'start', 'Einleitung'], [86, 92, 'end', 'Spannung'], [170, 18, 'middle', 'Wörtliche Rede'], [254, 92, 'start', 'Schluss'], [336, 168, 'end', 'Ganze Geschichte']];
+    var ridge = 'M4 160 L ' + pos.map(function (p) { return p[0] + ' ' + p[1]; }).join(' L ') + ' L 336 160';
+    var s = '<svg class="r-berg" viewBox="0 0 340 176" role="img" aria-label="Geschichtenberg: deine Schreib-Woche">' +
+      '<defs><linearGradient id="rBergG" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="var(--r-g)"/><stop offset="0.5" stop-color="var(--r-o)"/><stop offset="1" stop-color="var(--r-b)"/></linearGradient></defs>' +
+      '<path d="' + ridge + ' Z" fill="url(#rBergG)" opacity="0.2"/>' +
+      '<path d="' + ridge + '" fill="none" stroke="url(#rBergG)" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>' +
+      '<line x1="4" y1="160" x2="336" y2="160" stroke="var(--edge)" stroke-width="2"/>';
+    R_THEMES.forEach(function (t, i) {
+      var p = pos[i], l = lab[i], ok = done[t.key], on = t.key === cur, col = 'var(--r-' + t.col + ')';
+      s += '<g class="r-st' + (on ? ' on' : '') + '" data-r="theme" data-t="' + t.key + '" role="button" tabindex="0" aria-label="' + t.day + ': ' + t.name + (ok ? ', geschafft' : '') + '">' +
+        '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="26" fill="transparent"/>' +
+        (on ? '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="22" fill="none" stroke="' + col + '" stroke-width="3" class="r-pulse"/>' : '') +
+        '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="16" fill="' + (ok ? col : 'var(--surface)') + '" stroke="' + col + '" stroke-width="3"/>' +
+        '<text x="' + p[0] + '" y="' + (p[1] + 4.5) + '" class="r-st-d' + (ok ? ' ok' : '') + '">' + (ok ? '✓' : t.day) + '</text>' +
+        '<text x="' + l[0] + '" y="' + l[1] + '" text-anchor="' + l[2] + '" class="r-st-n">' + l[3] + '</text></g>';
+    });
+    return s + '</svg>';
+  }
+  function rHead(d) {
+    var t = rTheme(d.th), cnt = Object.keys(rWeekDone()).length;
+    return '<div class="r-head"><div><h2>Geschichten schreiben</h2><p>15 Minuten am Tag · ' + cnt + ' von 5 Etappen diese Woche</p></div></div>' + rMountain(d.th, d) +
+      '<p class="r-today r-' + t.col + '"><b>' + t.day + ' · ' + t.name + '</b>' + t.goal + '</p>';
+  }
+  function rSteps(d) {
+    return '<div class="r-steps">' + R_STATIONS.map(function (s, k) { return '<span class="' + (k < d.st ? 'done' : k === d.st ? 'cur' : '') + '"><i>' + (k < d.st ? '✓' : k + 1) + '</i>' + s.n + '</span>'; }).join('') + '</div>';
+  }
+  function rMsg() { return rUi.msg ? '<div class="feedback ' + (rUi.tone || 'tryagain') + '"><p>' + rUi.msg + '</p></div>' : ''; }
+
+  function renderRout() {
+    var v = document.getElementById('routView'); if (!v) return;
+    var d = rDay(), h = rHead(d);
+    if (d.st < 0) {
+      h += '<div class="card r-card"><p class="r-q">Deine Schreibzeit heute</p><ol class="r-plan">' + R_STATIONS.map(function (s, k) {
+        return '<li><i>' + (k + 1) + '</i><span><b>' + s.n + '</b>' + ['Gesprochene Wörter ins Heft-Deutsch übersetzen', 'Satzglieder verschieben, Satzanfang ändern', 'Im Heft schreiben – mit 7-Minuten-Uhr', 'Den eigenen Text mit der Ampel prüfen'][k] + '</span><em>' + s.min + ' Min.</em></li>';
+      }).join('') + '</ol><p class="r-small">Leg dein Heft und einen Stift bereit. Für die Ampel brauchst du später noch einen Farbstift.</p>' +
+        '<div class="actions"><button type="button" class="btn primary" data-r="start">Los geht’s – 15 Minuten</button></div></div>';
+    } else if (d.st === 0) h += rSteps(d) + rDiaView(d);
+    else if (d.st === 1) h += rSteps(d) + rSatzView(d);
+    else if (d.st === 2) h += rSteps(d) + rTaskView(d);
+    else if (d.st === 3) h += rSteps(d) + rAmpView(d);
+    else h += rDoneView(d);
+    v.innerHTML = h;
+    if (d.st === 2) rTimerPaint();
+  }
+
+  function rDiaView(d) {
+    var items = rDiaItems(), it = items[d.di], spots = rSpots(it), si = 0, words = '';
+    it.forEach(function (part) {
+      if (typeof part === 'string') {
+        part.split(/(\s+)/).forEach(function (w) {
+          if (!w) return; if (/^\s+$/.test(w)) { words += ' '; return; }
+          if (/^[.,!?]+$/.test(w)) { words += '<span class="rd-p">' + esc(w) + '</span>'; return; }
+          words += '<button type="button" class="rd-w" data-r="plain" data-w="' + esc(w.replace(/[.,!?]/g, '')) + '">' + esc(w) + '</button>';
+        });
+      } else {
+        var k = si++, fx = d.dfix[k], fd = d.dfound[k];
+        words += '<button type="button" class="rd-w' + (fx ? ' fixed' : fd ? ' found' : '') + (rUi.spot === k && !fx ? ' sel' : '') + '" data-r="spot" data-k="' + k + '">' + esc(fx ? part[1] : part[0]) + '</button>';
+      }
+    });
+    var nFix = spots.filter(function (p, k) { return d.dfix[k]; }).length, nFound = spots.filter(function (p, k) { return d.dfound[k]; }).length, all = nFix === spots.length;
+    var h = '<div class="card r-card"><p class="r-role"><b>Satz ' + (d.di + 1) + ' von 3</b> So hat jemand gesprochen:</p>';
+    h += '<p class="r-q">' + (all ? 'Alles übersetzt!' : nFound < spots.length ? 'Tippe die <b>' + (spots.length - nFound) + '</b> ' + (spots.length - nFound === 1 ? 'Wort an, das' : 'Wörter an, die') + ' man nur beim Sprechen so sagt.' : 'Tippe ein oranges Wort an und wähle, wie es im Heft steht.') + '</p>';
+    h += '<p class="rd-sent">' + words + '</p>';
+    if (!all && rUi.spot !== null && rUi.spot !== undefined && !d.dfix[rUi.spot]) {
+      var sp = spots[rUi.spot], opts = [sp[1]].concat(sp[2]).sort(function (a, b) { return rHash(a + dayNum()) - rHash(b + dayNum()); });
+      h += '<div class="rd-pick"><p>„' + esc(sp[0]) + '“ – wie steht es im Heft?</p><div class="rd-opts">' + opts.map(function (o) { return '<button type="button" class="opt" data-r="fix" data-o="' + esc(o) + '">' + esc(o) + '</button>'; }).join('') + '</div></div>';
+    }
+    if (all) {
+      var fixed = rFixed(it);
+      h += '<div class="feedback good"><p class="fb-title">So steht es im Heft:</p><p class="rd-final">' + esc(fixed) + '</p></div>' +
+        '<div class="actions">' + (hasTTS ? '<button type="button" class="btn" data-say="' + esc(fixed) + '">' + SPEAK_SVG + 'Anhören</button>' : '') +
+        '<button type="button" class="btn primary" data-r="dianext">' + (d.di < 2 ? 'Nächster Satz' : 'Weiter: Satz-Umbau') + '</button></div>';
+    } else {
+      h += rMsg() + '<div class="actions"><button type="button" class="btn tip small" data-r="lupe">Lupe: ein Wort zeigen</button></div>';
+    }
+    return h + '</div>';
+  }
+
+  function rSatzView(d) {
+    var items = rSatzItems(d.th), s = items[d.su], n = s.c.length;
+    if (!d.ord || d.ord.length !== n) { d.ord = s.c.map(function (x, i) { return i; }); rPut(d); }
+    var g = R_SG[s.go], before = rSatzText(s, s.c.map(function (x, i) { return i; }));
+    var h = '<div class="card r-card"><p class="r-role"><b>Satz ' + (d.su + 1) + ' von 2</b> Satzanfänge verändern</p>';
+    h += '<p class="r-small">Vorher: <b class="r-before">' + esc(before) + '</b></p>';
+    h += '<p class="r-q">' + (d.sok ? 'Geschafft! Der Satz beginnt jetzt anders.' : 'Bau den Satz um: Vorne soll die Karte <span class="sg-tag sg-' + g.c + '">' + g.q + '</span> stehen.') + '</p>';
+    h += '<div class="sg-row' + (d.sok ? ' solved' : '') + '">' + d.ord.map(function (ci, pos) {
+      var c = s.c[ci], txt = pos === 0 ? c[0].charAt(0).toUpperCase() + c[0].slice(1) : c[0];
+      return '<button type="button" class="sg sg-' + R_SG[c[1]].c + (rUi.pick === pos ? ' pick' : '') + '" data-r="sg" data-p="' + pos + '"' + (d.sok ? ' disabled' : '') + '><small>' + R_SG[c[1]].q + '</small><span>' + esc(txt) + '</span>' + (pos === 1 ? '<em>Platz 2</em>' : '') + '</button>';
+    }).join('') + '<span class="sg-dot">.</span></div>';
+    if (d.sok) {
+      var after = rSatzText(s, d.ord);
+      h += '<div class="feedback good"><p class="fb-title">Nachher:</p><p class="rd-final">' + esc(after) + '</p><p>Das Tun-Wort bleibt immer auf Platz 2. Der große Anfangsbuchstabe wandert mit nach vorne.</p></div>' +
+        '<div class="actions">' + (hasTTS ? '<button type="button" class="btn" data-say="' + esc(after) + '">' + SPEAK_SVG + 'Anhören</button>' : '') +
+        '<button type="button" class="btn primary" data-r="satznext">' + (d.su < 1 ? 'Nächster Satz' : 'Weiter: Schreibauftrag') + '</button></div>';
+    } else {
+      h += '<p class="r-small">' + (rUi.pick !== null && rUi.pick !== undefined ? 'Jetzt die Karte antippen, mit der sie den Platz tauschen soll.' : 'Tippe eine Karte an und dann eine zweite: Die beiden tauschen ihren Platz.') + '</p>' + rMsg() +
+        '<div class="actions"><button type="button" class="btn" data-r="sgreset">Von vorn</button><button type="button" class="btn primary" data-r="sgcheck">Prüfen</button></div>';
+    }
+    h += '<div class="sg-legend">' + ['wer', 'tut', 'wann', 'wo', 'wie', 'warum', 'was'].map(function (k) { return '<span class="sg-tag sg-' + k + '">' + R_SG[k].q + '</span>'; }).join('') + '</div>';
+    return h + '</div>';
+  }
+
+  var rTimer = { left: 420, end: 0, run: false, done: false, iv: null, ctx: null };
+  function rTaskView(d) {
+    var t = rTask(d.th), th = rTheme(d.th), help = R_HELP[d.th];
+    var h = '<div class="card r-card"><p class="r-role"><b>Schreibauftrag · ' + th.name + '</b> ' + t.n + ' ins Heft</p>';
+    if (t.pic) h += '<svg viewBox="0 0 320 210" class="bild-svg" role="img" aria-label="Bild zum Schreibauftrag">' + R_PICS[t.pic]() + '</svg>';
+    if (t.rz) h += '<div class="r-rz">' + t.rz.map(function (w, i) { return '<button type="button" lang="de" class="r-rzc r-' + ['g', 'o', 'b'][i % 3] + '" data-say="' + esc(w.replace(/\u00AD/g, '')) + '"><small>Reizwort ' + (i + 1) + '</small>' + esc(w) + '</button>'; }).join('') + '</div>';
+    h += '<p class="r-q">' + esc(t.q) + '</p>';
+    h += '<div class="ws"><p class="ws-title">Wörter-Kiste <span>(so schreibt man sie)</span></p><div class="ws-row">' + t.w.map(function (w) { return '<button type="button" class="ws-w i" data-say="' + esc(w) + '">' + esc(w) + '</button>'; }).join('') + '</div>' +
+      '<p class="ws-title">So kannst du anfangen</p><div class="ws-row">' + t.st.map(function (w) { return '<span class="r-start">' + esc(w) + ' …</span>'; }).join('') + '</div></div>';
+    if (d.th === 'r') h += '<div class="r-help r-o"><p class="ws-title">So setzt du Redezeichen</p><p class="r-rede">Mia rief<b>:</b> <b>„</b>Komm schnell!<b>“</b></p><p class="r-rede"><b>„</b>Ich habe Angst<b>“</b>, flüsterte Ben.</p><p class="r-small">Unten anfangen „ – oben aufhören “. Begleitsatz vorne: Doppelpunkt.</p></div>';
+    if (d.th === 'f') h += '<div class="r-plan3">' + help.l.map(function (x, i) { var p = x.split(': '); return '<div class="r-' + ['g', 'o', 'b'][i] + '"><b>' + p[0] + '</b><span>' + p[1] + '</span></div>'; }).join('') + '</div>';
+    else h += '<div class="r-help r-' + th.col + '"><p class="ws-title">' + help.t + '</p><div class="ws-row">' + help.l.map(function (w) { return '<button type="button" class="ws-w" data-say="' + esc(w) + '">' + esc(w) + '</button>'; }).join('') + '</div></div>';
+    h += '<p class="r-small r-heft">✎ Schreib ins Heft: das Datum' + (d.th === 'f' ? ', eine eigene Überschrift' : ' und als Überschrift „' + esc(t.t) + '“') + '. Dann Uhr starten und los!</p>';
+    h += '<div class="r-clock"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" class="r-ring-bg"/><circle cx="60" cy="60" r="52" class="r-ring" id="rRing" transform="rotate(-90 60 60)"/></svg><div class="r-time"><b id="rClock">7:00</b><span id="rClockTxt">Minuten</span></div></div>';
+    if (rTimer.done) h += '<div class="feedback good"><p class="fb-title">Stift weg – die Zeit ist um!</p><p>Lies deinen Text einmal leise durch. Dann prüfst du ihn mit der Ampel.</p></div>';
+    h += '<div class="actions">' + (rTimer.done ? '' : '<button type="button" class="btn" data-r="trun" id="rRunBtn">' + (rTimer.run ? 'Pause' : rTimer.left < 420 ? 'Weiter' : 'Uhr starten') + '</button>') +
+      (rTimer.left < 420 || rTimer.done ? '<button type="button" class="btn small" data-r="treset">Uhr neu</button>' : '') +
+      '<button type="button" class="btn primary" data-r="tasknext"' + (rTimer.left < 420 || rTimer.done ? '' : ' disabled') + '>' + (rTimer.done ? 'Weiter: Ampel-Check' : 'Ich bin fertig') + '</button></div>';
+    if (!(rTimer.left < 420 || rTimer.done)) h += '<p class="r-small">Starte die Uhr, wenn du mit Schreiben beginnst.</p>';
+    return h + '</div>';
+  }
+  function rFmt(s) { return Math.floor(s / 60) + ':' + rPad(s % 60); }
+  function rTimerPaint() {
+    var c = document.getElementById('rClock'), ring = document.getElementById('rRing'); if (!c || !ring) return;
+    var L = 2 * Math.PI * 52; c.textContent = rFmt(rTimer.left);
+    ring.style.strokeDasharray = L; ring.style.strokeDashoffset = L * (1 - rTimer.left / 420);
+    ring.classList.toggle('low', rTimer.left <= 60);
+    var tx = document.getElementById('rClockTxt'); if (tx) tx.textContent = rTimer.done ? 'geschafft' : rTimer.run ? 'schreiben …' : 'Minuten';
+  }
+  function rTick() {
+    if (rTimer.run) {
+      rTimer.left = Math.max(0, Math.ceil((rTimer.end - Date.now()) / 1000));
+      if (rTimer.left === 0) { rTimer.run = false; rTimer.done = true; clearInterval(rTimer.iv); rTimer.iv = null; rBeep(); if (document.getElementById('rClock')) renderRout(); return; }
+    }
+    rTimerPaint();
+  }
+  function rBeep() {
+    try { navigator.vibrate && navigator.vibrate([200, 100, 200]); } catch (e) {}
+    try {
+      var ctx = rTimer.ctx; if (!ctx) return; if (ctx.state === 'suspended') ctx.resume();
+      [0, 0.35, 0.7].forEach(function (t) {
+        var o = ctx.createOscillator(), g = ctx.createGain(), s = ctx.currentTime + t;
+        o.frequency.value = 880; o.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(0.0001, s); g.gain.exponentialRampToValueAtTime(0.3, s + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, s + 0.3);
+        o.start(s); o.stop(s + 0.32);
+      });
+    } catch (e) {}
+  }
+  function rTimerReset() { if (rTimer.iv) clearInterval(rTimer.iv); rTimer.iv = null; rTimer.left = 420; rTimer.run = false; rTimer.done = false; }
+
+  function rAmpItems(th) { return R_AMP[th].concat(R_AMP_BASE); }
+  function rAmpView(d) {
+    var items = rAmpItems(d.th), n = items.filter(function (x, i) { return d.amp[i]; }).length, all = n === items.length;
+    var h = '<div class="card r-card"><p class="r-role"><b>Ampel-Check</b> Lies deinen Text im Heft und prüfe jeden Punkt.</p>';
+    h += '<div class="amp-key"><span class="a-g">grün = klappt</span><span class="a-y">gelb = fast</span><span class="a-r">rot = noch nicht</span></div><ul class="amp">';
+    items.forEach(function (txt, i) {
+      var v = d.amp[i];
+      h += '<li class="' + (v ? 'v-' + v : '') + '"><p>' + esc(txt) + '</p><div class="amp-b" role="group" aria-label="Ampel">' + [['g', 'klappt'], ['y', 'fast'], ['r', 'noch nicht']].map(function (a) {
+        return '<button type="button" class="ab ab-' + a[0] + '" data-r="amp" data-i="' + i + '" data-v="' + a[0] + '" aria-pressed="' + (v === a[0]) + '" aria-label="' + a[1] + '"></button>';
+      }).join('') + '</div></li>';
+    });
+    h += '</ul>';
+    if (all) {
+      var ry = items.filter(function (x, i) { return d.amp[i] !== 'g'; }).length;
+      h += ry ? '<div class="feedback tryagain"><p class="fb-title">' + ry + (ry === 1 ? ' Punkt ist' : ' Punkte sind') + ' noch nicht grün</p><p>Verbessere diese Stellen jetzt im Heft mit einem Farbstift. Dann darfst du sie auf grün stellen.</p></div>'
+        : '<div class="feedback good"><p class="fb-title">Alles grün!</p><p>Dein Text ist richtig gut geprüft.</p></div>';
+    }
+    h += '<div class="actions"><button type="button" class="btn primary" data-r="finish"' + (all ? '' : ' disabled') + '>Schreibzeit beenden</button></div>';
+    if (!all) h += '<p class="r-small">Noch ' + (items.length - n) + ' Punkte prüfen.</p>';
+    return h + '</div>';
+  }
+  function rDoneView(d) {
+    var items = rAmpItems(d.th), g = items.filter(function (x, i) { return d.amp[i] === 'g'; }).length, t = rTheme(d.th), idx = R_THEMES.indexOf(t), nx = R_THEMES[(idx + 1) % 5];
+    return '<div class="card r-card r-done"><p class="r-big">Etappe geschafft!</p><p class="r-q">' + t.day + ' · ' + t.name + ' ist auf dem Geschichtenberg abgehakt.</p>' +
+      '<div class="r-sum"><span><b>3</b>Sätze übersetzt</span><span><b>2</b>Sätze umgebaut</span><span><b>' + g + '/' + items.length + '</b>Ampel grün</span></div>' +
+      '<p class="r-small">' + (idx < 4 ? 'Nächste Etappe: <b>' + nx.day + ' · ' + nx.name + '</b>.' : 'Die ganze Woche geschafft? Dann lies deine Mini-Geschichte jemandem vor!') + '</p>' +
+      '<div class="actions"><button type="button" class="btn" data-r="again">Heute noch mal üben</button><button type="button" class="btn primary" data-r="tofach">Fertig für heute</button></div></div>';
+  }
+
+  var routView = document.getElementById('routView');
+  function rGo(st) { var d = rDay(); d.st = st; rPut(d); rUi = { spot: null, msg: null, pick: null }; renderRout(); routView.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  routView.addEventListener('click', function (e) {
+    var sy = e.target.closest('[data-say]'); if (sy && hasTTS) TTS.say(sy.getAttribute('data-say'), 'de-DE', 0.85);
+    var b = e.target.closest('[data-r]'); if (!b || b.disabled) return;
+    var a = b.getAttribute('data-r'), d = rDay();
+    if (a === 'theme') {
+      var k = b.getAttribute('data-t'); if (k === d.th) return;
+      if (d.st >= 0 && d.st < 4 && !confirm('Zur Etappe „' + rTheme(k).name + '“ wechseln? Die heutige Schreibzeit beginnt dann von vorn.')) return;
+      rPut(rNewDay(k, d.fin)); rTimerReset(); rUi = { spot: null, msg: null, pick: null }; renderRout(); return;
+    }
+    if (a === 'start') { rTimerReset(); rGo(0); return; }
+    if (a === 'plain') { rUi.msg = '„' + esc(b.getAttribute('data-w')) + '“ ist schon Heft-Deutsch. Such weiter!'; rUi.tone = 'tip'; renderRout(); return; }
+    if (a === 'spot') {
+      var sk = +b.getAttribute('data-k'); if (d.dfix[sk]) return;
+      if (!d.dfound[sk]) { d.dfound[sk] = 1; rPut(d); }
+      rUi.spot = sk; rUi.msg = null; renderRout(); return;
+    }
+    if (a === 'lupe') {
+      var sp = rSpots(rDiaItems()[d.di]); for (var i = 0; i < sp.length; i++) if (!d.dfound[i]) { d.dfound[i] = 1; d.dwrong++; rPut(d); rUi.spot = i; rUi.msg = null; renderRout(); return; }
+      rUi.msg = 'Alle Wörter sind schon gefunden. Tippe ein oranges Wort an.'; rUi.tone = 'tip'; renderRout(); return;
+    }
+    if (a === 'fix') {
+      var it = rDiaItems()[d.di], spot = rSpots(it)[rUi.spot], o = b.getAttribute('data-o');
+      if (o === spot[1]) {
+        d.dfix[rUi.spot] = 1; rUi.spot = null; rUi.msg = null; rPut(d);
+        if (rSpots(it).every(function (p, k2) { return d.dfix[k2]; })) { bildStars(d.dwrong ? 1 : 2); try { confetti(); } catch (e2) {} }
+      } else { d.dwrong++; rPut(d); rUi.msg = '<b>Noch nicht.</b> ' + esc(spot[3]); rUi.tone = 'tryagain'; }
+      renderRout(); return;
+    }
+    if (a === 'dianext') { if (d.di < 2) { d.di++; d.dfound = {}; d.dfix = {}; d.dwrong = 0; rPut(d); rUi = { spot: null, msg: null, pick: null }; renderRout(); } else rGo(1); return; }
+    if (a === 'sg') {
+      var p = +b.getAttribute('data-p'); rUi.msg = null;
+      if (rUi.pick === null || rUi.pick === undefined) rUi.pick = p;
+      else if (rUi.pick === p) rUi.pick = null;
+      else { var x = d.ord[rUi.pick]; d.ord[rUi.pick] = d.ord[p]; d.ord[p] = x; rUi.pick = null; rPut(d); }
+      renderRout(); return;
+    }
+    if (a === 'sgreset') { d.ord = null; rPut(d); rUi.pick = null; rUi.msg = null; renderRout(); return; }
+    if (a === 'sgcheck') {
+      var s = rSatzItems(d.th)[d.su], first = s.c[d.ord[0]][1], second = s.c[d.ord[1]][1];
+      d.stry++;
+      if (first !== s.go) { rUi.msg = 'Vorne steht noch nicht die Karte <span class="sg-tag sg-' + R_SG[s.go].c + '">' + R_SG[s.go].q + '</span>. Tausche sie nach vorne.'; rUi.tone = 'tryagain'; }
+      else if (second !== 'tut') { rUi.msg = 'Fast! Die rote Karte <span class="sg-tag sg-tut">Was tut?</span> gehört immer auf Platz 2.'; rUi.tone = 'tryagain'; }
+      else { d.sok = true; bildStars(d.stry === 1 ? 2 : 1); rUi.msg = null; try { confetti(); } catch (e3) {} }
+      rUi.pick = null; rPut(d); renderRout(); return;
+    }
+    if (a === 'satznext') { if (d.su < 1) { d.su++; d.ord = null; d.sok = false; d.stry = 0; rPut(d); rUi = { spot: null, msg: null, pick: null }; renderRout(); } else rGo(2); return; }
+    if (a === 'trun') {
+      try { if (!rTimer.ctx) { var C = window.AudioContext || window.webkitAudioContext; if (C) rTimer.ctx = new C(); } if (rTimer.ctx && rTimer.ctx.state === 'suspended') rTimer.ctx.resume(); } catch (e4) {}
+      if (rTimer.run) { rTimer.run = false; rTimer.left = Math.max(0, Math.ceil((rTimer.end - Date.now()) / 1000)); clearInterval(rTimer.iv); rTimer.iv = null; }
+      else { rTimer.run = true; rTimer.end = Date.now() + rTimer.left * 1000; if (!rTimer.iv) rTimer.iv = setInterval(rTick, 250); }
+      renderRout(); return;
+    }
+    if (a === 'treset') { rTimerReset(); renderRout(); return; }
+    if (a === 'tasknext') { if (rTimer.run && !confirm('Die Uhr läuft noch. Bist du schon fertig mit Schreiben?')) return; rTimerReset(); bildStars(2); rGo(3); return; }
+    if (a === 'amp') { d.amp[b.getAttribute('data-i')] = b.getAttribute('data-v'); rPut(d); renderRout(); return; }
+    if (a === 'finish') { d.fin = d.fin || {}; d.fin[d.th] = 1; d.st = 4; rPut(d); bildStars(3); try { confetti(); } catch (e5) {} renderRout(); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    if (a === 'again') { rPut(rNewDay(d.th, d.fin)); rTimerReset(); rUi = { spot: null, msg: null, pick: null }; renderRout(); return; }
+    if (a === 'tofach') { showFach('d'); return; }
+  });
+  routView.addEventListener('keydown', function (e) { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('g[data-r]')) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent('click', { bubbles: true })); } });
 
 
   /* ---------- Start ---------- */
