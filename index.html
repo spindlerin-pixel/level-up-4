@@ -1,10 +1,69 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+/* ===== Tagesplan wie Level Up 5 ===== */
+.plan { display: flex; flex-direction: column; gap: 10px; padding: 16px; background: var(--surface); border-radius: 24px; box-shadow: 0 6px 18px rgba(16,23,42,0.08); border: 3px solid #FFD54A; margin-bottom: 14px; }
+.plan-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.plan-head h2 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.45rem; line-height: 1.1; color: var(--ink); }
+.plan-eyebrow { margin: 0 0 2px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-soft); }
+.plan-ring { flex-shrink: 0; width: 74px; height: 74px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: conic-gradient(var(--c-m) calc(var(--p, 0) * 1%), var(--c-m-fill) 0); position: relative; }
+.plan-ring::before { content: ''; position: absolute; inset: 7px; border-radius: 50%; background: var(--surface); }
+.plan-ring b, .plan-ring span { position: relative; color: var(--ink); }
+.plan-ring b { font-family: var(--font-display); font-size: 1.2rem; line-height: 1; }
+.plan-ring span { font-size: 0.68rem; color: var(--ink-soft); }
+.plan.all .plan-ring { background: #2E9E5B; }
+.plan-sum { margin: 0; color: var(--ink-soft); font-size: 0.95rem; }
+.plan-sum b { color: var(--ink); }
+.plan-why { display: block; margin-top: 2px; font-weight: 700; }
+.plan-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.plan-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 18px; background: rgba(128,128,128,0.10); border-left: 8px solid var(--pc); }
+.plan-item.m { --pc: var(--c-m); } .plan-item.d { --pc: var(--c-d); } .plan-item.mu { --pc: var(--c-mu); } .plan-item.en { --pc: var(--c-en); }
+.plan-check { flex-shrink: 0; width: 30px; height: 30px; box-sizing: border-box; border-radius: 50%; border: 3px solid var(--pc); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; }
+.plan-item.done .plan-check { background: #2E9E5B; border-color: #2E9E5B; }
+.plan-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; line-height: 1.25; }
+.plan-txt b { font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
+.plan-txt small { color: var(--ink-soft); font-size: 0.85rem; }
+.plan-item.done .plan-txt b { text-decoration: line-through; text-decoration-thickness: 2px; opacity: 0.7; }
+.plan-go { flex-shrink: 0; appearance: none; cursor: pointer; border: 0; border-radius: 12px; padding: 10px 14px; font: 700 0.95rem var(--font-display); background: var(--pc); color: #fff; box-shadow: 0 3px 0 rgba(0,0,0,0.18); }
+.plan-item.done .plan-go { background: var(--surface); color: var(--ink-soft); box-shadow: none; border: 2px solid var(--line); }
+.plan-et { grid-column: 1 / -1; margin: 6px 0 -2px; font-family: var(--font-display); font-weight: 800; font-size: 0.95rem; color: var(--ink); }
+.plan-et:first-child { margin-top: 0; }
+.plan-et.done { color: #2E9E5B; font-weight: 700; }
+.plan-et.later { color: var(--ink-soft); font-weight: 700; }
+.plan-later { grid-column: 1 / -1; padding: 10px 14px; border-radius: 16px; border: 2px dashed rgba(128,128,128,0.45); color: var(--ink-soft); font-size: 0.92rem; line-height: 1.4; }
+.plan-bonus { padding: 10px 14px; border-radius: 16px; border: 2px dashed rgba(128,128,128,0.45); font-size: 0.92rem; color: var(--ink-soft); line-height: 1.45; display: flex; flex-direction: column; gap: 8px; }
+.plan-bonus[hidden] { display: none; }
+.ka-wrap[hidden] { display: none; }
+.plan-yay { margin: 0; padding: 10px 14px; border-radius: 16px; background: #DFF3E4; color: #17603A; font-weight: 700; }
+.plan-link { all: unset; cursor: pointer; color: var(--c-m-dark); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.plan-toast { position: fixed; left: 50%; bottom: 22px; transform: translate(-50%, 30px); opacity: 0; z-index: 60; max-width: min(92vw, 420px); padding: 12px 18px; border-radius: 16px; background: #1F2A44; color: #FFFFFF; font-weight: 700; text-align: center; box-shadow: 0 8px 24px rgba(0,0,0,0.25); transition: opacity .25s, transform .25s; pointer-events: none; }
+.plan-toast.on { opacity: 1; transform: translate(-50%, 0); }
+.wd .wd-star { font-size: 0.85rem; line-height: 1; min-height: 1em; }
+@media (min-width: 720px) { .plan-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .plan-yay { background: #173D29; color: #BFF0D2; }
+  :root:not([data-theme="light"]) .plan-et.done { color: #8FE0AE; }
+  :root:not([data-theme="light"]) .plan-item:not(.done) .plan-go { color: #10172A; }
+  :root:not([data-theme="light"]) .plan-link { color: var(--c-m); }
+  :root:not([data-theme="light"]) .plan { border-color: #C9A227; }
+}
+:root[data-theme="dark"] .plan-yay { background: #173D29; color: #BFF0D2; }
+:root[data-theme="dark"] .plan-et.done { color: #8FE0AE; }
+:root[data-theme="dark"] .plan-item:not(.done) .plan-go { color: #10172A; }
+:root[data-theme="dark"] .plan-link { color: var(--c-m); }
+:root[data-theme="dark"] .plan { border-color: #C9A227; }
+/* Probearbeit mit Note */
+.pa-grade { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 92px; height: 92px; border-radius: 50%; border: 3px solid var(--line); background: var(--tip-fill); color: var(--ink); font-family: var(--font-display); font-size: 3rem; font-weight: 800; line-height: 1; }
+.pa-grade small { font-size: 0.8rem; font-weight: 700; margin-top: 4px; }
+/* Tag- und Nacht-Modus */
+.theme-btn { all: unset; cursor: pointer; flex-shrink: 0; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-size: 1.3rem; background: var(--surface); box-shadow: 0 2px 8px rgba(0,0,0,0.12); margin-left: auto; margin-right: 8px; }
+.theme-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+</style></head><body>
 <title>Level Up 4</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1">
 <link rel="icon" type="image/png" href="favicon.png?v=1">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-title" content="Level Up 4">
 <meta name="theme-color" content="#3A1690">
+<script>try { var _t = localStorage.getItem('eule-thema'); if (_t === 'dark' || _t === 'light') document.documentElement.setAttribute('data-theme', _t); } catch (e) {}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Andika:wght@400;700&family=Fredoka:wght@500;600;700&display=swap">
@@ -1391,6 +1450,7 @@ body.on-home #routView, body.on-fach #routView { display: none !important; }
       <h1>Level Up 4</h1>
       <p>Lernen &amp; aufsteigen · 4. Klasse</p>
     </div>
+    <button type="button" class="theme-btn" id="themeBtn" aria-label="Tag- oder Nacht-Modus">🌙</button>
     <div class="stars" title="Sterne für richtige Antworten beim ersten Versuch">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path class="star-fill" d="M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.3l-5.8 3.1 1.1-6.5L2.6 9.3l6.5-.9z"></path></svg>
       <span id="starCount">0</span><span class="sr-only"> Sterne</span>
@@ -1415,6 +1475,16 @@ body.on-home #routView, body.on-fach #routView { display: none !important; }
 
   <section class="home" id="homeView" aria-label="Startseite">
     <p class="eyebrow"><span class="lu-brand">Level Up 4</span> · <span id="homeDate">Heute</span></p>
+
+    <section class="plan" id="planBox" aria-label="Dein Plan für heute">
+      <div class="plan-head">
+        <div><p class="plan-eyebrow" id="planFocus">Heute</p><h2>Dein Plan für heute</h2></div>
+        <div class="plan-ring" id="planRing" role="img" aria-label="Fortschritt"><b id="planCount">0/0</b><span>Etappen</span></div>
+      </div>
+      <p class="plan-sum" id="planSum"></p>
+      <ol class="plan-list" id="planList"></ol>
+      <div class="plan-bonus" id="planBonus" hidden></div>
+    </section>
 
     <section class="ka-wrap" aria-label="Countdown Klassenarbeiten">
       <h2 class="ka-head">⏳ Countdown Klassenarbeiten</h2>
@@ -3593,6 +3663,93 @@ window.EULE = (function () {
   };
   /* GEN-END */
 
+  /* ---------- Rechtschreib-Regeln: schreiben statt nur ankreuzen ---------- */
+  /* [Wort mit Lücke, richtiges Wort, Verlängerung] */
+  var VERL_W = [
+    ['der Hun_', 'Hund', 'die Hunde'], ['der Wal_', 'Wald', 'die Wälder'], ['das Kin_', 'Kind', 'die Kinder'], ['das Pfer_', 'Pferd', 'die Pferde'],
+    ['das Lie_', 'Lied', 'die Lieder'], ['das Bil_', 'Bild', 'die Bilder'], ['das Fel_', 'Feld', 'die Felder'], ['der Mun_', 'Mund', 'die Münder'],
+    ['die Han_', 'Hand', 'die Hände'], ['die Wan_', 'Wand', 'die Wände'], ['der Freun_', 'Freund', 'die Freunde'], ['das Bro_', 'Brot', 'die Brote'],
+    ['der Hu_', 'Hut', 'die Hüte'], ['das Zel_', 'Zelt', 'die Zelte'], ['das Gel_', 'Geld', 'die Gelder'], ['der Hel_', 'Held', 'die Helden'],
+    ['der Ber_', 'Berg', 'die Berge'], ['der Zwer_', 'Zwerg', 'die Zwerge'], ['der Zu_', 'Zug', 'die Züge'], ['der Ta_', 'Tag', 'die Tage'],
+    ['der We_', 'Weg', 'die Wege'], ['die Bur_', 'Burg', 'die Burgen'], ['der Schran_', 'Schrank', 'die Schränke'], ['der Kor_', 'Korb', 'die Körbe'],
+    ['der Die_', 'Dieb', 'die Diebe'], ['das Kal_', 'Kalb', 'die Kälber'], ['das Sie_', 'Sieb', 'die Siebe'], ['der Aben_', 'Abend', 'die Abende'],
+    ['gel_', 'gelb', 'das gelbe Auto'], ['klu_', 'klug', 'ein kluges Kind'], ['run_', 'rund', 'der runde Ball'], ['wil_', 'wild', 'die wilden Tiere'],
+    ['bun_', 'bunt', 'die bunten Blätter'], ['lie_', 'lieb', 'ein lieber Hund'], ['kal_', 'kalt', 'das kalte Wasser'], ['star_', 'stark', 'der starke Wind'],
+    ['er sa_t', 'sagt', 'sagen'], ['es flie_t', 'fliegt', 'fliegen'], ['sie le_t', 'legt', 'legen'], ['er gi_t', 'gibt', 'geben'],
+    ['sie schrei_t', 'schreibt', 'schreiben'], ['er kle_t', 'klebt', 'kleben'], ['sie trä_t', 'trägt', 'tragen'], ['er win_t', 'winkt', 'winken']
+  ];
+  function genRverl() {
+    var r = pick(VERL_W), gapWord = r[0].split(' ').pop();
+    return { type: 'rverl', key: 'rv-' + r[1], inp: 'text', word: true, unit: '', ans: r[1], p: {}, deu: true,
+      q: 'Regel <b>Verlängern</b>: Welcher Buchstabe fehlt? Verlängere im Kopf und schreib das Wort mit der Lücke richtig auf.<br><span style="font-size:1.5rem">' + r[0].replace('_', '<span class="gap">?</span>') + '</span>',
+      hint: 'Verlängere das Wort: ' + r[2] + '. Sprich es deutlich – was hörst du jetzt?',
+      ex: '<span class="strat">Verlängern</span>' + r[2] + ' → <b>' + r[1] + '</b>' };
+  }
+  /* Wort-Diktat nach Regel: [Wort, Begründung] */
+  var RW = {
+    verl: ['Verlängern', 'Bilde die Mehrzahl, die Grundform oder setze das Wort vor ein Nomen. Dann hörst du den Buchstaben am Ende.', [
+      ['Hund', 'die Hunde'], ['Wald', 'die Wälder'], ['Berg', 'die Berge'], ['Korb', 'die Körbe'], ['Zwerg', 'die Zwerge'], ['Pferd', 'die Pferde'],
+      ['Geld', 'die Gelder'], ['gelb', 'das gelbe Haus'], ['Freund', 'die Freunde'], ['Burg', 'die Burgen'], ['klug', 'ein kluges Kind'], ['Feld', 'die Felder']]],
+    abl: ['Ableiten', 'Gibt es ein verwandtes Wort mit a oder au? Dann schreibst du ä oder äu.', [
+      ['Bäume', 'der Baum'], ['Hände', 'die Hand'], ['Läufer', 'laufen'], ['Häuser', 'das Haus'], ['Räder', 'das Rad'], ['Wälder', 'der Wald'],
+      ['Äpfel', 'der Apfel'], ['Gärten', 'der Garten'], ['Mäuse', 'die Maus'], ['Bälle', 'der Ball'], ['kälter', 'kalt'], ['länger', 'lang'],
+      ['träumen', 'der Traum'], ['Gläser', 'das Glas'], ['Zähne', 'der Zahn'], ['Blätter', 'das Blatt']]],
+    silb: ['Silben & kurze Vokale', 'Sprich das Wort in Silben. Ist der Vokal kurz, verdoppelst du den Mitlaut danach – oder schreibst ck bzw. tz.', [
+      ['Sommer', 'Som-mer: kurzes o, also mm'], ['Mutter', 'Mut-ter: kurzes u, also tt'], ['Teller', 'Tel-ler: kurzes e, also ll'], ['Kissen', 'Kis-sen: kurzes i, also ss'],
+      ['Löffel', 'Löf-fel: kurzes ö, also ff'], ['Wasser', 'Was-ser: kurzes a, also ss'], ['Himmel', 'Him-mel: kurzes i, also mm'], ['Brille', 'Bril-le: kurzes i, also ll'],
+      ['Puppe', 'Pup-pe: kurzes u, also pp'], ['Suppe', 'Sup-pe: kurzes u, also pp'], ['Zucker', 'Zu-cker: kurzes u, also ck'], ['Decke', 'De-cke: kurzes e, also ck'],
+      ['Brücke', 'Brü-cke: kurzes ü, also ck'], ['Katze', 'Kat-ze: kurzes a, also tz'], ['Mütze', 'Müt-ze: kurzes ü, also tz'], ['Pfütze', 'Pfüt-ze: kurzes ü, also tz'],
+      ['Schnecke', 'Schne-cke: kurzes e, also ck'], ['rennen', 'ren-nen: kurzes e, also nn'], ['schwimmen', 'schwim-men: kurzes i, also mm'], ['Hitze', 'Hit-ze: kurzes i, also tz']]],
+    lang: ['ie, ß und h', 'Langes i schreibst du meist ie. Nach langem Vokal oder au, ei, eu kommt ß. Manche Wörter merkst du dir mit h.', [
+      ['Wiese', 'langes i, also ie'], ['Biene', 'langes i, also ie'], ['Riese', 'langes i, also ie'], ['fliegen', 'langes i, also ie'], ['Spiegel', 'langes i, also ie'],
+      ['Straße', 'langes a, dann ß'], ['Fuß', 'langes u, dann ß'], ['groß', 'langes o, dann ß'], ['süß', 'langes ü, dann ß'], ['heißen', 'nach ei kommt ß'],
+      ['Spaß', 'langes a, dann ß'], ['gießen', 'langes ie, dann ß'], ['Zahn', 'Merkwort mit h'], ['fahren', 'Merkwort mit h'], ['Uhr', 'Merkwort mit h'], ['Stuhl', 'Merkwort mit h']]]
+  };
+  function genRw(k) {
+    var R = RW[k], x = pick(R[2]);
+    return { type: 'rw' + k, key: 'rw-' + x[0], inp: 'text', word: true, unit: '', ans: x[0], diktat: true, lang: 'de-DE', say: x[0] + '. ' + x[0] + '.', peekLabel: 'Wort kurz zeigen', p: {}, deu: true,
+      q: 'Regel <b>' + R[0] + '</b>: Hör zu und schreib das Wort. Denk an die Regel – und an groß oder klein!',
+      hint: R[1] + ' Das Wort hat ' + x[0].length + ' Buchstaben.',
+      ex: '<span class="strat">' + R[0] + '</span><b>' + x[0] + '</b> – ' + x[1] };
+  }
+  var SILB = ['Ta-fel', 'Blu-me', 'Schu-le', 'Kat-ze', 'Som-mer', 'Mut-ter', 'Ham-mer', 'Kis-sen', 'Löf-fel', 'Tel-ler', 'Ap-fel', 'Ho-se', 'Na-se', 'Ra-be', 'Lö-we',
+    'Schmet-ter-ling', 'Ba-na-ne', 'To-ma-te', 'Schne-cke', 'Gi-raf-fe', 'Ka-nin-chen', 'Fahr-rad', 'Schul-ta-sche', 'Re-gen-bo-gen', 'Ge-burts-tag', 'Zi-tro-ne',
+    'Ka-rot-te', 'Erd-bee-re', 'Wol-ke', 'Son-ne', 'Bril-le', 'Fe-der', 'Lam-pe', 'Pup-pe', 'Was-ser', 'Him-mel', 'Kü-che', 'Wie-se', 'Brü-cke', 'Zu-cker',
+    'Ele-fant', 'Scho-ko-la-de', 'Ta-schen-lam-pe', 'Fens-ter', 'Gar-ten', 'Spie-gel', 'Ku-chen', 'Ma-ri-en-kä-fer'];
+  function genRsilb() {
+    var w = pick(SILB), plain = w.replace(/-/g, ''), n = w.split('-').length;
+    if (Math.random() < 0.45) {
+      var o = [1, 2, 3, 4, 5].filter(function (x) { return x !== n; }).map(String);
+      return { type: 'rsilb', key: 'sz-' + w, inp: 'mc', p: {}, deu: true, center: true, grid2: true,
+        q: 'Sprich das Wort langsam und schwing die Silben mit. Wie viele Silben hat es?<br><span style="font-size:1.5rem">' + plain + '</span>',
+        opts: opts(String(n), shuffle(o).slice(0, 3)), hint: 'Klatsch bei jeder Silbe einmal. In jeder Silbe steckt ein Vokal (a, e, i, o, u, ä, ö, ü) oder ei, au, eu, ie.',
+        ex: '<span class="strat">Silben schwingen</span>' + sil(w) + ' – ' + n + ' Silben' };
+    }
+    return { type: 'rsilb', key: 'st-' + w, inp: 'text', word: true, unit: '', ans: w, p: {}, deu: true,
+      q: 'Trenne das Wort in Silben. Schreib es ab und setze zwischen die Silben einen Strich (-).<br><span style="font-size:1.5rem">' + plain + '</span>',
+      hint: 'Schwing das Wort langsam in Silben. ck und ch bleiben zusammen (Zu-cker, Ku-chen), st wird getrennt (Fens-ter).',
+      ex: '<span class="strat">Silben schwingen</span>' + sil(w) + ' → <b>' + w + '</b>' };
+  }
+  function genRgross() {
+    var src = DIKTAT.concat(DIK_RS), s0 = pick(src.filter(function (x) { return x.split(' ').length <= 9; }));
+    var low = s0.toLowerCase();
+    return { type: 'rgross', key: 'rg-' + s0, inp: 'text', unit: '', ans: s0, p: {}, deu: true,
+      q: 'Oh je, hier ist alles klein geschrieben! Schreib den Satz richtig ab: <b>Satzanfang und Nomen groß</b>.<br><span style="font-size:1.25rem">' + low + '</span>',
+      hint: 'Mach bei jedem Wort die Artikelprobe: Passt der, die oder das davor? Dann ist es ein Nomen und wird groß geschrieben. Und das erste Wort im Satz immer groß.',
+      ex: s0 };
+  }
+  /* Diktat-Sätze mit vielen Regel-Wörtern */
+  var DIK_RS = ['Der Zwerg wohnt hinter dem Berg im Wald.', 'Im Sommer essen wir Eis mit dem Löffel.', 'Die Kinder rennen über die bunte Wiese.',
+    'Meine Mutter kocht eine heiße Suppe.', 'Die Katze trägt eine kleine Mütze.', 'Der Hund springt in die große Pfütze.', 'Im Garten stehen drei alte Bäume.',
+    'Mein Freund gibt mir einen gelben Ball.', 'Die Bienen fliegen über das Feld.', 'Opa sitzt mit der Zeitung auf dem Stuhl.', 'Wir schwimmen im kalten Wasser.',
+    'Die Schnecke kriecht langsam über den Weg.', 'Zum Frühstück gibt es Brot mit Honig.', 'Das Pferd steht ruhig im Stall.', 'Am Abend gießt Lotta die Blumen.',
+    'Die Räder an meinem Fahrrad sind neu.', 'Mein Bruder hat viel Spaß beim Fußball.', 'Der Zug fährt über die lange Brücke.', 'Im Winter ist der Himmel oft grau.',
+    'Die Mäuse verstecken sich unter der Decke.'];
+  DIKTAT = DIKTAT.concat(DIK_RS);
+  GEN.rverl = genRverl; GEN.rsilb = genRsilb; GEN.rgross = genRgross;
+  GEN.rwverl = function () { return genRw('verl'); }; GEN.rwabl = function () { return genRw('abl'); };
+  GEN.rwsilb = function () { return genRw('silb'); }; GEN.rwlang = function () { return genRw('lang'); };
+
   /* ---------- Musik: Noten zeichnen, anhören und üben (nach Musikheft) ---------- */
   var MK = {
     w: { n: 'ganze Note', b: 4, bs: '4 Schläge', silb: 'ta-a-a-a', cnt: '1 (2 3 4)', merk: 'Notenkopf leer · kein Notenhals · kein Fähnchen' },
@@ -5735,6 +5892,7 @@ window.EULE = (function () {
     len: 'Längen', gew: 'Gewichte', kom: 'Kommazahlen', cmp: 'Größen vergleichen', pvs: 'Punkt vor Strich', kla: 'Klammern', rzu: 'Was zuerst?', kset: 'Klammer setzen', sach: 'Sachaufgabe',
     verl: 'Verlängern', ablt: 'Ableiten', vokal: 'Mitsprechen', slaut: 's, ss oder ß', dass: 'das oder dass', gross: 'Großschreibung',
     adjb: 'Adjektive bilden', gteil: 'Teile der Geschichte', gw: 'Die Einleitung', gschl: 'Der Schluss', gsb: 'Satz-Baukasten', gnb: 'Sätze mit weil & Co.', gv2: 'Richtig gebaut?', gmund: 'Wie im Buch', gansatz: 'Satzanfänge', gwr: 'Wörtliche Rede', gwrb: 'Rede-Baukasten', gsagen: 'Wörter für sagen', gzeit: 'Vergangenheit', gsie: 'Sie oder sie?', gdik: 'Erzähl-Diktat', gfrei: 'Schreibwerkstatt', adjs: 'Bedeutung & Bauplan', adjw: 'Adjektive schreiben', adjf: 'Fugenlaute',
+    rverl: 'Verlängern schreiben', rsilb: 'Silben schwingen', rgross: 'Groß schreiben', rwverl: 'Wort-Diktat: Verlängern', rwabl: 'Wort-Diktat: Ableiten', rwsilb: 'Wort-Diktat: kurze Vokale', rwlang: 'Wort-Diktat: ie, ß, h',
     det: 'Fehlerdetektiv', dik: 'Diktat', lese: 'Lesen', blitz: 'Blitzlesen', schlange: 'Wörterschlange',
     nomad: 'Groß oder klein?', nomen: 'Nomen finden', grundf: 'Grundform', abc: 'ABC ordnen', zus: 'Zusammengesetzte Nomen', hoer: 'Genau hören',
     stw: 'Stellenwerte', rund: 'Runden', zstr: 'Zahlenstrahl', folge: 'Zahlenfolgen', sadd: 'Schriftlich plus', ssub: 'Schriftlich minus', smul: 'Schriftlich mal', sdiv: 'Schriftlich geteilt', ueb: 'Überschlagen',
@@ -5747,7 +5905,7 @@ window.EULE = (function () {
     { n: 'Rechenregeln', t: ['pvs', 'kla', 'rzu', 'kset'] },
     { n: 'Zahlen bis 1 Million', t: ['stw', 'rund', 'zstr', 'folge'] }, { n: 'Schriftlich rechnen', t: ['sadd', 'ssub', 'smul', 'sdiv', 'ueb'] }, { n: 'Kopfrechnen', t: ['kopf', 'rest'] },
     { n: 'Geometrie', t: ['flu', 'koer', 'netz', 'sym'] }, { n: 'Daten und Zufall', t: ['diag', 'wkt', 'komb'] }, { n: 'Profi-Check', t: ['sach'] },
-    { n: 'Geschichte schreiben', t: ['gteil', 'gw', 'gschl', 'gansatz', 'gsb', 'gv2', 'gnb', 'gwr', 'gwrb', 'gsagen', 'gmund', 'gzeit', 'gsie', 'gdik', 'gfrei'] },
+    { n: 'Rechtschreib-Regeln', t: ['rverl', 'rwverl', 'rwabl', 'rsilb', 'rwsilb', 'rwlang', 'rgross'] },
     { n: 'Rechtschreibung', t: ['verl', 'ablt', 'vokal', 'slaut', 'dass', 'gross', 'hoer', 'zus', 'det', 'dik'] },
     { n: 'Groß oder klein', t: ['nomad', 'nomen'] }, { n: 'Wörterbuch & ABC', t: ['abc', 'grundf'] }, { n: 'Lesen', t: ['lese', 'blitz', 'schlange'] },
     { n: 'Adjektive zusammensetzen', t: ['adjb', 'adjs', 'adjw', 'adjf'] },
@@ -5772,32 +5930,36 @@ window.EULE = (function () {
       { id: 'mcheck', n: 'Profi-Check', pro: true, t: ['sach', 'sach', 'sach', 'sach', 'pk2', 'zsp', 'kom', 'kset', 'kla', 'sdiv', 'smul', 'flu', 'komb', 'diag', 'rund', 'kra', 'kbu', 'kkr'] }
     ],
     d: [
-      { id: 'gtest', n: 'Klassenarbeit: Geschichte schreiben', ka: true, len: 15, t: ['gteil', 'gteil', 'gw', 'gschl', 'gansatz', 'gsb', 'gsb', 'gsb', 'gv2', 'gv2', 'gnb', 'gnb', 'gwr', 'gwr', 'gwrb', 'gwrb', 'gsagen', 'gmund', 'gmund', 'gzeit', 'gzeit', 'gsie', 'gdik'] },
-      { id: 'groutine', n: 'Geschichten schreiben', routine: true, t: [] },
-      { id: 'bild', n: 'Schreib-Reise: Bildergeschichte', bild: true, t: [] },
-      { id: 'gaufbau', n: 'Einleitung, Hauptteil, Schluss', t: ['gteil', 'gteil', 'gw', 'gw', 'gschl', 'gschl', 'gansatz', 'gansatz'] },
-      { id: 'gsatz', n: 'Satz-Baukasten', t: ['gsb', 'gsb', 'gsb', 'gv2', 'gv2', 'gnb', 'gnb'] },
-      { id: 'grede', n: 'Wörtliche Rede', t: ['gwr', 'gwr', 'gwrb', 'gwrb', 'gwrb', 'gsagen', 'gsagen', 'gsie'] },
-      { id: 'gbuch', n: 'Schreiben wie im Buch', t: ['gmund', 'gmund', 'gmund', 'gzeit', 'gzeit', 'gsie', 'gdik', 'gdik'] },
-      { id: 'gwerk', n: 'Schreibwerkstatt', t: ['gfrei'], len: 4 },
-      { id: 'gkarten', n: 'Schreib-Tricks (Karten)', cards: true, deck: 'gs', t: [] },
+      { id: 'rsheute', n: 'Regel des Tages', len: 12, t: [] },
+      { id: 'rg1', n: 'Regel: Verlängern', len: 12, t: ['rverl', 'rverl', 'rverl', 'rverl', 'rwverl', 'rwverl', 'verl', 'verl', 'dik', 'dik'] },
+      { id: 'rg2', n: 'Regel: Silben & kurze Vokale', len: 12, t: ['rsilb', 'rsilb', 'rsilb', 'rwsilb', 'rwsilb', 'rwsilb', 'vokal', 'vokal', 'dik', 'dik'] },
+      { id: 'rg3', n: 'Regel: Ableiten (ä und äu)', len: 12, t: ['rwabl', 'rwabl', 'rwabl', 'rwabl', 'ablt', 'ablt', 'ablt', 'det', 'dik', 'dik'] },
+      { id: 'rg4', n: 'Regel: Groß oder klein', len: 12, t: ['rgross', 'rgross', 'rgross', 'gross', 'gross', 'nomad', 'nomen', 'dik', 'dik'] },
+      { id: 'rg5', n: 'Regel: ie, ß, ss und h', len: 12, t: ['rwlang', 'rwlang', 'rwlang', 'rwlang', 'slaut', 'slaut', 'slaut', 'vokal', 'dik', 'dik'] },
+      { id: 'rg6', n: 'Regel: das oder dass + Mix', len: 12, t: ['dass', 'dass', 'dass', 'rverl', 'rwabl', 'rsilb', 'rwsilb', 'rgross', 'dik', 'dik'] },
+      { id: 'dprobe', n: 'Rechtschreib-Probe mit Note', ka: true, pro: true, probe: true, len: 15, t: ['rverl', 'rverl', 'rwverl', 'rwabl', 'rwabl', 'rwsilb', 'rwsilb', 'rwlang', 'rsilb', 'rgross', 'rgross', 'ablt', 'slaut', 'dass', 'dik', 'dik'] },
+      { id: 'rskarten', n: 'Regel-Karten', cards: true, deck: 'rs', t: [] },
       { id: 'lwtest', n: 'Lernwörter-Kontrolle (Do)', ka: true, len: 15, t: ['lwhoer', 'lwhoer', 'lwhoer', 'lwhoer', 'lwhoer', 'lwknick', 'lwknick', 'lwknick', 'lwfehl', 'lwfehl', 'lwluecke', 'lwluecke', 'lwgross', 'lwsilb', 'lwsatz', 'lwsatz'] },
       { id: 'lwkarten', n: 'Lernwörter-Karten', cards: true, deck: 'lw', t: [] },
-      { id: 'dtrain', n: 'Training nach der Arbeit', ka: true, len: 15, t: ['nomad', 'nomad', 'nomad', 'nomen', 'nomen', 'nomen', 'abc', 'abc', 'abc', 'grundf', 'grundf', 'zus', 'zus', 'hoer', 'hoer', 'hoer', 'dik'] },
-      { id: 'dmix', n: 'Gemischt', t: ['nomad', 'nomen', 'abc', 'grundf', 'zus', 'hoer', 'verl', 'ablt', 'vokal', 'slaut', 'dass', 'gross', 'det', 'det', 'blitz', 'schlange', 'dik', 'adjb', 'adjs', 'adjw'], lesen: 2 },
-      { id: 'rs', n: 'Rechtschreibung', t: ['verl', 'ablt', 'vokal', 'slaut', 'dass', 'gross', 'hoer', 'zus'] },
+      { id: 'dtrain', n: 'Groß, klein & ABC', ka: true, len: 15, t: ['nomad', 'nomad', 'nomad', 'nomen', 'nomen', 'nomen', 'abc', 'abc', 'abc', 'grundf', 'grundf', 'zus', 'zus', 'hoer', 'hoer', 'hoer', 'dik'] },
+      { id: 'dmix', n: 'Gemischt', t: ['nomad', 'nomen', 'abc', 'grundf', 'zus', 'hoer', 'verl', 'ablt', 'vokal', 'slaut', 'dass', 'gross', 'det', 'det', 'blitz', 'schlange', 'dik', 'rverl', 'rwabl', 'rsilb'], lesen: 2 },
+      { id: 'rs', n: 'Rechtschreibung ankreuzen', t: ['verl', 'ablt', 'vokal', 'slaut', 'dass', 'gross', 'hoer', 'zus'] },
       { id: 'gk', n: 'Groß oder klein', t: ['gross', 'nomad', 'nomad', 'nomad', 'nomen', 'nomen'] },
       { id: 'wb', n: 'ABC & Wörterbuch', t: ['abc', 'abc', 'abc', 'grundf', 'grundf'] },
       { id: 'adj', n: 'Adjektive zusammensetzen', t: ['adjb', 'adjb', 'adjs', 'adjs', 'adjs', 'adjw', 'adjw', 'adjf'] },
       { id: 'det', n: 'Fehlerdetektiv', t: ['det'] },
-      { id: 'dik', n: 'Diktat', t: ['dik'], len: 6 },
+      { id: 'dik', n: 'Satz-Diktat', t: ['dik'], len: 6 },
       { id: 'les', n: 'Lesen', t: [], lesen: 10 },
       { id: 'blz', n: 'Blitzlesen', t: ['blitz', 'blitz', 'schlange'] },
-      { id: 'dcheck', n: 'Profi-Check', pro: true, t: ['det', 'det', 'dass', 'gross', 'nomad', 'nomen', 'abc', 'grundf', 'dik', 'ablt', 'verl', 'adjs', 'adjf'], lesen: 4 }
+      { id: 'dcheck', n: 'Profi-Check', pro: true, t: ['det', 'det', 'dass', 'gross', 'nomad', 'nomen', 'abc', 'grundf', 'dik', 'ablt', 'verl', 'adjs', 'adjf', 'rverl', 'rwsilb'], lesen: 4 }
     ],
     mu: [
       { id: 'mtest', n: 'Training für den Musiktest', ka: true, len: 15, t: ['mteil', 'mteil', 'mname', 'mname', 'mmerk', 'mmerk', 'mschl', 'mschl', 'mschl', 'msilb', 'msilb', 'mzahl', 'mzahl', 'mzahl', 'mtakt', 'mtakt', 'mhoer', 'mpause', 'mpause', 'mpause', 'mpause'] },
       { id: 'mkarten', n: 'Karteikarten-Check', cards: true, deck: 'mu', t: [] },
+      { id: 'mprobe1', n: 'Probearbeit 1 · Warm-up', ka: true, pro: true, probe: true, len: 14, t: ['mteil', 'mteil', 'mname', 'mname', 'mmerk', 'mschl', 'mschl', 'mpause', 'mpause', 'mpause', 'msilb', 'mzahl'] },
+      { id: 'mprobe2', n: 'Probearbeit 2 · Normal', ka: true, pro: true, probe: true, len: 16, t: ['mteil', 'mname', 'mmerk', 'mschl', 'mschl', 'msilb', 'msilb', 'mzahl', 'mzahl', 'mtakt', 'mtakt', 'mhoer', 'mpause', 'mpause', 'mpause'] },
+      { id: 'mprobe3', n: 'Probearbeit 3 · Normal+', ka: true, pro: true, probe: true, hard: true, len: 16, t: ['mmerk', 'mschl', 'msilb', 'mzahl', 'mzahl', 'mzahl', 'mtakt', 'mtakt', 'mtakt', 'mhoer', 'mhoer', 'mpause', 'mpause', 'mpause', 'mpause'] },
+      { id: 'mprobe4', n: 'Generalprobe', ka: true, pro: true, probe: true, hard: true, len: 18, t: ['mteil', 'mname', 'mmerk', 'mmerk', 'mschl', 'mschl', 'msilb', 'msilb', 'mzahl', 'mzahl', 'mtakt', 'mtakt', 'mhoer', 'mpause', 'mpause', 'mpause', 'mpause'] },
       { id: 'mumix', n: 'Gemischt', t: ['mteil', 'mname', 'mmerk', 'mschl', 'msilb', 'mzahl', 'mtakt', 'mhoer', 'mpause', 'mpause'] },
       { id: 'mupause', n: 'Pausenzeichen', t: ['mpause'] },
       { id: 'muteil', n: 'Teile der Note', t: ['mteil', 'mteil', 'mteil', 'mmerk'] },
@@ -5816,6 +5978,13 @@ window.EULE = (function () {
     ]
   };
   if (window.EULE) EULE.topicName = function (id) { var tp = topicById(id); return tp ? tp.n + ({ d: ' (Deutsch)', mu: ' (Musik)', en: ' (Englisch)' }[subjOf(id)] || ' (Mathe)') : id; };
+  var RULES_D = ['rg1', 'rg2', 'rg3', 'rg4', 'rg5', 'rg6'];
+  function todayRule() { var d = new Date(); return RULES_D[Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / 86400000) % RULES_D.length]; }
+  (function () {
+    var rt = TOPICS.d[0];
+    Object.defineProperty(rt, 't', { get: function () { return topicById(todayRule()).t; } });
+    Object.defineProperty(rt, 'n', { get: function () { return 'Regel des Tages: ' + topicById(todayRule()).n.replace('Regel: ', ''); } });
+  })();
   function topicById(id) { var all = TOPICS.m.concat(TOPICS.d, TOPICS.mu, TOPICS.en); for (var i = 0; i < all.length; i++) if (all[i].id === id) return all[i]; return all[0]; }
   function subjOf(id) { function has(k) { return TOPICS[k].some(function (t) { return t.id === id; }); } return has('d') ? 'd' : has('mu') ? 'mu' : has('en') ? 'en' : 'm'; }
 
@@ -5861,6 +6030,8 @@ window.EULE = (function () {
       types.forEach(function (t) { var w = W[levelOf(st[t])]; pool.push([t, w]); tot += w; });
       var r = Math.random() * tot, acc = 0, chosen = types[0];
       for (var i = 0; i < pool.length; i++) { acc += pool[i][1]; if (r < acc) { chosen = pool[i][0]; break; } }
+      /* Satz-Diktate höchstens 2 pro Runde (außer im Diktat-Kapitel) */
+      if (chosen === 'dik' && tp.id !== 'dik' && order.filter(function (x) { return x === 'dik'; }).length >= 2 && types.some(function (x) { return x !== 'dik'; })) continue;
       order.push(chosen);
     }
     order.forEach(function (t) {
@@ -6096,7 +6267,7 @@ window.EULE = (function () {
       el.answer.value = state.input || '';
       el.answer.disabled = state.resolved;
       el.checkBtn.hidden = state.resolved;
-      el.hintBtn.hidden = state.resolved || state.hintUsed;
+      el.hintBtn.hidden = state.resolved || state.hintUsed || isProbe();
     }
     var grid = isSchrift(t) ? el.visual.querySelector('table.schrift') : null;
     el.answer.parentElement.hidden = !!grid;
@@ -6110,6 +6281,7 @@ window.EULE = (function () {
     var right = countRight(), n = state.n, second = state.results.filter(function (r) { return r === 'second'; }).length;
     var ratio = right / n, stars = ratio >= 0.9 ? 3 : ratio >= 0.6 ? 2 : ratio >= 0.3 ? 1 : 0;
     el.endStars.innerHTML = starSvg(stars >= 1) + starSvg(stars >= 2) + starSvg(stars >= 3);
+    if (isProbe()) { var gr = gradeOf(ratio); el.endStars.innerHTML = '<span class="pa-grade">' + gr[0] + '<small>' + gr[1] + '</small></span>'; }
     el.endScore.textContent = right + ' von ' + n + ' beim ersten Versuch richtig · +' + right + ' Sterne';
     el.endNews.innerHTML = state.endNews || '';
     el.endNews.hidden = !state.endNews;
@@ -6120,6 +6292,7 @@ window.EULE = (function () {
     if (second > 0) msg += ' ' + second + (second === 1 ? ' Aufgabe hast du' : ' Aufgaben hast du') + ' im zweiten Versuch geschafft.';
     var weak = weakLabels();
     if (weak.length) msg += ' Fini übt mit dir extra: ' + weak.slice(0, 3).join(', ') + '.';
+    if (isProbe()) msg = (ratio >= 0.92 ? 'Hervorragend! Du bist super vorbereitet.' : ratio >= 0.81 ? 'Sehr stark! Fast alles richtig.' : ratio >= 0.67 ? 'Gut gemacht! Schau dir die Fehler an, dann wird die nächste Probe noch besser.' : 'Gut, dass du geübt hast! Genau dafür ist die Probe da: Jetzt weißt du, was du noch üben kannst.') + ' Wie in der echten Arbeit zählt nur der erste Versuch.';
     el.endMsg.textContent = msg;
     var rh = document.getElementById('rateHost');
     if (rh && window.EULE) {
@@ -6340,7 +6513,7 @@ window.EULE = (function () {
       var r = checkText(t, raw);
       if (r.ok) { resolve(state.attempts === 0 ? 'right' : 'second', { tone: 'good', title: pick(PRAISE), text: t.word ? t.ex : 'Alle Wörter richtig geschrieben.' }); return; }
       state.attempts++;
-      if (state.attempts === 1) {
+      if (state.attempts === 1 && !isProbe()) {
         state.hintUsed = true;
         state.feedback = { tone: 'tip', title: 'Fast!', text: t.word ? 'Das stimmt noch nicht ganz. Tipp: ' + t.hint : (r.errs === 1 ? '1 Wort stimmt' : r.errs + ' Wörter stimmen') + ' noch nicht. Schau dir die markierten Wörter an und verbessere sie:', steps: [r.mine] };
         renderTask(); el.answer.focus(); return;
@@ -6387,6 +6560,7 @@ window.EULE = (function () {
     var ok = t.opts[idx].ok;
     if (ok) { resolve(state.chosen.length === 0 ? 'right' : 'second', { tone: 'good', title: pick(PRAISE), text: t.ex }); return; }
     state.chosen.push(idx);
+    if (isProbe()) { resolve('wrong', { tone: 'bad', title: 'Nicht ganz.', text: t.ex }); return; }
     var remaining = t.opts.length - state.chosen.length;
     if (state.chosen.length === 1 && remaining >= 2 && t.hint) {
       state.feedback = { tone: 'tip', title: 'Noch nicht.', text: 'Tipp: ' + t.hint + ' Versuch es nochmal!' };
@@ -6395,7 +6569,7 @@ window.EULE = (function () {
     resolve('wrong', { tone: 'bad', title: 'Nicht ganz.', text: t.ex });
   }
   function next() {
-    if (state.i >= state.n - 1) { state.done = true; state.endNews = newsHtml(award(null, true), 'li'); saveRound(); render(); if (countRight() >= Math.ceil(state.n * 0.8)) confetti(); el.againBtn.focus({ preventScroll: true }); return; }
+    if (state.i >= state.n - 1) { state.done = true; try { planDone(state.topic, countRight() / state.n); } catch (e) {} state.endNews = newsHtml(award(null, true), 'li'); saveRound(); render(); if (countRight() >= Math.ceil(state.n * 0.8)) confetti(); el.againBtn.focus({ preventScroll: true }); return; }
     state.i++; state.attempts = 0; state.hintUsed = false; state.resolved = false; state.feedback = null; state.chosen = []; state.input = ''; state.carry = []; state.parts = {}; state.flashed = false; state.order = []; state.oerr = null; state.ores = null;
     saveRound(); render();
     el.card.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
@@ -6632,11 +6806,31 @@ window.EULE = (function () {
     { id: 'x2', c: 'extra', q: 'Was ist ein Takt?', a: 'Ein Stück Musik mit gleich vielen Schlägen, oft 4. Die Kästen in deinem Heft sind wie Takte.', x: 'Extra-Wissen: steht nicht im Heft.' },
     { id: 'x3', c: 'extra', q: 'Wie viele Linien hat das Notensystem?', a: '5 Linien', av: '<svg class="mn" viewBox="0 0 220 60" style="max-width:240px" role="img" aria-label="Fünf Notenlinien"><line class="mn-stem" x1="4" y1="8" x2="216" y2="8"></line><line class="mn-stem" x1="4" y1="19" x2="216" y2="19"></line><line class="mn-stem" x1="4" y1="30" x2="216" y2="30"></line><line class="mn-stem" x1="4" y1="41" x2="216" y2="41"></line><line class="mn-stem" x1="4" y1="52" x2="216" y2="52"></line></svg>', x: 'Extra-Wissen: steht nicht im Heft.' }
   ];
+  var FC_RS = [
+    { id: 'rv1', c: 'verl', q: 'Hund oder Hunt? Wie findest du heraus, ob am Ende d oder t steht?', a: 'Verlängern! Bilde die Mehrzahl: der Hund – die Hunde. Jetzt hörst du das d.' },
+    { id: 'rv2', c: 'verl', q: 'Wie verlängerst du ein Adjektiv wie gelb?', a: 'Setz es vor ein Nomen: das gelbe Auto. Jetzt hörst du das b.' },
+    { id: 'rv3', c: 'verl', q: 'Wie verlängerst du ein Verb wie „er sagt“?', a: 'Bilde die Grundform: sagen. Jetzt hörst du das g.' },
+    { id: 'rv4', c: 'verl', q: 'Bei welchen Buchstaben am Wortende hilft Verlängern?', a: 'b oder p · d oder t · g oder k' },
+    { id: 'ra1', c: 'abl', q: 'Bäume oder Beume?', a: 'Ableiten: Gibt es ein verwandtes Wort mit au? Ja, der Baum. Also äu: Bäume.' },
+    { id: 'ra2', c: 'abl', q: 'Wann schreibst du ä statt e?', a: 'Wenn es ein verwandtes Wort mit a gibt: Hände – Hand, kälter – kalt.' },
+    { id: 'rs1', c: 'silb', q: 'Wie hilft dir das Silbenschwingen?', a: 'Sprich das Wort langsam in Silben und schwing mit dem Arm. So hörst du jeden Laut: Ba-na-ne.' },
+    { id: 'rs2', c: 'silb', q: 'Wann schreibst du einen doppelten Mitlaut (mm, ll, tt …)?', a: 'Wenn der Vokal davor kurz ist: Som-mer, Tel-ler, Mut-ter.' },
+    { id: 'rs3', c: 'silb', q: 'Wann schreibst du ck oder tz?', a: 'Nach einem kurzen Vokal: Zu-cker, Kat-ze. Nach l, n, r steht nie ck und nie tz: Wolke, Pilz.' },
+    { id: 'rs4', c: 'silb', q: 'Wie trennst du Wörter in Silben?', a: 'So, wie du sie langsam sprichst: Blu-me, Schu-le. ck und ch bleiben zusammen: Zu-cker, Ku-chen.' },
+    { id: 'rl1', c: 'lang', q: 'Wie schreibst du ein langes i meistens?', a: 'Mit ie: Wiese, Biene, fliegen.' },
+    { id: 'rl2', c: 'lang', q: 'Wann schreibst du ß?', a: 'Nach einem langen Vokal oder nach au, ei, eu: Straße, Fuß, heißen.' },
+    { id: 'rl3', c: 'lang', q: 'Wann schreibst du ss?', a: 'Nach einem kurzen Vokal: Wasser, Kissen, Fluss.' },
+    { id: 'rg1', c: 'gross', q: 'Was schreibst du immer groß?', a: 'Den Satzanfang, alle Nomen und Namen.' },
+    { id: 'rg2', c: 'gross', q: 'Wie erkennst du ein Nomen?', a: 'Artikelprobe: Passt der, die oder das davor? Dann ist es ein Nomen: der Mut, die Freude.' },
+    { id: 'rg3', c: 'gross', q: 'Welche Endungen zeigen dir ein Nomen?', a: '-ung, -heit, -keit, -nis, -schaft: die Zeitung, die Freiheit, die Fröhlichkeit.' },
+    { id: 'rd1', c: 'gross', q: 'das oder dass?', a: 'Kannst du dieses, jenes oder welches einsetzen? Dann das. Sonst dass.' }
+  ];
   var FCK = { st: 'eule-karten', run: 'eule-karten-runde', cat: 'eule-karten-thema' };
   var DECKS = {
     mu: { cards: FC, cat: FC_CAT, sfx: '', badge: 'musik1', intro: function (n) { return 'Zum Musiktest: alles aus deinem Heft auf ' + n + ' Karten.'; }, cheer: 'Fini klatscht im Takt!' },
     en: { cards: FC_EN, cat: { tiere: 'Wild animals', farben: 'Colours', zahlen: 'Zahlen 1–10', saetze: 'Sätze' }, sfx: '-en', badge: 'englisch1', intro: function (n) { return 'Zum Englischtest am Freitag: Deutsch lesen, Englisch laut sagen und auf einen Zettel schreiben. ' + n + ' Karten.'; }, cheer: 'Fini sagt: Well done!' },
     gs: { cards: FC_GS, cat: { aufbau: 'Aufbau', satz: 'Satzbau', rede: 'Wörtliche Rede', buch: 'Wie im Buch' }, sfx: '-gs', badge: 'deutsch1', intro: function (n) { return 'Für die Klassenarbeit „Geschichte schreiben“: Frage lesen, Antwort laut sagen, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini ist stolz auf dich!' },
+    rs: { cards: FC_RS, cat: { verl: 'Verlängern', abl: 'Ableiten', silb: 'Silben & kurze Vokale', lang: 'ie, ß, ss', gross: 'Groß & klein, das/dass' }, sfx: '-rs', badge: 'deutsch1', intro: function (n) { return 'Die wichtigsten Rechtschreib-Regeln: Frage lesen, Regel laut sagen, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini ist stolz auf dich!' },
     lw: { cards: FC_LW, cat: { lw: 'Lernwörter' }, sfx: '-lw', badge: 'deutsch1', intro: function (n) { return 'Zur Lernwörter-Kontrolle am Donnerstag: hören, auf einen Zettel schreiben, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini ist stolz auf dich!' }
   };
   function deckId() { var t = state ? topicById(state.topic) : null; return (t && t.deck) || 'mu'; }
@@ -6809,7 +7003,7 @@ window.EULE = (function () {
   };
   var ARBEITEN = [
     { s: 'm', n: 'Mathe', what: 'Klassenarbeit Mathe', topic: 'mmix' },
-    { s: 'd', n: 'Deutsch', what: 'Klassenarbeit Geschichte schreiben', topic: 'gtest' },
+    { s: 'd', n: 'Deutsch', what: 'Deutsch-Arbeit: Rechtschreibung', topic: 'dprobe' },
     { s: 'mu', n: 'Musik', what: 'Musiktest: Noten und Pausen', topic: 'mtest' }
   ];
   var HK = { days: 'eule-tage', dates: 'eule-arbeiten', home: 'eule-ansicht' };
@@ -6827,14 +7021,16 @@ window.EULE = (function () {
   };
   function iconFor(s) { var b = document.querySelector('.subjects [data-s="' + s + '"] svg'); return b ? b.outerHTML : ''; }
   function subjTypes(s) { var o = {}; TOPICS[s].forEach(function (t) { (t.t || []).forEach(function (x) { o[x] = 1; }); }); return Object.keys(o); }
-  function arbeitDates() { return store(HK.dates) || {}; }
+  function arbeitDates() { var d = store(HK.dates) || {}; if (!d._mu1911) { if (!d.mu) d.mu = '2026-11-19'; d._mu1911 = 1; store(HK.dates, d); } return d; }
   function fmtDay(iso) { var d = new Date(iso + 'T12:00:00'); return d.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' }); }
   function daysUntil(iso) { var t = new Date(); t.setHours(12, 0, 0, 0); var d = new Date(iso + 'T12:00:00'); return Math.round((d - t) / 86400000); }
   function renderHome() {
     var now = new Date(), dn = dayNum(), today = dayCounts(dn), st = loadStats();
     document.getElementById('homeDate').textContent = now.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' });
     var dates = arbeitDates();
-    document.getElementById('kaGrid').innerHTML = ARBEITEN.map(function (a) {
+    var kaShow = ARBEITEN.filter(function (a) { return dates[a.s] && daysUntil(dates[a.s]) >= 0; });
+    document.querySelector('.ka-wrap').hidden = !kaShow.length;
+    document.getElementById('kaGrid').innerHTML = kaShow.map(function (a) {
       var iso = dates[a.s], num = '?', txt, small = false;
       if (!iso) txt = '<b>' + a.what + '</b>Termin bei „Für Eltern“ eintragen, dann zählt Fini die Tage.';
       else {
@@ -6857,10 +7053,11 @@ window.EULE = (function () {
     var row = '', names = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'], streak = 0, all = store(HK.days) || {};
     for (var i = 6; i >= 0; i--) {
       var k = dn - i, dc = all[k] || {}, dd = new Date(now.getTime() - i * 86400000);
-      row += '<div class="wd' + (i === 0 ? ' today' : '') + '"><span>' + names[dd.getDay()] + '</span><span class="wd-dots">' + ['m', 'd', 'mu', 'en'].map(function (s) { return '<i class="' + (dc[s] ? s : '') + '"></i>'; }).join('') + '</span></div>';
+      row += '<div class="wd' + (i === 0 ? ' today' : '') + '"><span>' + names[dd.getDay()] + '</span><span class="wd-star">' + (((planLog()[k] || {}).plan) ? '⭐' : '') + '</span><span class="wd-dots">' + ['m', 'd', 'mu', 'en'].map(function (s) { return '<i class="' + (dc[s] ? s : '') + '"></i>'; }).join('') + '</span></div>';
     }
     for (var j = 0; j < 60; j++) { var e = all[dn - j]; if (e && Object.keys(e).length) streak++; else if (j > 0) break; }
     document.getElementById('weekRow').innerHTML = row;
+    renderPlan();
     document.getElementById('weekTitle').textContent = streak > 1 ? streak + ' Tage am Stück geübt!' : 'Deine Lern-Woche';
   }
   function renderKaDates() {
@@ -6873,6 +7070,113 @@ window.EULE = (function () {
     var d = arbeitDates(); if (i.value) d[i.getAttribute('data-ka-date')] = i.value; else delete d[i.getAttribute('data-ka-date')];
     store(HK.dates, d); renderHome();
   });
+
+  /* ---------- Tagesplan wie in Level Up 5: in Etappen, was als Nächstes geschrieben wird, kommt zuerst ---------- */
+  var PK = 'eule-plan', PRK = 'eule-probe';
+  function planLog() { return store(PK) || {}; }
+  function probeRes() { return store(PRK) || {}; }
+  function isProbe() { var tp = state && topicById(state.topic); return !!(tp && tp.probe); }
+  function gradeOf(p) { return p >= 0.92 ? ['1', 'sehr gut'] : p >= 0.81 ? ['2', 'gut'] : p >= 0.67 ? ['3', 'befriedigend'] : p >= 0.5 ? ['4', 'ausreichend'] : p >= 0.3 ? ['5', 'mangelhaft'] : ['6', 'ungenügend']; }
+  function planDone(topic, ratio) {
+    var d = planLog(), dn = dayNum(), L = d[dn] = d[dn] || {}, tp = topicById(topic), s = subjOf(topic);
+    L[topic] = (L[topic] || 0) + 1;
+    if (topic === todayRule()) L.rsheute = (L.rsheute || 0) + 1;
+    if (!tp.probe && !tp.cards) L['s-' + s] = (L['s-' + s] || 0) + 1;
+    Object.keys(d).forEach(function (k) { if (+k < dn - 40) delete d[k]; });
+    store(PK, d);
+    if (tp.probe) { var R = probeRes(); R[topic] = R[topic] || []; R[topic].push({ d: dn, g: +gradeOf(ratio)[0] }); store(PRK, R); }
+  }
+  var PROBES_MU = ['mprobe1', 'mprobe2', 'mprobe3', 'mprobe4'];
+  function nextProbe(list, dn) {
+    var R = probeRes(), L = planLog()[dn] || {};
+    var today = list.filter(function (id) { return L[id]; });
+    if (today.length) return { id: today[0], done: true };
+    var open = list.filter(function (id) { return !(R[id] || []).length; });
+    if (open.length) return { id: open[0], done: false };
+    var worst = list.slice().sort(function (a, b) { var la = R[a], lb = R[b]; return lb[lb.length - 1].g - la[la.length - 1].g; })[0];
+    return { id: worst, done: false, again: true };
+  }
+  function planToast(msg) {
+    var t = document.getElementById('planToast');
+    if (!t) { t = document.createElement('div'); t.id = 'planToast'; t.className = 'plan-toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+    t.textContent = msg; t.classList.add('on'); clearTimeout(planToast.tm); planToast.tm = setTimeout(function () { t.classList.remove('on'); }, 3200);
+  }
+  var planActs = [];
+  var SUBJ_TEST = { m: 'Mathe-Arbeit', d: 'Deutsch-Arbeit', mu: 'Musiktest' };
+  function renderPlan() {
+    var box = document.getElementById('planList'); if (!box) return;
+    var dn = dayNum(), L = planLog()[dn] || {}, dates = arbeitDates(), nm = window.EULE ? EULE.name(', ') : '';
+    var D = {}; ['m', 'd', 'mu'].forEach(function (s) { D[s] = dates[s] ? daysUntil(dates[s]) : null; });
+    function near(s, max) { return D[s] !== null && D[s] >= 1 && D[s] <= max; }
+    var items = [], bonus = [];
+    /* Musik */
+    if (near('mu', 4)) {
+      var pm = nextProbe(PROBES_MU, dn), tpm = topicById(pm.id);
+      items.push({ s: 'mu', d: D.mu, title: 'Musik: ' + tpm.n.replace(' · ', ' – ') + (pm.again ? ' noch einmal' : ''), sub: 'Wie im Test: ohne Tipps, mit Note · ca. 15 Min', min: 15, done: pm.done, btn: pm.done ? 'Nochmal' : 'Schreiben', topic: pm.id });
+    } else if (near('mu', 10)) {
+      items.push({ s: 'mu', d: D.mu, title: 'Musik: Training für den Test', sub: 'Noten und Pausen · 1 Runde · ca. 10 Min', min: 10, done: !!L['s-mu'], btn: L['s-mu'] ? 'Nochmal' : 'Los', topic: 'mtest' });
+      bonus.push(['Musik-Karteikarten', 'mkarten']);
+    } else bonus.push(['Musik', 'mumix']);
+    /* Deutsch: jeden Tag eine Regel, kurz vor einer Arbeit eine Probe */
+    var rule = topicById(todayRule()).n.replace('Regel: ', '');
+    items.push({ s: 'd', d: D.d, title: 'Deutsch: Regel des Tages', sub: rule + ' · mit Satz-Diktat · ca. 10 Min', min: 10, done: !!L.rsheute, btn: L.rsheute ? 'Nochmal' : 'Los', topic: 'rsheute' });
+    if (near('d', 4)) items.push({ s: 'd', d: D.d, title: 'Deutsch: Rechtschreib-Probe', sub: 'Ohne Tipps, mit Note · ca. 15 Min', min: 15, done: !!L.dprobe, btn: L.dprobe ? 'Nochmal' : 'Schreiben', topic: 'dprobe' });
+    bonus.push(['Regel-Karten', 'rskarten']);
+    /* Mathe */
+    if (near('m', 4)) items.push({ s: 'm', d: D.m, title: 'Mathe: Profi-Probearbeit', sub: 'Wie eine echte Arbeit · ca. 15 Min', min: 15, done: !!L.kaprobe, btn: L.kaprobe ? 'Nochmal' : 'Los', topic: 'kaprobe' });
+    else items.push({ s: 'm', d: D.m, title: near('m', 14) ? 'Mathe: Klassenarbeit-Training' : 'Mathe: Gemischt', sub: (near('m', 14) ? 'Zahlen bis 100 000' : 'Von jedem Thema etwas') + ' · 1 Runde · ca. 10 Min', min: 10, done: !!L['s-m'], btn: L['s-m'] ? 'Nochmal' : 'Los', topic: near('m', 14) ? 'ka' : 'mmix' });
+    bonus.push(['Englisch', 'etiere']);
+    /* Was als Nächstes geschrieben wird, kommt zuerst */
+    items.sort(function (a, b) { var x = a.d !== null && a.d >= 1 ? a.d : 99, y = b.d !== null && b.d >= 1 ? b.d : 99; return x - y; });
+    var up = ['m', 'd', 'mu'].filter(function (s) { return D[s] !== null && D[s] >= 0; }).sort(function (a, b) { return D[a] - D[b]; });
+    var fe = document.getElementById('planFocus');
+    var todayT = up.filter(function (s) { return D[s] === 0; }), nextT = up.filter(function (s) { return D[s] >= 1; })[0];
+    fe.textContent = todayT.length ? 'Heute: ' + todayT.map(function (s) { return SUBJ_TEST[s]; }).join(' und ') + ' – viel Glück!' : nextT ? 'Fokus: ' + SUBJ_TEST[nextT] + (D[nextT] === 1 ? ' morgen' : ' in ' + D[nextT] + ' Tagen') : 'Heute';
+    /* Etappen von ca. 20 Minuten */
+    var ET = [], cur = null;
+    items.forEach(function (x, i) { if (!cur || (cur.items.length && cur.min + x.min > 20)) { cur = { items: [], min: 0 }; ET.push(cur); } x.idx = i; cur.items.push(x); cur.min += x.min; });
+    ET.forEach(function (e) { e.done = e.items.every(function (x) { return x.done; }); e.left = e.items.reduce(function (a, x) { return a + (x.done ? 0 : x.min); }, 0); });
+    var curE = -1; for (var i = 0; i < ET.length; i++) if (!ET[i].done) { curE = i; break; }
+    var etDone = ET.filter(function (e) { return e.done; }).length, done = items.filter(function (x) { return x.done; }).length, all = items.length && done === items.length;
+    document.getElementById('planCount').textContent = etDone + '/' + ET.length;
+    document.querySelector('#planRing span').textContent = ET.length === 1 ? 'Etappe' : 'Etappen';
+    var ring = document.getElementById('planRing'); ring.style.setProperty('--p', items.length ? Math.round(done / items.length * 100) : 0); ring.setAttribute('aria-label', etDone + ' von ' + ET.length + ' Etappen geschafft');
+    document.getElementById('planBox').classList.toggle('all', !!all);
+    var ce = curE >= 0 ? ET[curE] : null, cOpen = ce ? ce.items.filter(function (x) { return !x.done; }).length : 0;
+    var sum = document.getElementById('planSum');
+    sum.innerHTML = all || !ce ? '' : '<b>Etappe ' + (curE + 1) + (ET.length > 1 ? ' von ' + ET.length : '') + ':</b> ' + (cOpen === 1 ? 'nur noch 1 Aufgabe' : cOpen + ' Aufgaben') + ' · ca. ' + ce.left + ' Min.' + (curE < ET.length - 1 ? ' Danach kurz Pause, dann geht’s weiter.' : ' Dann bist du fertig!');
+    sum.hidden = !!all;
+    planActs = items.map(function (x) { return x.topic; });
+    function itemHtml(x) { return '<li class="plan-item ' + x.s + (x.done ? ' done' : '') + '"><span class="plan-check" aria-hidden="true">' + (x.done ? '✓' : '') + '</span><span class="plan-txt"><b>' + x.title + '</b><small>' + x.sub + '</small></span><button type="button" class="plan-go" data-plan="' + x.idx + '">' + x.btn + '</button></li>'; }
+    box.innerHTML = ET.map(function (e, n) {
+      var head = ET.length > 1 ? '<li class="plan-et' + (e.done ? ' done' : n === curE ? ' now' : ' later') + '">' + (e.done ? '✓ ' : '') + 'Etappe ' + (n + 1) + (e.done ? ' geschafft' : n === curE ? ' · jetzt dran' : ' · ca. ' + e.left + ' Min') + '</li>' : '';
+      if (n === curE || all || ET.length === 1) return head + e.items.map(itemHtml).join('');
+      if (e.done) return head;
+      return head + '<li class="plan-later">' + e.items.map(function (x) { return x.title; }).join(' · ') + '</li>';
+    }).join('');
+    var bh = all ? '<p class="plan-yay">⭐ Tagesplan geschafft' + nm + '! Alles Weitere ist Bonus.</p>' : '';
+    bh += '<span>Bonus, wenn du noch Lust hast: ' + bonus.map(function (b) { return '<button type="button" class="plan-link" data-plan-topic="' + b[1] + '">' + b[0] + '</button>'; }).join(' · ') + '</span>';
+    var pb = document.getElementById('planBonus'); pb.innerHTML = bh; pb.hidden = false;
+    /* feiern */
+    var all30 = planLog(), LL = all30[dn] = all30[dn] || {};
+    if (etDone && !all && (LL.et || 0) < etDone) { LL.et = etDone; store(PK, all30); planToast(pick(['💪 Etappe ' + etDone + ' geschafft! Kurz Pause machen?', '🦉 Etappe ' + etDone + ' geschafft – stark' + nm + '!', '⭐ Etappe ' + etDone + ' im Kasten! Trink was, dann weiter.'])); }
+    if (all && !LL.plan) { LL.plan = 1; LL.et = etDone; store(PK, all30); planToast('⭐ Tagesplan geschafft! Super' + nm + '!'); try { confetti(); } catch (e) {} }
+  }
+  document.getElementById('homeView').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-plan]'), c = e.target.closest('[data-plan-topic]');
+    var id = b ? planActs[+b.getAttribute('data-plan')] : c ? c.getAttribute('data-plan-topic') : null;
+    if (!id) return;
+    e.stopPropagation();
+    openTopic(id);
+  }, true);
+  /* Tag- und Nacht-Modus */
+  (function () {
+    var b = document.getElementById('themeBtn'); if (!b) return;
+    function cur() { var t = document.documentElement.getAttribute('data-theme'); if (t) return t; return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+    function paint() { var dark = cur() === 'dark'; b.textContent = dark ? '☀️' : '🌙'; b.setAttribute('aria-label', dark ? 'Tag-Modus einschalten' : 'Nacht-Modus einschalten'); }
+    b.addEventListener('click', function () { var n = cur() === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); try { localStorage.setItem('eule-thema', n); } catch (e) {} paint(); });
+    paint();
+  })();
   function showHome(on) {
     document.body.classList.toggle('on-home', on);
     store(HK.home, on ? 'home' : 'ueben');
@@ -6899,9 +7203,9 @@ window.EULE = (function () {
   /* ---------- Fach-Übersicht: erst alle Kapitel sehen, dann üben ---------- */
   var FACH_GROUPS = {
     m: [['Für die Klassenarbeit', ['ka', 'kaprobe', 'mcheck']], ['Themen', ['pak', 'uhr', 'gro', 'reg', 'zahl', 'schr', 'kopf', 'geo', 'daten']], ['Alles durcheinander', ['mmix']]],
-    d: [['Für die Klassenarbeit', ['gtest', 'lwtest', 'dtrain']], ['Schreiben', ['groutine', 'bild', 'gaufbau', 'gsatz', 'grede', 'gbuch', 'gwerk', 'gkarten']],
-        ['Rechtschreibung', ['rs', 'gk', 'wb', 'adj', 'det', 'dik', 'lwkarten']], ['Lesen', ['les', 'blz']], ['Alles durcheinander', ['dmix', 'dcheck']]],
-    mu: [['Für den Musiktest', ['mtest', 'mkarten']], ['Themen', ['mupause', 'muteil', 'muwert', 'musilb', 'muzahl', 'muhoer']], ['Alles durcheinander', ['mumix']]],
+    d: [['Rechtschreib-Regeln', ['rsheute', 'rg1', 'rg2', 'rg3', 'rg4', 'rg5', 'rg6', 'rskarten']], ['Diktat & Probe', ['dik', 'dprobe', 'det']],
+        ['Mehr üben', ['rs', 'gk', 'wb', 'adj', 'dtrain', 'lwtest', 'lwkarten']], ['Lesen', ['les', 'blz']], ['Alles durcheinander', ['dmix', 'dcheck']]],
+    mu: [['Für den Musiktest', ['mtest', 'mprobe1', 'mprobe2', 'mprobe3', 'mprobe4', 'mkarten']], ['Themen', ['mupause', 'muteil', 'muwert', 'musilb', 'muzahl', 'muhoer']], ['Alles durcheinander', ['mumix']]],
     en: [['Für den Englischtest', ['etest', 'ekarten']], ['Themen', ['etiere', 'efarben', 'eschreib', 'elesen']]]
   };
   var FACH_DESC = {
@@ -6909,13 +7213,15 @@ window.EULE = (function () {
     pak: 'Plus, minus, mal und geteilt', uhr: 'Uhrzeit, Zeitspannen, Zeiteinheiten', gro: 'Umwandeln: km, m, cm, kg, g', reg: 'Punkt vor Strich, Klammern',
     zahl: 'Stellenwerte, Runden, Zahlenstrahl', schr: 'Schriftlich rechnen mit allen vier Rechenarten', kopf: 'Schnell im Kopf rechnen', geo: 'Flächen, Körper, Netze, Spiegeln',
     daten: 'Diagramme lesen, Zufall, Kombinieren', mmix: 'Von jedem Thema etwas',
+    rsheute: 'Jeden Tag eine Regel, mit Wort- und Satz-Diktat', rg1: 'd oder t, g oder k, b oder p am Wortende', rg2: 'Silben schwingen, mm, ll, ck, tz', rg3: 'Bäume – Baum, Hände – Hand', rg4: 'Satzanfang und Nomen groß', rg5: 'Wiese, Straße, Wasser, Zahn', rg6: 'das oder dass und alles gemischt',
+    dprobe: 'Wie eine echte Arbeit: ohne Tipps, mit Note', rskarten: 'Alle Regeln zum Umdrehen', mprobe1: 'Ohne Tipps, mit Note', mprobe2: 'Ohne Tipps, mit Note', mprobe3: 'Etwas kniffliger, mit Note', mprobe4: 'Alles wie im Test, mit Note',
     gtest: 'Training für „Geschichte schreiben“', lwtest: 'Die Lernwörter der Woche', dtrain: 'Groß und klein, ABC, Lernwörter wiederholen',
     groutine: '15 Minuten am Tag: Dialekt-Detektiv, Satz-Umbau, Schreibauftrag fürs Heft und Ampel-Check. Jeden Tag eine Etappe auf dem Geschichtenberg.',
     bild: 'Bilder entdecken, Sätze bauen, richtig schreiben. Jeden Tag ein Bild, am Ende steht deine Geschichte.',
     gaufbau: 'Wie eine Geschichte aufgebaut ist', gsatz: 'Sätze mit weil, als und dass bauen', grede: 'Wer sagt was? Mit Redezeichen', gbuch: 'Spannend erzählen in der Vergangenheit',
     gwerk: 'Eigene Sätze schreiben', gkarten: 'Karteikarten mit Schreib-Tricks', lwkarten: 'Lernwörter als Karteikarten',
     rs: 'Verlängern, Ableiten, ie, ß und mehr', gk: 'Nomen erkennen und groß schreiben', wb: 'Nachschlagen und Grundform finden', adj: 'Neue Wörter zusammenbauen',
-    det: 'Versteckte Fehler finden', dik: 'Hören und richtig schreiben', les: 'Texte lesen und verstehen', blz: 'Wörter blitzschnell erkennen', dmix: 'Von jedem Thema etwas', dcheck: 'Knifflige Aufgaben',
+    det: 'Versteckte Fehler finden', dik: 'Ganze Sätze hören und richtig schreiben', les: 'Texte lesen und verstehen', blz: 'Wörter blitzschnell erkennen', dmix: 'Von jedem Thema etwas', dcheck: 'Knifflige Aufgaben',
     mtest: 'Alles für den Musiktest', mkarten: 'Fragen zum Umdrehen', mupause: 'Pausen erkennen', muteil: 'Notenkopf, Hals, Fähnchen', muwert: 'Ganze, Halbe, Viertel, Achtel',
     musilb: 'ta, ti-ti, ta-a', muzahl: 'Schläge zählen und Takte füllen', muhoer: 'Rhythmen hören und erkennen', mumix: 'Von jedem Thema etwas',
     etest: 'Alles für den Englischtest', ekarten: 'Fragen zum Umdrehen', etiere: 'Wild animals auf Englisch', efarben: 'Colours auf Englisch', eschreib: 'Englische Wörter richtig schreiben', elesen: 'Lesen und zuhören'
@@ -6932,6 +7238,7 @@ window.EULE = (function () {
     if (tp.bild) { var b = bildLoad(); return b.finished ? { txt: 'Geschichte fertig', cls: 'good', pct: 100 } : { txt: 'Bild ' + Math.min(b.pic + 1, BILD_PICS().length) + ' von ' + BILD_PICS().length, cls: '', pct: Math.round(b.pic / BILD_PICS().length * 100) }; }
     if (tp.routine) { var wd = Object.keys(rWeekDone()).length; return wd >= 5 ? { txt: 'Woche geschafft', cls: 'good', pct: 100 } : { txt: wd + ' von 5 Etappen diese Woche', cls: wd ? '' : 'new', pct: wd * 20 }; }
     if (tp.cards) return { txt: 'Karteikarten', cls: '', pct: -1 };
+    if (tp.probe) { var pr = probeRes()[tp.id] || []; if (!pr.length) return { txt: 'Noch nicht geschrieben', cls: 'new', pct: 0 }; var bestG = Math.min.apply(null, pr.map(function (x) { return x.g; })); return { txt: 'Beste Note: ' + bestG + ' · ' + pr.length + '× geschrieben', cls: bestG <= 2 ? 'good' : '', pct: Math.round((6 - bestG) / 5 * 100) }; }
     var types = uniq(tp.t), sure = 0, played = 0;
     types.forEach(function (t) { var l = levelOf(st[t]); if (l === 'good') sure++; if (l !== 'new') played++; });
     if (!played) return { txt: 'Neu', cls: 'new', pct: 0 };
@@ -6944,7 +7251,7 @@ window.EULE = (function () {
     if (cur) h += '<button type="button" class="fach-resume" data-fach-topic="' + cur.topic + '"><span><b>Weitermachen</b>' + topicById(cur.topic).n + ' · Aufgabe ' + (cur.i + 1) + ' von ' + cur.n + '</span><i aria-hidden="true">›</i></button>';
     fachGroups(s).forEach(function (g) {
       h += '<section class="fach-group"><h3>' + g[0] + '</h3><div class="fach-grid">' + g[1].map(function (id) {
-        var tp = topicById(id), ss = tileStatus(tp, st), kind = tp.routine ? 'Neu: 15 Minuten am Tag' : tp.bild ? 'Schreib-Reise' : tp.ka ? (tp.pro ? 'Probe' : 'Klassenarbeit') : tp.cards ? 'Karten' : tp.pro ? 'Profi' : '';
+        var tp = topicById(id), ss = tileStatus(tp, st), kind = tp.probe ? 'Probe mit Note' : tp.id === 'rsheute' ? 'Heute' : tp.routine ? 'Neu: 15 Minuten am Tag' : tp.bild ? 'Schreib-Reise' : tp.ka ? (tp.pro ? 'Probe' : 'Klassenarbeit') : tp.cards ? 'Karten' : tp.pro ? 'Profi' : '';
         return '<button type="button" class="ftile' + (tp.ka ? ' ka' : '') + (tp.bild ? ' wide bild' : '') + (tp.routine ? ' wide rout' : '') + '" data-fach-topic="' + id + '">' + (kind ? '<span class="ftile-kind">' + kind + '</span>' : '') +
           '<span class="ftile-name">' + tp.n + '</span><span class="ftile-desc">' + (FACH_DESC[id] || '') + '</span>' +
           '<span class="ftile-st ' + ss.cls + '">' + (ss.pct >= 0 ? '<span class="ftile-bar"><i style="width:' + ss.pct + '%"></i></span>' : '') + '<span>' + ss.txt + '</span></span></button>';
