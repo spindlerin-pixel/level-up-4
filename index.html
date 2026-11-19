@@ -1022,6 +1022,7 @@ body:not(.on-home) #homeView, body:not(.on-home) .hello-row { display: none !imp
   --c-d: #D6455E;  --c-d-dark: #A8304A;  --c-d-fill: #FDE4E9;
   --c-mu: #7652DB; --c-mu-dark: #5A3BB5; --c-mu-fill: #ECE6FD;
   --c-en: #2F7BE0; --c-en-dark: #1F5DB3; --c-en-fill: #E0EDFD;
+  --c-su: #D9731A; --c-su-dark: #A9560F; --c-su-fill: #FDEBD8;
   --deu: #C23A53; --deu-fill: #FDE4E9;
   --mus: #6A45CF; --mus-fill: #ECE6FD;
   --eng: #2468C4; --eng-fill: #E0EDFD;
@@ -1040,6 +1041,7 @@ body:not(.on-home) #homeView, body:not(.on-home) .hello-row { display: none !imp
     --c-d: #FF8FA3;  --c-d-dark: #C9566C;  --c-d-fill: #47202C;
     --c-mu: #A98BFF; --c-mu-dark: #7A5CD6; --c-mu-fill: #2C2450;
     --c-en: #7DB4FF; --c-en-dark: #4A82D4; --c-en-fill: #1B2F50;
+    --c-su: #FFB36B; --c-su-dark: #C9803F; --c-su-fill: #4A2E17;
     --deu: #FF9AAE; --deu-fill: #47202C; --mus: #C2A8FF; --mus-fill: #2C2450; --eng: #8CBDFF; --eng-fill: #1B2F50;
     --good: #6FDCA3; --good-fill: #163A29; --bad-fill: #48291D; --tip-fill: #3F3719; --muted-fill: #283049;
     color-scheme: dark;
@@ -1054,6 +1056,7 @@ body:not(.on-home) #homeView, body:not(.on-home) .hello-row { display: none !imp
   --c-d: #FF8FA3;  --c-d-dark: #C9566C;  --c-d-fill: #47202C;
   --c-mu: #A98BFF; --c-mu-dark: #7A5CD6; --c-mu-fill: #2C2450;
   --c-en: #7DB4FF; --c-en-dark: #4A82D4; --c-en-fill: #1B2F50;
+  --c-su: #FFB36B; --c-su-dark: #C9803F; --c-su-fill: #4A2E17;
   --deu: #FF9AAE; --deu-fill: #47202C; --mus: #C2A8FF; --mus-fill: #2C2450; --eng: #8CBDFF; --eng-fill: #1B2F50;
   --good: #6FDCA3; --good-fill: #163A29; --bad-fill: #48291D; --tip-fill: #3F3719; --muted-fill: #283049;
   color-scheme: dark;
@@ -1065,6 +1068,18 @@ body:not(.on-home) #homeView, body:not(.on-home) .hello-row { display: none !imp
 body.deu { --primary: var(--c-d); --primary-dark: var(--c-d-dark); --primary-fill: var(--c-d-fill); --focus: var(--c-d); }
 body.mus { --primary: var(--c-mu); --primary-dark: var(--c-mu-dark); --primary-fill: var(--c-mu-fill); --focus: var(--c-mu); }
 body.eng { --primary: var(--c-en); --primary-dark: var(--c-en-dark); --primary-fill: var(--c-en-fill); --focus: var(--c-en); }
+body.sach { --primary: var(--c-su); --primary-dark: var(--c-su-dark); --primary-fill: var(--c-su-fill); --focus: var(--c-su); }
+.ka.su { --kc: rgba(255,179,107,0.85); --kt: #FFD1A3; }
+.hsub.su { --sc: var(--c-su); --sd: var(--c-su-dark); --sf: var(--c-su-fill); }
+.wd-dots i.su { background: var(--c-su); }
+.plan-item.su { --pc: var(--c-su); }
+.subj[data-s="su"][aria-pressed="true"] { background: var(--c-su); color: #FFFFFF; box-shadow: 0 4px 0 var(--c-su-dark); }
+.subj[aria-pressed="true"] .ic-su { fill: rgba(255, 255, 255, 0.95); }
+.ic-su { fill: var(--c-su); }
+.fach-head.su { --sf: var(--c-su-fill); }
+.tag.su { background: var(--c-su-fill); }
+.kreis-svg { color: var(--ink); }
+.subjects { flex-wrap: wrap; }
 
 /* Ruhiger Hintergrund statt Karo- und Linienpapier */
 body, body.deu, body.mus, body.eng, .break { background-color: var(--paper); background-image: none; }
@@ -1519,6 +1534,8 @@ body.on-home #routView, body.on-fach #routView { display: none !important; }
       <svg viewBox="0 0 24 24" aria-hidden="true"><path class="ic-mu" d="M9 17.5a3.2 2.5 -20 1 1 -1.2 -2.6V4.5l11 -2.5v12.5a3.2 2.5 -20 1 1 -1.2 -2.6V6.6L9 8.6z"></path></svg>Musik</button>
     <button type="button" class="subj" data-s="en" id="subjEn" aria-pressed="false">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path class="ic-en" d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-9l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path><text x="12" y="13.6" text-anchor="middle" font-size="8" font-weight="700" fill="#fff" font-family="Fredoka, sans-serif">EN</text></svg>Englisch</button>
+    <button type="button" class="subj" data-s="su" id="subjSu" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="ic-su" cx="12" cy="12" r="10"></circle><path d="M5 14c2 -2 3.5 -2 5 0s3.5 2 5 0 3 -2 4 -1M5 9.5c2 -2 3.5 -2 5 0s3.5 2 5 0 3 -2 4 -1" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"></path></svg>Sachunterricht</button>
   </div>
   <section class="pick" aria-labelledby="pickTitle">
     <h2 class="pick-title" id="pickTitle">Was möchtest du üben?</h2>
@@ -4053,6 +4070,241 @@ window.EULE = (function () {
       q: 'Hör genau zu: Welchen Kasten spielt Fini?', opts: barOpts(seq, bad), hint: 'Lange Töne sind ganze oder halbe Noten. Zwei ganz schnelle Töne sind Achtel (ti-ti).',
       ex: 'Fini hat <b>' + seq.map(function (k) { return MK[k].silb; }).join(' · ') + '</b> gespielt. Hör es dir nochmal an und sprich mit.' });
   }
+
+  /* =========== Mathe-Arbeit Do 26.11.: Zahlen bis 1 Million, Zahlwörter, Zahlendiktat, Kreis & Zirkel =========== */
+  var STN6 = ['Einer', 'Zehner', 'Hunderter', 'Tausender', 'Zehntausender', 'Hunderttausender'];
+  var NB6 = ['', 'Nachbarzehner', 'Nachbarhunderter', 'Nachbartausender', 'Nachbarzehntausender', 'Nachbarhunderttausender'];
+  function big6(zeros) {
+    var n = rnd(100000, 999999), z = zeros == null ? (Math.random() < 0.6 ? rnd(1, 3) : 0) : zeros;
+    for (var i = 0; i < z; i++) { var p = rnd(0, 4); n -= dig(n, p) * pw(p); }
+    return n;
+  }
+  /* Vorgänger und Nachfolger, Nachbarzahlen bis 1 Million */
+  function genMvn() {
+    var r = Math.random();
+    if (r < 0.5) {
+      var v = pick([big6(), big6(), rnd(1, 9) * 100000, rnd(11, 99) * 10000, rnd(101, 999) * 1000, rnd(101, 999) * 1000 - 1, rnd(11, 99) * 10000 - 1, 999999, rnd(1, 9) * 100000 - 1, rnd(1001, 9999) * 100]);
+      if (v < 1) v = 100000;
+      var nach = v === 999999 ? true : Math.random() < 0.5, ans = nach ? v + 1 : v - 1;
+      if (Math.random() < 0.3) {
+        var nn = v === 999999 ? 999998 : v;
+        return { type: 'mvn', key: 'mvn-t' + nn, inp: 'mc', p: {}, center: true,
+          q: 'Welche Reihe stimmt? <b>Vorgänger | Zahl | Nachfolger</b>',
+          opts: opts(fmt(nn - 1) + ' | ' + fmt(nn) + ' | ' + fmt(nn + 1), [fmt(nn - 10) + ' | ' + fmt(nn) + ' | ' + fmt(nn + 10), fmt(nn + 1) + ' | ' + fmt(nn) + ' | ' + fmt(nn - 1)]),
+          hint: 'Der Vorgänger ist 1 weniger, der Nachfolger 1 mehr. Der Vorgänger steht links.', ex: 'Vorgänger ' + fmt(nn - 1) + ', Nachfolger ' + fmt(nn + 1) + '.' };
+      }
+      return { type: 'mvn', key: 'mvn-v' + v + nach, inp: 'num', unit: '', ans: ans, p: {},
+        q: 'Was ist der <b>' + (nach ? 'Nachfolger' : 'Vorgänger') + '</b> von <span class="expr">' + fmt(v) + '</span>?',
+        hint: nach ? 'Der Nachfolger ist 1 mehr. Aus Neunen am Ende werden Nullen, die Stelle davor wird 1 größer.' : 'Der Vorgänger ist 1 weniger. Aus Nullen am Ende werden Neunen, die Stelle davor wird 1 kleiner.',
+        sol: [fmt(v) + (nach ? ' + 1' : ' − 1') + ' = <b>' + fmt(ans) + '</b>'].concat(ans === 1000000 ? ['Das ist <b>eine Million</b>.'] : []) };
+    }
+    var lvl = pick([2, 3, 3, 4, 5]), f = pw(lvl), n, tries = 0;
+    do { n = big6(rnd(0, 2)); tries++; } while (n % f === 0 && tries < 40);
+    var lo = Math.floor(n / f) * f, up = lo + f, low = Math.random() < 0.5, ans2 = low ? lo : up;
+    return { type: 'mvn', key: 'mvn-n' + n + lvl + low, inp: 'num', unit: '', ans: ans2, p: {},
+      q: 'Wie heißt der <b>' + (low ? 'kleinere' : 'größere') + ' ' + NB6[lvl] + '</b> von <span class="expr">' + fmt(n) + '</span>?',
+      hint: 'Kleinerer ' + NB6[lvl] + ': Alle Stellen rechts von der ' + STN6[lvl] + '-Stelle werden 0. Größerer: dann noch ' + fmt(f) + ' dazu.',
+      sol: [fmt(lo) + ' < ' + fmt(n) + ' < ' + fmt(up), (low ? 'Der kleinere ' : 'Der größere ') + NB6[lvl] + ' ist <b>' + fmt(ans2) + '</b>.'] };
+  }
+  /* Zahlwörter bis 1 Million – lesen, auswählen und selbst schreiben */
+  function zwDistract(n) {
+    var out = [], t = Math.floor(n / 1000), r = n % 1000, e = r % 10, z = Math.floor(r / 10) % 10;
+    if (e && z > 1 && e !== z) out.push(t * 1000 + Math.floor(r / 100) * 100 + e * 10 + z);
+    var p = rnd(0, 4), d = dig(n, p); out.push(n + ((d + 1) % 10 - d) * pw(p));
+    var tz = Math.floor(t / 10) % 10, te = t % 10; if (te && tz > 1 && te !== tz) out.push((Math.floor(t / 100) * 100 + te * 10 + tz) * 1000 + r);
+    out.push(n % 100000 >= 10000 ? n - 10000 : n + 10000);
+    if (n >= 200000) out.push(n - 100000);
+    return uniq(shuffle(out.filter(function (x) { return x !== n && x > 0 && x < 1000000; })).map(zahlwort)).slice(0, 2);
+  }
+  function genMzw() {
+    var k = pick(['lesen', 'lesen', 'wahl', 'wahl', 'schreib']), n = big6();
+    if (k === 'schreib') {
+      n = Math.random() < 0.5 ? rnd(2, 9) * 100000 + rnd(1, 99) * 1000 + rnd(0, 1) * rnd(1, 99) : big6(rnd(2, 3));
+      return { type: 'mzw', key: 'mzw-s' + n, inp: 'text', word: true, ci: true, unit: '', ans: zahlwort(n), p: {},
+        q: 'Schreibe als <b>Zahlwort</b>:<br><span class="expr">' + fmt(n) + '</span>',
+        hint: 'Zahlen unter einer Million schreibt man klein und in einem Wort. Erst die Tausender, dann „tausend“, dann der Rest. Die Einer sagt man vor den Zehnern: fünfundvierzig.',
+        ex: fmt(n) + ' = <b>' + zahlwort(n) + '</b>' };
+    }
+    if (k === 'lesen') {
+      return { type: 'mzw', key: 'mzw-l' + n, inp: 'num', unit: '', ans: n, p: {},
+        q: 'Schreibe als Zahl:<br><span class="zw">' + zwB(n) + '</span>',
+        hint: 'Teile das Wort beim „tausend“. Davor stehen die Tausender (bis zu 3 Ziffern), danach genau 3 Ziffern. Fehlt etwas, schreibst du eine 0.',
+        sol: [zahlwort(n).replace('tausend', 'tausend | '), '= <b>' + fmt(n) + '</b>'] };
+    }
+    var bad = zwDistract(n);
+    return { type: 'mzw', key: 'mzw-w' + n, inp: 'mc', p: {},
+      q: 'Welches Zahlwort passt zu <span class="expr">' + fmt(n) + '</span>?', opts: opts(zwB(n), bad.map(function (x) { return x.replace('tausend', 'tausend​'); })),
+      hint: 'Lies die Zahl in zwei Teilen: erst die Tausender, dann den Rest. Achtung: Die Einer sagt man vor den Zehnern!', ex: fmt(n) + ' heißt <b>' + zahlwort(n) + '</b>.' };
+  }
+  /* Zahlendiktat: Zahl anhören und mit Ziffern schreiben */
+  function genMdik() {
+    var n = Math.random() < 0.2 ? rnd(10000, 99999) : big6(), say = String(n);
+    if (Math.random() < 0.15) { n = 1000000; say = 'eine Million'; }
+    return { type: 'mdik', key: 'mdik-' + n, inp: 'num', unit: '', ans: n, p: {}, diktat: true, wdLabel: 'die Zahl', peekTxt: n === 1000000 ? '1 000 000' : fmt(n), lang: 'de-DE', say: say, peekLabel: 'Zahl kurz zeigen',
+      q: '<b>Zahlendiktat:</b> Hör dir die Zahl an und schreibe sie mit Ziffern auf.',
+      hint: 'Hör auf das Wort „tausend“: Was davor kommt, sind die Tausender. Danach kommen immer genau drei Ziffern – fehlt etwas, schreib eine 0. Tipp: Zeichne dir eine Stellentafel.',
+      sol: ['<b>' + fmt(n) + '</b>', 'In Worten: ' + zahlwort(n)] };
+  }
+  /* Kreis: Mittelpunkt, Radius, Durchmesser, Zirkel */
+  function kreisSvg(o) {
+    o = o || {};
+    var R = 64, cx = 110, cy = 82, s = '<svg viewBox="0 0 220 ' + (o.ruler ? 196 : 168) + '" class="kreis-svg" role="img" aria-label="Kreis" style="max-width:300px;width:100%">';
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="none" stroke="currentColor" stroke-width="3"/>';
+    if (o.d) s += '<line x1="' + (cx - R) + '" y1="' + cy + '" x2="' + (cx + R) + '" y2="' + cy + '" stroke="' + (o.hl === 'd' ? '#E5484D' : '#2F7BE0') + '" stroke-width="' + (o.hl === 'd' ? 5 : 3) + '" stroke-linecap="round"/>';
+    if (o.r) s += '<line x1="' + cx + '" y1="' + cy + '" x2="' + (cx + R * 0.6) + '" y2="' + (cy - R * 0.8) + '" stroke="' + (o.hl === 'r' ? '#E5484D' : '#1F9A60') + '" stroke-width="' + (o.hl === 'r' ? 5 : 3) + '" stroke-linecap="round"/>';
+    if (o.hl === 'k') s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '" fill="none" stroke="#E5484D" stroke-width="6"/>';
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (o.hl === 'm' ? 6 : 4) + '" fill="' + (o.hl === 'm' ? '#E5484D' : 'currentColor') + '"/>';
+    if (o.lab) s += '<text x="' + (cx - 14) + '" y="' + (cy + 18) + '" font-size="15" font-weight="700" fill="currentColor">M</text>';
+    if (o.ruler) {
+      var cm = o.ruler, y0 = cy + R + 14, x0 = cx - R, w = 2 * R, stp = w / cm;
+      s += '<rect x="' + (x0 - 10) + '" y="' + y0 + '" width="' + (w + 20) + '" height="30" rx="4" fill="#FFF3C4" stroke="#C9A21E"/>';
+      for (var i = 0; i <= cm; i++) { var x = x0 + i * stp; s += '<line x1="' + x + '" y1="' + y0 + '" x2="' + x + '" y2="' + (y0 + 12) + '" stroke="#1F2A44" stroke-width="1.5"/><text x="' + x + '" y="' + (y0 + 26) + '" font-size="10" text-anchor="middle" fill="#1F2A44">' + i + '</text>'; }
+      s += '<line x1="' + x0 + '" y1="' + cy + '" x2="' + x0 + '" y2="' + y0 + '" stroke="#999" stroke-dasharray="3 3"/><line x1="' + (x0 + w) + '" y1="' + cy + '" x2="' + (x0 + w) + '" y2="' + y0 + '" stroke="#999" stroke-dasharray="3 3"/>';
+    }
+    return s + '</svg>';
+  }
+  var KR_NAMES = { r: 'Radius (r)', d: 'Durchmesser (d)', m: 'Mittelpunkt (M)', k: 'Kreislinie' };
+  function genMkr() {
+    var k = pick(['name', 'name', 'r2d', 'd2r', 'zirk', 'zirk', 'zirkr', 'wiss', 'wiss', 'wiss', 'lineal', 'lineal', 'mm', 'offen']);
+    var CM = NB + 'cm';
+    if (k === 'name') {
+      var hl = pick(['r', 'd', 'm', 'k']);
+      return { type: 'mkr', key: 'mkr-n' + hl, inp: 'mc', p: {}, vis: kreisSvg({ r: true, d: true, hl: hl }), grid2: true,
+        q: 'Wie heißt das <b style="color:#E5484D">Rote</b> am Kreis?', opts: opts(KR_NAMES[hl], Object.keys(KR_NAMES).filter(function (x) { return x !== hl; }).map(function (x) { return KR_NAMES[x]; })),
+        hint: 'Der Punkt in der Mitte ist der Mittelpunkt M. Vom Mittelpunkt zum Rand: Radius. Von Rand zu Rand durch den Mittelpunkt: Durchmesser.',
+        ex: 'Das ist <b>' + KR_NAMES[hl] + '</b>. Radius: vom Mittelpunkt bis zur Kreislinie. Durchmesser: von Kreislinie zu Kreislinie, genau durch den Mittelpunkt. d = 2 · r.' };
+    }
+    if (k === 'r2d' || k === 'd2r') {
+      var r = rnd(2, 9), to = k === 'r2d';
+      return { type: 'mkr', key: 'mkr-' + k + r, inp: 'num', unit: 'cm', ans: to ? 2 * r : r, p: {}, vis: kreisSvg({ r: to, d: !to, lab: true }),
+        q: to ? 'Der <b>Radius</b> ist ' + r + CM + ' lang. Wie lang ist der <b>Durchmesser</b>?' : 'Der <b>Durchmesser</b> ist ' + 2 * r + CM + ' lang. Wie lang ist der <b>Radius</b>?',
+        hint: 'Der Durchmesser ist doppelt so lang wie der Radius: d = 2 · r. Der Radius ist die Hälfte: r = d : 2.',
+        sol: [to ? 'd = 2 · r = 2 · ' + r + CM + ' = <b>' + 2 * r + CM + '</b>' : 'r = d : 2 = ' + 2 * r + CM + ' : 2 = <b>' + r + CM + '</b>'] };
+    }
+    if (k === 'zirk' || k === 'zirkr') {
+      var r2 = rnd(2, 8), byD = k === 'zirk';
+      return { type: 'mkr', key: 'mkr-' + k + r2, inp: 'num', unit: 'cm', ans: r2, p: {},
+        q: 'Du sollst mit dem <b>Zirkel</b> einen Kreis mit ' + (byD ? '<b>d = ' + 2 * r2 + CM + '</b> (Durchmesser)' : '<b>r = ' + r2 + CM + '</b> (Radius)') + ' zeichnen. Wie weit öffnest du den Zirkel?',
+        hint: 'Der Zirkel wird immer so weit geöffnet, wie der <b>Radius</b> lang ist – von der Spitze bis zur Mine. ' + (byD ? 'Beim Durchmesser musst du also erst halbieren.' : ''),
+        sol: [byD ? 'r = ' + 2 * r2 + CM + ' : 2 = <b>' + r2 + CM + '</b>' : 'Zirkel = Radius = <b>' + r2 + CM + '</b>', 'Am Lineal: Spitze auf die 0, Mine auf die ' + r2 + '.'] };
+    }
+    if (k === 'offen') {
+      var r3 = rnd(2, 7);
+      return { type: 'mkr', key: 'mkr-o' + r3, inp: 'num', unit: 'cm', ans: 2 * r3, p: {},
+        q: 'Ein Zirkel ist <b>' + r3 + CM + '</b> weit geöffnet. Du zeichnest damit einen Kreis. Wie groß wird der <b>Durchmesser</b>?',
+        hint: 'Die Zirkelöffnung ist der Radius. Der Durchmesser ist doppelt so lang.', sol: ['d = 2 · ' + r3 + CM + ' = <b>' + 2 * r3 + CM + '</b>'] };
+    }
+    if (k === 'mm') {
+      var rm = rnd(11, 45), toD = Math.random() < 0.5;
+      return { type: 'mkr', key: 'mkr-m' + rm + toD, inp: 'num', unit: 'mm', ans: toD ? 2 * rm : rm, p: {},
+        q: toD ? 'Ein Kreis hat den Radius <b>r = ' + rm + NB + 'mm</b>. Wie groß ist der Durchmesser?' : 'Ein Kreis hat den Durchmesser <b>d = ' + 2 * rm + NB + 'mm</b>. Wie groß ist der Radius?',
+        hint: 'd = 2 · r und r = d : 2. Das klappt auch mit mm.', sol: [toD ? 'd = 2 · ' + rm + ' mm = <b>' + 2 * rm + ' mm</b>' : 'r = ' + 2 * rm + ' mm : 2 = <b>' + rm + ' mm</b>'] };
+    }
+    if (k === 'lineal') {
+      var dd = pick([4, 6, 8, 10]), askR = Math.random() < 0.6;
+      return { type: 'mkr', key: 'mkr-l' + dd + askR, inp: 'num', unit: 'cm', ans: askR ? dd / 2 : dd, p: {}, vis: kreisSvg({ d: true, lab: true, ruler: dd }),
+        q: 'Das Lineal misst den Kreis von Rand zu Rand. ' + (askR ? 'Wie lang ist der <b>Radius</b>?' : 'Wie lang ist der <b>Durchmesser</b>?'),
+        hint: 'Am Lineal liest du den Durchmesser ab (von Rand zu Rand durch M). ' + (askR ? 'Der Radius ist die Hälfte davon.' : ''),
+        sol: ['Am Lineal: d = ' + dd + CM, askR ? 'r = ' + dd + CM + ' : 2 = <b>' + dd / 2 + CM + '</b>' : '<b>d = ' + dd + CM + '</b>'] };
+    }
+    var W = pick([
+      ['Wo setzt du die <b>Spitze</b> des Zirkels ein?', 'im Mittelpunkt', ['auf der Kreislinie', 'irgendwo auf dem Blatt'], 'Die Spitze kommt in den Mittelpunkt M. Dort sticht sie ein, und die Mine dreht sich einmal herum.'],
+      ['Wie misst du den <b>Radius</b>?', 'vom Mittelpunkt bis zur Kreislinie', ['von Kreislinie zu Kreislinie durch den Mittelpunkt', 'einmal um den ganzen Kreis herum'], 'Radius = Abstand vom Mittelpunkt zur Kreislinie.'],
+      ['Wie misst du den <b>Durchmesser</b>?', 'von Kreislinie zu Kreislinie, genau durch den Mittelpunkt', ['vom Mittelpunkt bis zur Kreislinie', 'irgendwo quer durch den Kreis'], 'Der Durchmesser geht immer durch den Mittelpunkt, sonst ist er zu kurz.'],
+      ['Der Durchmesser ist …', 'doppelt so lang wie der Radius', ['halb so lang wie der Radius', 'genauso lang wie der Radius'], 'd = 2 · r. In den Durchmesser passt der Radius zweimal.'],
+      ['Wie weit öffnest du den Zirkel für einen Kreis?', 'so weit, wie der Radius lang ist', ['so weit, wie der Durchmesser lang ist', 'so weit es geht'], 'Zirkelöffnung = Radius. Das stellst du am Lineal ein: Spitze auf die 0.'],
+      ['Wie stellst du den Zirkel am Lineal ein?', 'Spitze auf die 0, Mine auf die Länge des Radius', ['Spitze auf die 1, Mine auf den Durchmesser', 'Mine auf die 0, Spitze irgendwohin'], 'Immer bei 0 anfangen – sonst wird der Kreis zu klein.'],
+      ['Welche Abkürzung steht für den Radius?', 'r', ['d', 'M'], 'r = Radius, d = Durchmesser, M = Mittelpunkt.'],
+      ['Welche Abkürzung steht für den Durchmesser?', 'd', ['r', 'M'], 'd = Durchmesser, r = Radius, M = Mittelpunkt.'],
+      ['Alle Punkte auf der Kreislinie sind vom Mittelpunkt …', 'gleich weit entfernt', ['verschieden weit entfernt', 'genau 1 cm entfernt'], 'Darum ist ein Kreis rund: Jeder Punkt der Kreislinie hat den gleichen Abstand (den Radius) zu M.']
+    ]);
+    return { type: 'mkr', key: 'mkr-w' + W[0], inp: 'mc', p: {}, q: W[0], opts: opts(W[1], W[2]), vis: kreisSvg({ r: true, d: true, lab: true }),
+      hint: 'Radius: Mittelpunkt bis Rand. Durchmesser: Rand bis Rand durch den Mittelpunkt. Der Zirkel wird auf den Radius eingestellt.', ex: W[3] };
+  }
+  GEN.mvn = genMvn; GEN.mzw = genMzw; GEN.mdik = genMdik; GEN.mkr = genMkr;
+
+  /* =========== Sachunterricht: Schwimmen (Test Mi 25.11.) – Baderegeln und Selbstrettung =========== */
+  function SU(o) { o.sach = true; o.inp = 'mc'; o.p = o.p || {}; return o; }
+  var BADE = [
+    ['Kühle dich ab, bevor du ins Wasser gehst.', 'Du hast lange in der Sonne gelegen und willst sofort ins kalte Wasser springen.', 'Kühle dich ___, bevor du ins Wasser gehst.', 'ab', ['an', 'aus']],
+    ['Bei Gewitter ist Baden gefährlich.', 'Am Himmel wird es dunkel, und du hörst Donner.', 'Bei ___ ist Baden gefährlich.', 'Gewitter', ['Sonne', 'Wind']],
+    ['Verlasse das Wasser, wenn du frierst.', 'Deine Lippen sind blau und du zitterst im Wasser.', 'Verlasse das Wasser, wenn du ___.', 'frierst', ['lachst', 'Durst hast']],
+    ['Bade nicht, wo Schiffe und Boote fahren.', 'Am See gibt es einen Bereich, in dem Motorboote fahren.', 'Bade nicht, wo ___ und Boote fahren.', 'Schiffe', ['Fische', 'Enten']],
+    ['Gehe nur zum Baden, wenn du dich wohl fühlst.', 'Du hast Bauchweh und fühlst dich schlapp.', 'Gehe nur zum Baden, wenn du dich ___ fühlst.', 'wohl', ['müde', 'stark']],
+    ['Tauche andere nicht unter.', 'Ein Kind will andere im Wasser zum Spaß unter Wasser drücken.', 'Tauche andere nicht ___.', 'unter', ['auf', 'ab']],
+    ['Gehe nur bis zum Bauch ins Wasser, wenn du nicht schwimmen kannst.', 'Dein kleiner Bruder kann noch nicht schwimmen und will ins tiefe Wasser.', 'Gehe nur bis zum ___ ins Wasser, wenn du nicht schwimmen kannst.', 'Bauch', ['Hals', 'Kinn']],
+    ['Luftmatratzen bieten dir keine ausreichende Sicherheit.', 'Du willst mit der Luftmatratze weit auf den See hinauspaddeln.', 'Luftmatratzen bieten dir keine ausreichende ___.', 'Sicherheit', ['Freude', 'Farbe']],
+    ['Halte das Wasser und seine Umgebung sauber.', 'Nach dem Picknick liegen Becher und Papier am Ufer.', 'Halte das Wasser und seine Umgebung ___.', 'sauber', ['warm', 'ruhig']],
+    ['Gefährde niemanden durch deinen Sprung ins Wasser.', 'Unter dem Sprungbrett schwimmt gerade ein Kind.', 'Gefährde ___ durch deinen Sprung ins Wasser.', 'niemanden', ['dich', 'alle']],
+    ['Überschätze deine Kraft und dein Können nicht.', 'Du willst ans andere Ufer schwimmen, aber das ist sehr weit weg.', 'Überschätze deine ___ und dein Können nicht.', 'Kraft', ['Zeit', 'Badehose']],
+    ['Springe nur ins Wasser, wenn es tief genug ist.', 'Du weißt nicht, wie tief das Wasser am Steg ist.', 'Springe nur ins Wasser, wenn es ___ genug ist.', 'tief', ['warm', 'sauber']],
+    ['Rufe nie um Hilfe, wenn du nicht wirklich in Gefahr bist, aber hilf anderen, wenn sie Hilfe brauchen.', 'Ein Kind ruft aus Spaß „Hilfe!“, obwohl alles in Ordnung ist.', 'Rufe nie um Hilfe, wenn du nicht wirklich in ___ bist.', 'Gefahr', ['Eile', 'Ruhe']],
+    ['Gehe niemals mit ganz vollem oder ganz leerem Magen baden.', 'Du hast gerade eine riesige Portion Pommes gegessen und willst sofort schwimmen.', 'Gehe niemals mit ganz vollem oder ganz ___ Magen baden.', 'leerem', ['kleinem', 'kaltem']]
+  ];
+  var BADE_FALSCH = [
+    'Bei Gewitter darfst du weiterbaden, wenn du nah am Ufer bist.', 'Wenn du frierst, schwimm einfach schneller und bleib im Wasser.', 'Mit einer Luftmatratze bist du auch im tiefen Wasser sicher.',
+    'Wer nicht schwimmen kann, darf bis zum Hals ins Wasser.', 'Du darfst springen, auch wenn du nicht weißt, wie tief das Wasser ist.', 'Direkt nach einem großen Essen ist Schwimmen besonders gut.',
+    'Aus Spaß „Hilfe!“ zu rufen ist ein lustiger Streich.', 'Andere untertauchen ist ein harmloses Spiel.', 'Spring ruhig, auch wenn unter dir jemand schwimmt.',
+    'Wenn du ganz erhitzt bist, spring sofort ins kalte Wasser.', 'Wo Schiffe und Boote fahren, ist viel Platz zum Baden.', 'Auch wenn du dich krank fühlst, kannst du baden gehen.',
+    'Müll am Ufer ist egal, das Wasser spült ihn weg.', 'Schwimm so weit raus, wie du willst – du schaffst das schon.'
+  ];
+  function genSbr() {
+    var k = pick(['sit', 'sit', 'rf', 'rf', 'luecke', 'luecke']), i = rnd(0, BADE.length - 1), B = BADE[i];
+    if (k === 'sit') {
+      var others = shuffle(BADE.filter(function (x, j) { return j !== i; })).slice(0, 2).map(function (x) { return x[0]; });
+      return SU({ type: 'sbr', key: 'sbr-s' + i, q: '<b>Welche Baderegel passt?</b><br>' + B[1], opts: opts(B[0], others),
+        hint: 'Stell dir die Situation genau vor: Was ist hier gefährlich?', ex: 'Die Regel heißt: <b>' + B[0] + '</b>' });
+    }
+    if (k === 'rf') {
+      var truth = Math.random() < 0.5, txt = truth ? B[0] : pick(BADE_FALSCH);
+      return SU({ type: 'sbr', key: 'sbr-r' + txt, q: '<b>Richtig oder falsch?</b><br>„' + txt + '“', opts: fixedOpts(['richtig', 'falsch'], truth ? 'richtig' : 'falsch'), grid2: true, center: true,
+        hint: 'Denk an die 14 Baderegeln: Wäre das sicher?', ex: truth ? 'Richtig, das ist eine Baderegel.' : 'Falsch – so ist das gefährlich. Denk an die Baderegeln!' });
+    }
+    return SU({ type: 'sbr', key: 'sbr-l' + i, q: '<b>Ergänze die Baderegel:</b><br>' + B[2].replace('___', '<span class="gap">?</span>'), opts: opts(B[3], B[4]),
+      hint: 'Sag die Regel einmal laut auf. Welches Wort fehlt?', ex: '<b>' + B[0] + '</b>' });
+  }
+  var SELBST = [
+    ['Warum soll man sich bei Erschöpfung im Wasser <b>kraftsparend</b> verhalten?', 'Es erhöht die Überlebenschance.', ['Dann schwimmt man schneller.', 'Dann kann man tiefer tauchen.'], 'Wer Kraft spart, hält länger durch – das erhöht die Überlebenschance.'],
+    ['Wie heißt das Ausruhen in <b>Rückenlage</b> auch?', '„toter Mann“', ['„Seestern-Sprung“', '„Brustschwimmen“'], 'Das Ausruhen in Rückenlage ist eine Variante des „toten Mannes“.'],
+    ['Wie liegt man beim „toten Mann“?', 'flach und ausgestreckt auf dem Rücken', ['auf dem Bauch, das Gesicht im Wasser', 'aufrecht, wie beim Stehen'], 'Der Erschöpfte legt sich flach ausgestreckt auf den Rücken.'],
+    ['Wie weit taucht der <b>Kopf</b> beim „toten Mann“ ins Wasser?', 'bis zu den Ohren', ['ganz unter Wasser', 'gar nicht'], 'Der Kopf taucht bis zu den Ohren ins Wasser.'],
+    ['Wohin wird das <b>Kinn</b> beim „toten Mann“ leicht gezogen?', 'zur Brust', ['nach hinten in den Nacken', 'zur Schulter'], 'Das Kinn wird leicht zur Brust gezogen.'],
+    ['Was machen <b>Hände und Beine</b> beim „toten Mann“?', 'Sie halten mit wenig Kraft das Gleichgewicht.', ['Sie paddeln ganz schnell.', 'Sie halten sich am Kopf fest.'], 'Hände und Beine sorgen mit wenig Kraft für das Gleichgewicht und regeln den Auftrieb.'],
+    ['Warum ist der Auftrieb beim „toten Mann“ nicht immer gleich?', 'wegen der Atmung', ['wegen der Badehose', 'wegen der Uhrzeit'], 'Durch das Ein- und Ausatmen ändert sich der Auftrieb – Hände und Beine gleichen das aus.'],
+    ['Was ist <b>Wassertreten</b>?', 'Man hält sich aufrecht an der Oberfläche, ohne sich anzustrengen.', ['Man taucht bis zum Boden.', 'Man schwimmt so schnell wie möglich.'], 'Beim Wassertreten lässt man Arme und Beine absinken und hält sich an der Oberfläche.'],
+    ['Was lässt man beim Wassertreten <b>absinken</b>?', 'Arme und Beine', ['den Kopf', 'nur die Hände'], 'Arme und Beine sinken ab, der Kopf bleibt oben.'],
+    ['Was machen die <b>Hände</b> beim Wassertreten?', 'leicht angestellt kreisförmige Bewegungen an der Wasseroberfläche', ['fest aufs Wasser schlagen', 'ganz still liegen'], 'Beide Handflächen machen kreisförmige Bewegungen an der Oberfläche.'],
+    ['Was machen die <b>Füße</b> beim Wassertreten?', 'Sie bewegen sich im Wechsel auf und ab.', ['Sie bleiben ganz still.', 'Beide treten gleichzeitig nach hinten.'], 'Die Füße gehen im Wechsel auf und ab.'],
+    ['Wassertreten: Wann drückst du mit der <b>Fußsohle</b>?', 'bei der Abwärtsbewegung', ['bei der Aufwärtsbewegung', 'gar nicht'], 'Aufwärts ist der Fuß gestreckt, abwärts drückst du mit der Fußsohle.'],
+    ['Wassertreten: Wie ist der Fuß bei der <b>Aufwärtsbewegung</b>?', 'gestreckt', ['angezogen', 'gekreuzt'], 'Bei der Aufwärtsbewegung wird der Fuß gestreckt.']
+  ];
+  var WADE = 'Auf den Rücken legen, die Fußspitze fassen und zum Körper ziehen. Die freie Hand drückt auf die Kniescheibe.';
+  var OBER = 'Auf den Rücken legen, den Unterschenkel am Fußgelenk fassen und gegen den Oberschenkel drücken.';
+  var BAUCH = 'Auf den Rücken legen, beide Beine in die Hocke an die Brust ziehen, dann den Körper ruckartig strecken.';
+  var FING = 'Die Finger zur Faust schließen und ruckartig strecken – im Wechsel.';
+  var KRAMPF = [
+    ['Wann kann ein <b>Krampf</b> im Wasser entstehen?', 'bei langem Aufenthalt im Wasser, Unterkühlung oder Überanstrengung', ['nur wenn das Wasser warm ist', 'nur beim Tauchen'], 'Krämpfe kommen bei langem Aufenthalt im Wasser, bei Unterkühlung und bei Überanstrengung.'],
+    ['Was passiert bei einem Krampf mit dem <b>Muskel</b>?', 'Er zieht sich zusammen, wird unbeweglich und schmerzt.', ['Er wird ganz locker.', 'Er wird warm und weich.'], 'Die Muskeln ziehen sich zusammen, werden unbeweglich und schmerzen.'],
+    ['Was ist bei einem Krampf das <b>Wichtigste</b>?', 'Ruhe bewahren', ['laut schreien und strampeln', 'schnell untertauchen'], 'Ruhe bewahren! Dann versuchen, zum Ufer zu schwimmen.'],
+    ['Du hast einen Krampf. Was versuchst du zuerst?', 'zum Ufer zu schwimmen', ['weiter hinauszuschwimmen', 'unter Wasser zu tauchen'], 'Erst versuchen, zum Ufer zu schwimmen. Klappt das nicht, den Krampf im Wasser lösen.'],
+    ['Wie löst du einen Krampf <b>im Wasser</b>?', 'durch Dehnen des Muskels', ['durch noch mehr Anspannen', 'durch Luftanhalten'], 'Der Krampf wird durch Dehnung gelöst – Spannung und Entspannung im Wechsel.'],
+    ['Wie lange wiederholst du Spannung und Entspannung?', 'bis sich der Krampf löst und der Schmerz nachlässt', ['genau dreimal', 'bis du müde bist'], 'So lange, bis sich der Krampf löst und der Schmerz nachlässt.'],
+    ['<b>Wadenkrampf</b>: Was tust du?', WADE, [OBER, FING], WADE],
+    ['<b>Oberschenkelkrampf</b> (Vorderseite): Was tust du?', OBER, [WADE, BAUCH], OBER + ' Dabei im Hüftgelenk überstrecken.'],
+    ['<b>Magen- oder Bauchdeckenkrampf</b>: Was tust du?', BAUCH, [FING, WADE], BAUCH + ' Die Hände liegen unterhalb des Knies.'],
+    ['<b>Fingerkrampf</b>: Was tust du?', FING, [BAUCH, OBER], FING],
+    ['Fußspitze fassen und zum Körper ziehen, die freie Hand drückt auf die Kniescheibe. Bei welchem Krampf?', 'Wadenkrampf', ['Fingerkrampf', 'Bauchkrampf'], 'Das hilft beim Wadenkrampf.'],
+    ['Beine in die Hocke an die Brust, dann ruckartig strecken. Bei welchem Krampf?', 'Magen- oder Bauchdeckenkrampf', ['Wadenkrampf', 'Fingerkrampf'], 'Das hilft beim Magen- oder Bauchdeckenkrampf.'],
+    ['Unterschenkel am Fußgelenk fassen und gegen den Oberschenkel drücken. Bei welchem Krampf?', 'Oberschenkelkrampf', ['Wadenkrampf', 'Bauchkrampf'], 'Das hilft beim Oberschenkelkrampf (Vorderseite).'],
+    ['Wadenkrampf: Warum drückt die freie Hand auf die <b>Kniescheibe</b>?', 'damit das Bein gestreckt bleibt', ['damit das Knie warm wird', 'damit man schneller schwimmt'], 'Die Hand drückt auf die Kniescheibe, damit das Bein gestreckt wird.'],
+    ['Bauchkrampf: Wo liegen die <b>Hände</b>?', 'unterhalb des Knies', ['auf dem Bauch', 'hinter dem Kopf'], 'Die Hände liegen unterhalb des Knies und unterstützen den Zug.'],
+    ['Oberschenkelkrampf: Was wird dabei <b>überstreckt</b>?', 'das Hüftgelenk', ['der Finger', 'der Hals'], 'Man überstreckt dabei im Hüftgelenk.'],
+    ['Der Krampf ist gelöst. Was tust du jetzt?', 'das Wasser verlassen, weil der Krampf oft wiederkommt', ['weiterschwimmen, jetzt ist alles gut', 'vom Sprungturm springen'], 'Nach dem Krampf raus aus dem Wasser – er wiederholt sich oft.'],
+    ['<b>Nachbehandlung</b> an Land: Was machst du mit dem verkrampften Körperteil?', 'massieren und bürsten, damit er warm und gut durchblutet wird', ['mit Eis kühlen', 'gar nichts'], 'An Land wird das verkrampfte Glied massiert und gebürstet, damit es erwärmt und gut durchblutet wird.']
+  ];
+  function bankGen(type, bank) { return function () { var i = rnd(0, bank.length - 1), x = bank[i]; return SU({ type: type, key: type + '-' + i, q: x[0], opts: opts(x[1], x[2]), hint: 'Erinnere dich an das Blatt „Selbstrettung“. Was spart Kraft und hilft dir sicher weiter?', ex: x[3] }); }; }
+  GEN.sbr = genSbr; GEN.sse = bankGen('sse', SELBST); GEN.skr = bankGen('skr', KRAMPF);
+
   GEN.mteil = genMteil; GEN.mname = genMname; GEN.mmerk = genMmerk; GEN.mschl = genMschl; GEN.msilb = genMsilb; GEN.mzahl = genMzahl; GEN.mtakt = genMtakt; GEN.mhoer = genMhoer;
 
   /* ---------- Fini erklärt: Bild-Erklärungen zu jedem Mathe-Thema ---------- */
@@ -4803,6 +5055,11 @@ window.EULE = (function () {
         x: 'Hier wird es immer <b>5 000 weniger</b>. Lies die Zahlen genau: 780 000 hat 6 Ziffern. Nach 765 000 kommt <b>760 000</b>, nicht 76 000.' }
     ]; } };
     EXPL.kwo = Object.assign({}, EXPL.stw, { alias: true });
+    EXPL.mzw = Object.assign({}, EXPL.stw, { alias: true }); EXPL.mdik = Object.assign({}, EXPL.stw, { alias: true }); EXPL.mvn = Object.assign({}, EXPL.kna, { alias: true });
+    EXPL.mkr = { t: 'Kreis & Zirkel', m: 'Zirkel auf den Radius einstellen. d = 2 · r, r = d : 2.', f: function () { return [
+      { v: kreisSvg({ r: true, d: true, lab: true }), x: '<b>M</b> ist der Mittelpunkt. Die <b style="color:#1F9A60">grüne</b> Linie ist der <b>Radius r</b>: vom Mittelpunkt bis zur Kreislinie. Die <b style="color:#2F7BE0">blaue</b> Linie ist der <b>Durchmesser d</b>: von Rand zu Rand, genau durch M.' },
+      { v: kreisSvg({ d: true, lab: true, ruler: 8 }), x: 'Hier misst das Lineal den Durchmesser: <b>d = 8 cm</b>. Der Radius ist die Hälfte: <b>r = 4 cm</b>. So weit öffnest du den Zirkel: Spitze auf die 0, Mine auf die 4. Dann Spitze in M einstechen und einmal herumdrehen.' }
+    ]; } };
     EXPL.kzs = Object.assign({}, EXPL.zstr, { alias: true });
     EXPL.kor = Object.assign({}, EXPL.kvg, { alias: true });
   })();
@@ -5897,9 +6154,11 @@ window.EULE = (function () {
     nomad: 'Groß oder klein?', nomen: 'Nomen finden', grundf: 'Grundform', abc: 'ABC ordnen', zus: 'Zusammengesetzte Nomen', hoer: 'Genau hören',
     stw: 'Stellenwerte', rund: 'Runden', zstr: 'Zahlenstrahl', folge: 'Zahlenfolgen', sadd: 'Schriftlich plus', ssub: 'Schriftlich minus', smul: 'Schriftlich mal', sdiv: 'Schriftlich geteilt', ueb: 'Überschlagen',
     kst: 'Stellentafel', kbu: 'Bündeln', kze: 'Zerlegen & Zusammensetzen', kwo: 'Zahlwörter', kvg: 'Größer, kleiner, gleich', kor: 'Ordnen', kre: 'Zahlen fortsetzen', kna: 'Nachbarzahlen', kra: 'Zahlenrätsel', kkr: 'Große Zahlen im Kopf', kei: 'Zahl suchen', kzs: 'Zahlenstrahl fein',
+    mvn: 'Vorgänger & Nachfolger', mzw: 'Zahlwörter bis 1 Million', mdik: 'Zahlendiktat', mkr: 'Kreis & Zirkel', sbr: 'Baderegeln', sse: 'Toter Mann & Wassertreten', skr: 'Krämpfe lösen',
     kopf: 'Kopfrechnen', rest: 'Teilen mit Rest', mteil: 'Teile der Note', mname: 'Notennamen', mmerk: 'Merkmale', mschl: 'Schläge', msilb: 'Rhythmussprache', mzahl: 'Zählzeiten', mtakt: 'Kästen füllen', mhoer: 'Hör-Rätsel', mpause: 'Pausenzeichen', ebild: 'Tiere erkennen', ede: 'Deutsch → Englisch', een: 'Englisch → Deutsch', eschr: 'Tiere schreiben', ebuch: 'Richtig geschrieben?', esatz: 'Read and choose', ehoer: 'Listen!', efarb: 'Farben erkennen', efde: 'Farben übersetzen', efschr: 'Farben schreiben', emal: 'Read and colour', lwhoer: 'Lernwort-Diktat', lwknick: 'Knick-Training', lwfehl: 'Richtig geschrieben?', lwluecke: 'Lückensätze', lwgross: 'Nomen groß', lwsilb: 'Silben', lwsatz: 'Lernwort-Sätze', flu: 'Fläche und Umfang', koer: 'Körper', netz: 'Würfelnetze', sym: 'Symmetrie', diag: 'Diagramme', wkt: 'Wahrscheinlichkeit', komb: 'Kombinieren'
   };
   var GROUPS = [
+    { n: 'Mathe-Arbeit: Zahlen bis 1 Million', t: ['mvn', 'mzw', 'mdik', 'mkr'] }, { n: 'Sachunterricht: Schwimmen', t: ['sbr', 'sse', 'skr'] },
     { n: 'Klassenarbeit: Zahlen bis 100 000', t: ['kst', 'kbu', 'kze', 'kwo', 'kvg', 'kor', 'kre', 'kna', 'kra', 'kkr', 'kei', 'kzs'] },
     { n: 'Rechenpakete', t: ['pk1', 'pk2'] }, { n: 'Die Uhr', t: ['uhr', 'uhrw', 'zsp', 'zum'] }, { n: 'Längen und Gewichte', t: ['len', 'gew', 'kom', 'cmp'] },
     { n: 'Rechenregeln', t: ['pvs', 'kla', 'rzu', 'kset'] },
@@ -5915,7 +6174,14 @@ window.EULE = (function () {
   ];
   var TOPICS = {
     m: [
-      { id: 'ka', n: 'Klassenarbeit: Zahlen bis 100 000', ka: true, len: 15, t: ['kze', 'kze', 'kze', 'kra', 'kra', 'kra', 'kkr', 'kkr', 'kkr', 'kna', 'kna', 'kst', 'kst', 'kbu', 'kbu', 'kre', 'kre', 'kwo', 'kvg', 'kor', 'kei', 'kzs'] },
+      { id: 'ka1m', n: 'Mathe-Arbeit: Zahlen bis 1 Million', ka: true, len: 15, t: ['mvn', 'mvn', 'mvn', 'mvn', 'mzw', 'mzw', 'mzw', 'mzw', 'mdik', 'mdik', 'mdik', 'mkr', 'mkr', 'mkr', 'stw', 'stw', 'rund', 'zstr', 'kvg'] },
+      { id: 'zprobe1', n: 'Mathe-Probe 1 · Normal', ka: true, pro: true, probe: true, len: 15, t: ['mvn', 'mvn', 'mvn', 'mzw', 'mzw', 'mzw', 'mdik', 'mdik', 'mkr', 'mkr', 'mkr', 'stw', 'rund', 'zstr'] },
+      { id: 'zprobe2', n: 'Mathe-Probe 2 · Generalprobe', ka: true, pro: true, probe: true, hard: true, len: 18, t: ['mvn', 'mvn', 'mvn', 'mzw', 'mzw', 'mzw', 'mzw', 'mdik', 'mdik', 'mdik', 'mkr', 'mkr', 'mkr', 'stw', 'stw', 'rund', 'zstr', 'kvg'] },
+      { id: 'zvn', n: 'Vorgänger & Nachfolger', t: ['mvn'] },
+      { id: 'zzw', n: 'Zahlwörter bis 1 Million', t: ['mzw'] },
+      { id: 'zdik', n: 'Zahlendiktat', t: ['mdik'], len: 8 },
+      { id: 'kreis', n: 'Kreis & Zirkel', t: ['mkr'] },
+      { id: 'ka', n: 'Zahlen bis 100 000 (letzte Arbeit)', ka: true, len: 15, t: ['kze', 'kze', 'kze', 'kra', 'kra', 'kra', 'kkr', 'kkr', 'kkr', 'kna', 'kna', 'kst', 'kst', 'kbu', 'kbu', 'kre', 'kre', 'kwo', 'kvg', 'kor', 'kei', 'kzs'] },
       { id: 'kaprobe', n: 'Profi-Probearbeit', ka: true, pro: true, hard: true, len: 20, t: ['kze', 'kze', 'kra', 'kra', 'kra', 'kkr', 'kkr', 'kbu', 'kbu', 'kna', 'kst', 'kre', 'kwo', 'kvg', 'kor', 'kei', 'kzs'] },
       { id: 'mmix', n: 'Gemischt', t: ['pk1', 'pk2', 'uhr', 'uhrw', 'zsp', 'zum', 'len', 'gew', 'kom', 'cmp', 'pvs', 'kla', 'rzu', 'kset', 'stw', 'rund', 'zstr', 'folge', 'sadd', 'ssub', 'smul', 'sdiv', 'ueb', 'kopf', 'rest', 'flu', 'koer', 'netz', 'sym', 'diag', 'wkt', 'komb', 'kze', 'kra', 'kkr', 'kbu', 'kna'] },
       { id: 'pak', n: 'Rechenpakete', t: ['pk1', 'pk1', 'pk2', 'pk2', 'pk2'] },
@@ -5968,6 +6234,15 @@ window.EULE = (function () {
       { id: 'muzahl', n: 'Zählen & Kästen', t: ['mzahl', 'mzahl', 'mtakt', 'mtakt'] },
       { id: 'muhoer', n: 'Hör-Rätsel', t: ['mhoer'], len: 8 }
     ],
+    su: [
+      { id: 'sutest', n: 'Training für den Sachtest', ka: true, len: 15, t: ['sbr', 'sbr', 'sbr', 'sbr', 'sbr', 'sse', 'sse', 'sse', 'sse', 'skr', 'skr', 'skr', 'skr', 'skr'] },
+      { id: 'sukarten', n: 'Karteikarten-Check', cards: true, deck: 'su', t: [] },
+      { id: 'suprobe1', n: 'Sach-Probe 1 · Normal', ka: true, pro: true, probe: true, len: 14, t: ['sbr', 'sbr', 'sbr', 'sbr', 'sse', 'sse', 'sse', 'skr', 'skr', 'skr', 'skr'] },
+      { id: 'suprobe2', n: 'Sach-Probe 2 · Generalprobe', ka: true, pro: true, probe: true, hard: true, len: 18, t: ['sbr', 'sbr', 'sbr', 'sbr', 'sbr', 'sse', 'sse', 'sse', 'sse', 'skr', 'skr', 'skr', 'skr', 'skr'] },
+      { id: 'subade', n: 'Die 14 Baderegeln', t: ['sbr'] },
+      { id: 'suselbst', n: 'Toter Mann & Wassertreten', t: ['sse'] },
+      { id: 'sukrampf', n: 'Krämpfe lösen', t: ['skr'] }
+    ],
     en: [
       { id: 'etest', n: 'Englischtest (Fr)', ka: true, len: 15, t: ['ebild', 'ebild', 'ede', 'ede', 'ede', 'een', 'eschr', 'eschr', 'eschr', 'eschr', 'ebuch', 'esatz', 'esatz', 'ehoer', 'efarb', 'efarb', 'efde', 'efde', 'efschr', 'efschr', 'emal'] },
       { id: 'ekarten', n: 'Karteikarten-Check', cards: true, deck: 'en', t: [] },
@@ -5985,8 +6260,8 @@ window.EULE = (function () {
     Object.defineProperty(rt, 't', { get: function () { return topicById(todayRule()).t; } });
     Object.defineProperty(rt, 'n', { get: function () { return 'Regel des Tages: ' + topicById(todayRule()).n.replace('Regel: ', ''); } });
   })();
-  function topicById(id) { var all = TOPICS.m.concat(TOPICS.d, TOPICS.mu, TOPICS.en); for (var i = 0; i < all.length; i++) if (all[i].id === id) return all[i]; return all[0]; }
-  function subjOf(id) { function has(k) { return TOPICS[k].some(function (t) { return t.id === id; }); } return has('d') ? 'd' : has('mu') ? 'mu' : has('en') ? 'en' : 'm'; }
+  function topicById(id) { var all = TOPICS.m.concat(TOPICS.d, TOPICS.mu, TOPICS.en, TOPICS.su); for (var i = 0; i < all.length; i++) if (all[i].id === id) return all[i]; return all[0]; }
+  function subjOf(id) { function has(k) { return TOPICS[k].some(function (t) { return t.id === id; }); } return has('d') ? 'd' : has('mu') ? 'mu' : has('en') ? 'en' : has('su') ? 'su' : 'm'; }
 
   /* ---------- Speicher ---------- */
   function store(key, val) { try { if (val === undefined) { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : null; } localStorage.setItem(key, JSON.stringify(val)); } catch (e) { return null; } return null; }
@@ -6062,7 +6337,7 @@ window.EULE = (function () {
   function saveRound() { store(K.round, state); }
 
   var el = {};
-  ['rankMedal', 'rankName', 'rankNext', 'rankFill', 'starCount', 'breakInfo', 'breakText', 'breakStart', 'subjM', 'subjD', 'subjMu', 'subjEn', 'progBox', 'fcView', 'topics', 'progLabel', 'streakPill', 'topicLabel', 'segments', 'card',
+  ['rankMedal', 'rankName', 'rankNext', 'rankFill', 'starCount', 'breakInfo', 'breakText', 'breakStart', 'subjM', 'subjD', 'subjMu', 'subjEn', 'subjSu', 'progBox', 'fcView', 'topics', 'progLabel', 'streakPill', 'topicLabel', 'segments', 'card',
    'taskView', 'endView', 'tag', 'question', 'visual', 'answerForm', 'answer', 'unit', 'checkBtn', 'hintBtn', 'options', 'feedback', 'nextBtn', 'endStars', 'endScore', 'endMsg', 'record', 'endNews', 'againBtn',
    'badgeSum', 'badgeGrid', 'levelSum', 'levelBody', 'breakLen', 'ownSentences', 'saveOwn', 'ownSaved', 'blitzReset', 'resetBtn',
    'breakView', 'timer', 'memArea', 'memPairs', 'memMoves', 'memGrid', 'memMsg', 'memNew', 'breakStop', 'breakOver', 'breakBack']
@@ -6076,6 +6351,8 @@ window.EULE = (function () {
     document.body.classList.toggle('deu', subj === 'd');
     document.body.classList.toggle('mus', subj === 'mu');
     document.body.classList.toggle('eng', subj === 'en');
+    document.body.classList.toggle('sach', subj === 'su');
+    el.subjSu.setAttribute('aria-pressed', subj === 'su' ? 'true' : 'false');
     el.subjM.setAttribute('aria-pressed', subj === 'm' ? 'true' : 'false');
     el.subjD.setAttribute('aria-pressed', subj === 'd' ? 'true' : 'false');
     el.subjMu.setAttribute('aria-pressed', subj === 'mu' ? 'true' : 'false');
@@ -6110,7 +6387,7 @@ window.EULE = (function () {
     if (t.diktat) {
       var h = '<div class="dik">';
       if (hasTTS) h += '<button type="button" class="btn" data-act="speak">' + SPEAK_SVG + 'Anhören</button><button type="button" class="btn" data-act="slow">' + SPEAK_SVG + 'Langsam</button>';
-      var pl = t.peekLabel || 'Satz kurz zeigen', wd = t.word ? 'das Wort' : 'den Satz';
+      var pl = t.peekLabel || 'Satz kurz zeigen', wd = t.wdLabel || (t.word ? 'das Wort' : 'den Satz');
       h += '<button type="button" class="btn tip" data-act="peek">' + pl + '</button></div><div id="peekBox"></div>';
       h += '<p class="dik-note">' + (hasTTS ? 'Kein Ton? Dann nimm „' + pl + '“: Lies ' + wd + ', merk es dir und schreib es auswendig auf.' : 'Lies ' + wd + ', merk es dir und schreib es auswendig auf.') + '</p>';
       return h;
@@ -6240,7 +6517,7 @@ window.EULE = (function () {
   }
   function renderTask() {
     var t = state.tasks[state.i], isMC = t.inp === 'mc';
-    el.tag.className = 'tag' + (t.deu ? ' d' : '') + (t.mus ? ' mu' : '') + (t.en ? ' en' : '') + (t.type === 'sach' ? ' pro' : '');
+    el.tag.className = 'tag' + (t.deu ? ' d' : '') + (t.mus ? ' mu' : '') + (t.en ? ' en' : '') + (t.sach ? ' su' : '') + (t.type === 'sach' ? ' pro' : '');
     el.tag.textContent = TYPE_LABEL[t.type] + (t.sub ? ' · ' + t.sub : '');
     el.question.innerHTML = t.q;
     el.visual.innerHTML = visualFor(t);
@@ -6317,7 +6594,7 @@ window.EULE = (function () {
   ];
   var BADGES = [
     { id: 'runde1', n: 'Los geht’s', d: 'Die erste Runde geschafft' }, { id: 'mathe1', n: 'Mathe-Start', d: 'Eine Mathe-Runde geschafft' },
-    { id: 'deutsch1', n: 'Deutsch-Start', d: 'Eine Deutsch-Runde geschafft' }, { id: 'musik1', n: 'Musik-Start', d: 'Eine Musik-Runde oder einen Kartenstapel geschafft' },
+    { id: 'deutsch1', n: 'Deutsch-Start', d: 'Eine Deutsch-Runde geschafft' }, { id: 'musik1', n: 'Musik-Start', d: 'Eine Musik-Runde oder einen Kartenstapel geschafft' }, { id: 'sach1', n: 'Sach-Start', d: 'Eine Sachunterricht-Runde oder einen Kartenstapel geschafft' },
     { id: 'musikprofi', n: 'Noten-Profi', d: 'Musiktest-Training: 13 von 15 sofort richtig' }, { id: 'englisch1', n: 'English Start', d: 'Eine Englisch-Runde oder einen Englisch-Stapel geschafft' }, { id: 'englischprofi', n: 'Safari-Profi', d: 'Englischtest-Training: 13 von 15 sofort richtig' }, { id: 'lernwortprofi', n: 'Lernwort-Ass', d: 'Lernwörter-Kontrolle: 13 von 15 sofort richtig' }, { id: 'schreibprofi', n: 'Schreib-Profi', d: 'Klassenarbeit Geschichte: 13 von 15 sofort richtig' }, { id: 'karten', n: 'Karten-Ass', d: 'Alle Karteikarten beim ersten Mal gewusst' }, { id: 'serie5', n: 'Fünfer-Serie', d: '5 richtig hintereinander' },
     { id: 'serie10', n: 'Zehner-Serie', d: '10 richtig hintereinander' }, { id: 'perfekt', n: 'Fehlerfrei', d: 'Eine Runde ohne Fehler' },
     { id: 'alle', n: 'Entdeckerin', d: 'Jedes Thema einmal geübt' }, { id: 'diktat', n: 'Diktat-Ass', d: 'Diktat-Runde: 5 von 6 sofort richtig' },
@@ -6365,7 +6642,7 @@ window.EULE = (function () {
       if (e && e.wasWeak && levelOf(e) === 'good') give('comeback');
     } else {
       var right = countRight(), subj = subjOf(state.topic);
-      give('runde1'); give(subj === 'm' ? 'mathe1' : subj === 'd' ? 'deutsch1' : subj === 'en' ? 'englisch1' : 'musik1');
+      give('runde1'); give(subj === 'm' ? 'mathe1' : subj === 'd' ? 'deutsch1' : subj === 'en' ? 'englisch1' : subj === 'su' ? 'sach1' : 'musik1');
       if (state.topic === 'etest' && right >= 13) give('englischprofi');
       if (state.topic === 'lwtest' && right >= 13) give('lernwortprofi');
       if (state.topic === 'gtest' && right >= 13) give('schreibprofi');
@@ -6597,7 +6874,7 @@ window.EULE = (function () {
   function peek() {
     var t = state.tasks[state.i], box = document.getElementById('peekBox');
     if (!box) return;
-    box.innerHTML = '<div class="peek">' + t.ans + '</div>';
+    box.innerHTML = '<div class="peek">' + (t.peekTxt || t.ans) + '</div>';
     setTimeout(function () { var b = document.getElementById('peekBox'); if (b) b.innerHTML = ''; }, 5000);
   }
   function flash() {
@@ -6709,7 +6986,7 @@ window.EULE = (function () {
     var s = settings(); s.topic = b.getAttribute('data-topic'); saveSettings(s);
     newRound(s.topic); render();
   });
-  [el.subjM, el.subjD, el.subjMu, el.subjEn].forEach(function (b) {
+  [el.subjM, el.subjD, el.subjMu, el.subjEn, el.subjSu].forEach(function (b) {
     b.addEventListener('click', function () {
       var subj = b.getAttribute('data-s'); if (subjOf(state.topic) === subj) return;
       var s = settings(); s.topic = TOPICS[subj][0].id; saveSettings(s);
@@ -6825,8 +7102,35 @@ window.EULE = (function () {
     { id: 'rg3', c: 'gross', q: 'Welche Endungen zeigen dir ein Nomen?', a: '-ung, -heit, -keit, -nis, -schaft: die Zeitung, die Freiheit, die Fröhlichkeit.' },
     { id: 'rd1', c: 'gross', q: 'das oder dass?', a: 'Kannst du dieses, jenes oder welches einsetzen? Dann das. Sonst dass.' }
   ];
+  var FC_SU = [
+    { id: 'b1', c: 'bade', q: 'Du hast in der Sonne gelegen. Was tust du, bevor du ins Wasser gehst?', a: 'Kühle dich ab, bevor du ins Wasser gehst.' },
+    { id: 'b2', c: 'bade', q: 'Es donnert. Was gilt?', a: 'Bei Gewitter ist Baden gefährlich – sofort raus aus dem Wasser.' },
+    { id: 'b3', c: 'bade', q: 'Du frierst im Wasser. Was tust du?', a: 'Verlasse das Wasser, wenn du frierst.' },
+    { id: 'b4', c: 'bade', q: 'Wo darfst du nicht baden?', a: 'Wo Schiffe und Boote fahren.' },
+    { id: 'b5', c: 'bade', q: 'Wann gehst du nur baden?', a: 'Wenn du dich wohl fühlst.' },
+    { id: 'b6', c: 'bade', q: 'Was machst du nie mit anderen im Wasser?', a: 'Tauche andere nicht unter.' },
+    { id: 'b7', c: 'bade', q: 'Du kannst nicht schwimmen. Wie weit darfst du ins Wasser?', a: 'Nur bis zum Bauch.' },
+    { id: 'b8', c: 'bade', q: 'Was gilt für Luftmatratzen?', a: 'Luftmatratzen bieten dir keine ausreichende Sicherheit.' },
+    { id: 'b9', c: 'bade', q: 'Was tust du für die Umwelt am Wasser?', a: 'Halte das Wasser und seine Umgebung sauber.' },
+    { id: 'b10', c: 'bade', q: 'Worauf achtest du beim Springen wegen der anderen?', a: 'Gefährde niemanden durch deinen Sprung ins Wasser.' },
+    { id: 'b11', c: 'bade', q: 'Was überschätzt du nicht?', a: 'Deine Kraft und dein Können.' },
+    { id: 'b12', c: 'bade', q: 'Wann darfst du ins Wasser springen?', a: 'Nur, wenn es tief genug ist.' },
+    { id: 'b13', c: 'bade', q: 'Was gilt beim Hilferufen?', a: 'Rufe nie um Hilfe, wenn du nicht wirklich in Gefahr bist – aber hilf anderen, wenn sie Hilfe brauchen.' },
+    { id: 'b14', c: 'bade', q: 'Was gilt für deinen Magen?', a: 'Gehe niemals mit ganz vollem oder ganz leerem Magen baden.' },
+    { id: 'e1', c: 'kraft', q: 'Warum verhältst du dich bei Erschöpfung kraftsparend?', a: 'Das erhöht die Überlebenschance.' },
+    { id: 'e2', c: 'kraft', q: 'Wie geht der „tote Mann“ (Ausruhen in Rückenlage)?', a: 'Flach ausgestreckt auf den Rücken legen. Der Kopf taucht bis zu den Ohren ins Wasser, das Kinn wird leicht zur Brust gezogen. Hände und Beine halten mit wenig Kraft das Gleichgewicht.' },
+    { id: 'e3', c: 'kraft', q: 'Wie geht Wassertreten?', a: 'Arme und Beine absinken lassen. Die Hände machen leicht angestellt kreisförmige Bewegungen an der Oberfläche, die Füße gehen im Wechsel auf und ab: aufwärts gestreckt, abwärts Druck mit der Fußsohle.' },
+    { id: 'k1', c: 'krampf', q: 'Wann entstehen Krämpfe im Wasser?', a: 'Bei langem Aufenthalt im Wasser, bei Unterkühlung und bei Überanstrengung. Der Muskel zieht sich zusammen, wird unbeweglich und schmerzt.' },
+    { id: 'k2', c: 'krampf', q: 'Was tust du bei einem Krampf zuerst?', a: 'Ruhe bewahren und versuchen, zum Ufer zu schwimmen. Klappt das nicht: Krampf im Wasser durch Dehnen lösen – Spannung und Entspannung im Wechsel, bis der Schmerz nachlässt.' },
+    { id: 'k3', c: 'krampf', q: 'Wadenkrampf – was hilft?', a: 'Auf den Rücken legen, Fußspitze fassen und zum Körper ziehen. Die freie Hand drückt auf die Kniescheibe, damit das Bein gestreckt bleibt.' },
+    { id: 'k4', c: 'krampf', q: 'Oberschenkelkrampf (Vorderseite) – was hilft?', a: 'Auf den Rücken legen, den Unterschenkel am Fußgelenk fassen und gegen den Oberschenkel drücken. Dabei im Hüftgelenk überstrecken.' },
+    { id: 'k5', c: 'krampf', q: 'Magen- oder Bauchdeckenkrampf – was hilft?', a: 'Auf den Rücken legen, beide Beine in die Hocke an die Brust ziehen (Hände unterhalb des Knies), dann den Körper ruckartig strecken.' },
+    { id: 'k6', c: 'krampf', q: 'Fingerkrampf – was hilft?', a: 'Finger zur Faust schließen und ruckartig strecken – im Wechsel.' },
+    { id: 'k7', c: 'krampf', q: 'Was tust du nach einem Krampf?', a: 'Das Wasser verlassen, weil der Krampf oft wiederkommt. An Land das Körperteil massieren und bürsten, damit es warm und gut durchblutet wird.' }
+  ];
   var FCK = { st: 'eule-karten', run: 'eule-karten-runde', cat: 'eule-karten-thema' };
   var DECKS = {
+    su: { cards: FC_SU, cat: { bade: 'Baderegeln', kraft: 'Toter Mann & Wassertreten', krampf: 'Krämpfe' }, sfx: '-su', badge: 'sach1', intro: function (n) { return 'Zum Sachtest Schwimmen: Frage lesen, Antwort laut sagen, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini springt vor Freude ins Wasser!' },
     mu: { cards: FC, cat: FC_CAT, sfx: '', badge: 'musik1', intro: function (n) { return 'Zum Musiktest: alles aus deinem Heft auf ' + n + ' Karten.'; }, cheer: 'Fini klatscht im Takt!' },
     en: { cards: FC_EN, cat: { tiere: 'Wild animals', farben: 'Colours', zahlen: 'Zahlen 1–10', saetze: 'Sätze' }, sfx: '-en', badge: 'englisch1', intro: function (n) { return 'Zum Englischtest am Freitag: Deutsch lesen, Englisch laut sagen und auf einen Zettel schreiben. ' + n + ' Karten.'; }, cheer: 'Fini sagt: Well done!' },
     gs: { cards: FC_GS, cat: { aufbau: 'Aufbau', satz: 'Satzbau', rede: 'Wörtliche Rede', buch: 'Wie im Buch' }, sfx: '-gs', badge: 'deutsch1', intro: function (n) { return 'Für die Klassenarbeit „Geschichte schreiben“: Frage lesen, Antwort laut sagen, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini ist stolz auf dich!' },
@@ -6999,10 +7303,11 @@ window.EULE = (function () {
   /* ---------- Startseite wie Level Up 5 ---------- */
   var HOME = {
     m: { n: 'Mathe', go: 'Mathe üben' }, d: { n: 'Deutsch', go: 'Deutsch üben' },
-    mu: { n: 'Musik', go: 'Musik üben' }, en: { n: 'Englisch', go: 'Englisch üben' }
+    mu: { n: 'Musik', go: 'Musik üben' }, en: { n: 'Englisch', go: 'Englisch üben' }, su: { n: 'Sachunterricht', go: 'Sachunterricht üben' }
   };
   var ARBEITEN = [
-    { s: 'm', n: 'Mathe', what: 'Klassenarbeit Mathe', topic: 'mmix' },
+    { s: 'su', n: 'Sachunterricht', what: 'Sachtest Schwimmen: Baderegeln und Selbstrettung', topic: 'sutest' },
+    { s: 'm', n: 'Mathe', what: 'Mathe-Arbeit: Zahlen bis 1 Million, Zahlwörter, Zahlendiktat, Kreis', topic: 'ka1m' },
     { s: 'd', n: 'Deutsch', what: 'Deutsch-Arbeit: Rechtschreibung', topic: 'dprobe' },
     { s: 'mu', n: 'Musik', what: 'Musiktest: Noten und Pausen', topic: 'mtest' }
   ];
@@ -7021,7 +7326,10 @@ window.EULE = (function () {
   };
   function iconFor(s) { var b = document.querySelector('.subjects [data-s="' + s + '"] svg'); return b ? b.outerHTML : ''; }
   function subjTypes(s) { var o = {}; TOPICS[s].forEach(function (t) { (t.t || []).forEach(function (x) { o[x] = 1; }); }); return Object.keys(o); }
-  function arbeitDates() { var d = store(HK.dates) || {}; if (!d._mu1911) { if (!d.mu) d.mu = '2026-11-19'; d._mu1911 = 1; store(HK.dates, d); } return d; }
+  function arbeitDates() { var d = store(HK.dates) || {}; if (!d._mu1911) { if (!d.mu) d.mu = '2026-11-19'; d._mu1911 = 1; store(HK.dates, d); }
+    /* Termine von Emilias Klasse als Vorschlag – jede Familie kann sie bei „Für Eltern“ für ihre Klasse ändern */
+    if (!d._k2611) { if (!d.su) d.su = '2026-11-25'; if (!d.m || daysUntil(d.m) < 0) d.m = '2026-11-26'; d._k2611 = 1; store(HK.dates, d); }
+    return d; }
   function fmtDay(iso) { var d = new Date(iso + 'T12:00:00'); return d.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' }); }
   function daysUntil(iso) { var t = new Date(); t.setHours(12, 0, 0, 0); var d = new Date(iso + 'T12:00:00'); return Math.round((d - t) / 86400000); }
   function renderHome() {
@@ -7035,14 +7343,14 @@ window.EULE = (function () {
       if (!iso) txt = '<b>' + a.what + '</b>Termin bei „Für Eltern“ eintragen, dann zählt Fini die Tage.';
       else {
         var n = daysUntil(iso);
-        if (n > 1) { num = n; txt = '<b>Tage bis zum ' + (a.s === 'mu' ? 'Musiktest' : a.n + '-Test') + '</b>am ' + fmtDay(iso) + '. ' + a.what + '.'; }
+        if (n > 1) { num = n; txt = '<b>Tage bis ' + (a.s === 'mu' ? 'zum Musiktest' : a.s === 'su' ? 'zum Sachtest' : a.s === 'm' ? 'zur Mathe-Arbeit' : 'zum ' + a.n + '-Test') + '</b>am ' + fmtDay(iso) + '. ' + a.what + '.'; }
         else if (n === 1) { num = '1'; txt = '<b>Tag – morgen ist es so weit!</b>' + a.what + '. Heute noch einmal üben.'; }
         else if (n === 0) { num = 'Heute'; small = true; txt = '<b>Viel Glück!</b>Du hast gut geübt.'; }
         else { num = '✓'; txt = '<b>Vorbei.</b>Weiter üben hilft für die nächste Arbeit.'; }
       }
       return '<button type="button" class="ka ' + a.s + '" data-home-topic="' + a.topic + '"><span class="ka-subj">' + a.n + '</span><span class="ka-num' + (small ? ' small' : '') + '">' + num + '</span><p>' + txt + '</p></button>';
     }).join('');
-    document.getElementById('homeSubs').innerHTML = ['m', 'd', 'mu', 'en'].map(function (s) {
+    document.getElementById('homeSubs').innerHTML = ['m', 'd', 'su', 'mu', 'en'].map(function (s) {
       var c = today[s] || 0, types = subjTypes(s), sure = types.filter(function (t) { return levelOf(st[t]) === 'good'; }).length;
       var pct = Math.min(100, Math.round(c / DAY_GOAL * 100));
       return '<button type="button" class="hsub ' + s + '" data-home-subj="' + s + '"><span class="hsub-top">' + iconFor(s) + '<span><span class="hsub-name">' + HOME[s].n + '</span><span class="hsub-what">' + TOPICS[s][0].n + '</span></span></span>' +
@@ -7053,7 +7361,7 @@ window.EULE = (function () {
     var row = '', names = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'], streak = 0, all = store(HK.days) || {};
     for (var i = 6; i >= 0; i--) {
       var k = dn - i, dc = all[k] || {}, dd = new Date(now.getTime() - i * 86400000);
-      row += '<div class="wd' + (i === 0 ? ' today' : '') + '"><span>' + names[dd.getDay()] + '</span><span class="wd-star">' + (((planLog()[k] || {}).plan) ? '⭐' : '') + '</span><span class="wd-dots">' + ['m', 'd', 'mu', 'en'].map(function (s) { return '<i class="' + (dc[s] ? s : '') + '"></i>'; }).join('') + '</span></div>';
+      row += '<div class="wd' + (i === 0 ? ' today' : '') + '"><span>' + names[dd.getDay()] + '</span><span class="wd-star">' + (((planLog()[k] || {}).plan) ? '⭐' : '') + '</span><span class="wd-dots">' + ['m', 'd', 'su', 'mu', 'en'].map(function (s) { return '<i class="' + (dc[s] ? s : '') + '"></i>'; }).join('') + '</span></div>';
     }
     for (var j = 0; j < 60; j++) { var e = all[dn - j]; if (e && Object.keys(e).length) streak++; else if (j > 0) break; }
     document.getElementById('weekRow').innerHTML = row;
@@ -7102,11 +7410,11 @@ window.EULE = (function () {
     t.textContent = msg; t.classList.add('on'); clearTimeout(planToast.tm); planToast.tm = setTimeout(function () { t.classList.remove('on'); }, 3200);
   }
   var planActs = [];
-  var SUBJ_TEST = { m: 'Mathe-Arbeit', d: 'Deutsch-Arbeit', mu: 'Musiktest' };
+  var SUBJ_TEST = { m: 'Mathe-Arbeit', d: 'Deutsch-Arbeit', mu: 'Musiktest', su: 'Sachtest' };
   function renderPlan() {
     var box = document.getElementById('planList'); if (!box) return;
     var dn = dayNum(), L = planLog()[dn] || {}, dates = arbeitDates(), nm = window.EULE ? EULE.name(', ') : '';
-    var D = {}; ['m', 'd', 'mu'].forEach(function (s) { D[s] = dates[s] ? daysUntil(dates[s]) : null; });
+    var D = {}; ['m', 'd', 'mu', 'su'].forEach(function (s) { D[s] = dates[s] ? daysUntil(dates[s]) : null; });
     function near(s, max) { return D[s] !== null && D[s] >= 1 && D[s] <= max; }
     var items = [], bonus = [];
     /* Musik */
@@ -7117,18 +7425,31 @@ window.EULE = (function () {
       items.push({ s: 'mu', d: D.mu, title: 'Musik: Training für den Test', sub: 'Noten und Pausen · 1 Runde · ca. 10 Min', min: 10, done: !!L['s-mu'], btn: L['s-mu'] ? 'Nochmal' : 'Los', topic: 'mtest' });
       bonus.push(['Musik-Karteikarten', 'mkarten']);
     } else bonus.push(['Musik', 'mumix']);
+    /* Sachunterricht: Schwimmen – kurz vor dem Test eine Probe mit Note, vorher Training und Karten */
+    if (near('su', 3)) {
+      var ps = nextProbe(['suprobe1', 'suprobe2'], dn), tps = topicById(ps.id);
+      items.push({ s: 'su', d: D.su, title: 'Sachunterricht: ' + tps.n.replace(' · ', ' – ') + (ps.again ? ' noch einmal' : ''), sub: 'Wie im Test: ohne Tipps, mit Note · ca. 10 Min', min: 10, done: ps.done, btn: ps.done ? 'Nochmal' : 'Schreiben', topic: ps.id });
+      bonus.push(['Schwimm-Karten', 'sukarten']);
+    } else if (near('su', 10)) {
+      items.push({ s: 'su', d: D.su, title: 'Sachunterricht: Training Schwimmen', sub: 'Baderegeln, toter Mann, Krämpfe · 1 Runde · ca. 10 Min', min: 10, done: !!L['s-su'], btn: L['s-su'] ? 'Nochmal' : 'Los', topic: 'sutest' });
+      bonus.push(['Schwimm-Karten', 'sukarten']);
+    }
     /* Deutsch: jeden Tag eine Regel, kurz vor einer Arbeit eine Probe */
     var rule = topicById(todayRule()).n.replace('Regel: ', '');
     items.push({ s: 'd', d: D.d, title: 'Deutsch: Regel des Tages', sub: rule + ' · mit Satz-Diktat · ca. 10 Min', min: 10, done: !!L.rsheute, btn: L.rsheute ? 'Nochmal' : 'Los', topic: 'rsheute' });
     if (near('d', 4)) items.push({ s: 'd', d: D.d, title: 'Deutsch: Rechtschreib-Probe', sub: 'Ohne Tipps, mit Note · ca. 15 Min', min: 15, done: !!L.dprobe, btn: L.dprobe ? 'Nochmal' : 'Schreiben', topic: 'dprobe' });
     bonus.push(['Regel-Karten', 'rskarten']);
     /* Mathe */
-    if (near('m', 4)) items.push({ s: 'm', d: D.m, title: 'Mathe: Profi-Probearbeit', sub: 'Wie eine echte Arbeit · ca. 15 Min', min: 15, done: !!L.kaprobe, btn: L.kaprobe ? 'Nochmal' : 'Los', topic: 'kaprobe' });
-    else items.push({ s: 'm', d: D.m, title: near('m', 14) ? 'Mathe: Klassenarbeit-Training' : 'Mathe: Gemischt', sub: (near('m', 14) ? 'Zahlen bis 100 000' : 'Von jedem Thema etwas') + ' · 1 Runde · ca. 10 Min', min: 10, done: !!L['s-m'], btn: L['s-m'] ? 'Nochmal' : 'Los', topic: near('m', 14) ? 'ka' : 'mmix' });
+    if (near('m', 3)) {
+      var pz = nextProbe(['zprobe1', 'zprobe2'], dn), tpz = topicById(pz.id);
+      items.push({ s: 'm', d: D.m, title: 'Mathe: ' + tpz.n.replace(' · ', ' – ') + (pz.again ? ' noch einmal' : ''), sub: 'Wie eine echte Arbeit: ohne Tipps, mit Note · ca. 15 Min', min: 15, done: pz.done, btn: pz.done ? 'Nochmal' : 'Schreiben', topic: pz.id });
+      bonus.push(['Zahlendiktat', 'zdik'], ['Kreis & Zirkel', 'kreis']);
+    } else items.push({ s: 'm', d: D.m, title: near('m', 14) ? 'Mathe: Klassenarbeit-Training' : 'Mathe: Gemischt', sub: (near('m', 14) ? 'Zahlen bis 1 Million, Zahlendiktat, Kreis' : 'Von jedem Thema etwas') + ' · 1 Runde · ca. 10 Min', min: 10, done: !!L['s-m'], btn: L['s-m'] ? 'Nochmal' : 'Los', topic: near('m', 14) ? 'ka1m' : 'mmix' });
+    if (near('m', 14)) bonus.push(['Kreis & Zirkel – danach 3 Kreise ins Heft (r = 3 cm, d = 8 cm, r = 5 cm)', 'kreis']);
     bonus.push(['Englisch', 'etiere']);
     /* Was als Nächstes geschrieben wird, kommt zuerst */
     items.sort(function (a, b) { var x = a.d !== null && a.d >= 1 ? a.d : 99, y = b.d !== null && b.d >= 1 ? b.d : 99; return x - y; });
-    var up = ['m', 'd', 'mu'].filter(function (s) { return D[s] !== null && D[s] >= 0; }).sort(function (a, b) { return D[a] - D[b]; });
+    var up = ['m', 'd', 'mu', 'su'].filter(function (s) { return D[s] !== null && D[s] >= 0; }).sort(function (a, b) { return D[a] - D[b]; });
     var fe = document.getElementById('planFocus');
     var todayT = up.filter(function (s) { return D[s] === 0; }), nextT = up.filter(function (s) { return D[s] >= 1; })[0];
     fe.textContent = todayT.length ? 'Heute: ' + todayT.map(function (s) { return SUBJ_TEST[s]; }).join(' und ') + ' – viel Glück!' : nextT ? 'Fokus: ' + SUBJ_TEST[nextT] + (D[nextT] === 1 ? ' morgen' : ' in ' + D[nextT] + ' Tagen') : 'Heute';
@@ -7180,7 +7501,7 @@ window.EULE = (function () {
   function showHome(on) {
     document.body.classList.toggle('on-home', on);
     store(HK.home, on ? 'home' : 'ueben');
-    if (on) { document.body.classList.remove('deu', 'mus', 'eng'); renderHome(); }
+    if (on) { document.body.classList.remove('deu', 'mus', 'eng', 'sach'); renderHome(); }
     else render();
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
@@ -7202,13 +7523,16 @@ window.EULE = (function () {
 
   /* ---------- Fach-Übersicht: erst alle Kapitel sehen, dann üben ---------- */
   var FACH_GROUPS = {
-    m: [['Für die Klassenarbeit', ['ka', 'kaprobe', 'mcheck']], ['Themen', ['pak', 'uhr', 'gro', 'reg', 'zahl', 'schr', 'kopf', 'geo', 'daten']], ['Alles durcheinander', ['mmix']]],
+    m: [['Für die Mathe-Arbeit am Do', ['ka1m', 'zprobe1', 'zprobe2', 'zvn', 'zzw', 'zdik', 'kreis']], ['Wiederholen', ['ka', 'kaprobe', 'mcheck']], ['Themen', ['pak', 'uhr', 'gro', 'reg', 'zahl', 'schr', 'kopf', 'geo', 'daten']], ['Alles durcheinander', ['mmix']]],
     d: [['Rechtschreib-Regeln', ['rsheute', 'rg1', 'rg2', 'rg3', 'rg4', 'rg5', 'rg6', 'rskarten']], ['Diktat & Probe', ['dik', 'dprobe', 'det']],
         ['Mehr üben', ['rs', 'gk', 'wb', 'adj', 'dtrain', 'lwtest', 'lwkarten']], ['Lesen', ['les', 'blz']], ['Alles durcheinander', ['dmix', 'dcheck']]],
     mu: [['Für den Musiktest', ['mtest', 'mprobe1', 'mprobe2', 'mprobe3', 'mprobe4', 'mkarten']], ['Themen', ['mupause', 'muteil', 'muwert', 'musilb', 'muzahl', 'muhoer']], ['Alles durcheinander', ['mumix']]],
+    su: [['Für den Sachtest Schwimmen', ['sutest', 'sukarten', 'suprobe1', 'suprobe2']], ['Themen', ['subade', 'suselbst', 'sukrampf']]],
     en: [['Für den Englischtest', ['etest', 'ekarten']], ['Themen', ['etiere', 'efarben', 'eschreib', 'elesen']]]
   };
   var FACH_DESC = {
+    ka1m: 'Vorgänger & Nachfolger, Zahlwörter, Zahlendiktat, Kreis', zprobe1: 'Ohne Tipps, mit Note', zprobe2: 'Alles wie in der Arbeit, mit Note', zvn: 'Vorgänger, Nachfolger, Nachbarzahlen bis 1 Million', zzw: 'Zahlwörter lesen und selbst schreiben', zdik: 'Zahl anhören und mit Ziffern schreiben', kreis: 'Mittelpunkt, Radius, Durchmesser, Zirkel einstellen',
+    sutest: 'Baderegeln, toter Mann, Wassertreten, Krämpfe', sukarten: 'Alle Regeln zum Umdrehen', suprobe1: 'Ohne Tipps, mit Note', suprobe2: 'Alles wie im Test, mit Note', subade: 'Welche Regel passt? Richtig oder falsch?', suselbst: 'Kraft sparen, wenn du erschöpft bist', sukrampf: 'Wade, Oberschenkel, Bauch, Finger',
     ka: 'Zahlen bis 100 000: Stellenwerte, Runden, Zahlenstrahl', kaprobe: 'Wie eine echte Arbeit, mit 20 Aufgaben', mcheck: 'Knifflige Aufgaben zum Knobeln',
     pak: 'Plus, minus, mal und geteilt', uhr: 'Uhrzeit, Zeitspannen, Zeiteinheiten', gro: 'Umwandeln: km, m, cm, kg, g', reg: 'Punkt vor Strich, Klammern',
     zahl: 'Stellenwerte, Runden, Zahlenstrahl', schr: 'Schriftlich rechnen mit allen vier Rechenarten', kopf: 'Schnell im Kopf rechnen', geo: 'Flächen, Körper, Netze, Spiegeln',
@@ -7260,9 +7584,9 @@ window.EULE = (function () {
     v.innerHTML = h;
   }
   function showFach(s) {
-    document.body.classList.remove('on-home', 'deu', 'mus', 'eng');
+    document.body.classList.remove('on-home', 'deu', 'mus', 'eng', 'sach');
     document.body.classList.add('on-fach');
-    document.body.classList.toggle('deu', s === 'd'); document.body.classList.toggle('mus', s === 'mu'); document.body.classList.toggle('eng', s === 'en');
+    document.body.classList.toggle('deu', s === 'd'); document.body.classList.toggle('mus', s === 'mu'); document.body.classList.toggle('eng', s === 'en'); document.body.classList.toggle('sach', s === 'su');
     document.body.setAttribute('data-fach', s);
     renderFach(s); window.scrollTo({ top: 0, behavior: 'auto' });
   }
