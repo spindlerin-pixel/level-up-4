@@ -4221,6 +4221,78 @@ window.EULE = (function () {
     return { type: 'mkr', key: 'mkr-w' + W[0], inp: 'mc', p: {}, q: W[0], opts: opts(W[1], W[2]), vis: kreisSvg({ r: true, d: true, lab: true }),
       hint: 'Radius: Mittelpunkt bis Rand. Durchmesser: Rand bis Rand durch den Mittelpunkt. Der Zirkel wird auf den Radius eingestellt.', ex: W[3] };
   }
+
+  /* =========== Grammatik: Die 4 Fälle – 1. Fall Nominativ (Werfall), Start 19.11.2026 =========== */
+  var NOM_S = [
+    '{N:Der Hund} bellt laut.', '{N:Die Katze} schläft auf {D:dem Sofa}.', 'Im Garten spielt {N:das Kind} mit {D:dem Ball}.',
+    '{N:Der Junge} gibt {D:dem Hund} {A:einen Knochen}.', 'Heute backt {N:die Oma} {A:einen Kuchen}.', '{N:Ein Vogel} sitzt auf {D:dem Dach}.',
+    '{N:Die Lehrerin} erklärt {D:den Kindern} {A:die Aufgabe}.', 'Morgen besucht {N:mein Onkel} {A:unsere Familie}.', '{N:Das Pferd} frisst {A:einen Apfel}.',
+    'Auf {D:dem Spielplatz} rutschen {N:die Kinder}.', '{N:Der Bäcker} verkauft {D:der Frau} {A:ein Brot}.', 'Leise schleicht {N:der Fuchs} um {A:das Haus}.',
+    '{N:Meine Schwester} liest {A:ein spannendes Buch}.', '{N:Der Zug} fährt pünktlich ab.', 'Nach {D:der Schule} füttert {N:Emma} {A:ihre Kaninchen}.',
+    '{N:Die Sonne} scheint hell.', 'Im Winter bauen {N:die Kinder} {A:einen Schneemann}.', '{N:Ein kleiner Igel} sucht {A:Futter}.',
+    '{N:Der Trompeter} spielt {D:dem Publikum} {A:ein Lied} vor.', 'Gestern hat {N:der Opa} {D:mir} {A:ein Rätsel} erzählt.',
+    '{N:Die Ente} schwimmt über {A:den See}.', 'Jeden Morgen weckt {N:der Wecker} {A:meinen Bruder}.', '{N:Unser Nachbar} repariert {A:das Fahrrad}.',
+    '{N:Die Blumen} blühen im Frühling.', 'Am Abend erzählt {N:Papa} {D:uns} {A:eine Geschichte}.'
+  ];
+  function nomParse(s) {
+    var g = [], plain = s.replace(/\{([NAD]):([^}]+)\}/g, function (m, c, w) { g.push({ c: c, w: w }); return w; });
+    return { s: s, plain: plain, g: g };
+  }
+  function nomMark(s, idx, cls) { var i = -1; return s.replace(/\{([NAD]):([^}]+)\}/g, function (m, c, w) { i++; return i === idx ? '<b class="' + (cls || 'mark') + '" style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px">' + w + '</b>' : w; }); }
+  var NOM_ART = [
+    ['Hund', 'm', 'bellt im Garten.'], ['Katze', 'f', 'schläft in der Sonne.'], ['Pferd', 'n', 'galoppiert über die Wiese.'], ['Lehrer', 'm', 'schreibt an die Tafel.'],
+    ['Blume', 'f', 'blüht im Beet.'], ['Buch', 'n', 'liegt auf dem Tisch.'], ['Apfel', 'm', 'ist rot und saftig.'], ['Tasche', 'f', 'ist sehr schwer.'],
+    ['Fahrrad', 'n', 'steht im Keller.'], ['Vogel', 'm', 'singt ein Lied.'], ['Schule', 'f', 'beginnt um acht Uhr.'], ['Mädchen', 'n', 'lacht laut.'],
+    ['Baum', 'm', 'verliert seine Blätter.'], ['Sonne', 'f', 'geht im Osten auf.'], ['Haus', 'n', 'hat einen großen Garten.'], ['Schneemann', 'm', 'schmilzt langsam.']
+  ];
+  var NOM_A = { b: { m: ['der', 'den', 'dem'], f: ['die', 'der', 'den'], n: ['das', 'dem', 'des'] }, u: { m: ['ein', 'einen', 'einem'], f: ['eine', 'einer', 'einen'], n: ['ein', 'einem', 'eines'] } };
+  var NOM_W = [
+    ['Wie heißt der <b>1. Fall</b>?', 'Nominativ', ['Akkusativ', 'Dativ'], 'Der 1. Fall heißt <b>Nominativ</b>. Auf Deutsch sagt man auch <b>Werfall</b>.'],
+    ['Mit welcher Frage findest du den <b>Nominativ</b>?', 'Wer oder was?', ['Wen oder was?', 'Wem?'], 'Den Nominativ findest du mit der Frage <b>Wer oder was?</b> – zum Beispiel: <i>Wer oder was bellt?</i> – <b>Der Hund</b> bellt.'],
+    ['Der Nominativ heißt auf Deutsch auch …', 'Werfall', ['Wenfall', 'Wemfall'], 'Weil man ihn mit <b>Wer</b> oder was? erfragt, heißt er <b>Werfall</b>.'],
+    ['Wie viele Fälle gibt es im Deutschen?', '4', ['3', '6'], 'Es gibt <b>4 Fälle</b>. Der erste ist der Nominativ.'],
+    ['In welchem Fall steht ein Nomen im <b>Wörterbuch</b>?', 'im Nominativ', ['im Akkusativ', 'im Dativ'], 'Im Wörterbuch steht das Nomen immer im <b>Nominativ</b> (Einzahl): der Hund, die Katze, das Pferd.'],
+    ['Welche <b>bestimmten Artikel</b> stehen im Nominativ?', 'der, die, das', ['den, die, das', 'dem, der, dem'], 'Im Nominativ heißt es <b>der</b> Hund, <b>die</b> Katze, <b>das</b> Pferd – genau wie im Wörterbuch.'],
+    ['Welche <b>unbestimmten Artikel</b> stehen im Nominativ?', 'ein, eine, ein', ['einen, eine, ein', 'einem, einer, einem'], 'Im Nominativ: <b>ein</b> Hund, <b>eine</b> Katze, <b>ein</b> Pferd.'],
+    ['Wer oder was macht im Satz etwas? Das steht meistens im …', 'Nominativ', ['Akkusativ', 'Dativ'], 'Wer etwas tut, steht im <b>Nominativ</b>: <b>Der Hund</b> bellt. <b>Die Kinder</b> spielen.'],
+    ['Muss der Nominativ immer am <b>Satzanfang</b> stehen?', 'Nein, er kann auch weiter hinten stehen.', ['Ja, immer ganz vorne.', 'Ja, immer ganz am Ende.'], 'Er kann überall stehen: <i>Im Garten spielt <b>das Kind</b>.</i> Darum immer fragen: <b>Wer oder was</b> spielt?']
+  ];
+  function genNom() {
+    var k = pick(['finde', 'finde', 'finde', 'art', 'art', 'rf', 'rf', 'wissen', 'wissen', 'frage']);
+    if (k === 'wissen') { var W = pick(NOM_W); return { type: 'nom', key: 'nom-w' + W[0], inp: 'mc', p: {}, deu: true, q: W[0], opts: opts(W[1], W[2]), hint: 'Merke: 1. Fall = Nominativ = Werfall. Frage: <b>Wer oder was?</b>', ex: W[3] }; }
+    if (k === 'art') {
+      var A = pick(NOM_ART), un = Math.random() < 0.4, set = NOM_A[un ? 'u' : 'b'][A[1]], cap = function (x) { return x.charAt(0).toUpperCase() + x.slice(1); };
+      return { type: 'nom', key: 'nom-a' + A[0] + un, inp: 'mc', p: {}, deu: true, center: true,
+        q: 'Welcher Artikel passt? Das Nomen steht im <b>Nominativ</b>.<br><span style="font-size:1.25rem"><span class="gap">?</span> ' + A[0] + ' ' + A[2] + '</span>',
+        opts: opts(cap(set[0]), [cap(set[1]), cap(set[2])]),
+        hint: 'Frag: <b>Wer oder was</b> ' + A[2].replace('.', '') + '? Im Nominativ heißt der Artikel wie im Wörterbuch: der, die, das – oder ein, eine, ein.',
+        ex: '<b>' + cap(set[0]) + ' ' + A[0] + '</b> ' + A[2] + ' – Wer oder was ' + A[2].replace('.', '') + '? ' + cap(set[0]) + ' ' + A[0] + '. Das ist der Nominativ.' };
+    }
+    var P, tries = 0;
+    do { P = nomParse(pick(NOM_S)); tries++; } while (k === 'finde' && P.g.length < 2 && tries < 30);
+    var ni = 0; P.g.forEach(function (x, i) { if (x.c === 'N') ni = i; });
+    var verb = P.plain.replace(/[.!?]$/, '');
+    if (k === 'finde') {
+      return { type: 'nom', key: 'nom-f' + P.s, inp: 'mc', p: {}, deu: true,
+        q: 'Welche Wortgruppe steht im <b>Nominativ</b> (1. Fall)?<br><span style="font-size:1.2rem">' + P.plain + '</span>',
+        opts: opts(P.g[ni].w, P.g.filter(function (x, i) { return i !== ni; }).map(function (x) { return x.w; }).slice(0, 2)),
+        hint: 'Frag nach dem, der etwas tut: <b>Wer oder was …?</b> Achtung: Der Nominativ steht nicht immer am Anfang!',
+        ex: 'Wer oder was? – <b>' + P.g[ni].w + '</b>. Das ist der Nominativ: ' + nomMark(P.s, ni) };
+    }
+    if (k === 'frage') {
+      return { type: 'nom', key: 'nom-q' + P.s, inp: 'mc', p: {}, deu: true,
+        q: 'Mit welcher Frage findest du die <b>unterstrichene</b> Wortgruppe?<br><span style="font-size:1.2rem">' + nomMark(P.s, ni) + '</span>',
+        opts: opts('Wer oder was?', ['Wen oder was?', 'Wem?']), hint: 'Die unterstrichene Wortgruppe tut etwas. Welche Frage gehört zum 1. Fall?',
+        ex: '<b>Wer oder was?</b> – ' + P.g[ni].w + '. Das ist der Nominativ (Werfall).' };
+    }
+    var gi = Math.random() < 0.5 || P.g.length < 2 ? ni : pick(P.g.map(function (x, i) { return i; }).filter(function (i) { return i !== ni; })), isN = gi === ni;
+    return { type: 'nom', key: 'nom-r' + P.s + gi, inp: 'mc', p: {}, deu: true, grid2: true, center: true,
+      q: 'Steht die <b>unterstrichene</b> Wortgruppe im <b>Nominativ</b>?<br><span style="font-size:1.2rem">' + nomMark(P.s, gi) + '</span>',
+      opts: fixedOpts(['ja', 'nein'], isN ? 'ja' : 'nein'), hint: 'Mach die Probe: <b>Wer oder was</b> tut hier etwas? Passt die unterstrichene Wortgruppe als Antwort?',
+      ex: isN ? 'Ja! Wer oder was? – <b>' + P.g[gi].w + '</b>. Das ist der Nominativ.' : 'Nein. Wer oder was? – <b>' + P.g[ni].w + '</b>. Nur das ist hier der Nominativ. „' + P.g[gi].w + '“ ist ein anderer Fall.' };
+  }
+  GEN.nom = genNom;
+
   GEN.mvn = genMvn; GEN.mzw = genMzw; GEN.mdik = genMdik; GEN.mkr = genMkr;
 
   /* =========== Sachunterricht: Schwimmen (Test Mi 25.11.) – Baderegeln und Selbstrettung =========== */
@@ -4931,6 +5003,14 @@ window.EULE = (function () {
   ['xpView', 'xpSheet', 'xpTitle', 'xpStage', 'xpMerk', 'xpPrev', 'xpNext', 'xpDots', 'xpClose', 'xpCount', 'xpBtn', 'xpBook', 'xpOwl'].forEach(function (id) { xpEl[id] = document.getElementById(id); });
   ['adjs', 'adjw', 'adjf'].forEach(function (k) { EXPL[k] = Object.assign({}, EXPL.adjb, { alias: true }); });
   /* Fini erklärt: Training nach der Deutscharbeit */
+  EXPL.nom = { t: 'Der 1. Fall: Nominativ', m: '1. Fall = Nominativ = Werfall. Frage: Wer oder was?', f: function () { return [
+    { v: '<div class="xstack c">' + chip('Der Hund bellt laut.', 'ek wrap') + arrow('Wer oder was bellt?', 1) + chip('Der Hund', 'g', 2) + '</div>',
+      x: 'Frag: <b>Wer oder was</b> bellt? – <b>Der Hund</b>. Diese Wortgruppe steht im <b>Nominativ</b>, dem 1. Fall. Man sagt auch <b>Werfall</b>.' },
+    { v: '<div class="xstack c">' + chip('Im Garten spielt das Kind.', 'ek wrap') + arrow('Wer oder was spielt?', 1) + chip('das Kind', 'g', 2) + '</div>',
+      x: 'Achtung: Der Nominativ steht <b>nicht immer vorne</b>. Darum immer fragen: <b>Wer oder was</b> spielt? – <b>das Kind</b>.' },
+    { v: '<div class="xstack c">' + xrow([chip('der Hund', 'b', 1), chip('die Katze', 'r', 1), chip('das Pferd', 'g', 1)]) + xrow([chip('ein Hund', 'b', 2), chip('eine Katze', 'r', 2), chip('ein Pferd', 'g', 2)]) + '</div>',
+      x: 'Im Nominativ heißen die Artikel genau wie im <b>Wörterbuch</b>: der, die, das – oder ein, eine, ein.' }
+  ]; } };
   EXPL.nomad = { t: 'Groß oder klein?', m: 'Signalwort davor und danach kein Nomen mehr? Dann groß. Kommt noch ein Nomen? Dann klein.', f: function () { return [
     { v: '<div class="xstack c">' + xrow([chip('das', 'y'), chip('Spannende', 'g', 1)]) + xrow([chip('das', 'y', 2), chip('spannende', 'b', 2), chip('Buch', 'r', 3)]) + '</div>',
       x: 'Oben: Nach „das Spannende“ kommt <b>kein</b> Nomen mehr. Das Adjektiv ist selbst ein Nomen geworden: <b>groß</b>. Unten: „spannende“ beschreibt das <b>Buch</b>. Dann bleibt es <b>klein</b>.' },
@@ -6151,7 +6231,7 @@ window.EULE = (function () {
     adjb: 'Adjektive bilden', gteil: 'Teile der Geschichte', gw: 'Die Einleitung', gschl: 'Der Schluss', gsb: 'Satz-Baukasten', gnb: 'Sätze mit weil & Co.', gv2: 'Richtig gebaut?', gmund: 'Wie im Buch', gansatz: 'Satzanfänge', gwr: 'Wörtliche Rede', gwrb: 'Rede-Baukasten', gsagen: 'Wörter für sagen', gzeit: 'Vergangenheit', gsie: 'Sie oder sie?', gdik: 'Erzähl-Diktat', gfrei: 'Schreibwerkstatt', adjs: 'Bedeutung & Bauplan', adjw: 'Adjektive schreiben', adjf: 'Fugenlaute',
     rverl: 'Verlängern schreiben', rsilb: 'Silben schwingen', rgross: 'Groß schreiben', rwverl: 'Wort-Diktat: Verlängern', rwabl: 'Wort-Diktat: Ableiten', rwsilb: 'Wort-Diktat: kurze Vokale', rwlang: 'Wort-Diktat: ie, ß, h',
     det: 'Fehlerdetektiv', dik: 'Diktat', lese: 'Lesen', blitz: 'Blitzlesen', schlange: 'Wörterschlange',
-    nomad: 'Groß oder klein?', nomen: 'Nomen finden', grundf: 'Grundform', abc: 'ABC ordnen', zus: 'Zusammengesetzte Nomen', hoer: 'Genau hören',
+    nom: '1. Fall – Nominativ', nomad: 'Groß oder klein?', nomen: 'Nomen finden', grundf: 'Grundform', abc: 'ABC ordnen', zus: 'Zusammengesetzte Nomen', hoer: 'Genau hören',
     stw: 'Stellenwerte', rund: 'Runden', zstr: 'Zahlenstrahl', folge: 'Zahlenfolgen', sadd: 'Schriftlich plus', ssub: 'Schriftlich minus', smul: 'Schriftlich mal', sdiv: 'Schriftlich geteilt', ueb: 'Überschlagen',
     kst: 'Stellentafel', kbu: 'Bündeln', kze: 'Zerlegen & Zusammensetzen', kwo: 'Zahlwörter', kvg: 'Größer, kleiner, gleich', kor: 'Ordnen', kre: 'Zahlen fortsetzen', kna: 'Nachbarzahlen', kra: 'Zahlenrätsel', kkr: 'Große Zahlen im Kopf', kei: 'Zahl suchen', kzs: 'Zahlenstrahl fein',
     mvn: 'Vorgänger & Nachfolger', mzw: 'Zahlwörter bis 1 Million', mdik: 'Zahlendiktat', mkr: 'Kreis & Zirkel', sbr: 'Baderegeln', sse: 'Toter Mann & Wassertreten', skr: 'Krämpfe lösen',
@@ -6202,6 +6282,7 @@ window.EULE = (function () {
       { id: 'rg3', n: 'Regel: Ableiten (ä und äu)', len: 12, t: ['rwabl', 'rwabl', 'rwabl', 'rwabl', 'ablt', 'ablt', 'ablt', 'det', 'dik', 'dik'] },
       { id: 'rg4', n: 'Regel: Groß oder klein', len: 12, t: ['rgross', 'rgross', 'rgross', 'gross', 'gross', 'nomad', 'nomen', 'dik', 'dik'] },
       { id: 'rg5', n: 'Regel: ie, ß, ss und h', len: 12, t: ['rwlang', 'rwlang', 'rwlang', 'rwlang', 'slaut', 'slaut', 'slaut', 'vokal', 'dik', 'dik'] },
+      { id: 'nomi', n: 'Neu: 1. Fall – Nominativ', len: 10, t: ['nom'] },
       { id: 'rg6', n: 'Regel: das oder dass + Mix', len: 12, t: ['dass', 'dass', 'dass', 'rverl', 'rwabl', 'rsilb', 'rwsilb', 'rgross', 'dik', 'dik'] },
       { id: 'dprobe', n: 'Rechtschreib-Probe mit Note', ka: true, pro: true, probe: true, len: 15, t: ['rverl', 'rverl', 'rwverl', 'rwabl', 'rwabl', 'rwsilb', 'rwsilb', 'rwlang', 'rsilb', 'rgross', 'rgross', 'ablt', 'slaut', 'dass', 'dik', 'dik'] },
       { id: 'rskarten', n: 'Regel-Karten', cards: true, deck: 'rs', t: [] },
@@ -7438,6 +7519,7 @@ window.EULE = (function () {
     var rule = topicById(todayRule()).n.replace('Regel: ', '');
     items.push({ s: 'd', d: D.d, title: 'Deutsch: Regel des Tages', sub: rule + ' · mit Satz-Diktat · ca. 10 Min', min: 10, done: !!L.rsheute, btn: L.rsheute ? 'Nochmal' : 'Los', topic: 'rsheute' });
     if (near('d', 4)) items.push({ s: 'd', d: D.d, title: 'Deutsch: Rechtschreib-Probe', sub: 'Ohne Tipps, mit Note · ca. 15 Min', min: 15, done: !!L.dprobe, btn: L.dprobe ? 'Nochmal' : 'Schreiben', topic: 'dprobe' });
+    if (daysUntil('2026-12-18') >= 0) items.push({ s: 'd', d: D.d, title: 'Deutsch: Neu – 1. Fall (Nominativ)', sub: 'Wer oder was? · 10 Aufgaben · ca. 5 Min', min: 5, done: !!L.nomi, btn: L.nomi ? 'Nochmal' : 'Los', topic: 'nomi' });
     bonus.push(['Regel-Karten', 'rskarten']);
     /* Mathe */
     if (near('m', 3)) {
@@ -7524,7 +7606,7 @@ window.EULE = (function () {
   /* ---------- Fach-Übersicht: erst alle Kapitel sehen, dann üben ---------- */
   var FACH_GROUPS = {
     m: [['Für die Mathe-Arbeit am Do', ['ka1m', 'zprobe1', 'zprobe2', 'zvn', 'zzw', 'zdik', 'kreis']], ['Wiederholen', ['ka', 'kaprobe', 'mcheck']], ['Themen', ['pak', 'uhr', 'gro', 'reg', 'zahl', 'schr', 'kopf', 'geo', 'daten']], ['Alles durcheinander', ['mmix']]],
-    d: [['Rechtschreib-Regeln', ['rsheute', 'rg1', 'rg2', 'rg3', 'rg4', 'rg5', 'rg6', 'rskarten']], ['Diktat & Probe', ['dik', 'dprobe', 'det']],
+    d: [['Grammatik: Die 4 Fälle', ['nomi']], ['Rechtschreib-Regeln', ['rsheute', 'rg1', 'rg2', 'rg3', 'rg4', 'rg5', 'rg6', 'rskarten']], ['Diktat & Probe', ['dik', 'dprobe', 'det']],
         ['Mehr üben', ['rs', 'gk', 'wb', 'adj', 'dtrain', 'lwtest', 'lwkarten']], ['Lesen', ['les', 'blz']], ['Alles durcheinander', ['dmix', 'dcheck']]],
     mu: [['Für den Musiktest', ['mtest', 'mprobe1', 'mprobe2', 'mprobe3', 'mprobe4', 'mkarten']], ['Themen', ['mupause', 'muteil', 'muwert', 'musilb', 'muzahl', 'muhoer']], ['Alles durcheinander', ['mumix']]],
     su: [['Für den Sachtest Schwimmen', ['sutest', 'sukarten', 'suprobe1', 'suprobe2']], ['Themen', ['subade', 'suselbst', 'sukrampf']]],
@@ -7537,6 +7619,7 @@ window.EULE = (function () {
     pak: 'Plus, minus, mal und geteilt', uhr: 'Uhrzeit, Zeitspannen, Zeiteinheiten', gro: 'Umwandeln: km, m, cm, kg, g', reg: 'Punkt vor Strich, Klammern',
     zahl: 'Stellenwerte, Runden, Zahlenstrahl', schr: 'Schriftlich rechnen mit allen vier Rechenarten', kopf: 'Schnell im Kopf rechnen', geo: 'Flächen, Körper, Netze, Spiegeln',
     daten: 'Diagramme lesen, Zufall, Kombinieren', mmix: 'Von jedem Thema etwas',
+    nomi: 'Wer oder was? Der Werfall – seit 19.11. in der Schule',
     rsheute: 'Jeden Tag eine Regel, mit Wort- und Satz-Diktat', rg1: 'd oder t, g oder k, b oder p am Wortende', rg2: 'Silben schwingen, mm, ll, ck, tz', rg3: 'Bäume – Baum, Hände – Hand', rg4: 'Satzanfang und Nomen groß', rg5: 'Wiese, Straße, Wasser, Zahn', rg6: 'das oder dass und alles gemischt',
     dprobe: 'Wie eine echte Arbeit: ohne Tipps, mit Note', rskarten: 'Alle Regeln zum Umdrehen', mprobe1: 'Ohne Tipps, mit Note', mprobe2: 'Ohne Tipps, mit Note', mprobe3: 'Etwas kniffliger, mit Note', mprobe4: 'Alles wie im Test, mit Note',
     gtest: 'Training für „Geschichte schreiben“', lwtest: 'Die Lernwörter der Woche', dtrain: 'Groß und klein, ABC, Lernwörter wiederholen',
