@@ -1444,6 +1444,14 @@ body.on-home #routView, body.on-fach #routView { display: none !important; }
 .routv .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
 .routv .btn svg { width: 22px; height: 22px; flex-shrink: 0; }
 .ftile.rout { background: linear-gradient(120deg, var(--r-g-fill), var(--r-o-fill) 55%, var(--r-b-fill)); border-color: var(--r-o); }
+.plan-item.bs { --pc: #E0794F; }
+.opt.multi { display: flex; align-items: center; gap: 12px; }
+.opt.multi .mk { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 2.5px solid var(--ink-soft); display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.05rem; color: var(--ink); background: var(--surface); }
+.opt.multi.sel { border-color: var(--c-su, var(--primary)); }
+.opt.multi.sel .mk { border-color: var(--ink); }
+.opt.multi.missed { text-decoration: none; outline: 3px dashed var(--good); outline-offset: 2px; }
+.opt.multi.missed .mk::after { content: '!'; color: var(--good); }
+.btn.multi-check { flex: none; align-self: stretch; min-height: 52px; margin-top: 4px; }
 </style>
 
 <div class="app">
@@ -4295,87 +4303,177 @@ window.EULE = (function () {
 
   GEN.mvn = genMvn; GEN.mzw = genMzw; GEN.mdik = genMdik; GEN.mkr = genMkr;
 
-  /* =========== Sachunterricht: Schwimmen (Test Mi 25.11.) – Baderegeln und Selbstrettung =========== */
-  function SU(o) { o.sach = true; o.inp = 'mc'; o.p = o.p || {}; return o; }
-  var BADE = [
-    ['Kühle dich ab, bevor du ins Wasser gehst.', 'Du hast lange in der Sonne gelegen und willst sofort ins kalte Wasser springen.', 'Kühle dich ___, bevor du ins Wasser gehst.', 'ab', ['an', 'aus']],
-    ['Bei Gewitter ist Baden gefährlich.', 'Am Himmel wird es dunkel, und du hörst Donner.', 'Bei ___ ist Baden gefährlich.', 'Gewitter', ['Sonne', 'Wind']],
-    ['Verlasse das Wasser, wenn du frierst.', 'Deine Lippen sind blau und du zitterst im Wasser.', 'Verlasse das Wasser, wenn du ___.', 'frierst', ['lachst', 'Durst hast']],
-    ['Bade nicht, wo Schiffe und Boote fahren.', 'Am See gibt es einen Bereich, in dem Motorboote fahren.', 'Bade nicht, wo ___ und Boote fahren.', 'Schiffe', ['Fische', 'Enten']],
-    ['Gehe nur zum Baden, wenn du dich wohl fühlst.', 'Du hast Bauchweh und fühlst dich schlapp.', 'Gehe nur zum Baden, wenn du dich ___ fühlst.', 'wohl', ['müde', 'stark']],
-    ['Tauche andere nicht unter.', 'Ein Kind will andere im Wasser zum Spaß unter Wasser drücken.', 'Tauche andere nicht ___.', 'unter', ['auf', 'ab']],
-    ['Gehe nur bis zum Bauch ins Wasser, wenn du nicht schwimmen kannst.', 'Dein kleiner Bruder kann noch nicht schwimmen und will ins tiefe Wasser.', 'Gehe nur bis zum ___ ins Wasser, wenn du nicht schwimmen kannst.', 'Bauch', ['Hals', 'Kinn']],
-    ['Luftmatratzen bieten dir keine ausreichende Sicherheit.', 'Du willst mit der Luftmatratze weit auf den See hinauspaddeln.', 'Luftmatratzen bieten dir keine ausreichende ___.', 'Sicherheit', ['Freude', 'Farbe']],
-    ['Halte das Wasser und seine Umgebung sauber.', 'Nach dem Picknick liegen Becher und Papier am Ufer.', 'Halte das Wasser und seine Umgebung ___.', 'sauber', ['warm', 'ruhig']],
-    ['Gefährde niemanden durch deinen Sprung ins Wasser.', 'Unter dem Sprungbrett schwimmt gerade ein Kind.', 'Gefährde ___ durch deinen Sprung ins Wasser.', 'niemanden', ['dich', 'alle']],
-    ['Überschätze deine Kraft und dein Können nicht.', 'Du willst ans andere Ufer schwimmen, aber das ist sehr weit weg.', 'Überschätze deine ___ und dein Können nicht.', 'Kraft', ['Zeit', 'Badehose']],
-    ['Springe nur ins Wasser, wenn es tief genug ist.', 'Du weißt nicht, wie tief das Wasser am Steg ist.', 'Springe nur ins Wasser, wenn es ___ genug ist.', 'tief', ['warm', 'sauber']],
-    ['Rufe nie um Hilfe, wenn du nicht wirklich in Gefahr bist, aber hilf anderen, wenn sie Hilfe brauchen.', 'Ein Kind ruft aus Spaß „Hilfe!“, obwohl alles in Ordnung ist.', 'Rufe nie um Hilfe, wenn du nicht wirklich in ___ bist.', 'Gefahr', ['Eile', 'Ruhe']],
-    ['Gehe niemals mit ganz vollem oder ganz leerem Magen baden.', 'Du hast gerade eine riesige Portion Pommes gegessen und willst sofort schwimmen.', 'Gehe niemals mit ganz vollem oder ganz ___ Magen baden.', 'leerem', ['kleinem', 'kaltem']]
+  /* =========== Sachunterricht: Baderegeln (Test Mi 25.11.) – nur Baderegeln, aufgebaut wie die echte Überprüfung:
+     A) Ankreuzen, mehrere Antworten können stimmen · B) Wörter in die Lücken schreiben =========== */
+  function SU(o) { o.sach = true; o.inp = o.inp || 'mc'; o.p = o.p || {}; return o; }
+  /* Jede Regel hat eine Kennung. So merkt sich die App für jede einzelne Regel, ob sie sitzt. */
+  var REGELN = {
+    wohl: 'Schwimme und tauche nur, wenn du dich wohl fühlst.',
+    magen: 'Gehe niemals mit ganz vollem oder ganz leerem Magen schwimmen.',
+    abk: 'Kühle dich ab, bevor du ins Wasser gehst.',
+    frier: 'Verlasse das Wasser, wenn du frierst.',
+    gewit: 'Bei Gewitter ist Baden gefährlich. Verlasse sofort das Wasser.',
+    boote: 'Bade nicht, wo Schiffe, Boote und Surfer fahren.',
+    nicht: 'Wenn du nicht (gut) schwimmen kannst, gehe nur bis zum Bauch ins Wasser.',
+    luft: 'Benutze keine aufblasbaren Hilfsmittel wie Luftmatratzen als Schwimmhilfe – sie bieten keine Sicherheit.',
+    unter: 'Tauche andere nicht unter und stoße niemanden ins Wasser.',
+    rueck: 'Nimm Rücksicht auf andere, besonders auf Kinder und Ältere.',
+    sprung: 'Springe nur, wenn das Wasser frei ist – gefährde niemanden durch deinen Sprung.',
+    tief: 'Springe nur ins Wasser, wenn es tief genug ist und du die Stelle kennst.',
+    zeich: 'Im Schwimmunterricht springst du erst, wenn die Lehrerin das Zeichen gibt.',
+    kraft: 'Überschätze deine Kraft und dein Können nicht.',
+    hilfe: 'Rufe nur um Hilfe, wenn du wirklich in Not bist – aber hilf anderen, wenn sie Hilfe brauchen.',
+    sauber: 'Halte das Wasser und seine Umgebung sauber – Müll gehört in den Mülleimer.',
+    schmuck: 'Lege deinen Schmuck vor dem Schwimmen ab.',
+    renn: 'Renne nicht auf nassen, glatten Böden – du kannst schnell ausrutschen und hinfallen.',
+    sonne: 'Wenn die Sonne stark scheint: gut eincremen und im Schatten aufhalten.'
+  };
+  var REGEL_IDS = Object.keys(REGELN);
+  /* A) Ankreuzen – mehrere Antworten können stimmen (wie in der Überprüfung) */
+  var ANKREUZ = [
+    { id: 'pizza', r: ['magen'], q: 'Ich habe gerade eine große Pizza gegessen.', o: [['Ich bin nun gut gestärkt und kann ein paar Runden schwimmen.', 0], ['Ich darf niemals mit ganz vollem Magen schwimmen gehen.', 1], ['Ich darf niemals mit ganz leerem Magen schwimmen gehen.', 1]] },
+    { id: 'freunde', r: ['unter', 'rueck'], q: 'Ich spiele mit meinen Freunden im Schwimmbad.', o: [['Ich darf sie unter Wasser tauchen.', 0], ['Ich nehme Rücksicht auf andere, besonders auf Kinder und Ältere.', 1], ['Ich kann sie ins Wasser stoßen.', 0]] },
+    { id: 'boote', r: ['boote'], q: 'An Stellen im See, an denen Boote und Surfer fahren, …', o: [['… macht das Schwimmen besonders viel Spaß.', 0], ['… müssen die Boote und Surfer auf die Schwimmer achten.', 0], ['… darf ich nicht baden.', 1]] },
+    { id: 'warm', r: ['abk'], q: 'Es ist ein warmer Tag. Ich schwitze.', o: [['Ich springe so schnell wie möglich ins Wasser, um mich abzukühlen.', 0], ['Ich muss mich abkühlen, bevor ich ins Wasser gehe.', 1], ['Ich soll heute lieber nicht schwimmen.', 0]] },
+    { id: 'nicht', r: ['nicht', 'luft'], q: 'Ich kann noch nicht (so gut) schwimmen.', o: [['Das ist meine Chance: Ich kann alleine üben.', 0], ['Ich darf nur bis zum Bauch ins Wasser gehen.', 1], ['Mit meiner Schwimmnudel kann mir nichts passieren.', 0]] },
+    { id: 'sonne', r: ['sonne'], q: 'Wenn die Sonne stark scheint, …', o: [['… muss ich mich gut eincremen.', 1], ['… ist das gut für meinen Körper.', 0], ['… muss ich mich im Schatten aufhalten.', 1]] },
+    { id: 'brett', r: ['sprung', 'zeich'], q: 'Wenn ich vom Sprungbrett ins Wasser springe, …', o: [['… muss ich aufpassen, ob das Wasser frei ist.', 1], ['… soll ich laut rufen, damit alle wissen, dass ich jetzt springe.', 0], ['… warte ich ab, bis die Lehrerin mir das Zeichen zum Springen gibt.', 1]] },
+    { id: 'see', r: ['tief', 'kraft'], q: 'Ich will am See auch mal ins Wasser springen.', o: [['Ich kann das gut, deshalb wird nichts passieren.', 0], ['Ich darf nur springen, wenn ich mir sicher bin, dass das Wasser tief genug und frei ist.', 1], ['Ich muss mich über die rechte Schulter umschauen und deutlich Handzeichen geben.', 0]] },
+    { id: 'gewitter', r: ['gewit'], q: 'Ich bin im Freibad. Plötzlich donnert es.', o: [['Ich bleibe im Wasser, da bin ich ja schon nass.', 0], ['Ich verlasse sofort das Wasser.', 1], ['Baden bei Gewitter ist gefährlich.', 1]] },
+    { id: 'frieren', r: ['frier'], q: 'Ich bin schon lange im Wasser. Meine Lippen sind blau und ich zittere.', o: [['Ich verlasse das Wasser.', 1], ['Ich schwimme einfach schneller, dann wird mir warm.', 0], ['Ich trockne mich ab und ziehe mich warm an.', 1]] },
+    { id: 'matratze', r: ['luft'], q: 'Wir nehmen eine Luftmatratze mit an den See.', o: [['Mit der Luftmatratze kann ich weit hinauspaddeln.', 0], ['Eine Luftmatratze ist keine Schwimmhilfe.', 1], ['Luftmatratzen bieten keine Sicherheit.', 1]] },
+    { id: 'schmuck', r: ['schmuck'], q: 'Ich trage eine Kette und Ohrringe. Gleich geht es ins Becken.', o: [['Ich lege meinen Schmuck vor dem Schwimmen ab.', 1], ['Schmuck darf ich beim Schwimmen anbehalten.', 0], ['Ich darf beim Schwimmen keinen Schmuck tragen.', 1]] },
+    { id: 'rennen', r: ['renn'], q: 'Meine Freundin winkt mir vom anderen Beckenrand zu.', o: [['Ich renne schnell zu ihr hinüber.', 0], ['Ich gehe langsam, denn der Boden ist nass und glatt.', 1], ['Wenn ich renne, kann ich ausrutschen und hinfallen.', 1]] },
+    { id: 'muell', r: ['sauber'], q: 'Wir haben am See gepicknickt.', o: [['Den Müll lassen wir liegen, der Wind trägt ihn weg.', 0], ['Wir werfen den Müll in den Mülleimer.', 1], ['Wir halten das Wasser und das Ufer sauber.', 1]] },
+    { id: 'hilferuf', r: ['hilfe'], q: 'Mein Bruder ruft im Wasser aus Spaß ganz laut „Hilfe!“.', o: [['Das ist ein lustiger Streich.', 0], ['Man ruft nur um Hilfe, wenn man wirklich in Not ist.', 1], ['Wenn er dauernd aus Spaß ruft, hilft ihm im Ernstfall vielleicht keiner.', 1]] },
+    { id: 'krank', r: ['wohl'], q: 'Ich habe Bauchweh und fühle mich schlapp.', o: [['Ich schwimme und tauche nur, wenn ich mich wohl fühle.', 1], ['Schwimmen macht mich bestimmt wieder fit.', 0], ['Heute bleibe ich lieber draußen.', 1]] },
+    { id: 'weit', r: ['kraft'], q: 'Ich möchte ans andere Ufer schwimmen. Es ist sehr weit weg.', o: [['Ich überschätze meine Kraft nicht.', 1], ['Ich schaffe das schon irgendwie.', 0], ['Wenn ich müde werde, kann ich mitten im See stehen.', 0]] },
+    { id: 'hunger', r: ['magen'], q: 'Ich habe heute noch gar nichts gegessen und habe großen Hunger.', o: [['Mit leerem Magen schwimme ich besonders schnell.', 0], ['Ich esse erst eine Kleinigkeit und warte etwas.', 1], ['Mit ganz leerem Magen darf ich nicht schwimmen gehen.', 1]] }
+  ];
+  /* B) Lückentext – das Wort selbst schreiben. a = was richtig ist (das Erste wird angezeigt) */
+  var LUECKEN = [
+    { r: 'wohl', s: 'Schwimme und tauche nur, wenn du dich ___ fühlst.', a: ['wohl', 'gut', 'gesund'] },
+    { r: 'schmuck', s: 'Schmuck darf ich beim Schwimmen nicht ___.', a: ['tragen', 'anziehen', 'anhaben', 'anbehalten'] },
+    { r: 'schmuck', s: 'Lege deinen Schmuck vor dem Schwimmen ___.', a: ['ab'] },
+    { r: 'renn', s: '___ nicht auf nassen, glatten Böden.', a: ['Renne', 'Renn', 'Laufe', 'Lauf', 'Rennt'] },
+    { r: 'renn', s: 'Renne nicht auf nassen, glatten Böden. Du kannst schnell ___.', a: ['hinfallen', 'ausrutschen', 'fallen', 'stürzen'] },
+    { r: 'luft', s: 'Benutze ___ aufblasbaren Hilfsmittel wie Luftmatratzen als Schwimmhilfe!', a: ['keine'], tip: 'Ist das erlaubt oder verboten? Das fehlende Wort sagt: nicht ein einziges.' },
+    { r: 'luft', s: 'Luftmatratzen bieten dir keine ausreichende ___.', a: ['Sicherheit'] },
+    { r: 'hilfe', s: 'Rufe nur um Hilfe, wenn du in ___ bist.', a: ['Not', 'Gefahr', 'Seenot'] },
+    { r: 'sauber', s: 'Halte das Wasser und seine Umgebung ___.', a: ['sauber'] },
+    { r: 'sauber', s: 'Wirf deinen Müll in den ___.', a: ['Mülleimer', 'Abfalleimer', 'Müllkorb', 'Papierkorb', 'Mülleimer.'] },
+    { r: 'gewit', s: 'Bei Gewitter ist Baden ___.', a: ['gefährlich', 'lebensgefährlich', 'verboten'] },
+    { r: 'gewit', s: 'Bei Gewitter ist Baden gefährlich. Ich muss das Wasser ___.', a: ['verlassen'] },
+    { r: 'abk', s: 'Kühle dich ___, bevor du ins Wasser gehst.', a: ['ab'] },
+    { r: 'frier', s: 'Verlasse das Wasser, wenn du ___.', a: ['frierst'] },
+    { r: 'boote', s: 'Bade nicht, wo ___ und Boote fahren.', a: ['Schiffe', 'Surfer'] },
+    { r: 'nicht', s: 'Wenn du nicht schwimmen kannst, gehe nur bis zum ___ ins Wasser.', a: ['Bauch'] },
+    { r: 'unter', s: 'Tauche andere nicht ___.', a: ['unter'] },
+    { r: 'rueck', s: 'Nimm ___ auf andere, besonders auf Kinder und Ältere.', a: ['Rücksicht'] },
+    { r: 'tief', s: 'Springe nur ins Wasser, wenn es ___ genug ist.', a: ['tief'] },
+    { r: 'sprung', s: 'Springe nur, wenn das Wasser ___ ist.', a: ['frei', 'leer', 'tief genug'] },
+    { r: 'kraft', s: 'Überschätze deine ___ und dein Können nicht.', a: ['Kraft', 'Kräfte'] },
+    { r: 'magen', s: 'Gehe niemals mit ganz vollem oder ganz ___ Magen schwimmen.', a: ['leerem'] },
+    { r: 'magen', s: 'Gehe niemals mit ganz ___ oder ganz leerem Magen schwimmen.', a: ['vollem'] },
+    { r: 'sonne', s: 'Wenn die Sonne stark scheint, muss ich mich gut ___.', a: ['eincremen', 'einschmieren'] },
+    { r: 'sonne', s: 'Wenn die Sonne stark scheint, halte ich mich im ___ auf.', a: ['Schatten'] },
+    { r: 'zeich', s: 'Vom Sprungbrett springe ich erst, wenn die Lehrerin mir das ___ gibt.', a: ['Zeichen', 'Startzeichen', 'Signal'] }
+  ];
+  /* Situationen: Welche Regel passt? */
+  var SITUATION = [
+    ['abk', 'Du hast lange in der Sonne gelegen und willst sofort ins kalte Wasser springen.'],
+    ['gewit', 'Am Himmel wird es dunkel, und du hörst Donner.'],
+    ['frier', 'Deine Lippen sind blau und du zitterst im Wasser.'],
+    ['boote', 'Am See gibt es einen Bereich, in dem Motorboote und Surfer fahren.'],
+    ['wohl', 'Du hast Bauchweh und fühlst dich schlapp.'],
+    ['unter', 'Ein Kind will andere zum Spaß unter Wasser drücken.'],
+    ['nicht', 'Dein kleiner Bruder kann noch nicht schwimmen und will ins tiefe Wasser.'],
+    ['luft', 'Du willst mit der Luftmatratze weit auf den See hinauspaddeln.'],
+    ['sauber', 'Nach dem Picknick liegen Becher und Papier am Ufer.'],
+    ['sprung', 'Unter dem Sprungbrett schwimmt gerade ein Kind.'],
+    ['kraft', 'Du willst ans andere Ufer schwimmen, aber das ist sehr weit weg.'],
+    ['tief', 'Du weißt nicht, wie tief das Wasser am Steg ist.'],
+    ['hilfe', 'Ein Kind ruft aus Spaß „Hilfe!“, obwohl alles in Ordnung ist.'],
+    ['magen', 'Du hast gerade eine riesige Portion Pommes gegessen und willst sofort schwimmen.'],
+    ['schmuck', 'Du hast noch deine Lieblingskette um den Hals und willst ins Becken.'],
+    ['renn', 'Du bist spät dran und willst über die nassen Fliesen zum Becken flitzen.'],
+    ['sonne', 'Es ist Mittag, die Sonne brennt, und du liegst schon lange auf der Wiese.'],
+    ['rueck', 'Im Nichtschwimmerbecken spielen kleine Kinder. Du willst dort wild toben.'],
+    ['zeich', 'Im Schwimmunterricht stehst du auf dem Startblock. Die Lehrerin hat noch nichts gesagt.']
   ];
   var BADE_FALSCH = [
-    'Bei Gewitter darfst du weiterbaden, wenn du nah am Ufer bist.', 'Wenn du frierst, schwimm einfach schneller und bleib im Wasser.', 'Mit einer Luftmatratze bist du auch im tiefen Wasser sicher.',
-    'Wer nicht schwimmen kann, darf bis zum Hals ins Wasser.', 'Du darfst springen, auch wenn du nicht weißt, wie tief das Wasser ist.', 'Direkt nach einem großen Essen ist Schwimmen besonders gut.',
-    'Aus Spaß „Hilfe!“ zu rufen ist ein lustiger Streich.', 'Andere untertauchen ist ein harmloses Spiel.', 'Spring ruhig, auch wenn unter dir jemand schwimmt.',
-    'Wenn du ganz erhitzt bist, spring sofort ins kalte Wasser.', 'Wo Schiffe und Boote fahren, ist viel Platz zum Baden.', 'Auch wenn du dich krank fühlst, kannst du baden gehen.',
-    'Müll am Ufer ist egal, das Wasser spült ihn weg.', 'Schwimm so weit raus, wie du willst – du schaffst das schon.'
+    ['gewit', 'Bei Gewitter darfst du weiterbaden, wenn du nah am Ufer bist.'], ['frier', 'Wenn du frierst, schwimm einfach schneller und bleib im Wasser.'],
+    ['luft', 'Mit einer Luftmatratze bist du auch im tiefen Wasser sicher.'], ['nicht', 'Wer nicht schwimmen kann, darf bis zum Hals ins Wasser.'],
+    ['tief', 'Du darfst springen, auch wenn du nicht weißt, wie tief das Wasser ist.'], ['magen', 'Direkt nach einem großen Essen ist Schwimmen besonders gut.'],
+    ['hilfe', 'Aus Spaß „Hilfe!“ zu rufen ist ein lustiger Streich.'], ['unter', 'Andere untertauchen ist ein harmloses Spiel.'],
+    ['sprung', 'Spring ruhig, auch wenn unter dir jemand schwimmt.'], ['abk', 'Wenn du ganz erhitzt bist, spring sofort ins kalte Wasser.'],
+    ['boote', 'Wo Boote und Surfer fahren, müssen sie eben auf dich aufpassen.'], ['wohl', 'Auch wenn du dich krank fühlst, kannst du baden gehen.'],
+    ['sauber', 'Müll am Ufer ist egal, das Wasser spült ihn weg.'], ['kraft', 'Schwimm so weit raus, wie du willst – du schaffst das schon.'],
+    ['schmuck', 'Schmuck kannst du beim Schwimmen ruhig anbehalten.'], ['renn', 'Auf den nassen Fliesen im Schwimmbad darfst du rennen.'],
+    ['sonne', 'Viel Sonne ist gut für deinen Körper, eincremen ist nicht nötig.'], ['nicht', 'Mit einer Schwimmnudel kann Nichtschwimmern nichts passieren.'],
+    ['zeich', 'Im Schwimmunterricht springst du, wann du willst.'], ['rueck', 'Im Becken musst du auf niemanden Rücksicht nehmen.']
   ];
-  function genSbr() {
-    var k = pick(['sit', 'sit', 'rf', 'rf', 'luecke', 'luecke']), i = rnd(0, BADE.length - 1), B = BADE[i];
-    if (k === 'sit') {
-      var others = shuffle(BADE.filter(function (x, j) { return j !== i; })).slice(0, 2).map(function (x) { return x[0]; });
-      return SU({ type: 'sbr', key: 'sbr-s' + i, q: '<b>Welche Baderegel passt?</b><br>' + B[1], opts: opts(B[0], others),
-        hint: 'Stell dir die Situation genau vor: Was ist hier gefährlich?', ex: 'Die Regel heißt: <b>' + B[0] + '</b>' });
-    }
-    if (k === 'rf') {
-      var truth = Math.random() < 0.5, txt = truth ? B[0] : pick(BADE_FALSCH);
-      return SU({ type: 'sbr', key: 'sbr-r' + txt, q: '<b>Richtig oder falsch?</b><br>„' + txt + '“', opts: fixedOpts(['richtig', 'falsch'], truth ? 'richtig' : 'falsch'), grid2: true, center: true,
-        hint: 'Denk an die 14 Baderegeln: Wäre das sicher?', ex: truth ? 'Richtig, das ist eine Baderegel.' : 'Falsch – so ist das gefährlich. Denk an die Baderegeln!' });
-    }
-    return SU({ type: 'sbr', key: 'sbr-l' + i, q: '<b>Ergänze die Baderegel:</b><br>' + B[2].replace('___', '<span class="gap">?</span>'), opts: opts(B[3], B[4]),
-      hint: 'Sag die Regel einmal laut auf. Welches Wort fehlt?', ex: '<b>' + B[0] + '</b>' });
+
+  /* ---- Jede Regel einzeln merken: Was oft falsch war, kommt öfter dran ---- */
+  var REGEL_KEY = 'eule-regeln';
+  function regelStats() { try { return JSON.parse(localStorage.getItem(REGEL_KEY) || '{}') || {}; } catch (e) { return {}; } }
+  function regelLevel(e) {
+    if (!e || !e.h || e.h.length < 2) return 'new';
+    var last = e.h.slice(-4), sc = 0;
+    last.forEach(function (r) { sc += r === 'right' ? 1 : r === 'second' ? 0.4 : 0; });
+    var ratio = sc / last.length;
+    return ratio >= 0.8 ? 'good' : ratio >= 0.5 ? 'ok' : 'weak';
   }
-  var SELBST = [
-    ['Warum soll man sich bei Erschöpfung im Wasser <b>kraftsparend</b> verhalten?', 'Es erhöht die Überlebenschance.', ['Dann schwimmt man schneller.', 'Dann kann man tiefer tauchen.'], 'Wer Kraft spart, hält länger durch – das erhöht die Überlebenschance.'],
-    ['Wie heißt das Ausruhen in <b>Rückenlage</b> auch?', '„toter Mann“', ['„Seestern-Sprung“', '„Brustschwimmen“'], 'Das Ausruhen in Rückenlage ist eine Variante des „toten Mannes“.'],
-    ['Wie liegt man beim „toten Mann“?', 'flach und ausgestreckt auf dem Rücken', ['auf dem Bauch, das Gesicht im Wasser', 'aufrecht, wie beim Stehen'], 'Der Erschöpfte legt sich flach ausgestreckt auf den Rücken.'],
-    ['Wie weit taucht der <b>Kopf</b> beim „toten Mann“ ins Wasser?', 'bis zu den Ohren', ['ganz unter Wasser', 'gar nicht'], 'Der Kopf taucht bis zu den Ohren ins Wasser.'],
-    ['Wohin wird das <b>Kinn</b> beim „toten Mann“ leicht gezogen?', 'zur Brust', ['nach hinten in den Nacken', 'zur Schulter'], 'Das Kinn wird leicht zur Brust gezogen.'],
-    ['Was machen <b>Hände und Beine</b> beim „toten Mann“?', 'Sie halten mit wenig Kraft das Gleichgewicht.', ['Sie paddeln ganz schnell.', 'Sie halten sich am Kopf fest.'], 'Hände und Beine sorgen mit wenig Kraft für das Gleichgewicht und regeln den Auftrieb.'],
-    ['Warum ist der Auftrieb beim „toten Mann“ nicht immer gleich?', 'wegen der Atmung', ['wegen der Badehose', 'wegen der Uhrzeit'], 'Durch das Ein- und Ausatmen ändert sich der Auftrieb – Hände und Beine gleichen das aus.'],
-    ['Was ist <b>Wassertreten</b>?', 'Man hält sich aufrecht an der Oberfläche, ohne sich anzustrengen.', ['Man taucht bis zum Boden.', 'Man schwimmt so schnell wie möglich.'], 'Beim Wassertreten lässt man Arme und Beine absinken und hält sich an der Oberfläche.'],
-    ['Was lässt man beim Wassertreten <b>absinken</b>?', 'Arme und Beine', ['den Kopf', 'nur die Hände'], 'Arme und Beine sinken ab, der Kopf bleibt oben.'],
-    ['Was machen die <b>Hände</b> beim Wassertreten?', 'leicht angestellt kreisförmige Bewegungen an der Wasseroberfläche', ['fest aufs Wasser schlagen', 'ganz still liegen'], 'Beide Handflächen machen kreisförmige Bewegungen an der Oberfläche.'],
-    ['Was machen die <b>Füße</b> beim Wassertreten?', 'Sie bewegen sich im Wechsel auf und ab.', ['Sie bleiben ganz still.', 'Beide treten gleichzeitig nach hinten.'], 'Die Füße gehen im Wechsel auf und ab.'],
-    ['Wassertreten: Wann drückst du mit der <b>Fußsohle</b>?', 'bei der Abwärtsbewegung', ['bei der Aufwärtsbewegung', 'gar nicht'], 'Aufwärts ist der Fuß gestreckt, abwärts drückst du mit der Fußsohle.'],
-    ['Wassertreten: Wie ist der Fuß bei der <b>Aufwärtsbewegung</b>?', 'gestreckt', ['angezogen', 'gekreuzt'], 'Bei der Aufwärtsbewegung wird der Fuß gestreckt.']
-  ];
-  var WADE = 'Auf den Rücken legen, die Fußspitze fassen und zum Körper ziehen. Die freie Hand drückt auf die Kniescheibe.';
-  var OBER = 'Auf den Rücken legen, den Unterschenkel am Fußgelenk fassen und gegen den Oberschenkel drücken.';
-  var BAUCH = 'Auf den Rücken legen, beide Beine in die Hocke an die Brust ziehen, dann den Körper ruckartig strecken.';
-  var FING = 'Die Finger zur Faust schließen und ruckartig strecken – im Wechsel.';
-  var KRAMPF = [
-    ['Wann kann ein <b>Krampf</b> im Wasser entstehen?', 'bei langem Aufenthalt im Wasser, Unterkühlung oder Überanstrengung', ['nur wenn das Wasser warm ist', 'nur beim Tauchen'], 'Krämpfe kommen bei langem Aufenthalt im Wasser, bei Unterkühlung und bei Überanstrengung.'],
-    ['Was passiert bei einem Krampf mit dem <b>Muskel</b>?', 'Er zieht sich zusammen, wird unbeweglich und schmerzt.', ['Er wird ganz locker.', 'Er wird warm und weich.'], 'Die Muskeln ziehen sich zusammen, werden unbeweglich und schmerzen.'],
-    ['Was ist bei einem Krampf das <b>Wichtigste</b>?', 'Ruhe bewahren', ['laut schreien und strampeln', 'schnell untertauchen'], 'Ruhe bewahren! Dann versuchen, zum Ufer zu schwimmen.'],
-    ['Du hast einen Krampf. Was versuchst du zuerst?', 'zum Ufer zu schwimmen', ['weiter hinauszuschwimmen', 'unter Wasser zu tauchen'], 'Erst versuchen, zum Ufer zu schwimmen. Klappt das nicht, den Krampf im Wasser lösen.'],
-    ['Wie löst du einen Krampf <b>im Wasser</b>?', 'durch Dehnen des Muskels', ['durch noch mehr Anspannen', 'durch Luftanhalten'], 'Der Krampf wird durch Dehnung gelöst – Spannung und Entspannung im Wechsel.'],
-    ['Wie lange wiederholst du Spannung und Entspannung?', 'bis sich der Krampf löst und der Schmerz nachlässt', ['genau dreimal', 'bis du müde bist'], 'So lange, bis sich der Krampf löst und der Schmerz nachlässt.'],
-    ['<b>Wadenkrampf</b>: Was tust du?', WADE, [OBER, FING], WADE],
-    ['<b>Oberschenkelkrampf</b> (Vorderseite): Was tust du?', OBER, [WADE, BAUCH], OBER + ' Dabei im Hüftgelenk überstrecken.'],
-    ['<b>Magen- oder Bauchdeckenkrampf</b>: Was tust du?', BAUCH, [FING, WADE], BAUCH + ' Die Hände liegen unterhalb des Knies.'],
-    ['<b>Fingerkrampf</b>: Was tust du?', FING, [BAUCH, OBER], FING],
-    ['Fußspitze fassen und zum Körper ziehen, die freie Hand drückt auf die Kniescheibe. Bei welchem Krampf?', 'Wadenkrampf', ['Fingerkrampf', 'Bauchkrampf'], 'Das hilft beim Wadenkrampf.'],
-    ['Beine in die Hocke an die Brust, dann ruckartig strecken. Bei welchem Krampf?', 'Magen- oder Bauchdeckenkrampf', ['Wadenkrampf', 'Fingerkrampf'], 'Das hilft beim Magen- oder Bauchdeckenkrampf.'],
-    ['Unterschenkel am Fußgelenk fassen und gegen den Oberschenkel drücken. Bei welchem Krampf?', 'Oberschenkelkrampf', ['Wadenkrampf', 'Bauchkrampf'], 'Das hilft beim Oberschenkelkrampf (Vorderseite).'],
-    ['Wadenkrampf: Warum drückt die freie Hand auf die <b>Kniescheibe</b>?', 'damit das Bein gestreckt bleibt', ['damit das Knie warm wird', 'damit man schneller schwimmt'], 'Die Hand drückt auf die Kniescheibe, damit das Bein gestreckt wird.'],
-    ['Bauchkrampf: Wo liegen die <b>Hände</b>?', 'unterhalb des Knies', ['auf dem Bauch', 'hinter dem Kopf'], 'Die Hände liegen unterhalb des Knies und unterstützen den Zug.'],
-    ['Oberschenkelkrampf: Was wird dabei <b>überstreckt</b>?', 'das Hüftgelenk', ['der Finger', 'der Hals'], 'Man überstreckt dabei im Hüftgelenk.'],
-    ['Der Krampf ist gelöst. Was tust du jetzt?', 'das Wasser verlassen, weil der Krampf oft wiederkommt', ['weiterschwimmen, jetzt ist alles gut', 'vom Sprungturm springen'], 'Nach dem Krampf raus aus dem Wasser – er wiederholt sich oft.'],
-    ['<b>Nachbehandlung</b> an Land: Was machst du mit dem verkrampften Körperteil?', 'massieren und bürsten, damit er warm und gut durchblutet wird', ['mit Eis kühlen', 'gar nichts'], 'An Land wird das verkrampfte Glied massiert und gebürstet, damit es erwärmt und gut durchblutet wird.']
-  ];
-  function bankGen(type, bank) { return function () { var i = rnd(0, bank.length - 1), x = bank[i]; return SU({ type: type, key: type + '-' + i, q: x[0], opts: opts(x[1], x[2]), hint: 'Erinnere dich an das Blatt „Selbstrettung“. Was spart Kraft und hilft dir sicher weiter?', ex: x[3] }); }; }
-  GEN.sbr = genSbr; GEN.sse = bankGen('sse', SELBST); GEN.skr = bankGen('skr', KRAMPF);
+  function recordRegeln(ids, result) {
+    if (!ids || !ids.length) return;
+    var st = regelStats();
+    ids.forEach(function (id) { var e = st[id] || { h: [] }; e.h.push(result); if (e.h.length > 8) e.h = e.h.slice(-8); st[id] = e; });
+    try { localStorage.setItem(REGEL_KEY, JSON.stringify(st)); } catch (e) {}
+  }
+  var REGEL_W = { weak: 6, 'new': 3, ok: 3, good: 1 };
+  function regelWeight(ids, st) { var w = 0; ids.forEach(function (id) { w = Math.max(w, REGEL_W[regelLevel(st[id])]); }); return w || 1; }
+  /* Wählt aus einer Liste – unsichere Regeln mit höherer Wahrscheinlichkeit */
+  function pickByRegel(list, idsOf) {
+    var st = regelStats(), tot = 0, ws = list.map(function (x) { var w = regelWeight(idsOf(x), st); tot += w; return w; });
+    var r = Math.random() * tot;
+    for (var i = 0; i < list.length; i++) { r -= ws[i]; if (r < 0) return i; }
+    return list.length - 1;
+  }
+
+  /* A) Ankreuzen – mehrere Antworten können stimmen */
+  function genSbk() {
+    var i = pickByRegel(ANKREUZ, function (x) { return x.r; }), A = ANKREUZ[i];
+    var o = shuffle(A.o.map(function (x) { return { t: x[0], ok: !!x[1] }; }));
+    var right = o.filter(function (x) { return x.ok; }).map(function (x) { return x.t; });
+    return SU({ type: 'sbk', inp: 'multi', key: 'sbk-' + A.id, items: A.r, opts: o,
+      q: '<b>Kreuze richtig an.</b> <small>Es können mehrere Antworten stimmen.</small><br>' + A.q,
+      hint: 'Lies jede Antwort einzeln und frag dich: Ist das sicher? Manchmal stimmen zwei.',
+      ex: (right.length > 1 ? 'Richtig sind beide: ' : 'Richtig ist: ') + right.map(function (t) { return '<b>' + t + '</b>'; }).join(' und ') + '<br>Regel: ' + A.r.map(function (id) { return REGELN[id]; }).join(' ') });
+  }
+  /* B) Lückentext – Wort selbst schreiben */
+  function genSbl() {
+    var i = pickByRegel(LUECKEN, function (x) { return [x.r]; }), Lk = LUECKEN[i];
+    var full = Lk.s.replace('___', Lk.a[0]);
+    return SU({ type: 'sbl', inp: 'text', word: true, unit: '', key: 'sbl-' + i, items: [Lk.r], ans: Lk.a[0], accept: Lk.a,
+      q: '<b>Ergänze das Wort in der Lücke.</b><br><span style="font-size:1.15rem">' + Lk.s.replace('___', '<span class="gap">?</span>') + '</span>',
+      hint: Lk.tip || 'Sag die Baderegel einmal laut auf. Welches Wort fehlt?', ex: '<b>' + full + '</b>', full: full });
+  }
+  /* Situation oder Richtig/Falsch */
+  function genSbr() {
+    if (Math.random() < 0.55) {
+      var i = pickByRegel(SITUATION, function (x) { return [x[0]]; }), S = SITUATION[i], rule = REGELN[S[0]];
+      var others = shuffle(REGEL_IDS.filter(function (id) { return id !== S[0]; })).slice(0, 2).map(function (id) { return REGELN[id]; });
+      return SU({ type: 'sbr', key: 'sbr-s' + S[0], items: [S[0]], q: '<b>Welche Baderegel passt?</b><br>' + S[1], opts: opts(rule, others),
+        hint: 'Stell dir die Situation genau vor: Was ist hier gefährlich?', ex: 'Die Regel heißt: <b>' + rule + '</b>' });
+    }
+    var truth = Math.random() < 0.5, id, txt;
+    if (truth) { id = REGEL_IDS[pickByRegel(REGEL_IDS, function (x) { return [x]; })]; txt = REGELN[id]; }
+    else { var f = BADE_FALSCH[pickByRegel(BADE_FALSCH, function (x) { return [x[0]]; })]; id = f[0]; txt = f[1]; }
+    return SU({ type: 'sbr', key: 'sbr-r' + txt, items: [id], q: '<b>Richtig oder falsch?</b><br>„' + txt + '“', opts: fixedOpts(['richtig', 'falsch'], truth ? 'richtig' : 'falsch'), grid2: true, center: true,
+      hint: 'Denk an die Baderegeln: Wäre das sicher?', ex: truth ? 'Richtig, das ist eine Baderegel.' : 'Falsch – so ist das gefährlich. Die Regel heißt: <b>' + REGELN[id] + '</b>' });
+  }
+  GEN.sbr = genSbr; GEN.sbk = genSbk; GEN.sbl = genSbl;
+  window.EULE_REGELN = { list: REGELN, stats: regelStats, level: regelLevel, record: recordRegeln };
 
   GEN.mteil = genMteil; GEN.mname = genMname; GEN.mmerk = genMmerk; GEN.mschl = genMschl; GEN.msilb = genMsilb; GEN.mzahl = genMzahl; GEN.mtakt = genMtakt; GEN.mhoer = genMhoer;
 
@@ -6234,11 +6332,11 @@ window.EULE = (function () {
     nom: '1. Fall – Nominativ', nomad: 'Groß oder klein?', nomen: 'Nomen finden', grundf: 'Grundform', abc: 'ABC ordnen', zus: 'Zusammengesetzte Nomen', hoer: 'Genau hören',
     stw: 'Stellenwerte', rund: 'Runden', zstr: 'Zahlenstrahl', folge: 'Zahlenfolgen', sadd: 'Schriftlich plus', ssub: 'Schriftlich minus', smul: 'Schriftlich mal', sdiv: 'Schriftlich geteilt', ueb: 'Überschlagen',
     kst: 'Stellentafel', kbu: 'Bündeln', kze: 'Zerlegen & Zusammensetzen', kwo: 'Zahlwörter', kvg: 'Größer, kleiner, gleich', kor: 'Ordnen', kre: 'Zahlen fortsetzen', kna: 'Nachbarzahlen', kra: 'Zahlenrätsel', kkr: 'Große Zahlen im Kopf', kei: 'Zahl suchen', kzs: 'Zahlenstrahl fein',
-    mvn: 'Vorgänger & Nachfolger', mzw: 'Zahlwörter bis 1 Million', mdik: 'Zahlendiktat', mkr: 'Kreis & Zirkel', sbr: 'Baderegeln', sse: 'Toter Mann & Wassertreten', skr: 'Krämpfe lösen',
+    mvn: 'Vorgänger & Nachfolger', mzw: 'Zahlwörter bis 1 Million', mdik: 'Zahlendiktat', mkr: 'Kreis & Zirkel', sbr: 'Baderegeln: Situationen', sbk: 'Baderegeln ankreuzen', sbl: 'Baderegeln: Lückentext',
     kopf: 'Kopfrechnen', rest: 'Teilen mit Rest', mteil: 'Teile der Note', mname: 'Notennamen', mmerk: 'Merkmale', mschl: 'Schläge', msilb: 'Rhythmussprache', mzahl: 'Zählzeiten', mtakt: 'Kästen füllen', mhoer: 'Hör-Rätsel', mpause: 'Pausenzeichen', ebild: 'Tiere erkennen', ede: 'Deutsch → Englisch', een: 'Englisch → Deutsch', eschr: 'Tiere schreiben', ebuch: 'Richtig geschrieben?', esatz: 'Read and choose', ehoer: 'Listen!', efarb: 'Farben erkennen', efde: 'Farben übersetzen', efschr: 'Farben schreiben', emal: 'Read and colour', lwhoer: 'Lernwort-Diktat', lwknick: 'Knick-Training', lwfehl: 'Richtig geschrieben?', lwluecke: 'Lückensätze', lwgross: 'Nomen groß', lwsilb: 'Silben', lwsatz: 'Lernwort-Sätze', flu: 'Fläche und Umfang', koer: 'Körper', netz: 'Würfelnetze', sym: 'Symmetrie', diag: 'Diagramme', wkt: 'Wahrscheinlichkeit', komb: 'Kombinieren'
   };
   var GROUPS = [
-    { n: 'Mathe-Arbeit: Zahlen bis 1 Million', t: ['mvn', 'mzw', 'mdik', 'mkr'] }, { n: 'Sachunterricht: Schwimmen', t: ['sbr', 'sse', 'skr'] },
+    { n: 'Mathe-Arbeit: Zahlen bis 1 Million', t: ['mvn', 'mzw', 'mdik', 'mkr'] }, { n: 'Sachunterricht: Baderegeln', t: ['sbk', 'sbl', 'sbr'] },
     { n: 'Klassenarbeit: Zahlen bis 100 000', t: ['kst', 'kbu', 'kze', 'kwo', 'kvg', 'kor', 'kre', 'kna', 'kra', 'kkr', 'kei', 'kzs'] },
     { n: 'Rechenpakete', t: ['pk1', 'pk2'] }, { n: 'Die Uhr', t: ['uhr', 'uhrw', 'zsp', 'zum'] }, { n: 'Längen und Gewichte', t: ['len', 'gew', 'kom', 'cmp'] },
     { n: 'Rechenregeln', t: ['pvs', 'kla', 'rzu', 'kset'] },
@@ -6273,7 +6371,8 @@ window.EULE = (function () {
       { id: 'kopf', n: 'Kopfrechnen', t: ['kopf', 'kopf', 'kopf', 'rest', 'ueb'] },
       { id: 'geo', n: 'Geometrie', t: ['flu', 'flu', 'koer', 'netz', 'sym'] },
       { id: 'daten', n: 'Daten & Zufall', t: ['diag', 'diag', 'wkt', 'wkt', 'komb'] },
-      { id: 'mcheck', n: 'Profi-Check', pro: true, t: ['sach', 'sach', 'sach', 'sach', 'pk2', 'zsp', 'kom', 'kset', 'kla', 'sdiv', 'smul', 'flu', 'komb', 'diag', 'rund', 'kra', 'kbu', 'kkr'] }
+      { id: 'mcheck', n: 'Profi-Check', pro: true, t: ['sach', 'sach', 'sach', 'sach', 'pk2', 'zsp', 'kom', 'kset', 'kla', 'sdiv', 'smul', 'flu', 'komb', 'diag', 'rund', 'kra', 'kbu', 'kkr'] },
+      { id: 'baust', n: 'Meine Baustellen', baust: true, len: 10, t: [] }
     ],
     d: [
       { id: 'rsheute', n: 'Regel des Tages', len: 12, t: [] },
@@ -6316,13 +6415,13 @@ window.EULE = (function () {
       { id: 'muhoer', n: 'Hör-Rätsel', t: ['mhoer'], len: 8 }
     ],
     su: [
-      { id: 'sutest', n: 'Training für den Sachtest', ka: true, len: 15, t: ['sbr', 'sbr', 'sbr', 'sbr', 'sbr', 'sse', 'sse', 'sse', 'sse', 'skr', 'skr', 'skr', 'skr', 'skr'] },
+      { id: 'sutest', n: 'Training: Baderegeln', ka: true, len: 15, t: ['sbk', 'sbk', 'sbk', 'sbk', 'sbl', 'sbl', 'sbl', 'sbl', 'sbr', 'sbr'] },
       { id: 'sukarten', n: 'Karteikarten-Check', cards: true, deck: 'su', t: [] },
-      { id: 'suprobe1', n: 'Sach-Probe 1 · Normal', ka: true, pro: true, probe: true, len: 14, t: ['sbr', 'sbr', 'sbr', 'sbr', 'sse', 'sse', 'sse', 'skr', 'skr', 'skr', 'skr'] },
-      { id: 'suprobe2', n: 'Sach-Probe 2 · Generalprobe', ka: true, pro: true, probe: true, hard: true, len: 18, t: ['sbr', 'sbr', 'sbr', 'sbr', 'sbr', 'sse', 'sse', 'sse', 'sse', 'skr', 'skr', 'skr', 'skr', 'skr'] },
-      { id: 'subade', n: 'Die 14 Baderegeln', t: ['sbr'] },
-      { id: 'suselbst', n: 'Toter Mann & Wassertreten', t: ['sse'] },
-      { id: 'sukrampf', n: 'Krämpfe lösen', t: ['skr'] }
+      { id: 'suprobe1', n: 'Baderegeln-Probe 1 · Normal', ka: true, pro: true, probe: true, len: 14, t: ['sbk', 'sbk', 'sbk', 'sbl', 'sbl', 'sbl', 'sbr'] },
+      { id: 'suprobe2', n: 'Baderegeln-Probe 2 · Generalprobe', ka: true, pro: true, probe: true, hard: true, len: 18, t: ['sbk', 'sbk', 'sbk', 'sbk', 'sbl', 'sbl', 'sbl', 'sbl', 'sbl'] },
+      { id: 'suank', n: 'A) Ankreuzen – mehrere richtig', t: ['sbk'] },
+      { id: 'suluecke', n: 'B) Lückentext selbst schreiben', t: ['sbl'] },
+      { id: 'subade', n: 'Welche Regel passt?', t: ['sbr'] }
     ],
     en: [
       { id: 'etest', n: 'Englischtest (Fr)', ka: true, len: 15, t: ['ebild', 'ebild', 'ede', 'ede', 'ede', 'een', 'eschr', 'eschr', 'eschr', 'eschr', 'ebuch', 'esatz', 'esatz', 'ehoer', 'efarb', 'efarb', 'efde', 'efde', 'efschr', 'efschr', 'emal'] },
@@ -6333,7 +6432,7 @@ window.EULE = (function () {
       { id: 'elesen', n: 'Read & Listen', t: ['esatz', 'esatz', 'emal', 'emal', 'ehoer', 'ehoer'] }
     ]
   };
-  if (window.EULE) EULE.topicName = function (id) { var tp = topicById(id); return tp ? tp.n + ({ d: ' (Deutsch)', mu: ' (Musik)', en: ' (Englisch)' }[subjOf(id)] || ' (Mathe)') : id; };
+  if (window.EULE) EULE.topicName = function (id) { var tp = topicById(id); return tp ? tp.n + (tp.baust ? '' : ({ d: ' (Deutsch)', mu: ' (Musik)', en: ' (Englisch)' }[subjOf(id)] || ' (Mathe)')) : id; };
   var RULES_D = ['rg1', 'rg2', 'rg3', 'rg4', 'rg5', 'rg6'];
   function todayRule() { var d = new Date(); return RULES_D[Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / 86400000) % RULES_D.length]; }
   (function () {
@@ -6366,10 +6465,55 @@ window.EULE = (function () {
   }
   function weakLabels() { var st = loadStats(), out = []; Object.keys(TYPE_LABEL).forEach(function (t) { if (levelOf(st[t]) === 'weak') out.push(TYPE_LABEL[t]); }); return out; }
 
+  /* ---------- Fehler merken und später gezielt wiederholen ----------
+     Was nicht beim ersten Versuch klappt, kommt am nächsten Tag wieder dran.
+     Erst wenn es zweimal hintereinander sitzt, verschwindet es aus der Liste. */
+  var FK = 'eule-fehler', NO_RETRY = { lese: 1, blitz: 1, schlange: 1, gfrei: 1 };
+  function fehlerList() { var L = store(FK) || []; return L.filter(function (e) { return e && e.t && GEN[e.ty]; }); }
+  function noteTask(t, result) {
+    try {
+      if (t.items && window.EULE_REGELN) EULE_REGELN.record(t.items, result);
+      if (!t.key || NO_RETRY[t.type] || t.inp === 'free' || !GEN[t.type]) return;
+      var L = fehlerList(), dn = dayNum(), i = -1;
+      for (var j = 0; j < L.length; j++) if (L[j].k === t.key) { i = j; break; }
+      if (result === 'right') {
+        if (i >= 0) { L[i].ok = (L[i].ok || 0) + 1; L[i].due = dn + 3; if (L[i].ok >= 2) L.splice(i, 1); }
+      } else {
+        var c = JSON.parse(JSON.stringify(t)); delete c.retry; if (c.sub0 != null) { c.sub = c.sub0 || undefined; delete c.sub0; }
+        var e = { k: t.key, ty: t.type, t: c, d: dn, due: dn + 1, ok: 0, n: (i >= 0 ? L[i].n || 1 : 0) + 1 };
+        if (i >= 0) L.splice(i, 1);
+        L.push(e); if (L.length > 80) L = L.slice(-80);
+      }
+      store(FK, L);
+    } catch (e) {}
+  }
+  function retryCopy(e) { var c = JSON.parse(JSON.stringify(e.t)); c.retry = true; c.sub0 = c.sub || ''; c.sub = (c.sub ? c.sub + ' · ' : '') + 'Fehler von neulich'; return c; }
+  function dueFehler(typesOk) {
+    var dn = dayNum();
+    return fehlerList().filter(function (e) { return e.due <= dn && (!typesOk || typesOk[e.ty]); })
+      .sort(function (a, b) { return (b.n || 1) - (a.n || 1) || a.due - b.due; });
+  }
+  /* Typen, die noch nicht sitzen – die übt „Meine Baustellen“ */
+  function baustTypes() {
+    var st = loadStats(), w = [];
+    Object.keys(TYPE_LABEL).forEach(function (t) { if (!GEN[t] || NO_RETRY[t]) return; var lv = levelOf(st[t]); if (lv === 'weak') w.push(t, t, t); else if (lv === 'ok') w.push(t); });
+    return w;
+  }
+  function baustCount() { return dueFehler().length + uniq(baustTypes()).length; }
+  function buildBaust() {
+    var n = 10, tasks = [], keys = {};
+    dueFehler().slice(0, 6).forEach(function (e) { var c = retryCopy(e); if (!keys[c.key]) { keys[c.key] = 1; tasks.push(c); } });
+    var pool = baustTypes();
+    if (!pool.length) { var nx = nextTestTopic(); pool = nx ? uniq(topicById(nx).t) : ['sbk', 'sbl', 'mvn', 'mzw']; }
+    for (var tries = 0; tasks.length < n && tries < 80; tries++) { var task = GEN[pick(pool)](); if (keys[task.key]) continue; keys[task.key] = 1; tasks.push(task); }
+    return shuffle(tasks);
+  }
+
   /* ---------- Runde bauen ---------- */
   function buildRound(topicId) {
     var tp = topicById(topicId), st = loadStats(), n = tp.len || 10, tasks = [], keys = {};
     if (tp.cards || tp.bild || tp.routine) return [];
+    if (tp.baust) return buildBaust();
     var LVL = window.EULE ? EULE.lv(topicId) : 2;
     KA_EASY = LVL === 1;
     if (!tp.pro && !tp.lesen) { if (LVL === 1) n = Math.max(5, Math.round(n * 0.8)); else if (LVL === 3) n += 2; }
@@ -6378,7 +6522,7 @@ window.EULE = (function () {
     var sizes = { 10: [4, 3, 3], 4: [4], 2: [2] }[lesenCount] || (lesenCount ? [lesenCount] : []);
     sizes.forEach(function (sz) { var bl = lesenBlock(sz, used); used.push(bl.ti); lesenTasks = lesenTasks.concat(bl.tasks); });
     var rest = n - lesenTasks.length, types = tp.t.slice();
-    var W = { weak: 4, 'new': 2, ok: 2, good: 1 };
+    var W = { weak: 5, 'new': 2, ok: 2, good: 1 };
     KA_HARD = !!tp.hard || LVL === 3;
     var order = shuffle(uniq(types)).slice(0, rest);
     while (order.length < rest) {
@@ -6398,6 +6542,12 @@ window.EULE = (function () {
       tasks.push(task);
     });
     tasks = shuffle(tasks);
+    /* Fehler von neulich gezielt einstreuen (nicht in Probearbeiten – die sollen wie die echte Arbeit sein) */
+    if (!tp.probe && tasks.length >= 5) {
+      var okT = {}; types.forEach(function (x) { okT[x] = 1; });
+      dueFehler(okT).filter(function (e) { return !keys[e.k]; }).slice(0, tasks.length >= 12 ? 3 : 2).forEach(function (e, k) { tasks[k] = retryCopy(e); });
+      tasks = shuffle(tasks);
+    }
     if (lesenTasks.length) {
       if (!tasks.length) tasks = lesenTasks;
       else { var pos = rnd(1, tasks.length); tasks = tasks.slice(0, pos).concat(lesenTasks, tasks.slice(pos)); }
@@ -6597,7 +6747,7 @@ window.EULE = (function () {
     target.focus({ preventScroll: true }); return true;
   }
   function renderTask() {
-    var t = state.tasks[state.i], isMC = t.inp === 'mc';
+    var t = state.tasks[state.i], isMulti = t.inp === 'multi', isMC = t.inp === 'mc' || isMulti;
     el.tag.className = 'tag' + (t.deu ? ' d' : '') + (t.mus ? ' mu' : '') + (t.en ? ' en' : '') + (t.sach ? ' su' : '') + (t.type === 'sach' ? ' pro' : '');
     el.tag.textContent = TYPE_LABEL[t.type] + (t.sub ? ' · ' + t.sub : '');
     el.question.innerHTML = t.q;
@@ -6608,7 +6758,13 @@ window.EULE = (function () {
     var showOpts = isMC && (!t.blitz || state.flashed);
     el.options.className = 'options' + (t.words ? ' words' : '') + (t.grid3 ? ' grid3' : '') + (t.grid2 ? ' grid2' : '');
     if (showOpts) {
-      el.options.innerHTML = t.opts.map(function (o, idx) {
+      var sel = state.sel || [];
+      if (isMulti) el.options.innerHTML = t.opts.map(function (o, idx) {
+        var on = sel.indexOf(idx) >= 0, cls = 'opt multi' + (on ? ' sel' : '');
+        if (state.resolved) cls += o.ok ? (on ? ' good' : ' good missed') : (on ? ' bad' : '');
+        return '<button type="button" class="' + cls + '" data-idx="' + idx + '" aria-pressed="' + on + '"' + (state.resolved ? ' disabled' : '') + '><span class="mk" aria-hidden="true">' + (on ? '✕' : '') + '</span><span>' + o.t + '</span></button>';
+      }).join('') + (state.resolved ? '' : '<button type="button" class="btn primary multi-check" data-multi-check>Prüfen</button>');
+      else el.options.innerHTML = t.opts.map(function (o, idx) {
         var cls = 'opt' + (t.center ? ' center' : '') + (t.mono ? ' mono' : '');
         var dis = state.resolved || state.chosen.indexOf(idx) >= 0;
         if (state.resolved && o.ok) cls += ' good';
@@ -6663,7 +6819,7 @@ window.EULE = (function () {
       if (state.newRecord) { rec[state.topic] = right; store(K.rec, rec); best = right; }
       state.recordSaved = true; saveRound();
     }
-    var nm = topicById(state.topic).n + ({ d: ' (Deutsch)', mu: ' (Musik)', en: ' (Englisch)' }[subjOf(state.topic)] || ' (Mathe)');
+    var nm = topicById(state.topic).n + (topicById(state.topic).baust ? '' : ({ d: ' (Deutsch)', mu: ' (Musik)', en: ' (Englisch)' }[subjOf(state.topic)] || ' (Mathe)'));
     el.record.textContent = state.newRecord ? 'Neuer Rekord bei „' + nm + '“: ' + right + ' von ' + n + '!' : 'Dein Rekord bei „' + nm + '“: ' + (best != null ? best : right) + ' von ' + n;
   }
 
@@ -6830,6 +6986,7 @@ window.EULE = (function () {
     state.results[state.i] = result;
     var t = state.tasks[state.i];
     recordStat(t.type, result);
+    noteTask(t, result);
     if (t.blitz) {
       var s = settings();
       s.blitzMs = result === 'right' ? Math.max(300, s.blitzMs - 60) : Math.min(1600, s.blitzMs + 120);
@@ -6853,6 +7010,12 @@ window.EULE = (function () {
     return { a: ma, b: mb, n: d[0][0] };
   }
   function words(s) { return s.replace(/[„“"»«]/g, '').trim().split(/\s+/).map(function (w) { return w.replace(/[.!?]+$/, ''); }).filter(Boolean); }
+  function levDist(a, b) {
+    var m = a.length, n = b.length, d = [], i, j;
+    for (i = 0; i <= m; i++) { d[i] = [i]; } for (j = 1; j <= n; j++) d[0][j] = j;
+    for (i = 1; i <= m; i++) for (j = 1; j <= n; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    return d[m][n];
+  }
   function checkText(t, raw) {
     if (t.ci) { raw = String(raw).toLowerCase().replace(/^(a|an|the)\s+/, ''); }
     var tw = words(t.ci ? t.ans.toLowerCase() : t.ans), iw = words(raw), L = lcs(tw, iw);
@@ -6863,10 +7026,23 @@ window.EULE = (function () {
   }
   function check() {
     var t = state.tasks[state.i];
-    if (state.resolved || t.inp === 'mc') return;
+    if (state.resolved || t.inp === 'mc' || t.inp === 'multi') return;
     var raw = el.answer.value.trim();
     state.input = raw;
     if (raw === '') { state.feedback = { tone: 'tip', title: t.inp === 'text' ? (t.word ? 'Schreibe zuerst das Wort.' : 'Schreibe zuerst den Satz.') : 'Bitte gib eine Antwort ein.', text: '' }; renderFeedback(); if (!(isSchrift(t) && focusSchrift())) el.answer.focus(); return; }
+    if (t.accept) {
+      var nrm = function (x) { return String(x).toLowerCase().replace(/[.!?,;:„“"']/g, '').replace(/\s+/g, ' ').trim(); };
+      var exact = t.accept.some(function (a) { return a === raw.replace(/[.!]+$/, ''); });
+      var loose = !exact && t.accept.filter(function (a) { var x = nrm(a), y = nrm(raw); return x === y || (x.length >= 5 && levDist(x, y) <= 1); })[0];
+      if (exact || loose) {
+        var tx = (t.full ? '<b>' + t.full + '</b>' : t.ex) + (loose ? '<br>Achte noch auf die Schreibweise: <b>' + loose + '</b>' : '');
+        resolve(state.attempts === 0 ? 'right' : 'second', { tone: 'good', title: pick(PRAISE), text: tx }); return;
+      }
+      state.attempts++;
+      if (state.attempts === 1 && !isProbe()) { state.hintUsed = true; state.feedback = { tone: 'tip', title: 'Noch nicht.', text: 'Tipp: ' + t.hint + ' Versuch es nochmal!' }; renderTask(); el.answer.focus(); el.answer.select(); return; }
+      resolve('wrong', { tone: 'bad', title: 'Das war knifflig!', text: 'Richtig ist: <b>' + t.ans + '</b>', steps: [t.full ? 'Die ganze Regel: <b>' + t.full + '</b>' : t.ex] });
+      return;
+    }
     if (t.inp === 'text') {
       var r = checkText(t, raw);
       if (r.ok) { resolve(state.attempts === 0 ? 'right' : 'second', { tone: 'good', title: pick(PRAISE), text: t.word ? t.ex : 'Alle Wörter richtig geschrieben.' }); return; }
@@ -6914,6 +7090,12 @@ window.EULE = (function () {
   }
   function choose(idx) {
     var t = state.tasks[state.i];
+    if (t.inp === 'multi') {
+      if (state.resolved) return;
+      var sl = state.sel = state.sel || [], at = sl.indexOf(idx);
+      if (at >= 0) sl.splice(at, 1); else sl.push(idx);
+      saveRound(); renderTask(); return;
+    }
     if (state.resolved || state.chosen.indexOf(idx) >= 0) return;
     var ok = t.opts[idx].ok;
     if (ok) { resolve(state.chosen.length === 0 ? 'right' : 'second', { tone: 'good', title: pick(PRAISE), text: t.ex }); return; }
@@ -6926,13 +7108,32 @@ window.EULE = (function () {
     }
     resolve('wrong', { tone: 'bad', title: 'Nicht ganz.', text: t.ex });
   }
+  /* Ankreuzen mit mehreren richtigen Antworten – wie in der echten Überprüfung */
+  function checkMulti() {
+    var t = state.tasks[state.i]; if (state.resolved || t.inp !== 'multi') return;
+    var sl = state.sel || [];
+    if (!sl.length) { state.feedback = { tone: 'tip', title: 'Kreuze zuerst an.', text: 'Tippe die richtigen Antworten an. Es können mehrere stimmen.' }; renderFeedback(); return; }
+    var missing = 0, extra = 0;
+    t.opts.forEach(function (o, i) { var on = sl.indexOf(i) >= 0; if (o.ok && !on) missing++; if (!o.ok && on) extra++; });
+    if (!missing && !extra) { resolve(state.attempts === 0 ? 'right' : 'second', { tone: 'good', title: pick(PRAISE), text: t.ex }); return; }
+    state.attempts++;
+    if (state.attempts === 1 && !isProbe()) {
+      state.hintUsed = true;
+      var bits = [];
+      if (extra) bits.push(extra === 1 ? 'Ein Kreuz ist falsch.' : extra + ' Kreuze sind falsch.');
+      if (missing) bits.push(missing === 1 ? 'Ein richtiges Kreuz fehlt noch.' : missing + ' richtige Kreuze fehlen noch.');
+      state.feedback = { tone: 'tip', title: 'Noch nicht ganz.', text: bits.join(' ') + ' Tipp: ' + t.hint };
+      saveRound(); renderTask(); return;
+    }
+    resolve('wrong', { tone: 'bad', title: 'Nicht ganz.', text: t.ex });
+  }
   function next() {
     if (state.i >= state.n - 1) { state.done = true; try { planDone(state.topic, countRight() / state.n); } catch (e) {} state.endNews = newsHtml(award(null, true), 'li'); saveRound(); render(); if (countRight() >= Math.ceil(state.n * 0.8)) confetti(); el.againBtn.focus({ preventScroll: true }); return; }
-    state.i++; state.attempts = 0; state.hintUsed = false; state.resolved = false; state.feedback = null; state.chosen = []; state.input = ''; state.carry = []; state.parts = {}; state.flashed = false; state.order = []; state.oerr = null; state.ores = null;
+    state.i++; state.attempts = 0; state.hintUsed = false; state.resolved = false; state.feedback = null; state.chosen = []; state.sel = []; state.input = ''; state.carry = []; state.parts = {}; state.flashed = false; state.order = []; state.oerr = null; state.ores = null;
     saveRound(); render();
     el.card.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     var t = state.tasks[state.i];
-    if (t.inp !== 'mc' && t.inp !== 'order' && t.inp !== 'free') el.answer.focus({ preventScroll: true });
+    if (t.inp !== 'mc' && t.inp !== 'multi' && t.inp !== 'order' && t.inp !== 'free') el.answer.focus({ preventScroll: true });
   }
   function render() {
     renderChrome(); renderPoints(); renderLevels();
@@ -7038,7 +7239,7 @@ window.EULE = (function () {
   el.hintBtn.addEventListener('click', hint);
   el.nextBtn.addEventListener('click', next);
   el.againBtn.addEventListener('click', function () { newRound(state.topic); render(); });
-  el.options.addEventListener('click', function (e) { var b = e.target.closest('[data-idx]'); if (b) choose(+b.getAttribute('data-idx')); });
+  el.options.addEventListener('click', function (e) { if (e.target.closest('[data-multi-check]')) { checkMulti(); return; } var b = e.target.closest('[data-idx]'); if (b) choose(+b.getAttribute('data-idx')); });
   /* Geschichte schreiben: Satz-Baukasten und Schreibwerkstatt */
   el.visual.addEventListener('click', function (e) {
     var b = e.target.closest('[data-act]'); if (!b || !state) return;
@@ -7198,20 +7399,17 @@ window.EULE = (function () {
     { id: 'b12', c: 'bade', q: 'Wann darfst du ins Wasser springen?', a: 'Nur, wenn es tief genug ist.' },
     { id: 'b13', c: 'bade', q: 'Was gilt beim Hilferufen?', a: 'Rufe nie um Hilfe, wenn du nicht wirklich in Gefahr bist – aber hilf anderen, wenn sie Hilfe brauchen.' },
     { id: 'b14', c: 'bade', q: 'Was gilt für deinen Magen?', a: 'Gehe niemals mit ganz vollem oder ganz leerem Magen baden.' },
-    { id: 'e1', c: 'kraft', q: 'Warum verhältst du dich bei Erschöpfung kraftsparend?', a: 'Das erhöht die Überlebenschance.' },
-    { id: 'e2', c: 'kraft', q: 'Wie geht der „tote Mann“ (Ausruhen in Rückenlage)?', a: 'Flach ausgestreckt auf den Rücken legen. Der Kopf taucht bis zu den Ohren ins Wasser, das Kinn wird leicht zur Brust gezogen. Hände und Beine halten mit wenig Kraft das Gleichgewicht.' },
-    { id: 'e3', c: 'kraft', q: 'Wie geht Wassertreten?', a: 'Arme und Beine absinken lassen. Die Hände machen leicht angestellt kreisförmige Bewegungen an der Oberfläche, die Füße gehen im Wechsel auf und ab: aufwärts gestreckt, abwärts Druck mit der Fußsohle.' },
-    { id: 'k1', c: 'krampf', q: 'Wann entstehen Krämpfe im Wasser?', a: 'Bei langem Aufenthalt im Wasser, bei Unterkühlung und bei Überanstrengung. Der Muskel zieht sich zusammen, wird unbeweglich und schmerzt.' },
-    { id: 'k2', c: 'krampf', q: 'Was tust du bei einem Krampf zuerst?', a: 'Ruhe bewahren und versuchen, zum Ufer zu schwimmen. Klappt das nicht: Krampf im Wasser durch Dehnen lösen – Spannung und Entspannung im Wechsel, bis der Schmerz nachlässt.' },
-    { id: 'k3', c: 'krampf', q: 'Wadenkrampf – was hilft?', a: 'Auf den Rücken legen, Fußspitze fassen und zum Körper ziehen. Die freie Hand drückt auf die Kniescheibe, damit das Bein gestreckt bleibt.' },
-    { id: 'k4', c: 'krampf', q: 'Oberschenkelkrampf (Vorderseite) – was hilft?', a: 'Auf den Rücken legen, den Unterschenkel am Fußgelenk fassen und gegen den Oberschenkel drücken. Dabei im Hüftgelenk überstrecken.' },
-    { id: 'k5', c: 'krampf', q: 'Magen- oder Bauchdeckenkrampf – was hilft?', a: 'Auf den Rücken legen, beide Beine in die Hocke an die Brust ziehen (Hände unterhalb des Knies), dann den Körper ruckartig strecken.' },
-    { id: 'k6', c: 'krampf', q: 'Fingerkrampf – was hilft?', a: 'Finger zur Faust schließen und ruckartig strecken – im Wechsel.' },
-    { id: 'k7', c: 'krampf', q: 'Was tust du nach einem Krampf?', a: 'Das Wasser verlassen, weil der Krampf oft wiederkommt. An Land das Körperteil massieren und bürsten, damit es warm und gut durchblutet wird.' }
+    { id: 's1', c: 'bad2', q: 'Was machst du mit deinem Schmuck?', a: 'Schmuck lege ich vor dem Schwimmen ab – beim Schwimmen trage ich keinen.' },
+    { id: 's2', c: 'bad2', q: 'Warum rennst du nicht am Beckenrand?', a: 'Renne nicht auf nassen, glatten Böden. Du kannst schnell ausrutschen und hinfallen.' },
+    { id: 's3', c: 'bad2', q: 'Die Sonne scheint stark. Was tust du?', a: 'Gut eincremen und im Schatten aufhalten.' },
+    { id: 's4', c: 'bad2', q: 'Wie verhältst du dich beim Spielen im Wasser?', a: 'Nimm Rücksicht auf andere, besonders auf Kinder und Ältere. Niemanden untertauchen oder ins Wasser stoßen.' },
+    { id: 's5', c: 'bad2', q: 'Was prüfst du, bevor du vom Sprungbrett springst?', a: 'Ob das Wasser frei ist. Im Unterricht warte ich, bis die Lehrerin das Zeichen gibt.' },
+    { id: 's6', c: 'bad2', q: 'Wohin kommt dein Müll?', a: 'In den Mülleimer. Halte das Wasser und seine Umgebung sauber.' },
+    { id: 's7', c: 'bad2', q: 'Darfst du Luftmatratzen als Schwimmhilfe benutzen?', a: 'Nein. Benutze keine aufblasbaren Hilfsmittel wie Luftmatratzen als Schwimmhilfe.' }
   ];
   var FCK = { st: 'eule-karten', run: 'eule-karten-runde', cat: 'eule-karten-thema' };
   var DECKS = {
-    su: { cards: FC_SU, cat: { bade: 'Baderegeln', kraft: 'Toter Mann & Wassertreten', krampf: 'Krämpfe' }, sfx: '-su', badge: 'sach1', intro: function (n) { return 'Zum Sachtest Schwimmen: Frage lesen, Antwort laut sagen, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini springt vor Freude ins Wasser!' },
+    su: { cards: FC_SU, cat: { bade: 'Baderegeln', bad2: 'Im Schwimmbad' }, sfx: '-su', badge: 'sach1', intro: function (n) { return 'Zum Sachtest Schwimmen: Frage lesen, Antwort laut sagen, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini springt vor Freude ins Wasser!' },
     mu: { cards: FC, cat: FC_CAT, sfx: '', badge: 'musik1', intro: function (n) { return 'Zum Musiktest: alles aus deinem Heft auf ' + n + ' Karten.'; }, cheer: 'Fini klatscht im Takt!' },
     en: { cards: FC_EN, cat: { tiere: 'Wild animals', farben: 'Colours', zahlen: 'Zahlen 1–10', saetze: 'Sätze' }, sfx: '-en', badge: 'englisch1', intro: function (n) { return 'Zum Englischtest am Freitag: Deutsch lesen, Englisch laut sagen und auf einen Zettel schreiben. ' + n + ' Karten.'; }, cheer: 'Fini sagt: Well done!' },
     gs: { cards: FC_GS, cat: { aufbau: 'Aufbau', satz: 'Satzbau', rede: 'Wörtliche Rede', buch: 'Wie im Buch' }, sfx: '-gs', badge: 'deutsch1', intro: function (n) { return 'Für die Klassenarbeit „Geschichte schreiben“: Frage lesen, Antwort laut sagen, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini ist stolz auf dich!' },
@@ -7387,7 +7585,7 @@ window.EULE = (function () {
     mu: { n: 'Musik', go: 'Musik üben' }, en: { n: 'Englisch', go: 'Englisch üben' }, su: { n: 'Sachunterricht', go: 'Sachunterricht üben' }
   };
   var ARBEITEN = [
-    { s: 'su', n: 'Sachunterricht', what: 'Sachtest Schwimmen: Baderegeln und Selbstrettung', topic: 'sutest' },
+    { s: 'su', n: 'Sachunterricht', what: 'Sachtest Schwimmen: Baderegeln', topic: 'sutest' },
     { s: 'm', n: 'Mathe', what: 'Mathe-Arbeit: Zahlen bis 1 Million, Zahlwörter, Zahlendiktat, Kreis', topic: 'ka1m' },
     { s: 'd', n: 'Deutsch', what: 'Deutsch-Arbeit: Rechtschreibung', topic: 'dprobe' },
     { s: 'mu', n: 'Musik', what: 'Musiktest: Noten und Pausen', topic: 'mtest' }
@@ -7398,15 +7596,17 @@ window.EULE = (function () {
   var _resolve = resolve;
   resolve = function (result, feedback) {
     try {
-      var d = store(HK.days) || {}, dn = dayNum(), s = subjOf(state.topic);
+      var d = store(HK.days) || {}, dn = dayNum(), s = subjOf(state.topic), tq = state.tasks[state.i] || {};
+      if (topicById(state.topic).baust) s = tq.deu ? 'd' : tq.mus ? 'mu' : tq.en ? 'en' : tq.sach ? 'su' : 'm';
       d[dn] = d[dn] || {}; d[dn][s] = (d[dn][s] || 0) + 1;
       Object.keys(d).forEach(function (k) { if (+k < dn - 30) delete d[k]; });
       store(HK.days, d);
     } catch (e) {}
     return _resolve(result, feedback);
   };
+  function nextTestTopic() { var d = arbeitDates(), best = null, bd = 99; ARBEITEN.forEach(function (a) { if (d[a.s]) { var n = daysUntil(d[a.s]); if (n >= 1 && n < bd) { bd = n; best = a.topic; } } }); return best; }
   function iconFor(s) { var b = document.querySelector('.subjects [data-s="' + s + '"] svg'); return b ? b.outerHTML : ''; }
-  function subjTypes(s) { var o = {}; TOPICS[s].forEach(function (t) { (t.t || []).forEach(function (x) { o[x] = 1; }); }); return Object.keys(o); }
+  function subjTypes(s) { var o = {}; TOPICS[s].forEach(function (t) { if (t.baust) return; (t.t || []).forEach(function (x) { o[x] = 1; }); }); return Object.keys(o); }
   function arbeitDates() { var d = store(HK.dates) || {}; if (!d._mu1911) { if (!d.mu) d.mu = '2026-11-19'; d._mu1911 = 1; store(HK.dates, d); }
     /* Termine von Emilias Klasse als Vorschlag – jede Familie kann sie bei „Für Eltern“ für ihre Klasse ändern */
     if (!d._k2611) { if (!d.su) d.su = '2026-11-25'; if (!d.m || daysUntil(d.m) < 0) d.m = '2026-11-26'; d._k2611 = 1; store(HK.dates, d); }
@@ -7470,7 +7670,7 @@ window.EULE = (function () {
     var d = planLog(), dn = dayNum(), L = d[dn] = d[dn] || {}, tp = topicById(topic), s = subjOf(topic);
     L[topic] = (L[topic] || 0) + 1;
     if (topic === todayRule()) L.rsheute = (L.rsheute || 0) + 1;
-    if (!tp.probe && !tp.cards) L['s-' + s] = (L['s-' + s] || 0) + 1;
+    if (!tp.probe && !tp.cards && !tp.baust) L['s-' + s] = (L['s-' + s] || 0) + 1;
     Object.keys(d).forEach(function (k) { if (+k < dn - 40) delete d[k]; });
     store(PK, d);
     if (tp.probe) { var R = probeRes(); R[topic] = R[topic] || []; R[topic].push({ d: dn, g: +gradeOf(ratio)[0] }); store(PRK, R); }
@@ -7512,7 +7712,7 @@ window.EULE = (function () {
       items.push({ s: 'su', d: D.su, title: 'Sachunterricht: ' + tps.n.replace(' · ', ' – ') + (ps.again ? ' noch einmal' : ''), sub: 'Wie im Test: ohne Tipps, mit Note · ca. 10 Min', min: 10, done: ps.done, btn: ps.done ? 'Nochmal' : 'Schreiben', topic: ps.id });
       bonus.push(['Schwimm-Karten', 'sukarten']);
     } else if (near('su', 10)) {
-      items.push({ s: 'su', d: D.su, title: 'Sachunterricht: Training Schwimmen', sub: 'Baderegeln, toter Mann, Krämpfe · 1 Runde · ca. 10 Min', min: 10, done: !!L['s-su'], btn: L['s-su'] ? 'Nochmal' : 'Los', topic: 'sutest' });
+      items.push({ s: 'su', d: D.su, title: 'Sachunterricht: Training Schwimmen', sub: 'Ankreuzen und Lückentext wie im Test · 1 Runde · ca. 10 Min', min: 10, done: !!L['s-su'], btn: L['s-su'] ? 'Nochmal' : 'Los', topic: 'sutest' });
       bonus.push(['Schwimm-Karten', 'sukarten']);
     }
     /* Deutsch: jeden Tag eine Regel, kurz vor einer Arbeit eine Probe */
@@ -7529,6 +7729,9 @@ window.EULE = (function () {
     } else items.push({ s: 'm', d: D.m, title: near('m', 14) ? 'Mathe: Klassenarbeit-Training' : 'Mathe: Gemischt', sub: (near('m', 14) ? 'Zahlen bis 1 Million, Zahlendiktat, Kreis' : 'Von jedem Thema etwas') + ' · 1 Runde · ca. 10 Min', min: 10, done: !!L['s-m'], btn: L['s-m'] ? 'Nochmal' : 'Los', topic: near('m', 14) ? 'ka1m' : 'mmix' });
     if (near('m', 14)) bonus.push(['Kreis & Zirkel – danach 3 Kreise ins Heft (r = 3 cm, d = 8 cm, r = 5 cm)', 'kreis']);
     bonus.push(['Englisch', 'etiere']);
+    /* Meine Baustellen: jeden Tag kurz das, was noch nicht sitzt */
+    var bz = dueFehler().length;
+    if (bz || uniq(baustTypes()).length) items.push({ s: 'bs', d: null, title: 'Meine Baustellen', sub: (bz ? bz + ' Fehler von neulich und alles, was noch wackelt' : 'Fini übt mit dir, was noch nicht sitzt') + ' · ca. 5 Min', min: 5, done: !!L.baust, btn: L.baust ? 'Nochmal' : 'Los', topic: 'baust' });
     /* Was als Nächstes geschrieben wird, kommt zuerst */
     items.sort(function (a, b) { var x = a.d !== null && a.d >= 1 ? a.d : 99, y = b.d !== null && b.d >= 1 ? b.d : 99; return x - y; });
     var up = ['m', 'd', 'mu', 'su'].filter(function (s) { return D[s] !== null && D[s] >= 0; }).sort(function (a, b) { return D[a] - D[b]; });
@@ -7580,6 +7783,59 @@ window.EULE = (function () {
     b.addEventListener('click', function () { var n = cur() === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); try { localStorage.setItem('eule-thema', n); } catch (e) {} paint(); });
     paint();
   })();
+
+  /* ---------- Wochenbericht für Eltern ----------
+     Nur auf einem Gerät aktiv, das einmal mit einem persönlichen Link geöffnet wurde (…/?bericht=CODE).
+     Dann schickt die App nach jeder Runde eine kurze Zusammenfassung des Lernstands (keine Antworten-Protokolle,
+     nur Themen, Fehler-Beispiele und Übungstage). Alle anderen Geräte schicken nichts. */
+  (function () {
+    var BK = 'eule-bericht-id';
+    function bid() { var v = store(BK); return typeof v === 'string' && /^[a-z0-9-]{8,60}$/.test(v) ? v : ''; }
+    try {
+      var m = location.search.match(/[?&]bericht=([a-z0-9-]{8,60})/i);
+      if (m) { store(BK, m[1].toLowerCase()); history.replaceState(null, '', location.pathname); setTimeout(function () { planToast('✓ Wochenbericht für Eltern ist auf diesem Gerät eingeschaltet.'); send(true); }, 1200); }
+      if (/[?&]bericht=aus/i.test(location.search)) { localStorage.removeItem(BK); history.replaceState(null, '', location.pathname); }
+    } catch (e) {}
+    function plain(h) { return String(h == null ? '' : h).replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(); }
+    function answerOf(t) {
+      if (t.opts) { var ok = t.opts.filter(function (o) { return o.ok; }).map(function (o) { return plain(o.t); }); if (ok.length) return ok.join(' + '); }
+      if (t.full) return plain(t.full);
+      if (t.ans != null) return plain(t.inp === 'time' && typeof tUhr === 'function' ? tUhr(t.ans) : t.ans) + (t.unit ? ' ' + t.unit : '');
+      return '';
+    }
+    function groupOf(type) { for (var i = 0; i < GROUPS.length; i++) if (GROUPS[i].t.indexOf(type) >= 0) return GROUPS[i].n; return ''; }
+    function snapshot() {
+      var st = loadStats(), dn = dayNum(), days = store(HK.days) || {}, plan = planLog(), pts = loadPts();
+      var types = [];
+      Object.keys(TYPE_LABEL).forEach(function (t) { var e = st[t]; if (!e || !e.h || !e.h.length) return; types.push({ k: t, l: TYPE_LABEL[t], g: groupOf(t), lv: levelOf(e), h: e.h.slice(-8).map(function (r) { return r === 'right' ? 'r' : r === 'second' ? 's' : 'f'; }).join(''), w: !!e.wasWeak }); });
+      var act = [];
+      for (var i = 13; i >= 0; i--) { var k = dn - i, dc = days[k] || {}; act.push({ d: new Date((k * 86400000) + 43200000).toISOString().slice(0, 10), c: dc, p: !!((plan[k] || {}).plan) }); }
+      var regeln = [];
+      if (window.EULE_REGELN) { var rs = EULE_REGELN.stats(); Object.keys(EULE_REGELN.list).forEach(function (id) { var e = rs[id]; if (e && e.h && e.h.length) regeln.push({ r: EULE_REGELN.list[id], lv: EULE_REGELN.level(e), h: e.h.slice(-6).map(function (r) { return r === 'right' ? 'r' : r === 'second' ? 's' : 'f'; }).join('') }); }); }
+      var fehler = fehlerList().slice().sort(function (a, b) { return (b.n || 1) - (a.n || 1) || b.d - a.d; }).slice(0, 15).map(function (e) {
+        return { l: TYPE_LABEL[e.ty] || e.ty, q: plain(e.t.q).slice(0, 180), a: answerOf(e.t).slice(0, 140), n: e.n || 1, ok: e.ok || 0 };
+      });
+      var probes = [], R = probeRes();
+      Object.keys(R).forEach(function (id) { (R[id] || []).forEach(function (x) { if (x.d >= dn - 13) probes.push({ n: topicById(id).n, d: new Date((x.d * 86400000) + 43200000).toISOString().slice(0, 10), g: x.g }); }); });
+      var dates = arbeitDates(), tests = ARBEITEN.filter(function (a) { return dates[a.s] && daysUntil(dates[a.s]) >= 0; }).map(function (a) { return { w: a.what, d: dates[a.s] }; });
+      return { v: 1, t: Date.now(), name: window.EULE ? EULE.name() : '', act: act, types: types, regeln: regeln, fehler: fehler, offen: fehlerList().length, probes: probes, tests: tests, sterne: pts.total };
+    }
+    var lastSend = 0;
+    function send(force) {
+      var id = bid(); if (!id) return;
+      if (!force && Date.now() - lastSend < 20000) return;
+      lastSend = Date.now();
+      try {
+        var body = JSON.stringify({ id: id, snap: snapshot() });
+        fetch('/api/bericht', { method: 'POST', headers: { 'content-type': 'application/json' }, body: body, keepalive: body.length < 60000 }).catch(function () {});
+      } catch (e) {}
+    }
+    var _pd = planDone;
+    planDone = function (topic, ratio) { var r = _pd(topic, ratio); setTimeout(function () { send(true); }, 300); return r; };
+    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') send(false); });
+    if (bid()) setTimeout(function () { send(false); }, 4000);
+    window.EULE_BERICHT = { on: function () { return !!bid(); }, now: function () { send(true); }, snap: snapshot };
+  })();
   function showHome(on) {
     document.body.classList.toggle('on-home', on);
     store(HK.home, on ? 'home' : 'ueben');
@@ -7609,12 +7865,12 @@ window.EULE = (function () {
     d: [['Grammatik: Die 4 Fälle', ['nomi']], ['Rechtschreib-Regeln', ['rsheute', 'rg1', 'rg2', 'rg3', 'rg4', 'rg5', 'rg6', 'rskarten']], ['Diktat & Probe', ['dik', 'dprobe', 'det']],
         ['Mehr üben', ['rs', 'gk', 'wb', 'adj', 'dtrain', 'lwtest', 'lwkarten']], ['Lesen', ['les', 'blz']], ['Alles durcheinander', ['dmix', 'dcheck']]],
     mu: [['Für den Musiktest', ['mtest', 'mprobe1', 'mprobe2', 'mprobe3', 'mprobe4', 'mkarten']], ['Themen', ['mupause', 'muteil', 'muwert', 'musilb', 'muzahl', 'muhoer']], ['Alles durcheinander', ['mumix']]],
-    su: [['Für den Sachtest Schwimmen', ['sutest', 'sukarten', 'suprobe1', 'suprobe2']], ['Themen', ['subade', 'suselbst', 'sukrampf']]],
+    su: [['Für den Sachtest: Baderegeln', ['sutest', 'sukarten', 'suprobe1', 'suprobe2']], ['Wie in der Überprüfung', ['suank', 'suluecke', 'subade']]],
     en: [['Für den Englischtest', ['etest', 'ekarten']], ['Themen', ['etiere', 'efarben', 'eschreib', 'elesen']]]
   };
   var FACH_DESC = {
     ka1m: 'Vorgänger & Nachfolger, Zahlwörter, Zahlendiktat, Kreis', zprobe1: 'Ohne Tipps, mit Note', zprobe2: 'Alles wie in der Arbeit, mit Note', zvn: 'Vorgänger, Nachfolger, Nachbarzahlen bis 1 Million', zzw: 'Zahlwörter lesen und selbst schreiben', zdik: 'Zahl anhören und mit Ziffern schreiben', kreis: 'Mittelpunkt, Radius, Durchmesser, Zirkel einstellen',
-    sutest: 'Baderegeln, toter Mann, Wassertreten, Krämpfe', sukarten: 'Alle Regeln zum Umdrehen', suprobe1: 'Ohne Tipps, mit Note', suprobe2: 'Alles wie im Test, mit Note', subade: 'Welche Regel passt? Richtig oder falsch?', suselbst: 'Kraft sparen, wenn du erschöpft bist', sukrampf: 'Wade, Oberschenkel, Bauch, Finger',
+    sutest: 'Ankreuzen, Lückentext, Situationen', sukarten: 'Alle Baderegeln zum Umdrehen', suprobe1: 'Ohne Tipps, mit Note', suprobe2: 'Alles wie im Test, mit Note', suank: 'Es können mehrere Antworten stimmen', suluecke: 'Das fehlende Wort selbst schreiben', subade: 'Situationen und Richtig oder falsch',
     ka: 'Zahlen bis 100 000: Stellenwerte, Runden, Zahlenstrahl', kaprobe: 'Wie eine echte Arbeit, mit 20 Aufgaben', mcheck: 'Knifflige Aufgaben zum Knobeln',
     pak: 'Plus, minus, mal und geteilt', uhr: 'Uhrzeit, Zeitspannen, Zeiteinheiten', gro: 'Umwandeln: km, m, cm, kg, g', reg: 'Punkt vor Strich, Klammern',
     zahl: 'Stellenwerte, Runden, Zahlenstrahl', schr: 'Schriftlich rechnen mit allen vier Rechenarten', kopf: 'Schnell im Kopf rechnen', geo: 'Flächen, Körper, Netze, Spiegeln',
