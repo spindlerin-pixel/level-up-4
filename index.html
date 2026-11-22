@@ -1631,6 +1631,10 @@ body.on-home #routView, body.on-fach #routView { display: none !important; }
         <label class="auto-upd" for="autoUpd"><input type="checkbox" id="autoUpd" checked> Automatisch aktualisieren: Beim Öffnen der App schaut sie nach einer neuen Version und lädt sie von selbst.</label>
         <p class="lv-legend" id="autoUpdInfo" style="margin:4px 0 0"></p>
       </div>
+      <div class="setting" id="berichtBox"><b>Wochenbericht für Eltern</b>
+        <p class="lv-legend" style="margin:0" id="berichtInfo">Code eingeben, dann schickt dieses Gerät den Lernstand für den Wochenbericht. Nur auf dem Gerät nötig, auf dem geübt wird.</p>
+        <div class="actions" style="margin-top:6px" id="berichtForm"><input type="text" id="berichtCode" placeholder="Code, z. B. OTTER1234" autocapitalize="characters" autocomplete="off" spellcheck="false" style="flex:1;min-width:0;font-size:1rem;padding:8px 10px;border-radius:10px;border:2px solid var(--line, #ccc);background:var(--surface);color:var(--ink)"><button type="button" class="btn small" id="berichtBtn">Einschalten</button></div>
+      </div>
       <div class="setting" id="kaDates"><b>Termine der Klassenarbeiten</b>
         <p class="lv-legend" style="margin:0">Dann zählt der Countdown auf der Startseite die Tage. Leer lassen, wenn noch kein Termin feststeht.</p>
         <div id="kaDateList"></div>
@@ -7791,9 +7795,26 @@ window.EULE = (function () {
   (function () {
     var BK = 'eule-bericht-id';
     function bid() { var v = store(BK); return typeof v === 'string' && /^[a-z0-9-]{8,60}$/.test(v) ? v : ''; }
+    /* Kurzer Code (z. B. OTTER1234) oder voller Code aus dem Link */
+    function normCode(c) { c = String(c || '').toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9-]/g, ''); if (!c) return ''; if (!/^(lu4-|emilia-)/.test(c)) c = 'lu4-' + c; return /^[a-z0-9-]{8,60}$/.test(c) ? c : ''; }
+    function showBox() {
+      var info = document.getElementById('berichtInfo'), form = document.getElementById('berichtForm'), btn = document.getElementById('berichtBtn'), inp = document.getElementById('berichtCode');
+      if (!info) return;
+      var id = bid();
+      if (id) { info.innerHTML = '✓ <b>Eingeschaltet</b> (Code ' + id.replace(/^lu4-/, '').toUpperCase() + '). Nach jeder Runde wird der Lernstand für den Wochenbericht geschickt.'; inp.hidden = true; btn.textContent = 'Ausschalten'; }
+      else { info.textContent = 'Code eingeben, dann schickt dieses Gerät den Lernstand für den Wochenbericht. Nur auf dem Gerät nötig, auf dem geübt wird.'; inp.hidden = false; btn.textContent = 'Einschalten'; }
+    }
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest || !e.target.closest('#berichtBtn')) return;
+      if (bid()) { try { localStorage.removeItem(BK); } catch (x) {} showBox(); return; }
+      var inp = document.getElementById('berichtCode'), c = normCode(inp.value);
+      if (!c) { inp.focus(); inp.style.borderColor = '#d04a3a'; return; }
+      store(BK, c); inp.value = ''; showBox(); planToast('✓ Wochenbericht ist auf diesem Gerät eingeschaltet.'); send(true);
+    });
+    setTimeout(showBox, 0);
     try {
       var m = location.search.match(/[?&]bericht=([a-z0-9-]{8,60})/i);
-      if (m) { store(BK, m[1].toLowerCase()); history.replaceState(null, '', location.pathname); setTimeout(function () { planToast('✓ Wochenbericht für Eltern ist auf diesem Gerät eingeschaltet.'); send(true); }, 1200); }
+      if (m && normCode(m[1])) { store(BK, normCode(m[1])); history.replaceState(null, '', location.pathname); setTimeout(function () { planToast('✓ Wochenbericht für Eltern ist auf diesem Gerät eingeschaltet.'); send(true); }, 1200); }
       if (/[?&]bericht=aus/i.test(location.search)) { localStorage.removeItem(BK); history.replaceState(null, '', location.pathname); }
     } catch (e) {}
     function plain(h) { return String(h == null ? '' : h).replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(); }
