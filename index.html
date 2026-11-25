@@ -7882,6 +7882,62 @@ window.EULE = (function () {
   }
   var planActs = [];
   var SUBJ_TEST = { m: 'Mathe-Arbeit', d: 'Deutsch-Arbeit', mu: 'Musiktest', su: 'Sachtest' };
+
+  /* ---------- Geschichte schreiben: Einleitung vorgegeben, Hauptteil + Schluss von Hand ---------- */
+  var STORY1 = {
+    t: 'Die Spuren im Schnee',
+    e: ['Es war ein kalter Samstagmorgen im Dezember. Über Nacht hatte es zum ersten Mal geschneit.',
+        'Lena und ihr Freund Tim zogen sofort ihre dicken Jacken an und rannten mit dem Schlitten in den Garten.',
+        'Neben dem Schlitten entdeckte Lena kleine Spuren im frischen Schnee.',
+        '„Tim, schau mal!“, rief sie aufgeregt. „Wer ist denn hier herumgelaufen?“',
+        'Die Spuren führten direkt zum alten Gartenhaus. Die Tür stand einen Spalt offen.'],
+    h: ['Was finden Lena und Tim im Gartenhaus?', 'Mach es Schritt für Schritt spannend.', 'Lass die Kinder mindestens 2-mal sprechen – mit Redezeichen.'],
+    sch: ['Wie geht die Geschichte aus?', 'Wie fühlen sich Lena und Tim am Ende?'],
+    w: [['Spannung', ['plötzlich', 'auf einmal', 'vorsichtig', 'mit klopfendem Herzen', 'im selben Moment', 'langsam']],
+        ['statt „sagen“', ['flüstern', 'rufen', 'fragen', 'antworten', 'staunen', 'kichern']],
+        ['Gefühle', ['erleichtert', 'glücklich', 'stolz', 'überrascht', 'froh', 'müde']]],
+    c: ['Ich habe die Überschrift auf den Block geschrieben.', 'Mein Hauptteil wird Schritt für Schritt spannender.', 'Ich habe Redezeichen gesetzt: unten „ und oben “.',
+        'Ich habe in der Vergangenheit geschrieben (ging, rief, sah).', 'Meine Satzanfänge sind verschieden (nicht immer „Dann“).',
+        'Jeder Satz beginnt groß und endet mit einem Punkt.', 'Ich habe wie im Buch geschrieben, nicht wie ich spreche.', 'Mein Schluss sagt, wie es ausgeht und wie sich die Kinder fühlen.']
+  };
+  function openStory() {
+    var S = STORY1, dn = dayNum(), GS = store('eule-geschichte1') || {}, nm = window.EULE ? EULE.name(', ') : '';
+    var ov = document.getElementById('storyView');
+    if (!ov) { ov = document.createElement('div'); ov.id = 'storyView'; document.body.appendChild(ov); }
+    var box = 'background:var(--surface);color:var(--ink);border-radius:18px;padding:16px 18px;margin:0 0 14px;box-shadow:0 2px 10px rgba(0,0,0,.08)';
+    var tag = function (t, c) { return '<span style="display:inline-block;padding:4px 10px;margin:3px 4px 3px 0;border-radius:999px;background:' + c + ';color:#1B1E2E;font-weight:600;font-size:.95rem">' + t + '</span>'; };
+    var h = '<div style="position:fixed;inset:0;z-index:60;overflow:auto;background:var(--paper,#F4F5FA);padding:18px 16px 40px;-webkit-overflow-scrolling:touch">' +
+      '<div style="max-width:620px;margin:0 auto">' +
+      '<button type="button" class="btn" data-story="close" style="margin-bottom:14px">‹ Zurück zum Tagesplan</button>' +
+      '<p style="margin:0 0 4px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:.8rem;color:var(--ink-soft)">Deutsch · Geschichte schreiben</p>' +
+      '<h2 style="margin:0 0 14px;font-size:1.6rem">' + S.t + '</h2>' +
+      '<div style="' + box + ';border-left:8px solid #3FA66B"><p style="margin:0 0 8px;font-weight:700">1. Die Einleitung – schon fertig. Lies sie genau!</p>' +
+      '<p style="margin:0;font-size:1.15rem;line-height:1.65">' + S.e.join(' ') + '</p></div>' +
+      '<div style="' + box + ';border-left:8px solid #E0794F"><p style="margin:0 0 6px;font-weight:700">2. Der Hauptteil – schreib du weiter!</p><ul style="margin:0;padding-left:20px;line-height:1.6">' + S.h.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
+      '<div style="' + box + ';border-left:8px solid #4A86D8"><p style="margin:0 0 6px;font-weight:700">3. Der Schluss</p><ul style="margin:0;padding-left:20px;line-height:1.6">' + S.sch.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
+      '<div style="' + box + '"><p style="margin:0 0 8px;font-weight:700">✎ So geht’s auf dem Block</p><p style="margin:0;line-height:1.6">Schreib das Datum und die Überschrift „' + S.t + '“ auf. Die Einleitung musst du nicht abschreiben. Fang gleich mit dem <b>Hauptteil</b> an und schreib danach den <b>Schluss</b>. Lass zwischen den Teilen eine Zeile frei.</p></div>' +
+      '<div style="' + box + '"><p style="margin:0 0 8px;font-weight:700">Wörter, die dir helfen</p>' + S.w.map(function (g, i) { var c = ['#FFE3A3', '#CFE6FF', '#D7F2DD'][i]; return '<p style="margin:6px 0 2px;font-size:.9rem;color:var(--ink-soft)">' + g[0] + '</p>' + g[1].map(function (w) { return tag(w, c); }).join(''); }).join('') + '</div>' +
+      '<div style="' + box + '"><p style="margin:0 0 8px;font-weight:700">Ampel-Check: Lies deine Geschichte nochmal durch</p>' +
+      S.c.map(function (x, i) { return '<label style="display:flex;gap:10px;align-items:flex-start;margin:8px 0;line-height:1.45"><input type="checkbox" data-story-chk="' + i + '" style="width:22px;height:22px;flex:none;margin-top:1px"' + ((GS.chk || [])[i] ? ' checked' : '') + '> <span>' + x + '</span></label>'; }).join('') + '</div>' +
+      (GS.done === dn ? '<p style="' + box + ';text-align:center;font-weight:700">⭐ Fertig' + nm + '! Gib deinen Block Mama – sie schickt ein Foto zum Bewerten.</p>'
+        : '<button type="button" class="btn primary" data-story="done" style="width:100%;padding:14px;font-size:1.1rem">Fertig geschrieben ✓</button><p style="text-align:center;color:var(--ink-soft);margin-top:8px">Danach bekommt Mama deinen Block und schickt ein Foto zum Bewerten.</p>') +
+      '</div></div>';
+    ov.innerHTML = h; ov.hidden = false; document.body.style.overflow = 'hidden';
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-story]'); if (!b) return;
+    var ov = document.getElementById('storyView');
+    if (b.getAttribute('data-story') === 'done') {
+      var GS = store('eule-geschichte1') || {}; GS.done = dayNum(); store('eule-geschichte1', GS);
+      try { confetti(); } catch (x) {}
+    }
+    if (ov) { ov.hidden = true; ov.innerHTML = ''; } document.body.style.overflow = '';
+    renderPlan();
+  });
+  document.addEventListener('change', function (e) {
+    var c = e.target.closest('[data-story-chk]'); if (!c) return;
+    var GS = store('eule-geschichte1') || {}; GS.chk = GS.chk || []; GS.chk[+c.getAttribute('data-story-chk')] = c.checked; store('eule-geschichte1', GS);
+  });
   function renderPlan() {
     var box = document.getElementById('planList'); if (!box) return;
     var dn = dayNum(), L = planLog()[dn] || {}, dates = arbeitDates(), nm = window.EULE ? EULE.name(', ') : '';
@@ -7911,6 +7967,10 @@ window.EULE = (function () {
     if (near('d', 4)) items.push({ s: 'd', d: D.d, title: 'Deutsch: Rechtschreib-Probe', sub: 'Ohne Tipps, mit Note · ca. 15 Min', min: 15, done: !!L.dprobe, btn: L.dprobe ? 'Nochmal' : 'Schreiben', topic: 'dprobe' });
     if (daysUntil('2026-12-18') >= 0) items.push({ s: 'd', d: D.d, title: 'Deutsch: Neu – 2. Fall (Genitiv)', sub: 'Wessen? · 10 Aufgaben · ca. 5 Min', min: 5, done: !!L.genit, btn: L.genit ? 'Nochmal' : 'Los', topic: 'genit' });
     if (daysUntil('2026-12-18') >= 0) bonus.push(['1. Fall – Nominativ', 'nomi']);
+    /* Geschichte schreiben mit vorgegebener Einleitung – Hauptteil und Schluss auf den Block */
+    var GS = store('eule-geschichte1') || {};
+    if (daysUntil('2026-11-25') <= 0 && daysUntil('2026-11-27') >= 0 && (!GS.done || GS.done === dn))
+      items.push({ s: 'd', d: null, title: 'Deutsch: Geschichte schreiben', sub: '„' + STORY1.t + '“ · Einleitung lesen, Hauptteil und Schluss auf den Block · ca. 25 Min', min: 25, done: GS.done === dn, btn: GS.done === dn ? 'Ansehen' : 'Los', topic: 'geschichte1' });
     bonus.push(['Regel-Karten', 'rskarten']);
     /* Mathe */
     if (near('m', 3)) {
@@ -7956,6 +8016,7 @@ window.EULE = (function () {
     var id = b ? planActs[+b.getAttribute('data-plan')] : c ? c.getAttribute('data-plan-topic') : null;
     if (!id) return;
     e.stopPropagation();
+    if (id === 'geschichte1') { openStory(); return; }
     openTopic(id);
   }, true);
   /* Tag- und Nacht-Modus */
