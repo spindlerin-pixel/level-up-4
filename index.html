@@ -4343,6 +4343,118 @@ window.EULE = (function () {
   }
   GEN.nom = genNom;
 
+  /* =========== Grammatik: Die 4 Fälle – 2. Fall Genitiv (Wesfall), Start 25.11.2026 =========== */
+  var GENI_S = [
+    ['{N:Das Spielgerät} {G:der Katze} ist noch ganz neu.', 'Wessen Spielgerät ist noch ganz neu?', 'Wessen Katze ist noch ganz neu?'],
+    ['{N:Die Erdbeertorte} {G:des Bäckers} sieht lecker aus.', 'Wessen Erdbeertorte sieht lecker aus?', 'Wessen Bäcker sieht lecker aus?'],
+    ['{N:Die Fotos} {G:der Klassenfahrt} sind schön geworden.', 'Wessen Fotos sind schön geworden?', 'Wessen Klassenfahrt ist schön geworden?'],
+    ['{N:Das Fahrrad} {G:meines Bruders} steht im Keller.', 'Wessen Fahrrad steht im Keller?', 'Wessen Bruder steht im Keller?'],
+    ['{N:Die Netze} {G:der Fischer} hängen am Hafen.', 'Wessen Netze hängen am Hafen?', 'Wessen Fischer hängen am Hafen?'],
+    ['{N:Das Fell} {G:des Hundes} glänzt in der Sonne.', 'Wessen Fell glänzt in der Sonne?', 'Wessen Hund glänzt in der Sonne?'],
+    ['{N:Der Schatz} {G:eines Seeungeheuers} liegt auf {D:dem Meeresgrund}.', 'Wessen Schatz liegt auf dem Meeresgrund?', 'Wessen Meeresgrund liegt dort?'],
+    ['Morgen räumt {N:Paul} {A:das Zimmer} {G:seiner Schwester} auf.', 'Wessen Zimmer räumt Paul auf?', 'Wessen Schwester räumt Paul auf?'],
+    ['{N:Die Perlen} {G:der Meerjungfrauen} glitzern im Wasser.', 'Wessen Perlen glitzern im Wasser?', 'Wessen Meerjungfrauen glitzern im Wasser?'],
+    ['{N:Der Schweif} {G:des Pferdes} ist sehr lang.', 'Wessen Schweif ist sehr lang?', 'Wessen Pferd ist sehr lang?'],
+    ['Wir bewundern {A:das Nest} {G:des Vogels}.', 'Wessen Nest bewundern wir?', 'Wessen Vogel bewundern wir?'],
+    ['{N:Die Stimme} {G:der Lehrerin} klingt freundlich.', 'Wessen Stimme klingt freundlich?', 'Wessen Lehrerin klingt freundlich?'],
+    ['{N:Das Dach} {G:des Hauses} ist rot.', 'Wessen Dach ist rot?', 'Wessen Haus ist rot?'],
+    ['{N:Die Blätter} {G:des Baumes} werden bunt.', 'Wessen Blätter werden bunt?', 'Wessen Baum wird bunt?'],
+    ['Ich finde {A:die Mütze} {G:meiner Freundin}.', 'Wessen Mütze finde ich?', 'Wessen Freundin finde ich?'],
+    ['{N:Der Ball} {G:des Kindes} rollt auf {A:die Straße}.', 'Wessen Ball rollt auf die Straße?', 'Wessen Kind rollt auf die Straße?'],
+    ['{N:Die Höhlen} {G:der Südseeinsel} sind dunkel.', 'Wessen Höhlen sind dunkel?', 'Wessen Südseeinsel ist dunkel?'],
+    ['{N:Die Jacke} {G:des Mädchens} hängt an {D:der Garderobe}.', 'Wessen Jacke hängt an der Garderobe?', 'Wessen Mädchen hängt an der Garderobe?'],
+    ['{N:Das Gift} {G:der Riesenquallen} ist gefährlich.', 'Wessen Gift ist gefährlich?', 'Wessen Riesenquallen sind gefährlich?'],
+    ['{N:Die Gegend} {G:der Riesenkraken} ist ziemlich gefährlich.', 'Wessen Gegend ist ziemlich gefährlich?', 'Wessen Riesenkraken sind gefährlich?']
+  ];
+  function geniParse(s) {
+    var g = [], plain = s.replace(/\{([NADG]):([^}]+)\}/g, function (m, c, w) { g.push({ c: c, w: w }); return w; });
+    return { s: s, plain: plain, g: g };
+  }
+  function geniMark(s, idx) { var i = -1; return s.replace(/\{([NADG]):([^}]+)\}/g, function (m, c, w) { i++; return i === idx ? '<b class="mark" style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px">' + w + '</b>' : w; }); }
+  /* [vorne, Nomen im Wörterbuch, Nomen im Genitiv, Geschlecht m/f/n/p, Satzende] */
+  var GENI_ART = [
+    ['Das Spielgerät', 'Katze', 'Katze', 'f', 'ist noch ganz neu.'], ['Die Erdbeertorte', 'Bäcker', 'Bäckers', 'm', 'sieht lecker aus.'],
+    ['Das Fell', 'Hund', 'Hundes', 'm', 'ist weich.'], ['Der Schweif', 'Pferd', 'Pferdes', 'n', 'ist lang.'], ['Das Dach', 'Haus', 'Hauses', 'n', 'ist rot.'],
+    ['Die Stimme', 'Lehrerin', 'Lehrerin', 'f', 'klingt freundlich.'], ['Das Nest', 'Vogel', 'Vogels', 'm', 'ist gut versteckt.'], ['Die Blätter', 'Baum', 'Baumes', 'm', 'werden bunt.'],
+    ['Der Hof', 'Schule', 'Schule', 'f', 'ist groß.'], ['Die Klingel', 'Fahrrad', 'Fahrrads', 'n', 'ist laut.'], ['Die Fotos', 'Klassenfahrt', 'Klassenfahrt', 'f', 'sind schön geworden.'],
+    ['Die Jacke', 'Mädchen', 'Mädchens', 'n', 'hängt am Haken.'], ['Das Auto', 'Lehrer', 'Lehrers', 'm', 'ist blau.'], ['Die Netze', 'Fischer', 'Fischer', 'p', 'hängen am Hafen.'],
+    ['Die Perlen', 'Meerjungfrau', 'Meerjungfrauen', 'p', 'glitzern.'], ['Das Lied', 'Vogel', 'Vögel', 'p', 'klingt schön.']
+  ];
+  /* Genitiv bei Namen: Tinas Oma */
+  var GENI_NAME = [['Tina', 'Oma', 'feiert bald einen runden Geburtstag.'], ['Mama', 'Nähmaschine', 'steht im Wohnzimmer.'], ['Paul', 'Hund', 'bellt laut.'], ['Lena', 'Fahrrad', 'ist neu.'],
+    ['Opa', 'Garten', 'ist voller Blumen.'], ['Max', 'Schulranzen', 'ist schwer.'], ['Kapitän Nemo', 'Schiff', 'wäre ein toller Fund.'], ['Anna', 'Katze', 'schläft gern.']];
+  var GENI_W = [
+    ['Wie heißt der <b>2. Fall</b>?', 'Genitiv', ['Nominativ', 'Dativ'], 'Der 2. Fall heißt <b>Genitiv</b>. Auf Deutsch sagt man auch <b>Wesfall</b>.'],
+    ['Mit welcher Frage findest du den <b>Genitiv</b>?', 'Wessen?', ['Wer oder was?', 'Wem?'], 'Den Genitiv findest du mit der Frage <b>Wessen?</b> – <i>Wessen Fell glänzt?</i> – Das Fell <b>des Hundes</b>.'],
+    ['Der Genitiv heißt auf Deutsch auch …', 'Wesfall', ['Werfall', 'Wemfall'], 'Weil man ihn mit <b>Wessen?</b> erfragt, heißt er <b>Wesfall</b>.'],
+    ['Was zeigt der Genitiv meistens?', 'wem etwas gehört', ['wer etwas tut', 'wann etwas passiert'], 'Der Genitiv zeigt meistens, <b>wem etwas gehört</b> oder wozu es gehört: das Spielgerät <b>der Katze</b>.'],
+    ['Welche <b>bestimmten Artikel</b> stehen im Genitiv?', 'des, der, des', ['der, die, das', 'dem, der, dem'], 'Im Genitiv heißt es <b>des</b> Hundes, <b>der</b> Katze, <b>des</b> Pferdes – und in der Mehrzahl <b>der</b> Fischer.'],
+    ['Welche <b>unbestimmten Artikel</b> stehen im Genitiv?', 'eines, einer, eines', ['ein, eine, ein', 'einem, einer, einem'], 'Im Genitiv: <b>eines</b> Hundes, <b>einer</b> Katze, <b>eines</b> Pferdes.'],
+    ['Was bekommen Nomen mit <b>der</b> und <b>das</b> im Genitiv am Ende?', 'ein -s oder -es', ['ein -n', 'nichts'], 'Der Hund → des Hund<b>es</b>, das Pferd → des Pferd<b>es</b>, der Bäcker → des Bäcker<b>s</b>. Nomen mit <b>die</b> bekommen kein s: der Katze.'],
+    ['Wie viele Fälle gibt es im Deutschen?', '4', ['2', '6'], 'Es gibt <b>4 Fälle</b>: Nominativ, Genitiv, Dativ und Akkusativ.'],
+    ['Wie schreibt man den Genitiv bei <b>Namen</b>?', 'Tinas Oma', ['Tina’s Oma', 'Oma von Tinas'], 'Bei Namen hängt man nur ein <b>s</b> an, ohne Apostroph: <b>Tinas</b> Oma, <b>Mamas</b> Nähmaschine.']
+  ];
+  function genGeni() {
+    var cap = function (x) { return x.charAt(0).toUpperCase() + x.slice(1); };
+    var k = pick(['finde', 'finde', 'finde', 'wessen', 'wessen', 'frage', 'frage', 'art', 'art', 'endung', 'endung', 'rf', 'name', 'wissen', 'wissen']);
+    if (k === 'wissen') { var W = pick(GENI_W); return { type: 'geni', key: 'geni-w' + W[0], inp: 'mc', p: {}, deu: true, q: W[0], opts: opts(W[1], W[2]), hint: 'Merke: 2. Fall = Genitiv = Wesfall. Frage: <b>Wessen?</b>', ex: W[3] }; }
+    if (k === 'name') {
+      var Nm = pick(GENI_NAME), right = Nm[0] + 's ' + Nm[1];
+      return { type: 'geni', key: 'geni-n' + Nm[0], inp: 'mc', p: {}, deu: true, center: true,
+        q: 'Wie schreibt man es richtig?<br><span style="font-size:1.2rem"><span class="gap">?</span> ' + Nm[2] + '</span>',
+        opts: opts(right, [Nm[0] + '’s ' + Nm[1], Nm[0] + ' ' + Nm[1] + 's']),
+        hint: 'Frag: <b>Wessen</b> ' + Nm[1] + '? Bei Namen hängst du einfach ein s an den Namen – ohne Apostroph.',
+        ex: '<b>' + right + '</b> ' + Nm[2] + ' – Wessen ' + Nm[1] + '? ' + Nm[0] + 's. Bei Namen: nur ein s, kein Apostroph.' };
+    }
+    if (k === 'art' || k === 'endung') {
+      var A = pick(GENI_ART), un = k === 'art' && A[3] !== 'p' && Math.random() < 0.3;
+      var art = A[3] === 'f' || A[3] === 'p' ? (un ? 'einer' : 'der') : (un ? 'eines' : 'des');
+      if (k === 'endung' && A[3] !== 'p') {
+        var wrongE = A[3] === 'f' ? [A[1] + 's', A[1] + (/e$/.test(A[1]) ? 'n' : /in$/.test(A[1]) ? 'nen' : 'en')] : [A[1], A[1] + (/en$/.test(A[1]) ? 'es' : /e[rl]$/.test(A[1]) ? 'n' : 'en')];
+        return { type: 'geni', key: 'geni-e' + A[1], inp: 'mc', p: {}, deu: true, center: true,
+          q: 'Welches Wort passt? Es steht im <b>Genitiv</b>.<br><span style="font-size:1.2rem">' + A[0] + ' ' + art + ' <span class="gap">?</span> ' + A[4] + '</span>',
+          opts: opts(A[2], wrongE),
+          hint: A[3] === 'f' ? 'Bei Nomen mit <b>die</b> (der Katze, der Schule) kommt im Genitiv <b>kein</b> s dazu.' : 'Nomen mit <b>der</b> oder <b>das</b> bekommen im Genitiv ein <b>-s</b> oder <b>-es</b>: des Hund<b>es</b>.',
+          ex: A[0] + ' <b>' + art + ' ' + A[2] + '</b> ' + A[4] + (A[3] === 'f' ? ' – die ' + A[1] + ' → der ' + A[2] + ', ohne s.' : ' – ' + (A[3] === 'm' ? 'der' : 'das') + ' ' + A[1] + ' → des ' + A[2] + '.') };
+      }
+      var wrongA = un ? (art === 'einer' ? ['eine', 'eines'] : ['ein', 'einem']) : (art === 'der' ? ['die', 'des'] : ['der', 'dem']);
+      return { type: 'geni', key: 'geni-a' + A[1] + un, inp: 'mc', p: {}, deu: true, center: true,
+        q: 'Welcher Artikel passt? Das Nomen steht im <b>Genitiv</b>.<br><span style="font-size:1.2rem">' + A[0] + ' <span class="gap">?</span> ' + A[2] + ' ' + A[4] + '</span>',
+        opts: opts(art, wrongA),
+        hint: 'Frag: <b>Wessen</b> ' + A[0].split(' ')[1] + '? Im Genitiv heißt es <b>des</b> (der/das-Wörter) oder <b>der</b> (die-Wörter und Mehrzahl).',
+        ex: A[0] + ' <b>' + art + ' ' + A[2] + '</b> ' + A[4] + ' – Wessen ' + A[0].split(' ')[1] + '? ' + cap(art) + ' ' + A[2] + '. Das ist der Genitiv.' };
+    }
+    var S = pick(GENI_S), P = geniParse(S[0]), gi = 0; P.g.forEach(function (x, i) { if (x.c === 'G') gi = i; });
+    if (k === 'finde') {
+      var others = P.g.filter(function (x, i) { return i !== gi; }).map(function (x) { return x.w; });
+      return { type: 'geni', key: 'geni-f' + S[0], inp: 'mc', p: {}, deu: true,
+        q: 'Welche Wortgruppe steht im <b>Genitiv</b> (2. Fall)?<br><span style="font-size:1.2rem">' + P.plain + '</span>',
+        opts: opts(P.g[gi].w, others.slice(0, 2)),
+        hint: 'Frag: <b>Wessen</b> …? Der Genitiv steht meistens direkt <b>hinter</b> dem Nomen, zu dem er gehört.',
+        ex: S[1] + ' – <b>' + P.g[gi].w + '</b>. Das ist der Genitiv: ' + geniMark(S[0], gi) };
+    }
+    if (k === 'wessen') {
+      return { type: 'geni', key: 'geni-s' + S[0], inp: 'text', word: true, unit: '', p: {}, deu: true,
+        q: 'Lies den Satz und beantworte die Frage.<br><span style="font-size:1.15rem">' + P.plain + '</span><br><b>' + S[1] + '</b>',
+        ans: P.g[gi].w, accept: [P.g[gi].w, cap(P.g[gi].w)],
+        hint: 'Schreib nur die Wortgruppe im Genitiv auf, mit Artikel – so wie auf deinem Arbeitsblatt.',
+        ex: S[1] + ' – <b>' + P.g[gi].w + '</b>.' };
+    }
+    if (k === 'frage') {
+      return { type: 'geni', key: 'geni-q' + S[0], inp: 'mc', p: {}, deu: true,
+        q: 'Welche Frage nach dem <b>Genitiv</b> passt zu diesem Satz?<br><span style="font-size:1.2rem">' + P.plain + '</span>',
+        opts: opts(S[1], [S[2], 'Wer oder was ' + S[1].replace(/^Wessen \S+ /, '')]),
+        hint: 'Die Frage beginnt mit <b>Wessen</b>. Danach kommt das Nomen, dem etwas gehört – nicht das Nomen im Genitiv.',
+        ex: '<b>' + S[1] + '</b> – ' + P.g[gi].w + '. So fragst du nach dem 2. Fall.' };
+    }
+    var ti = Math.random() < 0.5 || P.g.length < 2 ? gi : pick(P.g.map(function (x, i) { return i; }).filter(function (i) { return i !== gi; })), isG = ti === gi;
+    return { type: 'geni', key: 'geni-r' + S[0] + ti, inp: 'mc', p: {}, deu: true, grid2: true, center: true,
+      q: 'Steht die <b>unterstrichene</b> Wortgruppe im <b>Genitiv</b>?<br><span style="font-size:1.2rem">' + geniMark(S[0], ti) + '</span>',
+      opts: fixedOpts(['ja', 'nein'], isG ? 'ja' : 'nein'), hint: 'Mach die Probe mit <b>Wessen?</b> Passt die unterstrichene Wortgruppe als Antwort?',
+      ex: isG ? 'Ja! ' + S[1] + ' – <b>' + P.g[gi].w + '</b>. Das ist der Genitiv.' : 'Nein. ' + S[1] + ' – <b>' + P.g[gi].w + '</b>. Nur das ist hier der Genitiv. „' + P.g[ti].w + '“ ist ein anderer Fall.' };
+  }
+  GEN.geni = genGeni;
+
   GEN.mvn = genMvn; GEN.mzw = genMzw; GEN.mdik = genMdik; GEN.mkr = genMkr;
 
   /* =========== Sachunterricht: Baderegeln (Test Mi 25.11.) – nur Baderegeln, aufgebaut wie die echte Überprüfung:
@@ -5150,6 +5262,14 @@ window.EULE = (function () {
       x: 'Achtung: Der Nominativ steht <b>nicht immer vorne</b>. Darum immer fragen: <b>Wer oder was</b> spielt? – <b>das Kind</b>.' },
     { v: '<div class="xstack c">' + xrow([chip('der Hund', 'b', 1), chip('die Katze', 'r', 1), chip('das Pferd', 'g', 1)]) + xrow([chip('ein Hund', 'b', 2), chip('eine Katze', 'r', 2), chip('ein Pferd', 'g', 2)]) + '</div>',
       x: 'Im Nominativ heißen die Artikel genau wie im <b>Wörterbuch</b>: der, die, das – oder ein, eine, ein.' }
+  ]; } };
+  EXPL.geni = { t: 'Der 2. Fall: Genitiv', m: '2. Fall = Genitiv = Wesfall. Frage: Wessen?', f: function () { return [
+    { v: '<div class="xstack c">' + chip('Das Spielgerät der Katze ist neu.', 'ek wrap') + arrow('Wessen Spielgerät?', 1) + chip('der Katze', 'g', 2) + '</div>',
+      x: 'Frag: <b>Wessen</b> Spielgerät ist neu? – <b>der Katze</b>. Diese Wortgruppe steht im <b>Genitiv</b>, dem 2. Fall. Man sagt auch <b>Wesfall</b>. Er zeigt, wem etwas gehört.' },
+    { v: '<div class="xstack c">' + xrow([chip('des Hund<b>es</b>', 'b', 1), chip('der Katze', 'r', 1), chip('des Pferd<b>es</b>', 'g', 1)]) + xrow([chip('eines Hund<b>es</b>', 'b', 2), chip('einer Katze', 'r', 2), chip('eines Pferd<b>es</b>', 'g', 2)]) + '</div>',
+      x: 'Die Artikel im Genitiv: <b>des</b>, <b>der</b>, <b>des</b> – oder eines, einer, eines. Nomen mit der und das bekommen ein <b>-s</b> oder <b>-es</b>. Nomen mit die bleiben, wie sie sind.' },
+    { v: '<div class="xstack c">' + chip('Tinas Oma feiert Geburtstag.', 'ek wrap') + arrow('Wessen Oma?', 1) + chip('Tinas', 'y', 2) + '</div>',
+      x: 'Bei <b>Namen</b> hängst du nur ein <b>s</b> an: Tinas Oma, Mamas Nähmaschine. Ohne Apostroph!' }
   ]; } };
   EXPL.nomad = { t: 'Groß oder klein?', m: 'Signalwort davor und danach kein Nomen mehr? Dann groß. Kommt noch ein Nomen? Dann klein.', f: function () { return [
     { v: '<div class="xstack c">' + xrow([chip('das', 'y'), chip('Spannende', 'g', 1)]) + xrow([chip('das', 'y', 2), chip('spannende', 'b', 2), chip('Buch', 'r', 3)]) + '</div>',
@@ -6371,7 +6491,7 @@ window.EULE = (function () {
     adjb: 'Adjektive bilden', gteil: 'Teile der Geschichte', gw: 'Die Einleitung', gschl: 'Der Schluss', gsb: 'Satz-Baukasten', gnb: 'Sätze mit weil & Co.', gv2: 'Richtig gebaut?', gmund: 'Wie im Buch', gansatz: 'Satzanfänge', gwr: 'Wörtliche Rede', gwrb: 'Rede-Baukasten', gsagen: 'Wörter für sagen', gzeit: 'Vergangenheit', gsie: 'Sie oder sie?', gdik: 'Erzähl-Diktat', gfrei: 'Schreibwerkstatt', adjs: 'Bedeutung & Bauplan', adjw: 'Adjektive schreiben', adjf: 'Fugenlaute',
     rverl: 'Verlängern schreiben', rsilb: 'Silben schwingen', rgross: 'Groß schreiben', rwverl: 'Wort-Diktat: Verlängern', rwabl: 'Wort-Diktat: Ableiten', rwsilb: 'Wort-Diktat: kurze Vokale', rwlang: 'Wort-Diktat: ie, ß, h',
     det: 'Fehlerdetektiv', dik: 'Diktat', lese: 'Lesen', blitz: 'Blitzlesen', schlange: 'Wörterschlange',
-    nom: '1. Fall – Nominativ', nomad: 'Groß oder klein?', nomen: 'Nomen finden', grundf: 'Grundform', abc: 'ABC ordnen', zus: 'Zusammengesetzte Nomen', hoer: 'Genau hören',
+    nom: '1. Fall – Nominativ', geni: '2. Fall – Genitiv', nomad: 'Groß oder klein?', nomen: 'Nomen finden', grundf: 'Grundform', abc: 'ABC ordnen', zus: 'Zusammengesetzte Nomen', hoer: 'Genau hören',
     stw: 'Stellenwerte', rund: 'Runden', zstr: 'Zahlenstrahl', folge: 'Zahlenfolgen', sadd: 'Schriftlich plus', ssub: 'Schriftlich minus', smul: 'Schriftlich mal', sdiv: 'Schriftlich geteilt', ueb: 'Überschlagen',
     kst: 'Stellentafel', kbu: 'Bündeln', kze: 'Zerlegen & Zusammensetzen', kwo: 'Zahlwörter', kvg: 'Größer, kleiner, gleich', kor: 'Ordnen', kre: 'Zahlen fortsetzen', kna: 'Nachbarzahlen', kra: 'Zahlenrätsel', kkr: 'Große Zahlen im Kopf', kei: 'Zahl suchen', kzs: 'Zahlenstrahl fein',
     mvn: 'Vorgänger & Nachfolger', mzw: 'Zahlwörter bis 1 Million', mdik: 'Zahlendiktat', mkr: 'Kreis & Zirkel', sbr: 'Baderegeln: Situationen', sbk: 'Baderegeln ankreuzen', sbl: 'Baderegeln: Lückentext',
@@ -6423,7 +6543,9 @@ window.EULE = (function () {
       { id: 'rg3', n: 'Regel: Ableiten (ä und äu)', len: 12, t: ['rwabl', 'rwabl', 'rwabl', 'rwabl', 'ablt', 'ablt', 'ablt', 'det', 'dik', 'dik'] },
       { id: 'rg4', n: 'Regel: Groß oder klein', len: 12, t: ['rgross', 'rgross', 'rgross', 'gross', 'gross', 'nomad', 'nomen', 'dik', 'dik'] },
       { id: 'rg5', n: 'Regel: ie, ß, ss und h', len: 12, t: ['rwlang', 'rwlang', 'rwlang', 'rwlang', 'slaut', 'slaut', 'slaut', 'vokal', 'dik', 'dik'] },
-      { id: 'nomi', n: 'Neu: 1. Fall – Nominativ', len: 10, t: ['nom'] },
+      { id: 'nomi', n: '1. Fall – Nominativ', len: 10, t: ['nom'] },
+      { id: 'genit', n: 'Neu: 2. Fall – Genitiv', len: 10, t: ['geni'] },
+      { id: 'faelle', n: 'Fälle-Mix: Nominativ & Genitiv', len: 12, t: ['nom', 'geni', 'geni'] },
       { id: 'rg6', n: 'Regel: das oder dass + Mix', len: 12, t: ['dass', 'dass', 'dass', 'rverl', 'rwabl', 'rsilb', 'rwsilb', 'rgross', 'dik', 'dik'] },
       { id: 'dprobe', n: 'Rechtschreib-Probe mit Note', ka: true, pro: true, probe: true, len: 15, t: ['rverl', 'rverl', 'rwverl', 'rwabl', 'rwabl', 'rwsilb', 'rwsilb', 'rwlang', 'rsilb', 'rgross', 'rgross', 'ablt', 'slaut', 'dass', 'dik', 'dik'] },
       { id: 'rskarten', n: 'Regel-Karten', cards: true, deck: 'rs', t: [] },
@@ -7763,7 +7885,8 @@ window.EULE = (function () {
     var rule = topicById(todayRule()).n.replace('Regel: ', '');
     items.push({ s: 'd', d: D.d, title: 'Deutsch: Regel des Tages', sub: rule + ' · mit Satz-Diktat · ca. 10 Min', min: 10, done: !!L.rsheute, btn: L.rsheute ? 'Nochmal' : 'Los', topic: 'rsheute' });
     if (near('d', 4)) items.push({ s: 'd', d: D.d, title: 'Deutsch: Rechtschreib-Probe', sub: 'Ohne Tipps, mit Note · ca. 15 Min', min: 15, done: !!L.dprobe, btn: L.dprobe ? 'Nochmal' : 'Schreiben', topic: 'dprobe' });
-    if (daysUntil('2026-12-18') >= 0) items.push({ s: 'd', d: D.d, title: 'Deutsch: Neu – 1. Fall (Nominativ)', sub: 'Wer oder was? · 10 Aufgaben · ca. 5 Min', min: 5, done: !!L.nomi, btn: L.nomi ? 'Nochmal' : 'Los', topic: 'nomi' });
+    if (daysUntil('2026-12-18') >= 0) items.push({ s: 'd', d: D.d, title: 'Deutsch: Neu – 2. Fall (Genitiv)', sub: 'Wessen? · 10 Aufgaben · ca. 5 Min', min: 5, done: !!L.genit, btn: L.genit ? 'Nochmal' : 'Los', topic: 'genit' });
+    if (daysUntil('2026-12-18') >= 0) bonus.push(['1. Fall – Nominativ', 'nomi']);
     bonus.push(['Regel-Karten', 'rskarten']);
     /* Mathe */
     if (near('m', 3)) {
@@ -8020,7 +8143,7 @@ window.EULE = (function () {
   /* ---------- Fach-Übersicht: erst alle Kapitel sehen, dann üben ---------- */
   var FACH_GROUPS = {
     m: [['Für die Mathe-Arbeit am Do', ['ka1m', 'zprobe1', 'zprobe2', 'zvn', 'zzw', 'zdik', 'kreis']], ['Wiederholen', ['ka', 'kaprobe', 'mcheck']], ['Themen', ['pak', 'uhr', 'gro', 'reg', 'zahl', 'schr', 'kopf', 'geo', 'daten']], ['Alles durcheinander', ['mmix']]],
-    d: [['Grammatik: Die 4 Fälle', ['nomi']], ['Rechtschreib-Regeln', ['rsheute', 'rg1', 'rg2', 'rg3', 'rg4', 'rg5', 'rg6', 'rskarten']], ['Diktat & Probe', ['dik', 'dprobe', 'det']],
+    d: [['Grammatik: Die 4 Fälle', ['genit', 'nomi', 'faelle']], ['Rechtschreib-Regeln', ['rsheute', 'rg1', 'rg2', 'rg3', 'rg4', 'rg5', 'rg6', 'rskarten']], ['Diktat & Probe', ['dik', 'dprobe', 'det']],
         ['Mehr üben', ['rs', 'gk', 'wb', 'adj', 'dtrain', 'lwtest', 'lwkarten']], ['Lesen', ['les', 'blz']], ['Alles durcheinander', ['dmix', 'dcheck']]],
     mu: [['Für den Musiktest', ['mtest', 'mprobe1', 'mprobe2', 'mprobe3', 'mprobe4', 'mkarten']], ['Themen', ['mupause', 'muteil', 'muwert', 'musilb', 'muzahl', 'muhoer']], ['Alles durcheinander', ['mumix']]],
     su: [['Für den Sachtest: Baderegeln', ['sutest', 'sukarten', 'suprobe1', 'suprobe2']], ['Wie in der Überprüfung', ['suank', 'suluecke', 'subade']]],
@@ -8034,6 +8157,8 @@ window.EULE = (function () {
     zahl: 'Stellenwerte, Runden, Zahlenstrahl', schr: 'Schriftlich rechnen mit allen vier Rechenarten', kopf: 'Schnell im Kopf rechnen', geo: 'Flächen, Körper, Netze, Spiegeln',
     daten: 'Diagramme lesen, Zufall, Kombinieren', mmix: 'Von jedem Thema etwas',
     nomi: 'Wer oder was? Der Werfall – seit 19.11. in der Schule',
+    genit: 'Wessen? Der Wesfall – neu in der Schule',
+    faelle: 'Wer oder was? Oder wessen? Beide Fälle gemischt',
     rsheute: 'Jeden Tag eine Regel, mit Wort- und Satz-Diktat', rg1: 'd oder t, g oder k, b oder p am Wortende', rg2: 'Silben schwingen, mm, ll, ck, tz', rg3: 'Bäume – Baum, Hände – Hand', rg4: 'Satzanfang und Nomen groß', rg5: 'Wiese, Straße, Wasser, Zahn', rg6: 'das oder dass und alles gemischt',
     dprobe: 'Wie eine echte Arbeit: ohne Tipps, mit Note', rskarten: 'Alle Regeln zum Umdrehen', mprobe1: 'Ohne Tipps, mit Note', mprobe2: 'Ohne Tipps, mit Note', mprobe3: 'Etwas kniffliger, mit Note', mprobe4: 'Alles wie im Test, mit Note',
     gtest: 'Training für „Geschichte schreiben“', lwtest: 'Die Lernwörter der Woche', dtrain: 'Groß und klein, ABC, Lernwörter wiederholen',
