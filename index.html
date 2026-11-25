@@ -4455,6 +4455,29 @@ window.EULE = (function () {
   }
   GEN.geni = genGeni;
 
+  /* Welcher Fall? – Emilia entscheidet selbst zwischen Nominativ und Genitiv */
+  function genFall() {
+    var src = Math.random() < 0.65 ? pick(GENI_S)[0] : pick(NOM_S), P = geniParse(src);
+    var idx = P.g.map(function (x, i) { return i; }), ng = idx.filter(function (i) { return P.g[i].c === 'N' || P.g[i].c === 'G'; });
+    var ti = Math.random() < 0.15 && ng.length < idx.length ? pick(idx.filter(function (i) { return ng.indexOf(i) < 0; })) : (ng.some(function (i) { return P.g[i].c === 'G'; }) && Math.random() < 0.65 ? ng.filter(function (i) { return P.g[i].c === 'G'; })[0] : pick(ng)), c = P.g[ti].c, w = P.g[ti].w;
+    var Q = { N: 'Wer oder was?', G: 'Wessen?' }, nm = { N: '1. Fall – Nominativ', G: '2. Fall – Genitiv', X: 'ein anderer Fall' };
+    var right = c === 'N' || c === 'G' ? c : 'X';
+    var ex = right === 'N' ? 'Frag: <b>Wer oder was</b> tut hier etwas? – <b>' + w + '</b>. Das ist der <b>Nominativ</b> (Werfall).'
+      : right === 'G' ? 'Frag: <b>Wessen</b>? – <b>' + w + '</b>. Das ist der <b>Genitiv</b> (Wesfall). Er zeigt, wem etwas gehört.'
+      : '„' + w + '“ passt weder auf <b>Wer oder was?</b> noch auf <b>Wessen?</b> Das ist ein anderer Fall – den lernst du bald.';
+    if (right !== 'X' && Math.random() < 0.4) {
+      return { type: 'fall', key: 'fall-q' + src + ti, inp: 'mc', p: {}, deu: true,
+        q: 'Mit welcher Frage findest du die <b>unterstrichene</b> Wortgruppe?<br><span style="font-size:1.2rem">' + geniMark(src, ti) + '</span>',
+        opts: fixedOpts(['Wer oder was?', 'Wessen?', 'Wem?'], Q[right]),
+        hint: 'Probier beide Fragen aus: <b>Wer oder was</b> tut etwas? <b>Wessen</b> … ist das? Welche passt?', ex: ex };
+    }
+    return { type: 'fall', key: 'fall-c' + src + ti, inp: 'mc', p: {}, deu: true,
+      q: 'In welchem Fall steht die <b>unterstrichene</b> Wortgruppe?<br><span style="font-size:1.2rem">' + geniMark(src, ti) + '</span>',
+      opts: fixedOpts([nm.N, nm.G, nm.X], nm[right]),
+      hint: 'Mach die Probe: Passt <b>Wer oder was?</b> → Nominativ. Passt <b>Wessen?</b> → Genitiv.', ex: ex };
+  }
+  GEN.fall = genFall;
+
   GEN.mvn = genMvn; GEN.mzw = genMzw; GEN.mdik = genMdik; GEN.mkr = genMkr;
 
   /* =========== Sachunterricht: Baderegeln (Test Mi 25.11.) – nur Baderegeln, aufgebaut wie die echte Überprüfung:
@@ -5271,6 +5294,7 @@ window.EULE = (function () {
     { v: '<div class="xstack c">' + chip('Tinas Oma feiert Geburtstag.', 'ek wrap') + arrow('Wessen Oma?', 1) + chip('Tinas', 'y', 2) + '</div>',
       x: 'Bei <b>Namen</b> hängst du nur ein <b>s</b> an: Tinas Oma, Mamas Nähmaschine. Ohne Apostroph!' }
   ]; } };
+  EXPL.fall = Object.assign({}, EXPL.geni, { t: 'Welcher Fall?', m: 'Wer oder was? → 1. Fall, Nominativ. Wessen? → 2. Fall, Genitiv.', f: function () { return EXPL.nom.f().slice(0, 1).concat(EXPL.geni.f().slice(0, 1)); } });
   EXPL.nomad = { t: 'Groß oder klein?', m: 'Signalwort davor und danach kein Nomen mehr? Dann groß. Kommt noch ein Nomen? Dann klein.', f: function () { return [
     { v: '<div class="xstack c">' + xrow([chip('das', 'y'), chip('Spannende', 'g', 1)]) + xrow([chip('das', 'y', 2), chip('spannende', 'b', 2), chip('Buch', 'r', 3)]) + '</div>',
       x: 'Oben: Nach „das Spannende“ kommt <b>kein</b> Nomen mehr. Das Adjektiv ist selbst ein Nomen geworden: <b>groß</b>. Unten: „spannende“ beschreibt das <b>Buch</b>. Dann bleibt es <b>klein</b>.' },
@@ -6491,7 +6515,7 @@ window.EULE = (function () {
     adjb: 'Adjektive bilden', gteil: 'Teile der Geschichte', gw: 'Die Einleitung', gschl: 'Der Schluss', gsb: 'Satz-Baukasten', gnb: 'Sätze mit weil & Co.', gv2: 'Richtig gebaut?', gmund: 'Wie im Buch', gansatz: 'Satzanfänge', gwr: 'Wörtliche Rede', gwrb: 'Rede-Baukasten', gsagen: 'Wörter für sagen', gzeit: 'Vergangenheit', gsie: 'Sie oder sie?', gdik: 'Erzähl-Diktat', gfrei: 'Schreibwerkstatt', adjs: 'Bedeutung & Bauplan', adjw: 'Adjektive schreiben', adjf: 'Fugenlaute',
     rverl: 'Verlängern schreiben', rsilb: 'Silben schwingen', rgross: 'Groß schreiben', rwverl: 'Wort-Diktat: Verlängern', rwabl: 'Wort-Diktat: Ableiten', rwsilb: 'Wort-Diktat: kurze Vokale', rwlang: 'Wort-Diktat: ie, ß, h',
     det: 'Fehlerdetektiv', dik: 'Diktat', lese: 'Lesen', blitz: 'Blitzlesen', schlange: 'Wörterschlange',
-    nom: '1. Fall – Nominativ', geni: '2. Fall – Genitiv', nomad: 'Groß oder klein?', nomen: 'Nomen finden', grundf: 'Grundform', abc: 'ABC ordnen', zus: 'Zusammengesetzte Nomen', hoer: 'Genau hören',
+    nom: '1. Fall – Nominativ', geni: '2. Fall – Genitiv', fall: 'Welcher Fall?', nomad: 'Groß oder klein?', nomen: 'Nomen finden', grundf: 'Grundform', abc: 'ABC ordnen', zus: 'Zusammengesetzte Nomen', hoer: 'Genau hören',
     stw: 'Stellenwerte', rund: 'Runden', zstr: 'Zahlenstrahl', folge: 'Zahlenfolgen', sadd: 'Schriftlich plus', ssub: 'Schriftlich minus', smul: 'Schriftlich mal', sdiv: 'Schriftlich geteilt', ueb: 'Überschlagen',
     kst: 'Stellentafel', kbu: 'Bündeln', kze: 'Zerlegen & Zusammensetzen', kwo: 'Zahlwörter', kvg: 'Größer, kleiner, gleich', kor: 'Ordnen', kre: 'Zahlen fortsetzen', kna: 'Nachbarzahlen', kra: 'Zahlenrätsel', kkr: 'Große Zahlen im Kopf', kei: 'Zahl suchen', kzs: 'Zahlenstrahl fein',
     mvn: 'Vorgänger & Nachfolger', mzw: 'Zahlwörter bis 1 Million', mdik: 'Zahlendiktat', mkr: 'Kreis & Zirkel', sbr: 'Baderegeln: Situationen', sbk: 'Baderegeln ankreuzen', sbl: 'Baderegeln: Lückentext',
@@ -6545,7 +6569,7 @@ window.EULE = (function () {
       { id: 'rg5', n: 'Regel: ie, ß, ss und h', len: 12, t: ['rwlang', 'rwlang', 'rwlang', 'rwlang', 'slaut', 'slaut', 'slaut', 'vokal', 'dik', 'dik'] },
       { id: 'nomi', n: '1. Fall – Nominativ', len: 10, t: ['nom'] },
       { id: 'genit', n: 'Neu: 2. Fall – Genitiv', len: 10, t: ['geni'] },
-      { id: 'faelle', n: 'Fälle-Mix: Nominativ & Genitiv', len: 12, t: ['nom', 'geni', 'geni'] },
+      { id: 'faelle', n: 'Fälle-Mix: Nominativ & Genitiv', len: 12, t: ['fall', 'fall', 'fall', 'nom', 'geni', 'geni'] },
       { id: 'rg6', n: 'Regel: das oder dass + Mix', len: 12, t: ['dass', 'dass', 'dass', 'rverl', 'rwabl', 'rsilb', 'rwsilb', 'rgross', 'dik', 'dik'] },
       { id: 'dprobe', n: 'Rechtschreib-Probe mit Note', ka: true, pro: true, probe: true, len: 15, t: ['rverl', 'rverl', 'rwverl', 'rwabl', 'rwabl', 'rwsilb', 'rwsilb', 'rwlang', 'rsilb', 'rgross', 'rgross', 'ablt', 'slaut', 'dass', 'dik', 'dik'] },
       { id: 'rskarten', n: 'Regel-Karten', cards: true, deck: 'rs', t: [] },
@@ -8158,7 +8182,7 @@ window.EULE = (function () {
     daten: 'Diagramme lesen, Zufall, Kombinieren', mmix: 'Von jedem Thema etwas',
     nomi: 'Wer oder was? Der Werfall – seit 19.11. in der Schule',
     genit: 'Wessen? Der Wesfall – neu in der Schule',
-    faelle: 'Wer oder was? Oder wessen? Beide Fälle gemischt',
+    faelle: 'Welcher Fall ist es? Selbst entscheiden: Nominativ oder Genitiv',
     rsheute: 'Jeden Tag eine Regel, mit Wort- und Satz-Diktat', rg1: 'd oder t, g oder k, b oder p am Wortende', rg2: 'Silben schwingen, mm, ll, ck, tz', rg3: 'Bäume – Baum, Hände – Hand', rg4: 'Satzanfang und Nomen groß', rg5: 'Wiese, Straße, Wasser, Zahn', rg6: 'das oder dass und alles gemischt',
     dprobe: 'Wie eine echte Arbeit: ohne Tipps, mit Note', rskarten: 'Alle Regeln zum Umdrehen', mprobe1: 'Ohne Tipps, mit Note', mprobe2: 'Ohne Tipps, mit Note', mprobe3: 'Etwas kniffliger, mit Note', mprobe4: 'Alles wie im Test, mit Note',
     gtest: 'Training für „Geschichte schreiben“', lwtest: 'Die Lernwörter der Woche', dtrain: 'Groß und klein, ABC, Lernwörter wiederholen',
