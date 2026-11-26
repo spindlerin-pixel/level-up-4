@@ -56,6 +56,12 @@
 /* Tag- und Nacht-Modus */
 .theme-btn { all: unset; cursor: pointer; flex-shrink: 0; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-size: 1.3rem; background: var(--surface); box-shadow: 0 2px 8px rgba(0,0,0,0.12); margin-left: auto; margin-right: 8px; }
 .theme-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.plan-choice { list-style: none; background: var(--surface); color: var(--ink); border: 3px solid #E0794F; border-radius: 18px; padding: 14px 16px; margin: 0 0 12px; }
+.plan-choice .pc-t { margin: 0 0 4px; font-weight: 800; font-size: 1.15rem; color: var(--ink); }
+.plan-choice .pc-s { margin: 0 0 10px; line-height: 1.45; color: var(--ink); }
+.plan-choice .pc-b { display: grid; gap: 8px; }
+.plan-choice .pc-b .btn { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 2px; width: 100%; }
+.plan-choice .pc-b small { font-weight: 400; font-size: .85rem; opacity: .9; }
 </style></head><body>
 <title>Level Up 4</title>
 <link rel="apple-touch-icon" href="apple-touch-icon.png?v=1">
@@ -7883,7 +7889,9 @@ window.EULE = (function () {
   var planActs = [];
   var SUBJ_TEST = { m: 'Mathe-Arbeit', d: 'Deutsch-Arbeit', mu: 'Musiktest', su: 'Sachtest' };
 
-  /* ---------- Geschichte schreiben: Einleitung vorgegeben, Hauptteil + Schluss von Hand ---------- */
+  /* ---------- Geschichte schreiben: zweimal pro Woche, Emilia wählt selbst den Tag ----------
+     An einem Geschichten-Tag fällt der übrige Tagesplan weg (alles wird Bonus).
+     Typ „e“: Einleitung vorgegeben, Hauptteil + Schluss auf den Block. Typ „rz“: ganze Geschichte mit Reizwörtern. */
   var STORY1 = {
     t: 'Die Spuren im Schnee',
     e: ['Es war ein kalter Samstagmorgen im Dezember. Über Nacht hatte es zum ersten Mal geschneit.',
@@ -7900,8 +7908,44 @@ window.EULE = (function () {
         'Ich habe in der Vergangenheit geschrieben (ging, rief, sah).', 'Meine Satzanfänge sind verschieden (nicht immer „Dann“).',
         'Jeder Satz beginnt groß und endet mit einem Punkt.', 'Ich habe wie im Buch geschrieben, nicht wie ich spreche.', 'Mein Schluss sagt, wie es ausgeht und wie sich die Kinder fühlen.']
   };
+  STORY1.id = 's1';
+  var ST_W = STORY1.w;
+  var ST_H = ['Lass die Figuren mindestens 2-mal sprechen – mit Redezeichen.', 'Mach es Schritt für Schritt spannend.'];
+  var ST_C_RZ = ['Ich habe mir eine Überschrift ausgedacht und aufgeschrieben.', 'Meine Einleitung sagt: Wer? Wo? Wann?', 'Ich habe alle drei Reizwörter benutzt.', 'Mein Hauptteil wird Schritt für Schritt spannender.', 'Ich habe Redezeichen gesetzt: unten „ und oben “.',
+    'Ich habe in der Vergangenheit geschrieben (ging, rief, sah).', 'Meine Satzanfänge sind verschieden (nicht immer „Dann“).', 'Jeder Satz beginnt groß und endet mit einem Punkt.', 'Ich habe wie im Buch geschrieben, nicht wie ich spreche.', 'Mein Schluss sagt, wie es ausgeht.'];
+  var STORIES = [STORY1,
+    { id: 's2', t: 'Das verschwundene Pausenbrot', e: ['Am Montagmorgen packte Mia ihr Pausenbrot in den Schulranzen.', 'In der großen Pause wollte sie es essen.', 'Doch als sie die Brotdose öffnete, war sie leer! Nur ein paar Krümel lagen darin.', '„Wer hat mein Brot gegessen?“, rief Mia empört.'],
+      h: ['Wer hat das Brot gegessen? Wie findet Mia es heraus?'].concat(ST_H), sch: ['Wie wird das Rätsel gelöst?', 'Wie fühlt sich Mia am Ende?'] },
+    { id: 's3', rz: ['Fahrrad', 'Platten', 'Bauernhof'], t: 'Eine Geschichte mit Reizwörtern', h: ['Was passiert auf der Fahrradtour?'].concat(ST_H), sch: ['Wie geht es gut aus?'] },
+    { id: 's4', t: 'Die Flaschenpost', e: ['In den Sommerferien war Paul mit seiner Familie am Meer.', 'Jeden Morgen lief er barfuß am Strand entlang.', 'An einem sonnigen Tag glitzerte etwas zwischen den Steinen.', 'Es war eine alte Flasche! Darin steckte ein zusammengerollter Zettel.'],
+      h: ['Was steht auf dem Zettel? Was macht Paul damit?'].concat(ST_H), sch: ['Wie geht das Abenteuer aus?', 'Wie fühlt sich Paul am Ende?'] },
+    { id: 's5', rz: ['Zoo', 'Affe', 'Mütze'], t: 'Eine Geschichte mit Reizwörtern', h: ['Was stellt der Affe mit der Mütze an?'].concat(ST_H), sch: ['Wie bekommt das Kind die Mütze zurück?'] },
+    { id: 's6', t: 'Die Katze im Apfelbaum', e: ['Es war ein windiger Nachmittag im Herbst.', 'Emma spielte mit ihrem Bruder Ben im Garten Fußball.', 'Plötzlich hörten sie ein klägliches Miauen.', 'Hoch oben im Apfelbaum saß die kleine Katze von Frau Müller.', '„Sie traut sich nicht mehr runter!“, rief Ben.'],
+      h: ['Wie versuchen Emma und Ben, die Katze zu retten?'].concat(ST_H), sch: ['Wie geht die Rettung aus?', 'Was sagt Frau Müller?'] },
+    { id: 's7', rz: ['Nacht', 'Taschenlampe', 'Geräusch'], t: 'Eine Geschichte mit Reizwörtern', h: ['Woher kommt das Geräusch in der Nacht?'].concat(ST_H), sch: ['Wie löst sich das Rätsel auf?'] },
+    { id: 's8', rz: ['Weihnachtsmarkt', 'Geschenk', 'verloren'], t: 'Eine Geschichte mit Reizwörtern', h: ['Wer hat etwas verloren? Wie wird gesucht?'].concat(ST_H), sch: ['Wie geht es gut aus?'] }
+  ];
+  STORIES.forEach(function (S) { S.w = S.w || ST_W; S.c = S.c || (S.rz ? ST_C_RZ : STORY1.c.map(function (x) { return x.replace('die Kinder', 'die Figuren'); })); });
+  var GKEY = 'eule-geschichten', STORY_WEEK = 2;
+  function gsLoad() {
+    var G = store(GKEY);
+    if (!G) { G = { log: [], chk: {} }; var old = store('eule-geschichte1'); if (old && old.done) G.log.push({ d: old.done, id: 's1' }); if (old && old.chk) G.chk.s1 = old.chk; }
+    G.log = G.log || []; G.chk = G.chk || {}; return G;
+  }
+  function weekOf(dn) { return Math.floor((dn + 3) / 7); } /* Woche von Montag bis Sonntag */
+  function storyDoneToday(G) { var dn = dayNum(); return G.log.filter(function (x) { return x.d === dn; })[0] || null; }
+  function storiesThisWeek(G) { var w = weekOf(dayNum()); return G.log.filter(function (x) { return weekOf(x.d) === w; }).length; }
+  function nextStory(G) {
+    var t = storyDoneToday(G); if (t) return STORIES.filter(function (S) { return S.id === t.id; })[0] || STORIES[0];
+    var used = G.log.map(function (x) { return x.id; });
+    var fresh = STORIES.filter(function (S) { return used.indexOf(S.id) < 0; });
+    if (fresh.length) return fresh[0];
+    /* alle schon geschrieben: die, die am längsten her ist */
+    return STORIES.slice().sort(function (a, b) { function last(id) { var l = G.log.filter(function (x) { return x.id === id; }); return l.length ? l[l.length - 1].d : 0; } return last(a.id) - last(b.id); })[0];
+  }
+  function wahlToday() { var w = store('eule-wahl'); return w && w.d === dayNum() ? w.c : null; }
   function openStory() {
-    var S = STORY1, dn = dayNum(), GS = store('eule-geschichte1') || {}, nm = window.EULE ? EULE.name(', ') : '';
+    var G = gsLoad(), S = nextStory(G), dn = dayNum(), doneT = storyDoneToday(G), chk = G.chk[S.id] || [], nm = window.EULE ? EULE.name(', ') : '';
     var ov = document.getElementById('storyView');
     if (!ov) { ov = document.createElement('div'); ov.id = 'storyView'; document.body.appendChild(ov); }
     var box = 'background:var(--surface);color:var(--ink);border-radius:18px;padding:16px 18px;margin:0 0 14px;box-shadow:0 2px 10px rgba(0,0,0,.08)';
@@ -7910,16 +7954,23 @@ window.EULE = (function () {
       '<div style="max-width:620px;margin:0 auto">' +
       '<button type="button" class="btn" data-story="close" style="margin-bottom:14px">‹ Zurück zum Tagesplan</button>' +
       '<p style="margin:0 0 4px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:.8rem;color:var(--ink-soft)">Deutsch · Geschichte schreiben</p>' +
-      '<h2 style="margin:0 0 14px;font-size:1.6rem">' + S.t + '</h2>' +
-      '<div style="' + box + ';border-left:8px solid #3FA66B"><p style="margin:0 0 8px;font-weight:700">1. Die Einleitung – schon fertig. Lies sie genau!</p>' +
-      '<p style="margin:0;font-size:1.15rem;line-height:1.65">' + S.e.join(' ') + '</p></div>' +
-      '<div style="' + box + ';border-left:8px solid #E0794F"><p style="margin:0 0 6px;font-weight:700">2. Der Hauptteil – schreib du weiter!</p><ul style="margin:0;padding-left:20px;line-height:1.6">' + S.h.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
+      '<h2 style="margin:0 0 14px;font-size:1.6rem">' + S.t + '</h2>';
+    if (S.rz) {
+      h += '<div style="' + box + ';border-left:8px solid #3FA66B"><p style="margin:0 0 8px;font-weight:700">1. Deine Reizwörter – alle drei kommen in die Geschichte</p>' + S.rz.map(function (w) { return '<span style="display:inline-block;padding:8px 16px;margin:4px 6px 4px 0;border-radius:14px;background:#FFE3A3;color:#1B1E2E;font-weight:800;font-size:1.2rem">' + w + '</span>'; }).join('') +
+        '<p style="margin:10px 0 0;line-height:1.6"><b>Einleitung:</b> Wer? Wo? Wann? Stell die Hauptfigur vor.</p></div>';
+    } else {
+      h += '<div style="' + box + ';border-left:8px solid #3FA66B"><p style="margin:0 0 8px;font-weight:700">1. Die Einleitung – schon fertig. Lies sie genau!</p>' +
+        '<p style="margin:0;font-size:1.15rem;line-height:1.65">' + S.e.join(' ') + '</p></div>';
+    }
+    h += '<div style="' + box + ';border-left:8px solid #E0794F"><p style="margin:0 0 6px;font-weight:700">2. Der Hauptteil – ' + (S.rz ? 'jetzt wird es spannend!' : 'schreib du weiter!') + '</p><ul style="margin:0;padding-left:20px;line-height:1.6">' + S.h.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
       '<div style="' + box + ';border-left:8px solid #4A86D8"><p style="margin:0 0 6px;font-weight:700">3. Der Schluss</p><ul style="margin:0;padding-left:20px;line-height:1.6">' + S.sch.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
-      '<div style="' + box + '"><p style="margin:0 0 8px;font-weight:700">✎ So geht’s auf dem Block</p><p style="margin:0;line-height:1.6">Schreib das Datum und die Überschrift „' + S.t + '“ auf. Die Einleitung musst du nicht abschreiben. Fang gleich mit dem <b>Hauptteil</b> an und schreib danach den <b>Schluss</b>. Lass zwischen den Teilen eine Zeile frei.</p></div>' +
+      '<div style="' + box + '"><p style="margin:0 0 8px;font-weight:700">✎ So geht’s auf dem Block</p><p style="margin:0;line-height:1.6">' +
+      (S.rz ? 'Schreib das Datum auf und denk dir eine <b>Überschrift</b> aus. Dann schreibst du <b>Einleitung</b>, <b>Hauptteil</b> und <b>Schluss</b>. Lass zwischen den Teilen eine Zeile frei.'
+        : 'Schreib das Datum und die Überschrift „' + S.t + '“ auf. Die Einleitung musst du nicht abschreiben. Fang gleich mit dem <b>Hauptteil</b> an und schreib danach den <b>Schluss</b>. Lass zwischen den Teilen eine Zeile frei.') + '</p></div>' +
       '<div style="' + box + '"><p style="margin:0 0 8px;font-weight:700">Wörter, die dir helfen</p>' + S.w.map(function (g, i) { var c = ['#FFE3A3', '#CFE6FF', '#D7F2DD'][i]; return '<p style="margin:6px 0 2px;font-size:.9rem;color:var(--ink-soft)">' + g[0] + '</p>' + g[1].map(function (w) { return tag(w, c); }).join(''); }).join('') + '</div>' +
       '<div style="' + box + '"><p style="margin:0 0 8px;font-weight:700">Ampel-Check: Lies deine Geschichte nochmal durch</p>' +
-      S.c.map(function (x, i) { return '<label style="display:flex;gap:10px;align-items:flex-start;margin:8px 0;line-height:1.45"><input type="checkbox" data-story-chk="' + i + '" style="width:22px;height:22px;flex:none;margin-top:1px"' + ((GS.chk || [])[i] ? ' checked' : '') + '> <span>' + x + '</span></label>'; }).join('') + '</div>' +
-      (GS.done === dn ? '<p style="' + box + ';text-align:center;font-weight:700">⭐ Fertig' + nm + '! Gib deinen Block Mama – sie schickt ein Foto zum Bewerten.</p>'
+      S.c.map(function (x, i) { return '<label style="display:flex;gap:10px;align-items:flex-start;margin:8px 0;line-height:1.45"><input type="checkbox" data-story-chk="' + i + '" style="width:22px;height:22px;flex:none;margin-top:1px"' + (chk[i] ? ' checked' : '') + '> <span>' + x + '</span></label>'; }).join('') + '</div>' +
+      (doneT ? '<p style="' + box + ';text-align:center;font-weight:700">⭐ Fertig' + nm + '! Gib deinen Block Mama – sie schickt ein Foto zum Bewerten.</p>'
         : '<button type="button" class="btn primary" data-story="done" style="width:100%;padding:14px;font-size:1.1rem">Fertig geschrieben ✓</button><p style="text-align:center;color:var(--ink-soft);margin-top:8px">Danach bekommt Mama deinen Block und schickt ein Foto zum Bewerten.</p>') +
       '</div></div>';
     ov.innerHTML = h; ov.hidden = false; document.body.style.overflow = 'hidden';
@@ -7928,7 +7979,7 @@ window.EULE = (function () {
     var b = e.target.closest('[data-story]'); if (!b) return;
     var ov = document.getElementById('storyView');
     if (b.getAttribute('data-story') === 'done') {
-      var GS = store('eule-geschichte1') || {}; GS.done = dayNum(); store('eule-geschichte1', GS);
+      var G = gsLoad(); if (!storyDoneToday(G)) { G.log.push({ d: dayNum(), id: nextStory(G).id }); store(GKEY, G); }
       try { confetti(); } catch (x) {}
     }
     if (ov) { ov.hidden = true; ov.innerHTML = ''; } document.body.style.overflow = '';
@@ -7936,8 +7987,16 @@ window.EULE = (function () {
   });
   document.addEventListener('change', function (e) {
     var c = e.target.closest('[data-story-chk]'); if (!c) return;
-    var GS = store('eule-geschichte1') || {}; GS.chk = GS.chk || []; GS.chk[+c.getAttribute('data-story-chk')] = c.checked; store('eule-geschichte1', GS);
+    var G = gsLoad(), S = nextStory(G); G.chk[S.id] = G.chk[S.id] || []; G.chk[S.id][+c.getAttribute('data-story-chk')] = c.checked; store(GKEY, G);
   });
+  /* Wahl im Tagesplan: Geschichte oder normaler Plan */
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-wahl]'); if (!b) return;
+    e.stopPropagation();
+    store('eule-wahl', { d: dayNum(), c: b.getAttribute('data-wahl') });
+    renderPlan();
+    if (b.getAttribute('data-wahl') === 'story') openStory();
+  }, true);
   function renderPlan() {
     var box = document.getElementById('planList'); if (!box) return;
     var dn = dayNum(), L = planLog()[dn] || {}, dates = arbeitDates(), nm = window.EULE ? EULE.name(', ') : '';
@@ -7967,10 +8026,6 @@ window.EULE = (function () {
     if (near('d', 4)) items.push({ s: 'd', d: D.d, title: 'Deutsch: Rechtschreib-Probe', sub: 'Ohne Tipps, mit Note · ca. 15 Min', min: 15, done: !!L.dprobe, btn: L.dprobe ? 'Nochmal' : 'Schreiben', topic: 'dprobe' });
     if (daysUntil('2026-12-18') >= 0) items.push({ s: 'd', d: D.d, title: 'Deutsch: Neu – 2. Fall (Genitiv)', sub: 'Wessen? · 10 Aufgaben · ca. 5 Min', min: 5, done: !!L.genit, btn: L.genit ? 'Nochmal' : 'Los', topic: 'genit' });
     if (daysUntil('2026-12-18') >= 0) bonus.push(['1. Fall – Nominativ', 'nomi']);
-    /* Geschichte schreiben mit vorgegebener Einleitung – Hauptteil und Schluss auf den Block */
-    var GS = store('eule-geschichte1') || {};
-    if (daysUntil('2026-11-25') <= 0 && daysUntil('2026-11-27') >= 0 && (!GS.done || GS.done === dn))
-      items.push({ s: 'd', d: null, title: 'Deutsch: Geschichte schreiben', sub: '„' + STORY1.t + '“ · Einleitung lesen, Hauptteil und Schluss auf den Block · ca. 25 Min', min: 25, done: GS.done === dn, btn: GS.done === dn ? 'Ansehen' : 'Los', topic: 'geschichte1' });
     bonus.push(['Regel-Karten', 'rskarten']);
     /* Mathe */
     if (near('m', 3)) {
@@ -7985,6 +8040,23 @@ window.EULE = (function () {
     if (bz || uniq(baustTypes()).length) items.push({ s: 'bs', d: null, title: 'Meine Baustellen', sub: (bz ? bz + ' Fehler von neulich und alles, was noch wackelt' : 'Fini übt mit dir, was noch nicht sitzt') + ' · ca. 5 Min', min: 5, done: !!L.baust, btn: L.baust ? 'Nochmal' : 'Los', topic: 'baust' });
     /* Was als Nächstes geschrieben wird, kommt zuerst */
     items.sort(function (a, b) { var x = a.d !== null && a.d >= 1 ? a.d : 99, y = b.d !== null && b.d >= 1 ? b.d : 99; return x - y; });
+    /* Geschichten-Tag: zweimal pro Woche, Emilia wählt selbst. Nicht kurz vor einer Arbeit (2 Tage vorher und am Tag selbst). */
+    var G = gsLoad(), gT = storyDoneToday(G), gW = storiesThisWeek(G), wahl = wahlToday(), SN = nextStory(G);
+    var testSoon = ['m', 'd', 'mu', 'su'].some(function (s) { return D[s] !== null && D[s] >= 0 && D[s] <= 2; });
+    var daysLeft = 7 - ((new Date().getDay() + 6) % 7), needG = STORY_WEEK - gW;
+    var offer = !gT && needG > 0 && !testSoon, storyItem = { s: 'd', d: null, title: 'Deutsch: Geschichte schreiben', sub: '„' + SN.t + '“' + (SN.rz ? ' · Reizwörter: ' + SN.rz.join(', ') : ' · Einleitung lesen, weiterschreiben') + ' · auf den Block · ca. 25 Min', min: 25, done: !!gT, btn: gT ? 'Ansehen' : 'Los', topic: 'geschichte1' };
+    var choiceHtml = '';
+    if (gT || (offer && wahl === 'story')) {
+      /* Geschichten-Tag: nur die Geschichte, alles andere ist Bonus */
+      items.forEach(function (x) { bonus.unshift([x.title.replace(/^[^:]+: /, ''), x.topic]); });
+      items = [storyItem];
+      if (!gT) bonus.push(['↩ Doch lieber den normalen Plan', '__plan']);
+    } else if (offer && !wahl) {
+      choiceHtml = '<li class="plan-choice"><p class="pc-t">✍️ Heute darfst du wählen' + nm + '!</p>' +
+        '<p class="pc-s">Diese Woche ' + (gW ? 'fehlt noch <b>1 Geschichte</b>' : 'stehen <b>2 Geschichten</b> an') + '. Du entscheidest, an welchen Tagen. ' + (needG >= daysLeft ? '<b>Die Woche ist bald vorbei – heute passt es gut!</b>' : '') + '</p>' +
+        '<div class="pc-b"><button type="button" class="btn primary" data-wahl="story">✍️ Geschichte schreiben<small>„' + SN.t + '“ · ca. 25 Min · sonst nichts heute</small></button>' +
+        '<button type="button" class="btn" data-wahl="plan">📚 Normaler Tagesplan<small>Geschichte an einem anderen Tag</small></button></div></li>';
+    } else if (offer && wahl === 'plan') bonus.push(['✍️ Doch lieber Geschichte schreiben', '__story']);
     var up = ['m', 'd', 'mu', 'su'].filter(function (s) { return D[s] !== null && D[s] >= 0; }).sort(function (a, b) { return D[a] - D[b]; });
     var fe = document.getElementById('planFocus');
     var todayT = up.filter(function (s) { return D[s] === 0; }), nextT = up.filter(function (s) { return D[s] >= 1; })[0];
@@ -8002,7 +8074,7 @@ window.EULE = (function () {
     sum.hidden = !!all;
     planActs = items.map(function (x) { return x.topic; });
     function itemHtml(x) { return '<li class="plan-item ' + x.s + (x.done ? ' done' : '') + '"><span class="plan-check" aria-hidden="true">' + (x.done ? '✓' : '') + '</span><span class="plan-txt"><b>' + x.title + '</b><small>' + x.sub + '</small></span><button type="button" class="plan-go" data-plan="' + x.idx + '">' + x.btn + '</button></li>'; }
-    box.innerHTML = items.map(itemHtml).join('');
+    box.innerHTML = choiceHtml + items.map(itemHtml).join('');
     var bh = all ? '<p class="plan-yay">⭐ Tagesplan geschafft' + nm + '! Alles Weitere ist Bonus.</p>' : '';
     bh += '<span>Bonus, wenn du noch Lust hast: ' + bonus.map(function (b) { return '<button type="button" class="plan-link" data-plan-topic="' + b[1] + '">' + b[0] + '</button>'; }).join(' · ') + '</span>';
     var pb = document.getElementById('planBonus'); pb.innerHTML = bh; pb.hidden = false;
@@ -8017,6 +8089,7 @@ window.EULE = (function () {
     if (!id) return;
     e.stopPropagation();
     if (id === 'geschichte1') { openStory(); return; }
+    if (id === '__plan' || id === '__story') { store('eule-wahl', { d: dayNum(), c: id === '__story' ? 'story' : 'plan' }); renderPlan(); if (id === '__story') openStory(); return; }
     openTopic(id);
   }, true);
   /* Tag- und Nacht-Modus */
