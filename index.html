@@ -887,6 +887,10 @@ body.eng .fc-bar i, body.eng .fc-how b { background: var(--eng); } body.deu .fc-
 .sw.sm { width: 60px; height: 60px; box-shadow: none; border-width: 2.5px; vertical-align: middle; }
 .en-row { display: flex; gap: 12px; justify-content: center; }
 .en-sent { display: block; margin-top: 10px; padding: 10px 14px; border: 2px solid var(--line); border-radius: 14px; background: var(--eng-fill); font-weight: 700; font-size: 1.25rem; }
+.k5tag { display: inline-block; margin-bottom: 4px; padding: 3px 10px; border-radius: 999px; background: var(--c-en-fill); color: var(--c-en-dark); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.01em; }
+.k5cal { display: inline-grid; place-items: center; min-width: 150px; padding: 26px 18px 14px; border: 2.5px solid var(--line); border-radius: 16px; background: var(--surface); background-image: linear-gradient(var(--c-en) 0 18px, transparent 18px); font-family: var(--font-display); font-weight: 600; font-size: 1.6rem; }
+.k5num { font-family: var(--font-display); font-weight: 700; font-size: 3.2rem; line-height: 1.1; }
+.k5prog { display: block; margin-top: 4px; font-size: 0.9rem; opacity: 0.85; }
 .etile { display: inline-grid; place-items: center; width: 78px; height: 78px; border-radius: 18px; border: 2.5px solid var(--line); font-size: 2.6rem; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
 .opt .etile, .opt .sw, .opt .emo { pointer-events: none; }
 .en-listen { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 14px; border: 2.5px dashed var(--eng); border-radius: 18px; background: var(--eng-fill); }
@@ -1704,6 +1708,7 @@ body.on-home #routView, body.on-fach #routView { display: none !important; }
           <li><b>Richtig schreiben:</b> Rechtschreibstrategien Verlängern, Ableiten, Merken, Mitsprechen; Groß- und Kleinschreibung; das/dass; Texte kontrollieren; Diktat.</li>
           <li><b>Musik (nach dem Heft, Stand Okt. 2026):</b> Bestandteile der Note (Notenkopf, Notenhals, Fähnchen, Balken), Notenwerte (ganze, halbe, Viertel, Achtel) mit Merkmalen und Schlägen, Rhythmussprache (ta-a-a-a, ta-a, ta, ti-ti), Zählzeiten mit Klammer und „+“, Kästen mit 4 Schlägen füllen, Rhythmen hören. Pausenzeichen (Heft vom 3.11.2026): ganze, halbe, Viertel- und Achtelpause erkennen, ihre Dauer und die passende Note, ganze Pause hängt / halbe Pause sitzt, Noten und Pausen zusammenzählen. Karteikarten mit Pausen und Extra-Wissen (Takt, Notensystem).</li>
           <li><b>Lernwörter (Blatt „Die 100 häufigsten Wörter“ 3, Kontrolle Do 29.10.2026):</b> alle, nehmen, muss, Haare, Kind, ohne, Ende, fällt, spielt, Lehrerin, schnell, ein bisschen, jetzt, hatte, nichts, hier, für – hören und schreiben, Knick-Training, Lückensätze, Silben, Nomen groß, Sätze.</li>
+          <li><b>Englisch – Fit für Klasse 5 (neu, Nov. 2026):</b> Anfänger-Wortschatz, wie er zu Beginn von Klasse 5 kommt (an Access angelehnt, aber unabhängig vom Buch): Tiere (Haus, Bauernhof, Safari), Farben, Schulsachen (pencil, rubber, ruler, pencil case, schoolbag …), Familie, Wochentage und Monate (groß geschrieben), a/an, Sätze im Klassenzimmer, Fragen und Antworten über sich selbst. Zahlen-Leiter in 5 Stufen bis 1000 (nach 8 richtigen Antworten die nächste Stufe). Schwerpunkt Rechtschreibung: Wörter schreiben, hören und schreiben, richtig geschrieben?, Satz-Diktate. Vokabeltest mit Note und Karteikarten.</li>
           <li><b>Englisch (Safari Park, Test Fr 30.10.2026):</b> wild animals (elephant, lion, giraffe, parrot, tiger, snake, hippo, monkey, crocodile, zebra, tortoise), colours (red, blue, green, yellow, orange, purple, pink, brown, black, white, grey, light/dark green, light/dark blue), Zahlen one–ten, „Number … is a …“, a/an, Hören. Deutsch → Englisch zuordnen und schreiben (klein geschrieben).</li>
           <li><b>Lesen:</b> Informationen finden, Schlüsse ziehen, Wortbedeutung klären; Leseflüssigkeit mit Blitzlesen und Wörterschlangen.</li>
         </ul>
@@ -5848,6 +5853,373 @@ window.EULE = (function () {
   GEN.ebild = genEbild; GEN.ede = genEde; GEN.een = genEen; GEN.eschr = genEschr; GEN.ebuch = genEbuch; GEN.esatz = genEsatz;
   GEN.ehoer = genEhoer; GEN.efarb = genEfarb; GEN.efde = genEfde; GEN.efschr = genEfschr; GEN.emal = genEmal;
 
+  /* =========== Englisch: Fit für Klasse 5 – Anfänger-Wortschatz, Zahlen-Leiter, Sätze. Immer mit richtig Schreiben. =========== */
+  function k5svg(b) { return '<svg viewBox="0 0 64 64" width="1em" height="1em" aria-hidden="true">' + b + '</svg>'; }
+  var K5_ICON = {
+    rubber: k5svg('<g transform="rotate(-18 32 32)"><rect x="6" y="22" width="52" height="22" rx="6" fill="#F48FB1"/><path d="M34 22h18a6 6 0 0 1 6 6v10a6 6 0 0 1-6 6H34z" fill="#42A5F5"/><rect x="6" y="22" width="52" height="22" rx="6" fill="none" stroke="#5D4037" stroke-width="2"/></g>'),
+    sharpener: k5svg('<rect x="12" y="18" width="40" height="30" rx="5" fill="#90A4AE" stroke="#455A64" stroke-width="2"/><circle cx="26" cy="33" r="7" fill="#37474F"/><rect x="36" y="22" width="12" height="6" rx="1" fill="#CFD8DC" stroke="#455A64" stroke-width="1.5"/><path d="M4 33l15-4v8z" fill="#FFB74D"/>'),
+    pcase: k5svg('<rect x="6" y="20" width="52" height="26" rx="12" fill="#AB47BC" stroke="#4A148C" stroke-width="2"/><path d="M12 26h40" stroke="#FFD54F" stroke-width="3" stroke-dasharray="3 2"/><circle cx="52" cy="26" r="3" fill="#FFD54F"/>'),
+    board: k5svg('<rect x="4" y="10" width="56" height="38" rx="3" fill="#2E7D32" stroke="#6D4C41" stroke-width="4"/><path d="M12 22h20M12 30h30M12 38h14" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><path d="M20 48v8M44 48v8" stroke="#6D4C41" stroke-width="4"/>')
+  };
+  /* Tiere: die Safari-Tiere aus der Grundschule plus Haus- und Bauernhoftiere */
+  var K5_T = EN_A.concat([
+    { e: 'dog', d: 'der Hund', i: '🐶', tip: 'Nur drei Buchstaben: d-o-g. Am Ende ein g, auch wenn man fast „dock“ hört.', bad: ['dogg', 'dok', 'doc'] },
+    { e: 'cat', d: 'die Katze', i: '🐱', tip: 'Mit <b>c</b> statt k: <b>c</b>at.', bad: ['kat', 'catt', 'ket'] },
+    { e: 'horse', d: 'das Pferd', i: '🐴', tip: 'Stummes e am Ende: hors<b>e</b>.', bad: ['hors', 'horce', 'horsse'] },
+    { e: 'rabbit', d: 'das Kaninchen', i: '🐰', tip: 'ra<b>bb</b>it: zwei b.', bad: ['rabit', 'rebbit', 'rabbid'] },
+    { e: 'bird', d: 'der Vogel', i: '🐦', tip: 'Mit <b>ir</b> in der Mitte: b<b>ir</b>d.', bad: ['burd', 'berd', 'birt'] },
+    { e: 'fish', d: 'der Fisch', i: '🐟', tip: 'Nur <b>sh</b>, ohne c: fi<b>sh</b>.', bad: ['fisch', 'fich', 'fis'] },
+    { e: 'mouse', d: 'die Maus', i: '🐭', tip: 'Mit <b>ou</b> und stummem e: m<b>ou</b>s<b>e</b>.', bad: ['maus', 'mous', 'mause'] },
+    { e: 'cow', d: 'die Kuh', i: '🐮', tip: 'Mit c am Anfang und ow am Ende: <b>c</b>o<b>w</b>.', bad: ['kow', 'cau', 'cou'] },
+    { e: 'pig', d: 'das Schwein', i: '🐷', tip: 'Drei Buchstaben: p-i-g.', bad: ['pigg', 'pick', 'peg'] },
+    { e: 'sheep', d: 'das Schaf', i: '🐑', tip: 'Doppel-e: sh<b>ee</b>p.', bad: ['sheap', 'schip', 'shiep'] },
+    { e: 'duck', d: 'die Ente', i: '🦆', tip: 'Am Ende <b>ck</b>: du<b>ck</b>.', bad: ['dack', 'duk', 'dakk'] },
+    { e: 'hamster', d: 'der Hamster', i: '🐹', tip: 'Wie im Deutschen, nur klein: hamster.', bad: ['hamstar', 'hemster', 'hamsta'] },
+    { e: 'frog', d: 'der Frosch', i: '🐸', tip: 'Nur vier Buchstaben: f-r-o-g.', bad: ['frogg', 'frosh', 'frock'] },
+    { e: 'bear', d: 'der Bär', i: '🐻', tip: 'Mit <b>ea</b>: b<b>ea</b>r.', bad: ['bär', 'bair', 'baer'] },
+    { e: 'owl', d: 'die Eule', i: '🦉', art: 'an', tip: 'Nur drei Buchstaben: o-w-l. Fini ist <b>an owl</b>!', bad: ['oul', 'aul', 'owll'] }
+  ]);
+  var K5_S = [
+    { e: 'pencil', d: 'der Bleistift', i: '✏️', tip: 'Mit <b>c</b> in der Mitte: pen<b>c</b>il.', bad: ['pensil', 'pencel', 'pencill'] },
+    { e: 'pen', d: 'der Kuli / der Füller', i: '🖊️', tip: 'Ganz kurz: p-e-n.', bad: ['penn', 'pän', 'pem'] },
+    { e: 'rubber', d: 'der Radiergummi', i: K5_ICON.rubber, tip: 'ru<b>bb</b>er: zwei b, am Ende -er. (In Amerika sagt man eraser.)', bad: ['ruber', 'rubba', 'rabber'] },
+    { e: 'ruler', d: 'das Lineal', i: '📏', tip: 'rul<b>er</b>: nur ein l, am Ende -er.', bad: ['rula', 'ruller', 'rular'] },
+    { e: 'pencil case', d: 'das Federmäppchen', i: K5_ICON.pcase, tip: 'Zwei Wörter: pencil case. <b>case</b> mit c und stummem e.', bad: ['pencil kase', 'pensil case', 'pencilcase'] },
+    { e: 'sharpener', d: 'der Anspitzer', i: K5_ICON.sharpener, tip: '<b>sharp</b> heißt spitz. sharp-en-er.', bad: ['sharpner', 'scharpener', 'sharpenner'] },
+    { e: 'scissors', d: 'die Schere', i: '✂️', art: '-', tip: 'Knifflig: <b>sc</b> am Anfang, <b>ss</b> in der Mitte: <b>sc</b>i<b>ss</b>ors.', bad: ['sissors', 'scisors', 'scissers'] },
+    { e: 'glue', d: 'der Kleber', i: '🧴', art: '-', tip: 'Stummes e am Ende: glu<b>e</b>.', bad: ['glu', 'glew', 'gloo'] },
+    { e: 'schoolbag', d: 'die Schultasche / der Schulranzen', i: '🎒', tip: 'Ein Wort: school + bag. school mit <b>ch</b> und Doppel-o.', bad: ['schoolbeg', 'skoolbag', 'shoolbag'] },
+    { e: 'book', d: 'das Buch', i: '📕', tip: 'Doppel-o: b<b>oo</b>k.', bad: ['buk', 'bok', 'buuk'] },
+    { e: 'exercise book', d: 'das Heft', i: '📓', art: 'an', tip: 'Zwei Wörter: exer<b>c</b>i<b>s</b>e book – erst c, dann s.', bad: ['exersise book', 'exercice book', 'excercise book'] },
+    { e: 'crayon', d: 'der Wachsmalstift', i: '🖍️', tip: 'Mit <b>ay</b>: cr<b>ay</b>on.', bad: ['crayen', 'creyon', 'crajon'] },
+    { e: 'chair', d: 'der Stuhl', i: '🪑', tip: 'Mit <b>ch</b> und <b>ai</b>: ch-ai-r.', bad: ['chär', 'cheir', 'chare'] },
+    { e: 'board', d: 'die Tafel', i: K5_ICON.board, tip: 'Mit <b>oa</b>: b<b>oa</b>rd.', bad: ['bord', 'boart', 'boord'] },
+    { e: 'teacher', d: 'die Lehrerin / der Lehrer', i: '🧑‍🏫', tip: 'Mit <b>ea</b> und <b>ch</b>: t<b>ea</b><b>ch</b>er.', bad: ['ticher', 'teatcher', 'teecher'] },
+    { e: 'school', d: 'die Schule', i: '🏫', tip: '<b>sch</b> wie im Deutschen, dann Doppel-o: sch<b>oo</b>l.', bad: ['skool', 'schul', 'shool'] },
+    { e: 'homework', d: 'die Hausaufgaben', i: '📝', art: '-', tip: 'Ein Wort: home + work.', bad: ['homwork', 'home work', 'houmwork'] }
+  ];
+  var K5_M = [
+    { e: 'mum', d: 'die Mama', i: '👩', tip: 'In England: m-u-m.', bad: ['mam', 'mumm', 'mamm'] },
+    { e: 'dad', d: 'der Papa', i: '👨', tip: 'd-a-d, vorne und hinten ein d.', bad: ['dat', 'dadd', 'ded'] },
+    { e: 'sister', d: 'die Schwester', i: '👧', tip: 'sist<b>er</b> – ohne ch, am Ende -er.', bad: ['sista', 'schwester', 'sisster'] },
+    { e: 'brother', d: 'der Bruder', i: '👦', tip: 'Mit <b>th</b> in der Mitte: bro<b>th</b>er.', bad: ['bruder', 'brotha', 'brodher'] },
+    { e: 'grandma', d: 'die Oma', i: '👵', tip: 'grand + ma.', bad: ['granma', 'grandmaa', 'grendma'] },
+    { e: 'grandpa', d: 'der Opa', i: '👴', tip: 'grand + pa.', bad: ['granpa', 'grandpaa', 'grendpa'] },
+    { e: 'parents', d: 'die Eltern', i: '👫', art: '-', tip: 'par-ents, mit s am Ende.', bad: ['perents', 'parens', 'parentes'] },
+    { e: 'family', d: 'die Familie', i: '👨‍👩‍👧‍👦', tip: 'Mit <b>y</b> am Ende: famil<b>y</b>.', bad: ['familie', 'famly', 'femily'] },
+    { e: 'friend', d: 'der Freund / die Freundin', i: '🧑‍🤝‍🧑', tip: 'Knifflig: fr<b>ie</b>nd – geschrieben ie, gesprochen e.', bad: ['frend', 'freind', 'friennd'] },
+    { e: 'baby', d: 'das Baby', i: '👶', tip: 'Wie im Deutschen, aber klein: baby.', bad: ['bebi', 'babie', 'baiby'] },
+    { e: 'pet', d: 'das Haustier', i: '🐾', tip: 'Ganz kurz: p-e-t.', bad: ['pett', 'päd', 'ped'] }
+  ];
+  var K5_DAY = [
+    { e: 'Monday', d: 'Montag', tip: 'Immer groß! Mon-day.', bad: ['monday', 'Mondey', 'Munday'] },
+    { e: 'Tuesday', d: 'Dienstag', tip: 'Immer groß! Nach dem T kommt <b>ue</b>: T<b>ue</b>s-day.', bad: ['tuesday', 'Tusday', 'Thuesday'] },
+    { e: 'Wednesday', d: 'Mittwoch', tip: 'Immer groß! Knifflig: We<b>d</b>-nes-day – das d hört man nicht.', bad: ['wednesday', 'Wensday', 'Wednsday'] },
+    { e: 'Thursday', d: 'Donnerstag', tip: 'Immer groß! Mit <b>Th</b> am Anfang: Thurs-day.', bad: ['thursday', 'Tursday', 'Thirsday'] },
+    { e: 'Friday', d: 'Freitag', tip: 'Immer groß! Fri-day mit i.', bad: ['friday', 'Freiday', 'Fryday'] },
+    { e: 'Saturday', d: 'Samstag', tip: 'Immer groß! Sat-ur-day.', bad: ['saturday', 'Saterday', 'Satturday'] },
+    { e: 'Sunday', d: 'Sonntag', tip: 'Immer groß! Sun-day: sun heißt Sonne.', bad: ['sunday', 'Sonday', 'Sunnday'] }
+  ];
+  var K5_MON = [
+    { e: 'January', d: 'Januar', tip: 'Immer groß! Am Ende <b>y</b>: Januar<b>y</b>.', bad: ['january', 'Januari', 'Janury'] },
+    { e: 'February', d: 'Februar', tip: 'Immer groß! Feb-<b>ru</b>-ar-y – das erste r nicht vergessen.', bad: ['february', 'Febuary', 'Februari'] },
+    { e: 'March', d: 'März', tip: 'Immer groß! M-a-r-<b>ch</b>, ohne ä.', bad: ['march', 'Märch', 'Marsh'] },
+    { e: 'April', d: 'April', tip: 'Immer groß! Wie im Deutschen.', bad: ['april', 'Aprill', 'Eipril'] },
+    { e: 'May', d: 'Mai', tip: 'Immer groß! Mit <b>y</b>: Ma<b>y</b>.', bad: ['may', 'Mai', 'Mey'] },
+    { e: 'June', d: 'Juni', tip: 'Immer groß! Stummes e am Ende: Jun<b>e</b>.', bad: ['june', 'Juni', 'Jun'] },
+    { e: 'July', d: 'Juli', tip: 'Immer groß! Mit <b>y</b>: Jul<b>y</b>.', bad: ['july', 'Juli', 'Julai'] },
+    { e: 'August', d: 'August', tip: 'Immer groß! Wie im Deutschen.', bad: ['august', 'Agust', 'Augusst'] },
+    { e: 'September', d: 'September', tip: 'Immer groß! Wie im Deutschen.', bad: ['september', 'Septemper', 'Setember'] },
+    { e: 'October', d: 'Oktober', tip: 'Immer groß! Mit <b>c</b> statt k: O<b>c</b>tober.', bad: ['october', 'Oktober', 'Octobre'] },
+    { e: 'November', d: 'November', tip: 'Immer groß! Wie im Deutschen.', bad: ['november', 'Novemba', 'Nowember'] },
+    { e: 'December', d: 'Dezember', tip: 'Immer groß! Mit <b>c</b> statt z: De<b>c</b>ember.', bad: ['december', 'Dezember', 'Decembre'] }
+  ];
+  var K5_DM = K5_DAY.concat(K5_MON);
+  K5_DM.forEach(function (x) { x.cap = true; x.i = '📅'; });
+  function k5cal(x) { return '<span class="k5cal" aria-hidden="true">' + x.d + '</span>'; }
+
+  /* Wörter-Stapel: jeder Stapel bekommt dieselben Übungen – erkennen, schreiben, hören & schreiben, richtig geschrieben? */
+  var K5_SETS = {
+    k5t: { list: K5_T, n: 'Tiere', tag: 'Animals' },
+    k5f: { list: EN_C, n: 'Farben', tag: 'Colours', col: true },
+    k5s: { list: K5_S, n: 'Schulsachen', tag: 'School things' },
+    k5p: { list: K5_M, n: 'Familie', tag: 'My family' },
+    k5d: { list: K5_DM, n: 'Tage & Monate', tag: 'Days & months', cal: true }
+  };
+  function k5pic(set, x, big) { return set.col ? sw(x.h) : set.cal ? k5cal(x) : emo(x.i, big ? 'xl' : 'lg'); }
+  function k5tag(set) { return '<span class="k5tag">Fit für Klasse 5 · ' + set.tag + '</span>'; }
+  function k5word(x) { return '<b>' + x.e + '</b>'; }
+  function k5art(x) { return x.art === '-' ? '' : (x.art || 'a') + ' '; }
+  Object.keys(K5_SETS).forEach(function (k) {
+    var S = K5_SETS[k], L = S.list;
+    function oth(x) { return others(L, x).map(function (y) { return y.e; }); }
+    GEN[k + 'b'] = function () {
+      var x = pick(L);
+      if (S.cal) return E({ type: k + 'b', key: k + 'b-' + x.e, inp: 'mc', center: true, grid2: true, vis: '<div class="en-vis">' + k5tag(S) + k5cal(x) + '</div>',
+        q: 'Wie heißt <b>' + x.d + '</b> auf Englisch?', opts: opts(x.e, oth(x)), hint: x.tip, ex: x.d + ' = ' + k5word(x) + '. ' + x.tip + ' ' + sayBtn(x.e, 'en-GB', 'Anhören', 'small') });
+      return E({ type: k + 'b', key: k + 'b-' + x.e, inp: 'mc', center: true, grid2: true, vis: '<div class="en-vis">' + k5tag(S) + k5pic(S, x, true) + '</div>',
+        q: '<b>' + (S.col ? 'What colour is it?' : 'What is it?') + '</b><br>Wie heißt das auf Englisch?', opts: opts(x.e, oth(x)),
+        hint: 'Sag es zuerst leise auf Deutsch: ' + x.d + '.', ex: k5word(x) + ' = ' + x.d + '. ' + x.tip + ' ' + sayBtn(x.e, 'en-GB', 'Anhören', 'small') });
+    };
+    GEN[k + 'e'] = function () {
+      var x = pick(L);
+      return E({ type: k + 'e', key: k + 'e-' + x.e, inp: 'mc', center: true, grid2: true,
+        vis: '<div class="en-vis">' + k5tag(S) + '<span class="en-word">' + x.e + '</span>' + sayBtn(x.e, 'en-GB', 'Anhören', 'small') + '</div>',
+        q: 'Was heißt das auf <b>Deutsch</b>?', opts: opts(x.d, others(L, x).map(function (y) { return y.d; })),
+        hint: 'Hör dir das Wort an. Klingt es wie ein deutsches Wort?', ex: k5word(x) + ' = ' + x.d + '.' });
+    };
+    GEN[k + 'w'] = function () {
+      var x = pick(L.filter(function (y) { return y.e !== y.d; }));
+      return E({ type: k + 'w', key: k + 'w-' + x.e, inp: 'text', word: true, ci: !x.cap, unit: '', ans: x.e,
+        vis: '<div class="en-vis">' + k5tag(S) + (S.cal ? '' : k5pic(S, x, true)) + '<span class="en-de">' + x.d + '</span></div>',
+        q: 'Schreib das Wort auf <b>Englisch</b>.' + (x.cap ? ' Achtung: Tage und Monate schreibt man <b>groß</b>!' : ''),
+        hint: 'Es fängt mit <b>' + x.e.charAt(0) + '</b> an und hat ' + x.e.replace(/ /g, '').length + ' Buchstaben' + (x.e.indexOf(' ') > 0 ? ' (zwei Wörter)' : '') + '. ' + x.tip,
+        ex: k5word(x) + ' – ' + x.tip + ' ' + sayBtn(x.e, 'en-GB', 'Anhören', 'small') });
+    };
+    GEN[k + 'h'] = function () {
+      if (!canSay) return GEN[k + 'w']();
+      var x = pick(L);
+      return E({ type: k + 'h', key: k + 'h-' + x.e, inp: 'text', word: true, ci: !x.cap, unit: '', ans: x.e, diktat: true, lang: 'en-GB', say: x.e, peekLabel: 'Wort kurz zeigen',
+        vis: '', q: k5tag(S) + '<br><b>Listen and write!</b> Hör gut zu und schreib das englische Wort auf.' + (x.cap ? ' Groß oder klein?' : ''),
+        hint: 'Es bedeutet <b>' + x.d + '</b>. ' + x.tip, ex: k5word(x) + ' = ' + x.d + '. ' + x.tip });
+    };
+    GEN[k + 'f'] = function () {
+      var x = pick(L);
+      return E({ type: k + 'f', key: k + 'f-' + x.e, inp: 'mc', center: true, mono: true, grid2: true,
+        vis: '<div class="en-vis">' + k5tag(S) + (S.cal ? '' : k5pic(S, x)) + '<span class="en-de">' + x.d + '</span></div>',
+        q: 'Welches Wort ist <b>richtig geschrieben</b>?', opts: opts(x.e, x.bad),
+        hint: 'Lies jedes Wort Buchstabe für Buchstabe.' + (x.cap ? ' Groß oder klein?' : ''), ex: 'Richtig ist ' + k5word(x) + '. ' + x.tip });
+    };
+  });
+  /* Tage & Monate: Was kommt danach? */
+  GEN.k5do = function () {
+    var isDay = Math.random() < 0.5, L = isDay ? K5_DAY : K5_MON, i = rnd(0, L.length - 1), nx = L[(i + 1) % L.length];
+    return E({ type: 'k5do', key: 'k5do-' + L[i].e, inp: 'mc', center: true, grid2: true,
+      q: '<b>What ' + (isDay ? 'day' : 'month') + ' comes after ' + L[i].e + '?</b><br>Welcher ' + (isDay ? 'Tag' : 'Monat') + ' kommt nach ' + L[i].d + '?',
+      opts: opts(nx.e, shuffle(L.filter(function (y) { return y !== nx && y !== L[i]; })).slice(0, 3).map(function (y) { return y.e; })),
+      hint: 'Sag die ' + (isDay ? 'Wochentage' : 'Monate') + ' auf Deutsch auf: Was kommt nach ' + L[i].d + '?', ex: 'Nach ' + L[i].e + ' kommt <b>' + nx.e + '</b> (' + nx.d + '). ' + sayBtn(L[i].e + ', ' + nx.e, 'en-GB', 'Anhören', 'small') });
+  };
+  /* a oder an */
+  GEN.k5an = function () {
+    var pool = K5_T.concat(K5_S, K5_M).filter(function (y) { return y.art !== '-'; });
+    var vow = pool.filter(function (y) { return y.art === 'an'; }), x = Math.random() < 0.45 ? pick(vow) : pick(pool), a = x.art || 'a';
+    return E({ type: 'k5an', key: 'k5an-' + x.e, inp: 'mc', center: true, grid2: true, vis: '<div class="en-vis">' + emo(x.i, 'lg') + '</div>',
+      q: 'Was passt: <b>a</b> oder <b>an</b>?<span class="en-sent">This is <span class="gap">?</span> ' + x.e + '.</span>', opts: fixedOpts(['a', 'an'], a),
+      hint: 'Fängt das Wort mit a, e, i, o oder u an? Dann sagt man „an“.', ex: 'Vor a, e, i, o, u sagt man <b>an</b>, sonst <b>a</b>. Hier: <b>This is ' + a + ' ' + x.e + '.</b> ' + sayBtn('This is ' + a + ' ' + x.e + '.', 'en-GB', 'Anhören', 'small') });
+  };
+  /* Farbe + Tier in einem Satz: The cat is black. */
+  GEN.k5cs = function () {
+    var a = pick(K5_T), c = pick(EN_C.filter(function (y) { return y.e.indexOf(' ') < 0; })), s = 'The ' + a.e + ' is ' + c.e + '.';
+    return E({ type: 'k5cs', key: 'k5cs-' + a.e + c.e, inp: 'text', unit: '', ans: s, diktat: canSay, lang: 'en-GB', say: s, peekLabel: 'Satz kurz zeigen',
+      vis: canSay ? '' : '<div class="en-vis">' + etile(a, c) + '</div>',
+      q: canSay ? '<b>Listen and write!</b> Hör dir den Satz an und schreib ihn auf.' : '<b>Look and write!</b> Schreib den Satz: The … is … .',
+      hint: 'Der Satz hat 4 Wörter: The – Tier – is – Farbe. The schreibt man am Satzanfang groß. ' + a.tip, ex: '<b>' + s + '</b> = ' + cap(a.d) + ' ist ' + c.d + '.' });
+  };
+
+  /* ---------- Zahlen-Leiter: 5 Stufen von 0 bis 1000. 8-mal sofort richtig auf der Stufe → nächste Stufe ---------- */
+  var K5Z = 'eule-k5-zahl', K5Z_NEED = 8;
+  var Z_LV = ['0 bis 12', '13 bis 20', 'Zehner bis 100', '21 bis 99', 'Hunderter bis 1000'];
+  function zLoad() { var z = store(K5Z) || {}; z.l = z.l || 1; z.ok = z.ok || 0; return z; }
+  var Z1 = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+  var Z10 = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+  function zWord(n) {
+    if (n < 20) return Z1[n];
+    if (n < 100) return Z10[Math.floor(n / 10)] + (n % 10 ? '-' + Z1[n % 10] : '');
+    if (n < 1000) return Z1[Math.floor(n / 100)] + ' hundred' + (n % 100 ? ' and ' + zWord(n % 100) : '');
+    return 'one thousand';
+  }
+  function zNum(l) {
+    if (l === 1) return rnd(0, 12);
+    if (l === 2) return rnd(13, 20);
+    if (l === 3) return rnd(2, 10) * 10;
+    if (l === 4) { var n; do { n = rnd(21, 99); } while (n % 10 === 0); return n; }
+    return Math.random() < 0.25 ? rnd(1, 10) * 100 : rnd(101, 999);
+  }
+  function zPick() { var z = zLoad(), l = z.l > 1 && Math.random() < 0.3 ? rnd(1, z.l - 1) : z.l; return { n: zNum(l), l: l, cur: z }; }
+  function zTip(n) {
+    var w = zWord(n), t = [];
+    if (/teen/.test(w)) t.push('13 bis 19 enden auf <b>-teen</b>.');
+    if (/ty/.test(w)) t.push('Zehner enden auf <b>-ty</b>.');
+    if (/thir/.test(w)) t.push('13 und 30 fangen mit <b>thir</b> an, nicht mit three.');
+    if (/fif/.test(w)) t.push('15 und 50 fangen mit <b>fif</b> an, nicht mit five.');
+    if (/forty/.test(w)) t.push('<b>forty</b> ohne u – obwohl four ein u hat!');
+    if (/eight/.test(w)) t.push('e-i-<b>gh</b>-t: das gh hört man nicht.' + (/eighteen/.test(w) ? ' eighteen hat nur ein t.' : ''));
+    if (/twelve/.test(w)) t.push('twel<b>ve</b> mit ve am Ende.');
+    if (/-/.test(w)) t.push('Zehner und Einer verbindest du mit einem <b>Bindestrich</b>: twenty-one.');
+    if (/hundred/.test(w)) t.push('hun-<b>dred</b> mit d am Ende' + (/ and /.test(w) ? ', danach kommt <b>and</b>.' : '.'));
+    if (/thousand/.test(w)) t.push('thou-sand mit <b>ou</b> und d am Ende.');
+    if (!t.length) t.push('Sprich das Wort beim Schreiben Buchstabe für Buchstabe mit.');
+    return t.join(' ');
+  }
+  var ZBAD = [[/forty/, 'fourty'], [/fif/, 'five'], [/eighteen/, 'eightteen'], [/eight/, 'eigth'], [/twelve/, 'twelf'], [/thir/, 'three'], [/thir/, 'ther'], [/ninety/, 'ninty'], [/twenty/, 'tweny'],
+    [/teen/, 'tien'], [/ty\b/, 'tie'], [/-/, ' '], [/hundred/, 'hundert'], [/hundred/, 'hunderd'], [/thousand/, 'tausend'], [/four/, 'for'], [/three/, 'tree'], [/eleven/, 'elefen'],
+    [/seven/, 'seben'], [/two/, 'tow'], [/^one/, 'won'], [/zero/, 'sero'], [/six/, 'sics'], [/^ten$/, 'tenn'], [/nine/, 'nein'], [/five/, 'fiv']];
+  function zBad(w) {
+    var out = [];
+    shuffle(ZBAD).forEach(function (r) { if (r[0].test(w)) { var b = w.replace(r[0], r[1]); if (b !== w && out.indexOf(b) < 0) out.push(b); } });
+    var tries = 0;
+    while (out.length < 3 && tries++ < 30) {
+      var i = rnd(1, w.length - 1), c = w.charAt(i), b;
+      if (c === ' ' || c === '-') continue;
+      b = Math.random() < 0.5 ? w.slice(0, i) + c + w.slice(i) : w.slice(0, i) + w.slice(i + 1);
+      if (b !== w && out.indexOf(b) < 0) out.push(b);
+    }
+    return shuffle(out).slice(0, 3);
+  }
+  function zLvTag(l) { return '<span class="k5tag">Zahlen-Leiter · Stufe ' + l + ' von 5 (' + Z_LV[l - 1] + ')</span>'; }
+  function zFmt(n) { return n >= 1000 ? '1 000' : String(n); }
+  GEN.k5zl = function () {
+    var p = zPick(), n = p.n, w = zWord(n), bad = [];
+    if (n >= 13 && n <= 19) bad = [(n - 10) * 10, n - 10];
+    else if (n >= 30 && n <= 90 && n % 10 === 0) bad = [n / 10 + 10, n / 10];
+    while (bad.length < 3) { var b = Math.max(0, n + rnd(-12, 12)); if (b !== n && bad.indexOf(b) < 0) bad.push(b); }
+    bad = bad.filter(function (b) { return b !== n; }).slice(0, 3);
+    var listen = canSay && Math.random() < 0.5;
+    return E({ type: 'k5zl', key: 'k5zl-' + n, zl: p.l, inp: 'mc', center: true, grid2: true,
+      vis: '<div class="en-vis">' + zLvTag(p.l) + (listen ? '<div class="en-listen">' + sayBtn(w, 'en-GB', 'Hör zu') + sayBtn(w, 'en-GB', 'Langsam', 'slow') + '</div>' : '<span class="en-word">' + w + '</span>') + '</div>',
+      q: listen ? '<b>Listen!</b> Welche Zahl hörst du?' : '<b>Read!</b> Welche Zahl ist das?', opts: opts(zFmt(n), bad.map(zFmt)),
+      hint: 'Hör auf das Ende: <b>-teen</b> ist 13 bis 19, <b>-ty</b> sind die Zehner.', ex: '<b>' + w + '</b> = ' + zFmt(n) + '. ' + zTip(n) });
+  };
+  GEN.k5zs = function () {
+    var p = zPick(), n = p.n, w = zWord(n);
+    if (Math.random() < 0.25 && p.l <= 4) {
+      var a = rnd(1, Math.min(10, Math.max(2, n - 1))), b = n - a;
+      if (b >= 0) return E({ type: 'k5zs', key: 'k5zr-' + n, zl: p.l, inp: 'text', word: true, ci: true, unit: '', ans: w,
+        vis: '<div class="en-vis">' + zLvTag(p.l) + '<span class="en-sent">' + zWord(b) + ' + ' + zWord(a) + ' = ?</span></div>',
+        q: '<b>Maths in English!</b> Rechne und schreib das Ergebnis als <b>englisches Wort</b>.', hint: zFmt(b) + ' + ' + zFmt(a) + ' = ' + n + '. ' + zTip(n), ex: '<b>' + zWord(b) + ' plus ' + zWord(a) + ' is ' + w + '.</b> ' + zTip(n) + ' ' + sayBtn(zWord(b) + ' plus ' + zWord(a) + ' is ' + w, 'en-GB', 'Anhören', 'small') });
+    }
+    return E({ type: 'k5zs', key: 'k5zs-' + n, zl: p.l, inp: 'text', word: true, ci: true, unit: '', ans: w,
+      vis: '<div class="en-vis">' + zLvTag(p.l) + '<span class="k5num">' + zFmt(n) + '</span></div>',
+      q: 'Schreib die Zahl als <b>englisches Wort</b>.', hint: 'Es fängt mit <b>' + w.charAt(0) + '</b> an. ' + zTip(n), ex: '<b>' + w + '</b> – ' + zTip(n) + ' ' + sayBtn(w, 'en-GB', 'Anhören', 'small') });
+  };
+  GEN.k5zh = function () {
+    if (!canSay) return GEN.k5zs();
+    var p = zPick(), n = p.n, w = zWord(n);
+    return E({ type: 'k5zh', key: 'k5zh-' + n, zl: p.l, inp: 'text', word: true, ci: true, unit: '', ans: w, diktat: true, lang: 'en-GB', say: w, peekLabel: 'Zahl kurz zeigen', peekTxt: zFmt(n), wdLabel: 'die Zahl',
+      vis: '', q: zLvTag(p.l) + '<br><b>Listen and write!</b> Hör dir die Zahl an und schreib sie als <b>englisches Wort</b>.', hint: 'Die Zahl ist ' + zFmt(n) + '. ' + zTip(n), ex: '<b>' + w + '</b> = ' + zFmt(n) + '. ' + zTip(n) });
+  };
+  GEN.k5zf = function () {
+    var p = zPick(), n = p.n, w = zWord(n);
+    return E({ type: 'k5zf', key: 'k5zf-' + n, zl: p.l, inp: 'mc', center: true, mono: true, grid2: true,
+      vis: '<div class="en-vis">' + zLvTag(p.l) + '<span class="k5num">' + zFmt(n) + '</span></div>',
+      q: 'Welches Zahlwort ist <b>richtig geschrieben</b>?', opts: opts(w, zBad(w)), hint: zTip(n), ex: 'Richtig ist <b>' + w + '</b>. ' + zTip(n) });
+  };
+  /* nach jeder Zahlen-Aufgabe: Stufe weiterzählen */
+  function zAfter(t, result, feedback) {
+    if (!t.zl) return;
+    var z = zLoad(); if (t.zl !== z.l) return;
+    if (result === 'right') z.ok++; else if (result === 'wrong') z.ok = Math.max(0, z.ok - 1);
+    if (z.l < 5 && z.ok >= K5Z_NEED) {
+      z.l++; z.ok = 0;
+      feedback.text = (feedback.text || '') + '<br><b>Neue Zahlen-Stufe!</b> Jetzt kommen die Zahlen ' + Z_LV[z.l - 1] + '. Die alten Zahlen bleiben ab und zu dabei.';
+    } else if (z.l < 5 && result === 'right') feedback.text = (feedback.text || '') + ' <span class="k5prog">Noch ' + (K5Z_NEED - z.ok) + ' bis zur nächsten Stufe.</span>';
+    store(K5Z, z);
+  }
+
+  /* ---------- Sätze: im Klassenzimmer und über mich ---------- */
+  var K5_K = [
+    { e: 'Open your books.', d: 'Öffnet eure Bücher.', w: 1 },
+    { e: 'Close the door.', d: 'Mach bitte die Tür zu.', w: 1 },
+    { e: 'Listen and repeat.', d: 'Hör zu und sprich nach.', w: 1 },
+    { e: 'Look at the board.', d: 'Schau an die Tafel.', w: 1 },
+    { e: 'Work with a partner.', d: 'Arbeite mit einem Partner.', w: 1 },
+    { e: 'I don\'t understand.', d: 'Ich verstehe das nicht.', w: 1 },
+    { e: 'How do you spell that?', d: 'Wie schreibt man das?', w: 1 },
+    { e: 'What\'s this in English?', d: 'Was heißt das auf Englisch?', w: 1 },
+    { e: 'I haven\'t got my homework.', d: 'Ich habe meine Hausaufgaben nicht dabei.', w: 1 },
+    { e: 'Can I go to the toilet, please?', d: 'Darf ich bitte auf die Toilette gehen?' },
+    { e: 'Can you help me, please?', d: 'Kannst du mir bitte helfen?' },
+    { e: 'Sorry, I\'m late.', d: 'Entschuldigung, ich bin zu spät.' },
+    { e: 'Can you say that again, please?', d: 'Kannst du das bitte noch einmal sagen?' }
+  ];
+  var K5_ME = [
+    { q: 'What\'s your name?', qd: 'Wie heißt du?', a: 'My name is Fini.', ad: 'Ich heiße Fini.' },
+    { q: 'How old are you?', qd: 'Wie alt bist du?', a: 'I\'m ten years old.', ad: 'Ich bin zehn Jahre alt.' },
+    { q: 'Where are you from?', qd: 'Woher kommst du?', a: 'I\'m from Germany.', ad: 'Ich komme aus Deutschland.' },
+    { q: 'How are you?', qd: 'Wie geht es dir?', a: 'I\'m fine, thanks.', ad: 'Mir geht es gut, danke.' },
+    { q: 'Have you got a pet?', qd: 'Hast du ein Haustier?', a: 'Yes, I\'ve got a dog.', ad: 'Ja, ich habe einen Hund.' },
+    { q: 'What\'s your favourite colour?', qd: 'Was ist deine Lieblingsfarbe?', a: 'My favourite colour is purple.', ad: 'Meine Lieblingsfarbe ist Lila.' },
+    { q: 'When is your birthday?', qd: 'Wann hast du Geburtstag?', a: 'My birthday is in May.', ad: 'Ich habe im Mai Geburtstag.' },
+    { q: 'Have you got a sister or a brother?', qd: 'Hast du eine Schwester oder einen Bruder?', a: 'I\'ve got a sister.', ad: 'Ich habe eine Schwester.' }
+  ];
+  var K5_HI = [
+    { e: 'Hello!', d: 'Hallo!' }, { e: 'Goodbye!', d: 'Auf Wiedersehen!' }, { e: 'Good morning!', d: 'Guten Morgen!' },
+    { e: 'Nice to meet you.', d: 'Schön, dich kennenzulernen.' }, { e: 'See you tomorrow!', d: 'Bis morgen!' }, { e: 'Thank you.', d: 'Danke.' }
+  ];
+  GEN.k5kl = function () {
+    var x = pick(K5_K), o = others(K5_K, x);
+    if (Math.random() < 0.6) return E({ type: 'k5kl', key: 'k5kl-' + x.e, inp: 'mc', center: true,
+      q: '<span class="k5tag">Fit für Klasse 5 · In the classroom</span><br>Wie sagt man auf Englisch?<span class="en-sent">' + x.d + '</span>', opts: opts(x.e, o.map(function (y) { return y.e; })),
+      hint: 'Such die wichtigen Wörter: Welches englische Wort kennst du schon?', ex: '<b>' + x.e + '</b> = ' + x.d + ' ' + sayBtn(x.e, 'en-GB', 'Anhören', 'small') });
+    return E({ type: 'k5kl', key: 'k5kd-' + x.e, inp: 'mc', center: true,
+      q: '<span class="k5tag">Fit für Klasse 5 · In the classroom</span><br>Was heißt das auf <b>Deutsch</b>?<span class="en-sent">' + x.e + ' ' + sayBtn(x.e, 'en-GB', 'Anhören', 'small') + '</span>', opts: opts(x.d, o.map(function (y) { return y.d; })),
+      hint: 'Diese Sätze hörst du in Klasse 5 jeden Tag im Englischunterricht.', ex: '<b>' + x.e + '</b> = ' + x.d });
+  };
+  function k5dik(type, x, de) {
+    return E({ type: type, key: type + '-' + x, inp: 'text', unit: '', ans: x, diktat: true, lang: 'en-GB', say: x, peekLabel: 'Satz kurz zeigen',
+      q: '<b>Listen and write!</b> Hör dir den Satz an und schreib ihn auf. (Er heißt: „' + de + '“)',
+      hint: 'Der Satz hat ' + x.split(' ').length + ' Wörter. Das erste Wort schreibt man groß, „I“ (ich) auch.' + (/'/.test(x) ? ' Achte auf das Häkchen: don\'t, I\'m, I\'ve.' : ''), ex: '<b>' + x + '</b>' });
+  }
+  GEN.k5kh = function () {
+    var x = pick(K5_K.filter(function (y) { return y.w; }));
+    if (!canSay) return GEN.k5kl();
+    return k5dik('k5kh', x.e, x.d);
+  };
+  GEN.k5me = function () {
+    var r = Math.random();
+    if (r < 0.4) {
+      var x = pick(K5_ME);
+      return E({ type: 'k5me', key: 'k5me-' + x.q, inp: 'mc', center: true,
+        q: '<span class="k5tag">Fit für Klasse 5 · About me</span><br>Welche Antwort passt?<span class="en-sent">' + x.q + ' ' + sayBtn(x.q, 'en-GB', 'Anhören', 'small') + '</span>',
+        opts: opts(x.a, others(K5_ME, x).map(function (y) { return y.a; })), hint: 'Die Frage heißt: „' + x.qd + '“', ex: '<b>' + x.q + '</b> – <b>' + x.a + '</b><br>' + x.qd + ' – ' + x.ad });
+    }
+    if (r < 0.7) {
+      var y = pick(K5_ME);
+      return E({ type: 'k5me', key: 'k5mq-' + y.q, inp: 'mc', center: true,
+        q: '<span class="k5tag">Fit für Klasse 5 · About me</span><br>Wie fragt man auf Englisch?<span class="en-sent">' + y.qd + '</span>',
+        opts: opts(y.q, others(K5_ME, y).map(function (z) { return z.q; })), hint: 'Fragewörter: What = was, How = wie, Where = wo/woher, When = wann.', ex: '<b>' + y.q + '</b> = ' + y.qd + ' ' + sayBtn(y.q, 'en-GB', 'Anhören', 'small') });
+    }
+    var g = pick(K5_HI);
+    return E({ type: 'k5me', key: 'k5hi-' + g.e, inp: 'mc', center: true, grid2: true,
+      q: '<span class="k5tag">Fit für Klasse 5 · Hello!</span><br>Wie sagt man auf Englisch?<span class="en-sent">' + g.d + '</span>',
+      opts: opts(g.e, others(K5_HI, g).map(function (z) { return z.e; })), hint: 'Stell dir vor, du triffst ein Kind aus England.', ex: '<b>' + g.e + '</b> = ' + g.d + ' ' + sayBtn(g.e, 'en-GB', 'Anhören', 'small') });
+  };
+  GEN.k5mh = function () {
+    if (!canSay) return GEN.k5me();
+    var x = pick(K5_ME.filter(function (y) { return y.a.indexOf(',') < 0; }));
+    return k5dik('k5mh', x.a, x.ad);
+  };
+
+  /* Fini erklärt */
+  EXPL.k5zs = { t: 'Zahlen auf Englisch', m: '13–19 enden auf -teen, Zehner auf -ty. thir-, fif-, forty ohne u. Zehner und Einer mit Bindestrich, nach hundred kommt and.', f: function () { return [
+    { v: '<div class="en-vis"><p class="xp-en big">thir<b>teen</b> · four<b>teen</b></p><p class="xp-en">13 bis 19</p></div>', x: 'Die Zahlen von 13 bis 19 enden auf <b>-teen</b>. Man hört ein langes „tiin“ am Ende.' },
+    { v: '<div class="en-vis"><p class="xp-en big">thir<b>ty</b> · for<b>ty</b></p><p class="xp-en">30, 40 …</p></div>', x: 'Die Zehner enden auf <b>-ty</b>. Aufpassen beim Hören: thir<b>teen</b> (13) und thir<b>ty</b> (30) klingen ähnlich!' },
+    { v: '<div class="en-vis"><p class="xp-en">twel<b>ve</b> · <b>fif</b>teen · <b>fif</b>ty<br><b>thir</b>teen · <b>thir</b>ty · <b>for</b>ty</p></div>', x: 'Die Knifflo-Zahlen: 15 und 50 mit <b>fif</b>, 13 und 30 mit <b>thir</b>. Und <b>forty</b> hat kein u, obwohl four eins hat!' },
+    { v: '<div class="en-vis"><p class="xp-en big">twenty<b>-</b>one</p><p class="xp-en">21</p></div>', x: 'Anders als im Deutschen: erst der Zehner, dann der Einer – mit einem <b>Bindestrich</b> dazwischen. Einundzwanzig = twenty-one.' },
+    { v: '<div class="en-vis"><p class="xp-en">two hundred <b>and</b> five<br>= 205</p></div>', x: 'Bei den Hundertern sagt man in England nach hundred ein <b>and</b>: three hundred <b>and</b> forty-two.' }
+  ]; } };
+  ['k5zl', 'k5zh', 'k5zf'].forEach(function (k) { EXPL[k] = Object.assign({}, EXPL.k5zs, { alias: true }); });
+  EXPL.k5dw = { t: 'Tage und Monate', m: 'Tage und Monate schreibt man im Englischen immer groß. Alle Tage enden auf -day.', f: function () { return [
+    { v: '<div class="en-vis"><p class="xp-en big"><b>M</b>onday · <b>M</b>ay</p></div>', x: 'Im Englischen schreibt man fast alles klein – aber <b>Tage und Monate immer groß</b>. Auch mitten im Satz: on <b>M</b>onday, in <b>M</b>ay.' },
+    { v: '<div class="en-vis"><p class="xp-en big">Mon<b>day</b> · Fri<b>day</b> · Sun<b>day</b></p></div>', x: 'Alle Wochentage enden auf <b>-day</b> (day = Tag).' },
+    { v: '<div class="en-vis"><p class="xp-en big">We<b>d</b>nesday</p></div>', x: 'Der Knifflo-Tag: Bei <b>Wednesday</b> hört man das d nicht. Trick: in Geheimsprache mitsprechen: „Wed-nes-day“.' }
+  ]; } };
+  ['k5db', 'k5dh', 'k5df', 'k5do', 'k5de'].forEach(function (k) { EXPL[k] = Object.assign({}, EXPL.k5dw, { alias: true }); });
+  EXPL.k5an = { t: 'a oder an?', m: 'Vor a, e, i, o, u sagt man an, sonst a.', f: function () { return [
+    { v: '<div class="en-vis">' + emo('🐘', 'lg') + emo('🦉', 'lg') + '<p class="xp-en big"><b>an</b> elephant · <b>an</b> owl</p></div>', x: 'Fängt das Wort mit <b>a, e, i, o</b> oder <b>u</b> an, sagt man <b>an</b>. So kann man es leichter sprechen.' },
+    { v: '<div class="en-vis">' + emo('🐶', 'lg') + emo('✏️', 'lg') + '<p class="xp-en big"><b>a</b> dog · <b>a</b> pencil</p></div>', x: 'Bei allen anderen Wörtern sagt man <b>a</b>.' }
+  ]; } };
+
+  /* Karteikarten: Fit für Klasse 5 */
+  var FC_K5 = [];
+  [['tiere', K5_T], ['schule', K5_S], ['familie', K5_M]].forEach(function (g) {
+    g[1].forEach(function (x) { FC_K5.push({ id: 'k5' + g[0] + '-' + x.e, c: g[0], q: 'Wie heißt <b>' + x.d + '</b> auf Englisch? Sag es laut und schreib es auf einen Zettel.', qv: '<div class="en-vis">' + emo(x.i, 'xl') + '</div>', a: x.e, x: x.tip, say: x.e }); });
+  });
+  K5_DM.forEach(function (x) { FC_K5.push({ id: 'k5tag-' + x.e, c: 'tage', q: 'Wie heißt <b>' + x.d + '</b> auf Englisch? Schreib es auf – groß oder klein?', a: x.e, x: x.tip, say: x.e }); });
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18, 20, 30, 40, 50, 80, 21, 45, 99, 100, 205].forEach(function (n) { FC_K5.push({ id: 'k5z-' + n, c: 'zahlen', q: 'Wie heißt die Zahl <b>' + n + '</b> auf Englisch? Schreib sie als Wort auf.', a: zWord(n), x: zTip(n), say: zWord(n) }); });
+  K5_K.concat(K5_HI).forEach(function (x, i) { FC_K5.push({ id: 'k5k-' + i, c: 'saetze', q: 'Wie sagt man auf Englisch: „' + x.d + '“', a: x.e, say: x.e }); });
+  K5_ME.forEach(function (x, i) { FC_K5.push({ id: 'k5m-' + i, c: 'ich', q: 'Wie fragt man auf Englisch: „' + x.qd + '“ Und was kannst du antworten?', a: x.q + '<br>' + x.a, say: x.q + ' ' + x.a }); });
+
   /* ---------- Deutsch: Lernwörter (Die 100 häufigsten Wörter, Blatt 3) – Kontrolle Do 29.10.2026 ---------- */
   var LW = [
     { w: 'alle', s: 'al-le', satz: 'Wir sind ___ da.', tip: 'Kurzes a, danach <b>ll</b>: a<b>ll</b>e.', bad: ['ale', 'ahle', 'allle'] },
@@ -5931,6 +6303,7 @@ window.EULE = (function () {
   ]; } };
   EXPL.efschr = Object.assign({}, EXPL.eschr, { alias: true });
   EXPL.ebuch = Object.assign({}, EXPL.eschr, { alias: true });
+  ['k5tw', 'k5th', 'k5tf', 'k5fw', 'k5fh', 'k5ff', 'k5sw', 'k5sh', 'k5sf', 'k5pw', 'k5ph', 'k5pf', 'k5cs'].forEach(function (k) { if (!EXPL[k]) EXPL[k] = Object.assign({}, EXPL.eschr, { alias: true }); });
   EXPL.lwknick = { t: 'Lernwörter üben wie auf dem Blatt', m: 'In Silben lesen, Merkstelle anschauen, knicken, auswendig schreiben, vergleichen.', f: function () { return [
     { v: '<div class="en-vis"><p class="xp-en big">' + sil('Leh-re-rin') + '</p></div>', x: '<b>1. Lesen:</b> Lies das Wort 5-mal in Silben. Schwing dabei mit dem Finger einen Bogen unter jeder Silbe.' },
     { v: '<div class="en-vis"><p class="xp-en big">ne<mark class="ok">h</mark>men · sp<mark class="ok">ie</mark>lt · f<mark class="ok">ä</mark>llt</p></div>', x: '<b>2. Merkstelle:</b> Wo ist das Knifflige? Ein h, ein ie, ein ä oder ein doppelter Buchstabe? Kreise es in Gedanken ein.' },
@@ -6525,7 +6898,7 @@ window.EULE = (function () {
     stw: 'Stellenwerte', rund: 'Runden', zstr: 'Zahlenstrahl', folge: 'Zahlenfolgen', sadd: 'Schriftlich plus', ssub: 'Schriftlich minus', smul: 'Schriftlich mal', sdiv: 'Schriftlich geteilt', ueb: 'Überschlagen',
     kst: 'Stellentafel', kbu: 'Bündeln', kze: 'Zerlegen & Zusammensetzen', kwo: 'Zahlwörter', kvg: 'Größer, kleiner, gleich', kor: 'Ordnen', kre: 'Zahlen fortsetzen', kna: 'Nachbarzahlen', kra: 'Zahlenrätsel', kkr: 'Große Zahlen im Kopf', kei: 'Zahl suchen', kzs: 'Zahlenstrahl fein',
     mvn: 'Vorgänger & Nachfolger', mzw: 'Zahlwörter bis 1 Million', mdik: 'Zahlendiktat', mkr: 'Kreis & Zirkel', sbr: 'Baderegeln: Situationen', sbk: 'Baderegeln ankreuzen', sbl: 'Baderegeln: Lückentext',
-    kopf: 'Kopfrechnen', rest: 'Teilen mit Rest', mteil: 'Teile der Note', mname: 'Notennamen', mmerk: 'Merkmale', mschl: 'Schläge', msilb: 'Rhythmussprache', mzahl: 'Zählzeiten', mtakt: 'Kästen füllen', mhoer: 'Hör-Rätsel', mpause: 'Pausenzeichen', ebild: 'Tiere erkennen', ede: 'Deutsch → Englisch', een: 'Englisch → Deutsch', eschr: 'Tiere schreiben', ebuch: 'Richtig geschrieben?', esatz: 'Read and choose', ehoer: 'Listen!', efarb: 'Farben erkennen', efde: 'Farben übersetzen', efschr: 'Farben schreiben', emal: 'Read and colour', lwhoer: 'Lernwort-Diktat', lwknick: 'Knick-Training', lwfehl: 'Richtig geschrieben?', lwluecke: 'Lückensätze', lwgross: 'Nomen groß', lwsilb: 'Silben', lwsatz: 'Lernwort-Sätze', flu: 'Fläche und Umfang', koer: 'Körper', netz: 'Würfelnetze', sym: 'Symmetrie', diag: 'Diagramme', wkt: 'Wahrscheinlichkeit', komb: 'Kombinieren'
+    kopf: 'Kopfrechnen', rest: 'Teilen mit Rest', mteil: 'Teile der Note', mname: 'Notennamen', mmerk: 'Merkmale', mschl: 'Schläge', msilb: 'Rhythmussprache', mzahl: 'Zählzeiten', mtakt: 'Kästen füllen', mhoer: 'Hör-Rätsel', mpause: 'Pausenzeichen', ebild: 'Tiere erkennen', ede: 'Deutsch → Englisch', een: 'Englisch → Deutsch', eschr: 'Tiere schreiben', ebuch: 'Richtig geschrieben?', esatz: 'Read and choose', ehoer: 'Listen!', efarb: 'Farben erkennen', efde: 'Farben übersetzen', efschr: 'Farben schreiben', emal: 'Read and colour', k5tb: 'Tiere erkennen', k5te: 'Tiere verstehen', k5tw: 'Tiere schreiben', k5th: 'Tiere hören & schreiben', k5tf: 'Tiere richtig geschrieben?', k5fb: 'Farben erkennen', k5fe: 'Farben verstehen', k5fw: 'Farben schreiben', k5fh: 'Farben hören & schreiben', k5ff: 'Farben richtig geschrieben?', k5sb: 'Schulsachen erkennen', k5se: 'Schulsachen verstehen', k5sw: 'Schulsachen schreiben', k5sh: 'Schulsachen hören & schreiben', k5sf: 'Schulsachen richtig geschrieben?', k5pb: 'Familie erkennen', k5pe: 'Familie verstehen', k5pw: 'Familie schreiben', k5ph: 'Familie hören & schreiben', k5pf: 'Familie richtig geschrieben?', k5db: 'Tage & Monate übersetzen', k5de: 'Tage & Monate verstehen', k5dw: 'Tage & Monate schreiben', k5dh: 'Tage & Monate hören & schreiben', k5df: 'Tage & Monate richtig geschrieben?', k5do: 'Was kommt danach?', k5an: 'a oder an', k5cs: 'Tier-und-Farbe-Sätze', k5zl: 'Zahlen lesen & hören', k5zs: 'Zahlen schreiben', k5zh: 'Zahlen hören & schreiben', k5zf: 'Zahlen richtig geschrieben?', k5kl: 'Sätze im Klassenzimmer', k5kh: 'Klassenzimmer-Diktat', k5me: 'Fragen & Antworten', k5mh: 'Über-mich-Diktat', lwhoer: 'Lernwort-Diktat', lwknick: 'Knick-Training', lwfehl: 'Richtig geschrieben?', lwluecke: 'Lückensätze', lwgross: 'Nomen groß', lwsilb: 'Silben', lwsatz: 'Lernwort-Sätze', flu: 'Fläche und Umfang', koer: 'Körper', netz: 'Würfelnetze', sym: 'Symmetrie', diag: 'Diagramme', wkt: 'Wahrscheinlichkeit', komb: 'Kombinieren'
   };
   var GROUPS = [
     { n: 'Mathe-Arbeit: Zahlen bis 1 Million', t: ['mvn', 'mzw', 'mdik', 'mkr'] }, { n: 'Sachunterricht: Baderegeln', t: ['sbk', 'sbl', 'sbr'] },
@@ -6539,6 +6912,7 @@ window.EULE = (function () {
     { n: 'Groß oder klein', t: ['nomad', 'nomen'] }, { n: 'Wörterbuch & ABC', t: ['abc', 'grundf'] }, { n: 'Lesen', t: ['lese', 'blitz', 'schlange'] },
     { n: 'Adjektive zusammensetzen', t: ['adjb', 'adjs', 'adjw', 'adjf'] },
     { n: 'Lernwörter (Kontrolle Do 29.10.)', t: ['lwhoer', 'lwknick', 'lwfehl', 'lwluecke', 'lwgross', 'lwsilb', 'lwsatz'] },
+    { n: 'Englisch: Fit für Klasse 5', t: ['k5tb', 'k5tw', 'k5th', 'k5tf', 'k5fw', 'k5sb', 'k5sw', 'k5sh', 'k5sf', 'k5pb', 'k5pw', 'k5dw', 'k5do', 'k5an', 'k5zl', 'k5zs', 'k5zh', 'k5zf', 'k5kl', 'k5kh', 'k5me', 'k5mh'] },
     { n: 'Englisch: Safari Park & Colours', t: ['ebild', 'ede', 'een', 'eschr', 'ebuch', 'esatz', 'ehoer', 'efarb', 'efde', 'efschr', 'emal'] },
     { n: 'Musik: Noten', t: ['mteil', 'mname', 'mmerk', 'mschl', 'mpause', 'msilb', 'mzahl', 'mtakt', 'mhoer'] }
   ];
@@ -6618,6 +6992,17 @@ window.EULE = (function () {
       { id: 'subade', n: 'Welche Regel passt?', t: ['sbr'] }
     ],
     en: [
+      { id: 'k5mix', n: 'Fit für Klasse 5 · Mix', len: 12, t: ['k5tw', 'k5th', 'k5fw', 'k5sb', 'k5sw', 'k5sw', 'k5sh', 'k5sf', 'k5pw', 'k5dw', 'k5do', 'k5an', 'k5zs', 'k5zh', 'k5zl', 'k5kl', 'k5me', 'k5cs'] },
+      { id: 'k5probe', n: 'Vokabeltest wie in Klasse 5', ka: true, pro: true, probe: true, len: 15, t: ['k5tw', 'k5tw', 'k5fw', 'k5sw', 'k5sw', 'k5sw', 'k5pw', 'k5pw', 'k5dw', 'k5dw', 'k5zs', 'k5zs', 'k5an', 'k5kl', 'k5me'] },
+      { id: 'k5karten', n: 'Karteikarten Klasse 5', cards: true, deck: 'k5', t: [] },
+      { id: 'k5zahl', n: 'Zahlen-Leiter', len: 10, t: ['k5zl', 'k5zl', 'k5zs', 'k5zs', 'k5zs', 'k5zh', 'k5zh', 'k5zf'] },
+      { id: 'k5tier', n: 'Animals', t: ['k5tb', 'k5te', 'k5tw', 'k5tw', 'k5th', 'k5tf', 'k5an', 'k5cs'] },
+      { id: 'k5farb', n: 'Colours', t: ['k5fb', 'k5fe', 'k5fw', 'k5fw', 'k5fh', 'k5ff', 'k5cs'] },
+      { id: 'k5schul', n: 'My school things', t: ['k5sb', 'k5se', 'k5sw', 'k5sw', 'k5sh', 'k5sf', 'k5an'] },
+      { id: 'k5fam', n: 'My family', t: ['k5pb', 'k5pe', 'k5pw', 'k5pw', 'k5ph', 'k5pf'] },
+      { id: 'k5tage', n: 'Days & months', t: ['k5db', 'k5de', 'k5dw', 'k5dw', 'k5dh', 'k5df', 'k5do', 'k5do'] },
+      { id: 'k5klasse', n: 'In the classroom', t: ['k5kl', 'k5kl', 'k5kl', 'k5kh', 'k5kh'] },
+      { id: 'k5ich', n: 'About me', t: ['k5me', 'k5me', 'k5me', 'k5mh', 'k5mh'] },
       { id: 'etest', n: 'Englischtest (Fr)', ka: true, len: 15, t: ['ebild', 'ebild', 'ede', 'ede', 'ede', 'een', 'eschr', 'eschr', 'eschr', 'eschr', 'ebuch', 'esatz', 'esatz', 'ehoer', 'efarb', 'efarb', 'efde', 'efde', 'efschr', 'efschr', 'emal'] },
       { id: 'ekarten', n: 'Karteikarten-Check', cards: true, deck: 'en', t: [] },
       { id: 'etiere', n: 'Wild animals', t: ['ebild', 'ede', 'een', 'eschr', 'eschr', 'ebuch', 'esatz', 'ehoer'] },
@@ -7026,7 +7411,7 @@ window.EULE = (function () {
   var BADGES = [
     { id: 'runde1', n: 'Los geht’s', d: 'Die erste Runde geschafft' }, { id: 'mathe1', n: 'Mathe-Start', d: 'Eine Mathe-Runde geschafft' },
     { id: 'deutsch1', n: 'Deutsch-Start', d: 'Eine Deutsch-Runde geschafft' }, { id: 'musik1', n: 'Musik-Start', d: 'Eine Musik-Runde oder einen Kartenstapel geschafft' }, { id: 'sach1', n: 'Sach-Start', d: 'Eine Sachunterricht-Runde oder einen Kartenstapel geschafft' },
-    { id: 'musikprofi', n: 'Noten-Profi', d: 'Musiktest-Training: 13 von 15 sofort richtig' }, { id: 'englisch1', n: 'English Start', d: 'Eine Englisch-Runde oder einen Englisch-Stapel geschafft' }, { id: 'englischprofi', n: 'Safari-Profi', d: 'Englischtest-Training: 13 von 15 sofort richtig' }, { id: 'lernwortprofi', n: 'Lernwort-Ass', d: 'Lernwörter-Kontrolle: 13 von 15 sofort richtig' }, { id: 'schreibprofi', n: 'Schreib-Profi', d: 'Klassenarbeit Geschichte: 13 von 15 sofort richtig' }, { id: 'karten', n: 'Karten-Ass', d: 'Alle Karteikarten beim ersten Mal gewusst' }, { id: 'serie5', n: 'Fünfer-Serie', d: '5 richtig hintereinander' },
+    { id: 'musikprofi', n: 'Noten-Profi', d: 'Musiktest-Training: 13 von 15 sofort richtig' }, { id: 'englisch1', n: 'English Start', d: 'Eine Englisch-Runde oder einen Englisch-Stapel geschafft' }, { id: 'englischprofi', n: 'Safari-Profi', d: 'Englischtest-Training: 13 von 15 sofort richtig' }, { id: 'k5profi', n: 'Ready for Year 5', d: 'Vokabeltest wie in Klasse 5: 13 von 15 sofort richtig' }, { id: 'k5zahl', n: 'Zahlen-Kletterin', d: 'Die Zahlen-Leiter bis zur 5. Stufe geschafft' }, { id: 'lernwortprofi', n: 'Lernwort-Ass', d: 'Lernwörter-Kontrolle: 13 von 15 sofort richtig' }, { id: 'schreibprofi', n: 'Schreib-Profi', d: 'Klassenarbeit Geschichte: 13 von 15 sofort richtig' }, { id: 'karten', n: 'Karten-Ass', d: 'Alle Karteikarten beim ersten Mal gewusst' }, { id: 'serie5', n: 'Fünfer-Serie', d: '5 richtig hintereinander' },
     { id: 'serie10', n: 'Zehner-Serie', d: '10 richtig hintereinander' }, { id: 'perfekt', n: 'Fehlerfrei', d: 'Eine Runde ohne Fehler' },
     { id: 'alle', n: 'Entdeckerin', d: 'Jedes Thema einmal geübt' }, { id: 'diktat', n: 'Diktat-Ass', d: 'Diktat-Runde: 5 von 6 sofort richtig' },
     { id: 'leser', n: 'Lese-Eule', d: '3 Lese-Runden geschafft' }, { id: 'check1', n: 'Check-Start', d: 'Den ersten Profi-Check gemacht' },
@@ -7073,10 +7458,12 @@ window.EULE = (function () {
       if (p.total >= 1000) give('sterne1000');
       var st = loadStats(), e = st[state.tasks[state.i].type];
       if (e && e.wasWeak && levelOf(e) === 'good') give('comeback');
+      if (zLoad().l >= 5) give('k5zahl');
     } else {
       var right = countRight(), subj = subjOf(state.topic);
       give('runde1'); give(subj === 'm' ? 'mathe1' : subj === 'd' ? 'deutsch1' : subj === 'en' ? 'englisch1' : subj === 'su' ? 'sach1' : 'musik1');
       if (state.topic === 'etest' && right >= 13) give('englischprofi');
+      if (state.topic === 'k5probe' && right >= 13) give('k5profi');
       if (state.topic === 'lwtest' && right >= 13) give('lernwortprofi');
       if (state.topic === 'gtest' && right >= 13) give('schreibprofi');
       if (state.topic === 'mtest' && right >= 13) give('musikprofi');
@@ -7183,6 +7570,7 @@ window.EULE = (function () {
     var t = state.tasks[state.i];
     recordStat(t.type, result);
     noteTask(t, result);
+    zAfter(t, result, feedback);
     if (t.blitz) {
       var s = settings();
       s.blitzMs = result === 'right' ? Math.max(300, s.blitzMs - 60) : Math.min(1600, s.blitzMs + 120);
@@ -7213,6 +7601,7 @@ window.EULE = (function () {
     return d[m][n];
   }
   function checkText(t, raw) {
+    raw = String(raw).replace(/[’‘`´]/g, "'");
     if (t.ci) { raw = String(raw).toLowerCase().replace(/^(a|an|the)\s+/, ''); }
     var tw = words(t.ci ? t.ans.toLowerCase() : t.ans), iw = words(raw), L = lcs(tw, iw);
     var errs = Math.max(tw.length, iw.length) - L.n;
@@ -7610,6 +7999,7 @@ window.EULE = (function () {
     en: { cards: FC_EN, cat: { tiere: 'Wild animals', farben: 'Colours', zahlen: 'Zahlen 1–10', saetze: 'Sätze' }, sfx: '-en', badge: 'englisch1', intro: function (n) { return 'Zum Englischtest am Freitag: Deutsch lesen, Englisch laut sagen und auf einen Zettel schreiben. ' + n + ' Karten.'; }, cheer: 'Fini sagt: Well done!' },
     gs: { cards: FC_GS, cat: { aufbau: 'Aufbau', satz: 'Satzbau', rede: 'Wörtliche Rede', buch: 'Wie im Buch' }, sfx: '-gs', badge: 'deutsch1', intro: function (n) { return 'Für die Klassenarbeit „Geschichte schreiben“: Frage lesen, Antwort laut sagen, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini ist stolz auf dich!' },
     rs: { cards: FC_RS, cat: { verl: 'Verlängern', abl: 'Ableiten', silb: 'Silben & kurze Vokale', lang: 'ie, ß, ss', gross: 'Groß & klein, das/dass' }, sfx: '-rs', badge: 'deutsch1', intro: function (n) { return 'Die wichtigsten Rechtschreib-Regeln: Frage lesen, Regel laut sagen, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini ist stolz auf dich!' },
+    k5: { cards: FC_K5, cat: { tiere: 'Animals', schule: 'School things', familie: 'Family', tage: 'Days & months', zahlen: 'Numbers', saetze: 'Classroom & Hello', ich: 'About me' }, sfx: '-k5', badge: 'englisch1', intro: function (n) { return 'Fit für Klasse 5: Deutsch lesen, Englisch laut sagen und auf einen Zettel schreiben. Dann umdrehen und Buchstabe für Buchstabe vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini sagt: Well done!' },
     lw: { cards: FC_LW, cat: { lw: 'Lernwörter' }, sfx: '-lw', badge: 'deutsch1', intro: function (n) { return 'Zur Lernwörter-Kontrolle am Donnerstag: hören, auf einen Zettel schreiben, umdrehen, vergleichen. ' + n + ' Karten.'; }, cheer: 'Fini ist stolz auf dich!' }
   };
   function deckId() { var t = state ? topicById(state.topic) : null; return (t && t.deck) || 'mu'; }
@@ -8034,7 +8424,7 @@ window.EULE = (function () {
       bonus.push(['Zahlendiktat', 'zdik'], ['Kreis & Zirkel', 'kreis']);
     } else items.push({ s: 'm', d: D.m, title: near('m', 14) ? 'Mathe: Klassenarbeit-Training' : 'Mathe: Gemischt', sub: (near('m', 14) ? 'Zahlen bis 1 Million, Zahlendiktat, Kreis' : 'Von jedem Thema etwas') + ' · 1 Runde · ca. 10 Min', min: 10, done: !!L['s-m'], btn: L['s-m'] ? 'Nochmal' : 'Los', topic: near('m', 14) ? 'ka1m' : 'mmix' });
     if (near('m', 14)) bonus.push(['Kreis & Zirkel – danach 3 Kreise ins Heft (r = 3 cm, d = 8 cm, r = 5 cm)', 'kreis']);
-    bonus.push(['Englisch', 'etiere']);
+    bonus.push(['Englisch: Fit für Klasse 5', 'k5mix'], ['Englisch: Zahlen-Leiter', 'k5zahl']);
     /* Meine Baustellen: jeden Tag kurz das, was noch nicht sitzt */
     var bz = dueFehler().length;
     if (bz || uniq(baustTypes()).length) items.push({ s: 'bs', d: null, title: 'Meine Baustellen', sub: (bz ? bz + ' Fehler von neulich und alles, was noch wackelt' : 'Fini übt mit dir, was noch nicht sitzt') + ' · ca. 5 Min', min: 5, done: !!L.baust, btn: L.baust ? 'Nochmal' : 'Los', topic: 'baust' });
@@ -8305,7 +8695,7 @@ window.EULE = (function () {
         ['Mehr üben', ['rs', 'gk', 'wb', 'adj', 'dtrain', 'lwtest', 'lwkarten']], ['Lesen', ['les', 'blz']], ['Alles durcheinander', ['dmix', 'dcheck']]],
     mu: [['Für den Musiktest', ['mtest', 'mprobe1', 'mprobe2', 'mprobe3', 'mprobe4', 'mkarten']], ['Themen', ['mupause', 'muteil', 'muwert', 'musilb', 'muzahl', 'muhoer']], ['Alles durcheinander', ['mumix']]],
     su: [['Für den Sachtest: Baderegeln', ['sutest', 'sukarten', 'suprobe1', 'suprobe2']], ['Wie in der Überprüfung', ['suank', 'suluecke', 'subade']]],
-    en: [['Für den Englischtest', ['etest', 'ekarten']], ['Themen', ['etiere', 'efarben', 'eschreib', 'elesen']]]
+    en: [['Fit für Klasse 5', ['k5mix', 'k5probe', 'k5karten']], ['Zahlen', ['k5zahl']], ['Wörter', ['k5tier', 'k5farb', 'k5schul', 'k5fam', 'k5tage']], ['Sätze', ['k5klasse', 'k5ich']], ['Grundschule: Safari Park', ['etest', 'ekarten', 'etiere', 'efarben', 'eschreib', 'elesen']]]
   };
   var FACH_DESC = {
     ka1m: 'Vorgänger & Nachfolger, Zahlwörter, Zahlendiktat, Kreis', zprobe1: 'Ohne Tipps, mit Note', zprobe2: 'Alles wie in der Arbeit, mit Note', zvn: 'Vorgänger, Nachfolger, Nachbarzahlen bis 1 Million', zzw: 'Zahlwörter lesen und selbst schreiben', zdik: 'Zahl anhören und mit Ziffern schreiben', kreis: 'Mittelpunkt, Radius, Durchmesser, Zirkel einstellen',
@@ -8328,7 +8718,10 @@ window.EULE = (function () {
     det: 'Versteckte Fehler finden', dik: 'Ganze Sätze hören und richtig schreiben', les: 'Texte lesen und verstehen', blz: 'Wörter blitzschnell erkennen', dmix: 'Von jedem Thema etwas', dcheck: 'Knifflige Aufgaben',
     mtest: 'Alles für den Musiktest', mkarten: 'Fragen zum Umdrehen', mupause: 'Pausen erkennen', muteil: 'Notenkopf, Hals, Fähnchen', muwert: 'Ganze, Halbe, Viertel, Achtel',
     musilb: 'ta, ti-ti, ta-a', muzahl: 'Schläge zählen und Takte füllen', muhoer: 'Rhythmen hören und erkennen', mumix: 'Von jedem Thema etwas',
-    etest: 'Alles für den Englischtest', ekarten: 'Fragen zum Umdrehen', etiere: 'Wild animals auf Englisch', efarben: 'Colours auf Englisch', eschreib: 'Englische Wörter richtig schreiben', elesen: 'Lesen und zuhören'
+    etest: 'Alles für den Englischtest', ekarten: 'Fragen zum Umdrehen', etiere: 'Wild animals auf Englisch', efarben: 'Colours auf Englisch', eschreib: 'Englische Wörter richtig schreiben', elesen: 'Lesen und zuhören',
+    k5mix: 'Von allem etwas – mit viel Schreiben, wie bald in Klasse 5', k5probe: 'Deutsch lesen, Englisch schreiben – ohne Tipps, mit Note', k5karten: 'Alle Wörter und Sätze zum Umdrehen',
+    k5zahl: 'Stufe für Stufe von 0 bis 1000: 8-mal richtig, dann geht es eine Stufe höher', k5tier: 'Haustiere, Bauernhof und Safari', k5farb: 'Farben lesen, hören und schreiben',
+    k5schul: 'pencil, rubber, ruler, schoolbag …', k5fam: 'mum, dad, sister, brother …', k5tage: 'Wochentage und Monate – immer groß!', k5klasse: 'Sätze, die du im Englischunterricht brauchst', k5ich: 'What\'s your name? How old are you?'
   };
   function fachGroups(s) {
     var seen = {}, groups = (FACH_GROUPS[s] || []).map(function (g) {
