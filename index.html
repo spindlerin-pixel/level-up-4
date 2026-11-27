@@ -6937,8 +6937,7 @@ window.EULE = (function () {
       { id: 'kopf', n: 'Kopfrechnen', t: ['kopf', 'kopf', 'kopf', 'rest', 'ueb'] },
       { id: 'geo', n: 'Geometrie', t: ['flu', 'flu', 'koer', 'netz', 'sym'] },
       { id: 'daten', n: 'Daten & Zufall', t: ['diag', 'diag', 'wkt', 'wkt', 'komb'] },
-      { id: 'mcheck', n: 'Profi-Check', pro: true, t: ['sach', 'sach', 'sach', 'sach', 'pk2', 'zsp', 'kom', 'kset', 'kla', 'sdiv', 'smul', 'flu', 'komb', 'diag', 'rund', 'kra', 'kbu', 'kkr'] },
-      { id: 'baust', n: 'Meine Baustellen', baust: true, len: 10, t: [] }
+      { id: 'mcheck', n: 'Profi-Check', pro: true, t: ['sach', 'sach', 'sach', 'sach', 'pk2', 'zsp', 'kom', 'kset', 'kla', 'sdiv', 'smul', 'flu', 'komb', 'diag', 'rund', 'kra', 'kbu', 'kkr'] }
     ],
     d: [
       { id: 'rsheute', n: 'Regel des Tages', len: 12, t: [] },
@@ -7126,6 +7125,16 @@ window.EULE = (function () {
       var okT = {}; types.forEach(function (x) { okT[x] = 1; });
       dueFehler(okT).filter(function (e) { return !keys[e.k]; }).slice(0, tasks.length >= 12 ? 3 : 2).forEach(function (e, k) { tasks[k] = retryCopy(e); });
       tasks = shuffle(tasks);
+    }
+    /* Deutsch: was noch wackelt (z. B. Verben als Nomen) läuft in der normalen Deutsch-Runde mit */
+    if (TOPICS.d.indexOf(tp) >= 0 && !tp.probe && !tp.ka && tasks.length >= 5) {
+      var dT = {}; TOPICS.d.forEach(function (x) { (x.t || []).forEach(function (y) { if (y !== 'dik') dT[y] = 1; }); });
+      if (tp.id === 'rsheute') ['rverl', 'rwverl', 'rwabl', 'rsilb', 'rwsilb', 'rwlang', 'rgross', 'verl', 'vokal', 'ablt', 'slaut', 'gross', 'nomad', 'nomen', 'dass', 'det'].forEach(function (y) { dT[y] = 1; });
+      var extra = [];
+      dueFehler(dT).filter(function (e) { return !keys[e.k]; }).slice(0, 2).forEach(function (e) { keys[e.k] = 1; extra.push(retryCopy(e)); });
+      var wk = uniq(baustTypes()).filter(function (y) { return dT[y] && types.indexOf(y) < 0; });
+      for (var wi = 0; extra.length < 3 && wi < wk.length * 3; wi++) { var wt = GEN[wk[wi % wk.length]](); if (!keys[wt.key]) { keys[wt.key] = 1; extra.push(wt); } }
+      if (extra.length) tasks = shuffle(tasks.concat(extra));
     }
     if (lesenTasks.length) {
       if (!tasks.length) tasks = lesenTasks;
@@ -8425,9 +8434,6 @@ window.EULE = (function () {
     } else items.push({ s: 'm', d: D.m, title: near('m', 14) ? 'Mathe: Klassenarbeit-Training' : 'Mathe: Gemischt', sub: (near('m', 14) ? 'Zahlen bis 1 Million, Zahlendiktat, Kreis' : 'Von jedem Thema etwas') + ' · 1 Runde · ca. 10 Min', min: 10, done: !!L['s-m'], btn: L['s-m'] ? 'Nochmal' : 'Los', topic: near('m', 14) ? 'ka1m' : 'mmix' });
     if (near('m', 14)) bonus.push(['Kreis & Zirkel – danach 3 Kreise ins Heft (r = 3 cm, d = 8 cm, r = 5 cm)', 'kreis']);
     bonus.push(['Englisch: Fit für Klasse 5', 'k5mix'], ['Englisch: Zahlen-Leiter', 'k5zahl']);
-    /* Meine Baustellen: jeden Tag kurz das, was noch nicht sitzt */
-    var bz = dueFehler().length;
-    if (bz || uniq(baustTypes()).length) items.push({ s: 'bs', d: null, title: 'Meine Baustellen', sub: (bz ? bz + ' Fehler von neulich und alles, was noch wackelt' : 'Fini übt mit dir, was noch nicht sitzt') + ' · ca. 5 Min', min: 5, done: !!L.baust, btn: L.baust ? 'Nochmal' : 'Los', topic: 'baust' });
     /* Was als Nächstes geschrieben wird, kommt zuerst */
     items.sort(function (a, b) { var x = a.d !== null && a.d >= 1 ? a.d : 99, y = b.d !== null && b.d >= 1 ? b.d : 99; return x - y; });
     /* Geschichten-Tag: zweimal pro Woche, Emilia wählt selbst. Nicht kurz vor einer Arbeit (2 Tage vorher und am Tag selbst). */
